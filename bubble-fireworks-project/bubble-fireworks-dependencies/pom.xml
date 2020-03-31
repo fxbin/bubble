@@ -58,6 +58,11 @@
             </dependency>
 
             <!-- bubble fireworks cloud -->
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-cloud-sentinel</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
             
             <!-- bubble-fireworks data -->
             <dependency>
@@ -88,6 +93,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-mybatis</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-sentinel</artifactId>
                 <version>${bubble-fireworks.version}</version>
             </dependency>
 

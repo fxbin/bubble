@@ -20,6 +20,7 @@
         <module>bubble-fireworks-starter-logging</module>
         <module>bubble-fireworks-starter-test</module>
         <module>bubble-fireworks-starter-mybatis</module>
+        <module>bubble-fireworks-starter-sentinel</module>
     </modules>
 
 

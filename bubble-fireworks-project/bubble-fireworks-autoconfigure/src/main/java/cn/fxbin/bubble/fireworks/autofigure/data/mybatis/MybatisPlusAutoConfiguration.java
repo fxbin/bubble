@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 @ConditionalOnClass({SqlSessionFactory.class, SqlSessionFactoryBean.class, MapperFactoryBean.class})
 @EnableTransactionManagement
-public class MybatisPlusConfiguration {
+public class MybatisPlusAutoConfiguration {
 
 
     /**

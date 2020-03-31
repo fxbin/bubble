@@ -1,3 +1,4 @@
 ## Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.fxbin.bubble.fireworks.autofigure.data.mybatis.MybatisPlusConfiguration
+cn.fxbin.bubble.fireworks.autofigure.data.mybatis.MybatisPlusAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autofigure.cloud.sentinel.SentinelAutoConfiguration

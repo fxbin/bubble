@@ -42,6 +42,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-cloud-sentinel</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 
