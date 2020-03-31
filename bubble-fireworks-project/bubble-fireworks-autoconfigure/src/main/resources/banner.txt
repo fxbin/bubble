@@ -1,0 +1,2 @@
+:: Based On SpringBoot Version : ${spring-boot.formatted-version} ::
+:: BubbleFireworks Version : v0.0.1-SNAPSHOT ::

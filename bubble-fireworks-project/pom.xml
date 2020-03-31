@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.fxbin.bubble</groupId>
+        <artifactId>bubble-fireworks-build</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>bubble-fireworks-project</artifactId>
+    <packaging>pom</packaging>
+    <name>bubble-fireworks-project</name>
+    <description>Bubble Fireworks Project</description>
+
+    <properties>
+        <main.basedir>${basedir}/..</main.basedir>
+    </properties>
+
+    <modules>
+        <module>bubble-fireworks-dependencies</module>
+        <module>bubble-fireworks-parent</module>
+        <module>bubble-fireworks-core</module>
+        <module>bubble-fireworks-web</module>
+        <module>bubble-fireworks-plugins</module>
+        <module>bubble-fireworks-starters</module>
+        <module>bubble-fireworks-cloud</module>
+        <module>bubble-fireworks-data</module>
+        <module>bubble-fireworks-autoconfigure</module>
+    </modules>
+
+</project>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.fxbin.bubble</groupId>
+        <artifactId>bubble-fireworks-build</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>bubble-fireworks-dependencies</artifactId>
+    <packaging>pom</packaging>
+    <name>bubble-fireworks-dependencies</name>
+    <description>Bubble Fireworks Project Dependencies: manager jar version dependency, Use as a BOM </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- own project versions -->
+        <bubble-fireworks.version>0.0.1-SNAPSHOT</bubble-fireworks.version>
+
+        <!-- Other Dependency Versions -->
+        <knife4j.version>2.0.2</knife4j.version>
+        <okhttp3.version>4.4.1</okhttp3.version>
+        <httpclient.version>4.5.12</httpclient.version>
+        <mybatis-plus.version>3.3.1</mybatis-plus.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-core</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-autoconfigure</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <!-- bubble fireworks plugins -->
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-logging</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-test</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-http</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <!-- bubble fireworks cloud -->
+            
+            <!-- bubble-fireworks data -->
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-data-mybatis</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <!-- bubble fireworks starters -->
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-logging</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-test</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-mybatis</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <!-- other dependencies versions -->
+            <!-- https://mvnrepository.com/artifact/com.github.xiaoymin/knife4j-dependencies -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-dependencies</artifactId>
+                <version>${knife4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- okhttp3 -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
+            </dependency>
+
+            <!-- httpclient -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <!-- mybatis-plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>

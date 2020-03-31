@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.fxbin.bubble</groupId>
+        <artifactId>bubble-fireworks-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../bubble-fireworks-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>bubble-fireworks-starters</artifactId>
+    <packaging>pom</packaging>
+    <name>bubble-fireworks-starters</name>
+    <description>Bubble Fireworks Starters</description>
+
+    <modules>
+        <module>bubble-fireworks-starter</module>
+        <module>bubble-fireworks-starter-logging</module>
+        <module>bubble-fireworks-starter-test</module>
+        <module>bubble-fireworks-starter-mybatis</module>
+    </modules>
+
+
+</project>
