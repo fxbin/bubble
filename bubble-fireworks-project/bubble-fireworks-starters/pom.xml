@@ -21,6 +21,7 @@
         <module>bubble-fireworks-starter-test</module>
         <module>bubble-fireworks-starter-mybatis</module>
         <module>bubble-fireworks-starter-sentinel</module>
+        <module>bubble-fireworks-starter-swagger</module>
     </modules>
 
 

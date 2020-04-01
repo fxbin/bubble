@@ -19,6 +19,7 @@
         <module>bubble-fireworks-plugin-logging</module>
         <module>bubble-fireworks-plugin-test</module>
         <module>bubble-fireworks-plugin-http</module>
+        <module>bubble-fireworks-plugin-swagger</module>
     </modules>
 
 </project>

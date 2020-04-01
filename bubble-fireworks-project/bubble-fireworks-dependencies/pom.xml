@@ -56,6 +56,11 @@
                 <artifactId>bubble-fireworks-plugin-http</artifactId>
                 <version>${bubble-fireworks.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-swagger</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
 
             <!-- bubble fireworks cloud -->
             <dependency>
@@ -99,6 +104,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-sentinel</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-swagger</artifactId>
                 <version>${bubble-fireworks.version}</version>
             </dependency>
 
