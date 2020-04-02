@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.autofigure.plugin.swagger;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -22,6 +23,7 @@ import static cn.fxbin.bubble.fireworks.autofigure.plugin.swagger.SwaggerPropert
  * @version v1.0
  * @since 2020/3/31 18:54
  */
+@EnableKnife4j
 @EnableSwagger2
 @Configuration(
         proxyBeanMethods = false

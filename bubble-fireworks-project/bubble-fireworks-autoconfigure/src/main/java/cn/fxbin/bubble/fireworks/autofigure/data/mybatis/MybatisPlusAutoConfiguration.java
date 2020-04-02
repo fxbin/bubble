@@ -29,7 +29,11 @@ public class MybatisPlusAutoConfiguration {
 
 
     /**
-     * mybatis-plus分页插件
+     * paginationInterceptor mybatis-plus分页插件
+     *
+     * @author fxbin
+     * @since 2020/4/2 16:59
+     * @return com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
