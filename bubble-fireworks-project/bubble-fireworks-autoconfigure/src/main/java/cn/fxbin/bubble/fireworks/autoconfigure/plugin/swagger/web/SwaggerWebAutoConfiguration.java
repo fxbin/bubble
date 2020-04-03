@@ -1,5 +1,6 @@
-package cn.fxbin.bubble.fireworks.autofigure.plugin.swagger;
+package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.web;
 
+import cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProperties;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration;
 import springfox.documentation.swagger2.web.Swagger2Controller;
 
-import static cn.fxbin.bubble.fireworks.autofigure.plugin.swagger.SwaggerProperties.BUBBLE_FIREWORKS_SWAGGER_PREFIX;
+import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProperties.BUBBLE_FIREWORKS_SWAGGER_PREFIX;
 
 /**
  * SwaggerWebAutoConfiguration

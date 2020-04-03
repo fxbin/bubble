@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.autofigure.cloud.sentinel;
+package cn.fxbin.bubble.fireworks.autoconfigure.cloud.sentinel;
 
 import cn.fxbin.bubble.fireworks.cloud.sentinel.handler.CustomUrlBlockHandler;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.SentinelWebInterceptor;

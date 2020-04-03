@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.autofigure.plugin.swagger;
+package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -24,7 +24,7 @@ import springfox.documentation.swagger.web.ApiKeyVehicle;
 import javax.annotation.Resource;
 import java.util.*;
 
-import static cn.fxbin.bubble.fireworks.autofigure.plugin.swagger.SwaggerProperties.BUBBLE_FIREWORKS_SWAGGER_PREFIX;
+import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProperties.BUBBLE_FIREWORKS_SWAGGER_PREFIX;
 
 /**
  * SwaggerAutoConfiguration

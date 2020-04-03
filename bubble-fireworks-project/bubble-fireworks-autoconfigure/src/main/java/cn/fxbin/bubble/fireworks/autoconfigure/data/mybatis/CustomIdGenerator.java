@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.autofigure.data.mybatis;
+package cn.fxbin.bubble.fireworks.autoconfigure.data.mybatis;
 
 import cn.fxbin.bubble.fireworks.core.util.IdGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;

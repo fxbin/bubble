@@ -1,6 +1,6 @@
-package cn.fxbin.bubble.fireworks.autofigure.plugin.swagger.annotaion;
+package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.annotaion;
 
-import cn.fxbin.bubble.fireworks.autofigure.plugin.swagger.SwaggerAutoConfiguration;
+import cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.autofigure.plugin.swagger;
+package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;

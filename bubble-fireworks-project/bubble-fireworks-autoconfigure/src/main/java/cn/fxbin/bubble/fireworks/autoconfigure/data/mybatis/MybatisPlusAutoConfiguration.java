@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.autofigure.data.mybatis;
+package cn.fxbin.bubble.fireworks.autoconfigure.data.mybatis;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
@@ -10,6 +10,7 @@ import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -22,6 +23,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration(
         proxyBeanMethods = false
+)
+@ComponentScan(
+        basePackages = {"cn.fxbin.bubble.fireworks.autoconfigure.data.mybatis"}
 )
 @ConditionalOnClass({SqlSessionFactory.class, SqlSessionFactoryBean.class, MapperFactoryBean.class})
 @EnableTransactionManagement

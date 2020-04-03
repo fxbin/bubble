@@ -1,7 +1,8 @@
 ## Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.fxbin.bubble.fireworks.autofigure.data.mybatis.MybatisPlusAutoConfiguration,\
-cn.fxbin.bubble.fireworks.autofigure.cloud.sentinel.SentinelAutoConfiguration,\
-cn.fxbin.bubble.fireworks.autofigure.plugin.swagger.SwaggerAutoConfiguration,\
-cn.fxbin.bubble.fireworks.autofigure.plugin.swagger.SwaggerWebAutoConfiguration,\
-cn.fxbin.bubble.fireworks.autofigure.plugin.swagger.SwaggerWebFluxAutoConfiguration
+cn.fxbin.bubble.fireworks.autoconfigure.data.mybatis.MybatisPlusAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.cloud.sentinel.SentinelAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.web.SwaggerWebAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.RouterFunctionConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.SwaggerResourceConfiguration
