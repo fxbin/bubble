@@ -24,7 +24,6 @@ public class I18nService {
     /**
      * getMessage
      *
-     * @author fxbin
      * @since 2020/3/30 18:17
      * @param key 对应messages配置的key.
      * @return java.lang.String
@@ -37,7 +36,6 @@ public class I18nService {
     /**
      * getMessage
      *
-     * @author fxbin
      * @since 2020/3/30 18:18
      * @param key ：对应messages配置的key.
      * @param args : 数组参数.
@@ -51,7 +49,6 @@ public class I18nService {
     /**
      * getMessage
      *
-     * @author fxbin
      * @since 2020/3/30 18:18
      * @param key ：对应messages配置的key.
      * @param args : 数组参数.
@@ -68,7 +65,6 @@ public class I18nService {
     /**
      * getMessage
      *
-     * @author fxbin
      * @since 2020/3/30 18:18
      * @param key 对应messages配置的key.
      * @param args 数组参数.

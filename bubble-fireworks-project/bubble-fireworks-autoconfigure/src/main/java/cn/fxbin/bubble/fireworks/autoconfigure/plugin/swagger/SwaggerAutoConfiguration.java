@@ -71,7 +71,6 @@ public class SwaggerAutoConfiguration {
     /**
      * docket  创建Docket对象
      *
-     * @author fxbin
      * @since 2020/3/31 18:47
      * @return springfox.documentation.spring.web.plugins.Docket
      */

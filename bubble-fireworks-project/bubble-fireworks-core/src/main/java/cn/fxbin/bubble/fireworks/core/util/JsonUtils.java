@@ -20,7 +20,6 @@ public class JsonUtils {
     /**
      * toJson 将对象序列化成json字符串儿
      *
-     * @author fxbin
      * @since 2020/3/20 17:30
      * @param object jsonBean
      * @return java.lang.String
@@ -37,7 +36,6 @@ public class JsonUtils {
     /**
      * isJsonString 是否为json格式字符串
      *
-     * @author fxbin
      * @since 2020/3/20 17:31
      * @param jsonString 字符串
      * @return boolean
@@ -55,7 +53,6 @@ public class JsonUtils {
     /**
      * isJsonSerialize 是否可以json序列化
      *
-     * @author fxbin
      * @since 2020/3/20 17:33
      * @param object object
      * @return boolean
@@ -73,7 +70,6 @@ public class JsonUtils {
     /**
      * parse 将json反序列化成对象
      *
-     * @author fxbin
      * @since 2020/3/20 17:33
      * @param jsonString json 字符串
      * @param requiredType type the bean must match; can be an interface or superclass
@@ -91,7 +87,6 @@ public class JsonUtils {
     /**
      * getInstance 获取jackson实例
      *
-     * @author fxbin
      * @since 2020/3/20 17:30
      * @return com.fasterxml.jackson.databind.ObjectMapper
      */

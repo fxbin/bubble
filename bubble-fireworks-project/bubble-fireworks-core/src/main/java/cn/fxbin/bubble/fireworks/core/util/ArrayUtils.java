@@ -29,7 +29,6 @@ public class ArrayUtils {
      *  如果此对象为数组对象，数组长度大于0情况下返回false，否则返回true
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 17:53
      * @param array 数组
      * @return boolean
@@ -46,7 +45,6 @@ public class ArrayUtils {
     /**
      * isArray 对象是否为数组对象
      *
-     * @author fxbin
      * @since 2020/3/23 17:52
      * @param obj 对象
      * @return 是否为数组对象，如果为{@code null} 返回false
@@ -62,7 +60,6 @@ public class ArrayUtils {
     /**
      * wrap 包装数组对象
      *
-     * @author fxbin
      * @since 2020/3/23 17:55
      * @param obj 对象，可以是对象数组或者基本类型数组
      * @return java.lang.Object[]

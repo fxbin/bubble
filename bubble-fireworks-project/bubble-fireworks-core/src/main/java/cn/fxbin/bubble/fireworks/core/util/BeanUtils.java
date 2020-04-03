@@ -24,7 +24,6 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     /**
      * initialInstance
      *
-     * @author fxbin
      * @since 2020/3/30 14:18
      * @param className class name
      * @return T
@@ -43,7 +42,6 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     /**
      * object2Map
      *
-     * @author fxbin
      * @since 2020/3/30 14:42
      * @param object java.lang.Object
      * @return java.util.Map<java.lang.String,java.lang.Object>
@@ -58,7 +56,6 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     /**
      * getProperty 获取Bean的属性
      *
-     * @author fxbin
      * @since 2020/3/30 15:19
      * @param bean bean
      * @param propertyName 属性名
@@ -77,7 +74,6 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     /**
      * setProperty 设置Bean属性
      *
-     * @author fxbin
      * @since 2020/3/30 15:20
      * @param bean bean
      * @param propertyName 属性名

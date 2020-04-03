@@ -9,7 +9,7 @@ import java.util.Set;
  * @author fxbin
  * @version v1.0
  * @since 2020/3/23 11:09
- * @see org.elasticsearch.common.logging.LoggerMessageFormat
+ * @link org.elasticsearch.common.logging.LoggerMessageFormat
  */
 public class LoggerMessageFormat {
 

@@ -19,7 +19,6 @@ public class ExceptionUtils {
     /**
      * getStackTrace
      *
-     * @author fxbin
      * @since 2020/3/23 16:32
      * @param throwable java.lang.Throwable
      * @return java.lang.String

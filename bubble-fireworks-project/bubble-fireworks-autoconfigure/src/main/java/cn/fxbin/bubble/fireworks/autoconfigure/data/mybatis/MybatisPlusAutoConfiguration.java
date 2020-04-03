@@ -32,13 +32,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class MybatisPlusAutoConfiguration {
 
 
-    /**
-     * paginationInterceptor mybatis-plus分页插件
-     *
-     * @author fxbin
-     * @since 2020/4/2 16:59
-     * @return com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor
-     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();

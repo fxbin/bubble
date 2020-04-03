@@ -39,7 +39,6 @@ public class SpringContextProvider implements ApplicationContextAware, Disposabl
     /**
      * getBean 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
      *
-     * @author fxbin
      * @since 2020/3/20 18:01
      * @param name bean name
      * @return T
@@ -53,7 +52,6 @@ public class SpringContextProvider implements ApplicationContextAware, Disposabl
     /**
      * getBean 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
      *
-     * @author fxbin
      * @since 2020/3/20 17:56
      * @param requiredType type the bean must match; can be an interface or superclass
      * @return T
@@ -66,7 +64,6 @@ public class SpringContextProvider implements ApplicationContextAware, Disposabl
     /**
      * publishEvent 发布事件
      *
-     * @author fxbin
      * @since 2020/3/20 18:03
      * @param event org.springframework.context.ApplicationEvent
      */
@@ -81,7 +78,6 @@ public class SpringContextProvider implements ApplicationContextAware, Disposabl
     /**
      * clearProvider 清除SpringContextProvider中的ApplicationContext为Null.
      *
-     * @author fxbin
      * @since 2020/3/20 17:57
      */
     private static void clearProvider() {

@@ -136,7 +136,6 @@ public class DateUtils {
     /**
      * getCurDateOfNormDatePattern
      *
-     * @author fxbin
      * @since 2020/3/23 11:38
      * @return java.lang.String
      */
@@ -147,7 +146,6 @@ public class DateUtils {
     /**
      * getCurDateTime
      *
-     * @author fxbin
      * @since 2020/3/23 11:37
      * @param pattern the pattern to use, not null
      * @return java.lang.String
@@ -159,7 +157,6 @@ public class DateUtils {
     /**
      * parse
      *
-     * @author fxbin
      * @since 2020/3/23 11:31
      * @param dateString date string
      * @param pattern the pattern to use, not null
@@ -172,7 +169,6 @@ public class DateUtils {
     /**
      * parse
      *
-     * @author fxbin
      * @since 2020/3/23 11:30
      * @param dateString date string
      * @param pattern the pattern to use, not null
@@ -187,7 +183,6 @@ public class DateUtils {
     /**
      * format
      *
-     * @author fxbin
      * @since 2020/3/23 11:28
      * @param localDateTime java.time.LocalDateTime
      * @param pattern the pattern to use, not null
@@ -201,7 +196,6 @@ public class DateUtils {
     /**
      * format
      *
-     * @author fxbin
      * @since 2020/3/23 11:26
      * @param localDate java.time.LocalDate
      * @param pattern the pattern to use, not null
@@ -215,7 +209,6 @@ public class DateUtils {
     /**
      * firstDayOfMonth
      *
-     * @author fxbin
      * @since 2020/3/23 11:26
      * @return java.time.LocalDate
      */
@@ -226,7 +219,6 @@ public class DateUtils {
     /**
      * firstDayOfNextMonth
      *
-     * @author fxbin
      * @since 2020/3/23 11:25
      * @return java.time.LocalDate
      */
@@ -237,7 +229,6 @@ public class DateUtils {
     /**
      * firstDayOfMonth
      *
-     * @author fxbin
      * @since 2020/3/23 11:25
      * @return java.time.LocalDate
      */
@@ -248,7 +239,6 @@ public class DateUtils {
     /**
      * lastDayOfMonth
      *
-     * @author fxbin
      * @since 2020/3/23 11:25
      * @return java.time.LocalDate
      */
@@ -259,7 +249,6 @@ public class DateUtils {
     /**
      * firstDayOfNextYear
      *
-     * @author fxbin
      * @since 2020/3/23 11:24
      * @return java.time.LocalDate
      */
@@ -270,7 +259,6 @@ public class DateUtils {
     /**
      * firstDayOfYear
      *
-     * @author fxbin
      * @since 2020/3/23 11:24
      * @return java.time.LocalDate
      */
@@ -281,7 +269,6 @@ public class DateUtils {
     /**
      * lastDayOfYear
      *
-     * @author fxbin
      * @since 2020/3/23 11:24
      * @return java.time.LocalDate
      */
@@ -296,7 +283,6 @@ public class DateUtils {
      *     当前时间是否为闰年
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 11:22
      * @return boolean
      */
@@ -311,7 +297,6 @@ public class DateUtils {
      *      parse java.util.Date to java.time.LocalDateTime
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 11:22
      * @param date java.util.Date
      * @return java.time.LocalDateTime
@@ -327,7 +312,6 @@ public class DateUtils {
      *     parse java.util.Date to java.time.LocalDate
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 11:21
      * @param date java.util.Date
      * @return java.time.LocalDate
@@ -343,7 +327,6 @@ public class DateUtils {
      *     parse java.util.Date to java.time.LocalTime
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 11:20
      * @param date java.util.Date
      * @return java.time.LocalTime
@@ -359,7 +342,6 @@ public class DateUtils {
      *     parse java.time.LocalDate to java.util.Date
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 11:19
      * @param localDate java.time.LocalDate
      * @return java.util.Date
@@ -375,7 +357,6 @@ public class DateUtils {
      *  parse java.time.LocalDateTime to java.util.Date
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 11:19
      * @param localDateTime java.time.LocalDateTime
      * @return java.util.Date
@@ -387,7 +368,6 @@ public class DateUtils {
     /**
      * localTime
      *
-     * @author fxbin
      * @since 2020/3/23 11:18
      * @return java.time.LocalTime
      */
@@ -398,7 +378,6 @@ public class DateUtils {
     /**
      * localDate
      *
-     * @author fxbin
      * @since 2020/3/23 11:18
      * @return java.time.LocalDate
      */
@@ -409,7 +388,6 @@ public class DateUtils {
     /**
      * localDateTime
      *
-     * @author fxbin
      * @since 2020/3/23 11:18
      * @return java.time.LocalDateTime
      */

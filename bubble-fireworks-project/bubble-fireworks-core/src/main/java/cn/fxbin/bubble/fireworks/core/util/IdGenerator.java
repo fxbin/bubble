@@ -216,7 +216,8 @@ public class IdGenerator {
     /**
      * 用ip地址最后几个字节标示
      * <p>
-     * eg:192.168.1.30->30
+     * eg:192.168.1.30 —— 30
+     * </p>
      *
      * @return last IP
      */

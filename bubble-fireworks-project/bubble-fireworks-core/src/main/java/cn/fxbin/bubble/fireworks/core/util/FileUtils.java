@@ -19,7 +19,6 @@ public class FileUtils extends FileCopyUtils {
     /**
      * toFile MultipartFile 转成file
      *
-     * @author fxbin
      * @since 2020/3/23 18:06
      * @param multipartFile org.springframework.web.multipart.MultipartFile
      * @param file java.io.File
@@ -35,7 +34,6 @@ public class FileUtils extends FileCopyUtils {
     /**
      * toFile InputStream 转成file
      *
-     * @author fxbin
      * @since 2020/3/23 18:05
      * @param in java.io.InputStream
      * @param file java.io.File

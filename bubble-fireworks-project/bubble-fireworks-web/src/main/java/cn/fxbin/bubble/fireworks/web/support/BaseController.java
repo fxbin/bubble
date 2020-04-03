@@ -25,7 +25,6 @@ public abstract class BaseController {
     /**
      * success
      *
-     * @author fxbin
      * @since 2020/3/31 10:59
      * @return cn.fxbin.bubble.fireworks.core.model.Result<T>
      */
@@ -36,7 +35,6 @@ public abstract class BaseController {
     /**
      * success
      *
-     * @author fxbin
      * @since 2020/3/31 10:59
      * @param data 数据
      * @return cn.fxbin.bubble.fireworks.core.model.Result<T>
@@ -48,7 +46,6 @@ public abstract class BaseController {
     /**
      * failure
      *
-     * @author fxbin
      * @since 2020/3/31 10:59
      * @param errmsg 错误信息
      * @return cn.fxbin.bubble.fireworks.core.model.Result<T>

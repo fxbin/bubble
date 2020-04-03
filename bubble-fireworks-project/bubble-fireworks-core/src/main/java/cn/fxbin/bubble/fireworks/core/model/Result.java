@@ -62,7 +62,6 @@ public class Result<T> implements Serializable {
     /**
      * isSuccess 判断返回是否为成功
      *
-     * @author fxbin
      * @since 2020/3/25 22:46
      * @param result cn.fxbin.bubble.core.model.Result
      * @return boolean
@@ -78,7 +77,6 @@ public class Result<T> implements Serializable {
     /**
      * isNotSuccess
      *
-     * @author fxbin
      * @since 2020/3/25 22:46
      * @param result cn.fxbin.bubble.core.model.Result
      * @return boolean
@@ -91,7 +89,6 @@ public class Result<T> implements Serializable {
     /**
      * getErrCode
      *
-     * @author fxbin
      * @since 2020/3/25 22:47
      * @param result cn.fxbin.bubble.core.model.Result
      * @return java.lang.Integer
@@ -104,7 +101,6 @@ public class Result<T> implements Serializable {
     /**
      * getErrMsg
      *
-     * @author fxbin
      * @since 2020/3/25 22:47
      * @param result cn.fxbin.bubble.core.model.Result
      * @return java.lang.String
@@ -117,9 +113,9 @@ public class Result<T> implements Serializable {
     /**
      * getData
      *
-     * @author fxbin
      * @since 2020/3/25 22:48
      * @param result cn.fxbin.bubble.core.model.Result
+     * @param <T> 泛型标记
      * @return T
      */
     @Nullable
@@ -134,8 +130,8 @@ public class Result<T> implements Serializable {
     /**
      * success
      *
-     * @author fxbin
      * @since 2020/3/25 22:49
+     * @param <T> 泛型标记
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public static <T> Result<T> success() {
@@ -146,9 +142,9 @@ public class Result<T> implements Serializable {
     /**
      * success
      *
-     * @author fxbin
      * @since 2020/3/25 22:49
      * @param data cn/fxbin/bubble/core/model/R.java:140
+     * @param <T> 泛型标记
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public static <T> Result<T> success(@Nullable T data) {
@@ -159,10 +155,10 @@ public class Result<T> implements Serializable {
     /**
      * status
      *
-     * @author fxbin
      * @since 2020/3/25 22:50
      * @param status 错误状态
      * @param errmsg 错误信息
+     * @param <T> 泛型标记
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public static <T> Result<T> status(boolean status, String errmsg) {
@@ -173,10 +169,10 @@ public class Result<T> implements Serializable {
     /**
      * status
      *
-     * @author fxbin
      * @since 2020/3/25 22:51
      * @param status 错误状态
      * @param resultCode cn.fxbin.bubble.core.model.ResultesultCode
+     * @param <T> 泛型标记
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public static <T> Result<T> status(boolean status, ResultCode resultCode) {
@@ -187,7 +183,6 @@ public class Result<T> implements Serializable {
     /**
      * failure
      *
-     * @author fxbin
      * @since 2020/3/25 22:52
      * @param errmsg 错误信息
      * @return cn.fxbin.bubble.core.model.Result<T>
@@ -200,7 +195,6 @@ public class Result<T> implements Serializable {
     /**
      * failure
      *
-     * @author fxbin
      * @since 2020/3/25 22:52
      * @param errcode 系统错误响应码
      * @param errmsg 错误信息
@@ -214,7 +208,6 @@ public class Result<T> implements Serializable {
     /**
      * failure
      *
-     * @author fxbin
      * @since 2020/3/25 22:52
      * @param resultCode cn.fxbin.bubble.core.model.ResultesultCode
      * @param errmsg 错误信息
@@ -228,7 +221,6 @@ public class Result<T> implements Serializable {
     /**
      * failure
      *
-     * @author fxbin
      * @since 2020/3/25 22:53
      * @param resultCode cn.fxbin.bubble.core.model.ResultesultCode
      * @return cn.fxbin.bubble.core.model.Result<T>
@@ -241,7 +233,6 @@ public class Result<T> implements Serializable {
     /**
      * throwOnFail 当 result 不成功时：直接抛出失败异常，返回传入的 result。
      *
-     * @author fxbin
      * @since 2020/3/25 22:53
      * @param result cn.fxbin.bubble.core.model.Result
      */
@@ -255,7 +246,6 @@ public class Result<T> implements Serializable {
    /**
     * throwOnFail
     *
-    * @author fxbin
     * @since 2020/3/25 22:54
     * @param errmsg error message
     */

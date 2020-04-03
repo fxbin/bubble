@@ -83,7 +83,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
     /**
      * isAnyBlank 有 任意 一个 Blank
      *
-     * @author fxbin
      * @since 2020/3/23 17:23
      * @param css java.lang.CharSequence
      * @return boolean
@@ -98,7 +97,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
     /**
      * isNoneBlank 是否全非 Blank
      *
-     * @author fxbin
      * @since 2020/3/23 17:24
      * @param css java.lang.CharSequence
      * @return boolean
@@ -113,7 +111,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
     /**
      * isNumeric 判断一个字符串是否是数字
      *
-     * @author fxbin
      * @since 2020/3/23 17:24
      * @param cs the CharSequence to check, may be null
      * @return boolean
@@ -251,7 +248,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
     /**
      * splitTrim 分割 字符串 删除常见 空白符
      *
-     * @author fxbin
      * @since 2020/3/23 17:29
      * @param str 字符串
      * @param delimiter 分割符
@@ -264,7 +260,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
     /**
      * escapeHtml 转义HTML用于安全过滤
      *
-     * @author fxbin
      * @since 2020/3/23 17:28
      * @param html html string
      * @return java.lang.String
@@ -286,7 +281,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * 转义\： format("this is \\\\{} for {}", "a", "b") =》 this is \a for b<br>
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 17:29
      * @param template 文本模板，被替换的部分用 {} 表示
      * @param params 参数值
@@ -315,7 +309,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * 		转义\：		format("this is \\\\{} for {}", "a", "b") =》 this is \a for b<br>
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 17:59
      * @param strPattern 字符串模板
      * @param argArray 参数列表
@@ -381,7 +374,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * 将对象转为字符串<br>
      * 1、Byte数组和ByteBuffer会被转换为对应字符串的数组 2、对象数组会调用Arrays.toString方法
      *
-     * @author fxbin
      * @since 2020/3/23 17:58
      * @param obj 对象
      * @return java.lang.String
@@ -396,7 +388,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * 将对象转为字符串<br>
      * 1、Byte数组和ByteBuffer会被转换为对应字符串的数组 2、对象数组会调用Arrays.toString方法
      *
-     * @author fxbin
      * @since 2020/3/23 17:58
      * @param obj 对象
      * @param charsetName 字符集
@@ -414,7 +405,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * 1、Byte数组和ByteBuffer会被转换为对应字符串的数组 2、对象数组会调用Arrays.toString方法
      * </p>
      *
-     * @author fxbin
      * @since 2020/3/23 17:57
      * @param obj 对象
      * @param charset 字符集
@@ -442,7 +432,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
     /**
      * getUUID 生成uuid，采用 jdk 9 的形式，优化性能
      *
-     * @author fxbin
      * @since 2020/3/23 17:36
      * @return java.lang.String
      */

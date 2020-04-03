@@ -17,7 +17,6 @@ public class ClassUtils extends org.springframework.util.ClassUtils {
     /**
      * initialInstance 实例化对象
      *
-     * @author fxbin
      * @since 2020/3/30 14:10
      * @param clazz java.lang.Class
      * @return T

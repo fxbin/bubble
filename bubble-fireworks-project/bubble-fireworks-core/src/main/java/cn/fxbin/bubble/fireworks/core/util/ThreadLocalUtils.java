@@ -22,11 +22,10 @@ public class ThreadLocalUtils {
     /**
      * getAll threadLocal中的全部值
      *
-     * @author fxbin
      * @since 2020/3/20 18:19
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    public static Map<String, Object> getAll() {
+    public Map<String, Object> getAll() {
         return localCache();
     }
 
@@ -40,7 +39,7 @@ public class ThreadLocalUtils {
      * @return 被放入的值
      * @see Map#put(Object, Object)
      */
-    public static <T> T put(String key, T value) {
+    public <T> T put(String key, T value) {
         localCache().put(key, value);
         return value;
     }
@@ -49,12 +48,11 @@ public class ThreadLocalUtils {
     /**
      * remove 删除参数对应的值
      *
-     * @author fxbin
      * @since 2020/3/20 18:27
      * @param key 键
      * @see Map#remove(java.lang.Object)
      */
-    public static void remove(String key) {
+    public void remove(String key) {
         localCache().remove(key);
     }
 
@@ -62,11 +60,10 @@ public class ThreadLocalUtils {
     /**
      * clear
      *
-     * @author fxbin
      * @since 2020/3/20 18:28
      * @see Map#clear()
      */
-    public static void clear() {
+    public void clear() {
         localCache().clear();
     }
 
@@ -74,11 +71,10 @@ public class ThreadLocalUtils {
     /**
      * remove
      *
-     * @author fxbin
      * @since 2020/3/20 18:30
      * @see ThreadLocal#remove()
      */
-    public static void remove(){
+    public void remove(){
         LOCAL_CACHE.remove();
     }
 
@@ -86,7 +82,6 @@ public class ThreadLocalUtils {
     /**
      * get
      *
-     * @author fxbin
      * @since 2020/3/20 18:26
      * @param key 键
      * @param <T> 值泛型
@@ -94,7 +89,7 @@ public class ThreadLocalUtils {
      * @see Map#get(Object)
      * @see ClassCastException
      */
-    public static <T> T get(String key) {
+    public <T> T get(String key) {
         return (T) localCache().get(key);
     }
 
@@ -102,14 +97,13 @@ public class ThreadLocalUtils {
     /**
      * getIfAbsent 从ThreadLocal中获取值,并指定一个当值不存在的提供者
      *
-     * @author fxbin
      * @since 2020/3/20 18:24
      * @param key 键
      * @param supplierOnNull java.util.function.Supplier
      * @return T
      * @see Supplier
      */
-    public static <T> T getIfAbsent(String key, Supplier<T> supplierOnNull) {
+    public <T> T getIfAbsent(String key, Supplier<T> supplierOnNull) {
         return (T) localCache().computeIfAbsent(key, k -> supplierOnNull.get());
     }
 
@@ -117,15 +111,14 @@ public class ThreadLocalUtils {
     /**
      * getAndRemove 获取一个值后然后删除掉
      *
-     * @author fxbin
      * @since 2020/3/20 18:24
      * @param key 键
      * @param <T> 值类型
      * @return 值, 不存在则返回null
-     * @see this#get(String)
-     * @see this#remove(String)
+     * @see #get(String)
+     * @see #remove(String)
      */
-    public static <T> T getAndRemove(String key) {
+    public <T> T getAndRemove(String key) {
         try {
             return get(key);
         } finally {
@@ -137,11 +130,10 @@ public class ThreadLocalUtils {
     /**
      * localCache
      *
-     * @author fxbin
      * @since 2020/3/20 18:24
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    private static Map<String, Object> localCache(){
+    private Map<String, Object> localCache(){
         Map<String, Object> map = LOCAL_CACHE.get();
         if(map == null){
             map = new HashMap<>();

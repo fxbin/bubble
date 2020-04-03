@@ -17,7 +17,6 @@ public class UrlUtils extends org.springframework.web.util.UriUtils {
     /**
      * encode
      *
-     * @author fxbin
      * @since 2020/3/23 17:08
      * @return java.lang.String
      */
@@ -28,7 +27,6 @@ public class UrlUtils extends org.springframework.web.util.UriUtils {
     /**
      * decode
      *
-     * @author fxbin
      * @since 2020/3/23 17:08
      * @return java.lang.String
      */
