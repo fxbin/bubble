@@ -120,7 +120,7 @@ public class SwaggerAutoConfiguration {
     private ApiInfo apiInfo(){
         // 应用名
         String applicationName = environment.getProperty(APPLICATION_NAME);
-        String defaultName = applicationName + "服务";
+        String defaultName = Optional.ofNullable(applicationName).orElse("default") + "服务";
 
         String title = Optional.ofNullable(properties.getTitle()).orElse(defaultName);
         String description = Optional.ofNullable(properties.getDescription()).orElse(defaultName);
