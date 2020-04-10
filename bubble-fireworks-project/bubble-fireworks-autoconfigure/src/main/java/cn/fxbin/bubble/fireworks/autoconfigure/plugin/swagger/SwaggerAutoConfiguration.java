@@ -40,7 +40,7 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProp
 @Import(BeanValidatorPluginsConfiguration.class)
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnMissingClass({"org.springframework.cloud.gateway.config.GatewayAutoConfiguration"})
-@ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_SWAGGER_PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_SWAGGER_PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerAutoConfiguration {
 
     /**
