@@ -60,6 +60,12 @@
 
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-data-elasticsearch</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-cloud-sentinel</artifactId>
             <optional>true</optional>
         </dependency>
