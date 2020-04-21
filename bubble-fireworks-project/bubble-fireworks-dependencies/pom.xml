@@ -25,6 +25,7 @@
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <easyexcel.version>2.2.0-beta2</easyexcel.version>
         <elasticsearch.version>7.6.2</elasticsearch.version>
+        <transmittable-thread-local.version>2.11.4</transmittable-thread-local.version>
     </properties>
 
     <dependencyManagement>
@@ -178,6 +179,13 @@
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-high-level-client</artifactId>
                 <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <!-- transmittable-thread-local -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
             </dependency>
 
         </dependencies>
