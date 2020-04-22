@@ -1,6 +1,7 @@
-package cn.fxbin.bubble.fireworks.core.util;
+package cn.fxbin.bubble.fireworks.core.util.ttl;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
+import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,9 +14,11 @@ import java.util.function.Supplier;
  * @version v1.0
  * @since 2020/4/13 17:07
  */
+@SuppressWarnings("unchecked")
+@UtilityClass
 public class TtlUtils {
 
-    private static final TransmittableThreadLocal<Map<String, Object>> LOCAL_CACHE = new TransmittableThreadLocal<>();
+    private final TransmittableThreadLocal<Map<String, Object>> LOCAL_CACHE = new TransmittableThreadLocal<>();
 
     /**
      * getAll threadLocal中的全部值

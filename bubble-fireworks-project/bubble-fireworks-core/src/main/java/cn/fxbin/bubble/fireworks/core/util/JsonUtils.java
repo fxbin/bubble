@@ -90,12 +90,12 @@ public class JsonUtils {
      * @since 2020/3/20 17:30
      * @return com.fasterxml.jackson.databind.ObjectMapper
      */
-    private static ObjectMapper getInstance() {
+    private ObjectMapper getInstance() {
         return JacksonHolder.INSTANCE;
     }
 
 
-    private static class JacksonHolder {
+    private class JacksonHolder {
         private static final ObjectMapper INSTANCE = new ObjectMapper();
     }
 

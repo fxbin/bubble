@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 @UtilityClass
 public class ThreadLocalUtils {
 
-    private static final ThreadLocal<Map<String, Object>> LOCAL_CACHE = ThreadLocal.withInitial(HashMap::new);
+    private final ThreadLocal<Map<String, Object>> LOCAL_CACHE = ThreadLocal.withInitial(HashMap::new);
 
     /**
      * getAll threadLocal中的全部值
