@@ -72,6 +72,12 @@
 
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-cloud-openfeign</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-plugin-swagger</artifactId>
             <optional>true</optional>
         </dependency>

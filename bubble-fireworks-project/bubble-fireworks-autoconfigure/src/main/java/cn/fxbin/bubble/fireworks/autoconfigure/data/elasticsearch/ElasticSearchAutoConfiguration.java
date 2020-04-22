@@ -12,12 +12,15 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 
 import java.util.List;
+
+import static cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticsearchProperties.BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX;
 
 /**
  * ElasticSearchAutoConfigure
@@ -30,6 +33,7 @@ import java.util.List;
         proxyBeanMethods = false
 )
 @AllArgsConstructor
+@ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX, name = "cluster-nodes", matchIfMissing = false)
 @EnableConfigurationProperties(ElasticsearchProperties.class)
 public class ElasticSearchAutoConfiguration {
 

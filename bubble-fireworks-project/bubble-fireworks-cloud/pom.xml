@@ -16,6 +16,7 @@
 
     <modules>
         <module>bubble-fireworks-cloud-sentinel</module>
+        <module>bubble-fireworks-cloud-openfeign</module>
     </modules>
 
 

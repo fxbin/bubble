@@ -20,12 +20,14 @@
 
         <!-- Other Dependency Versions -->
         <knife4j.version>2.0.2</knife4j.version>
-        <okhttp3.version>4.4.1</okhttp3.version>
+        <okhttp.version>4.5.0</okhttp.version>
         <httpclient.version>4.5.12</httpclient.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <easyexcel.version>2.2.0-beta2</easyexcel.version>
         <elasticsearch.version>7.6.2</elasticsearch.version>
         <transmittable-thread-local.version>2.11.4</transmittable-thread-local.version>
+        <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
+        <feign-form.version>3.8.0</feign-form.version>
     </properties>
 
     <dependencyManagement>
@@ -69,6 +71,11 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-cloud-sentinel</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-cloud-openfeign</artifactId>
                 <version>${bubble-fireworks.version}</version>
             </dependency>
             
@@ -136,7 +143,7 @@
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
-                <version>${okhttp3.version}</version>
+                <version>${okhttp.version}</version>
             </dependency>
 
             <!-- httpclient -->
@@ -187,6 +194,21 @@
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable-thread-local.version}</version>
             </dependency>
+
+            <!-- feign-form -->
+            <dependency>
+                <groupId>io.github.openfeign.form</groupId>
+                <artifactId>feign-form</artifactId>
+                <version>${feign-form.version}</version>
+            </dependency>
+
+            <!-- feign-form-spring -->
+            <dependency>
+                <groupId>io.github.openfeign.form</groupId>
+                <artifactId>feign-form-spring</artifactId>
+                <version>${feign-form.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

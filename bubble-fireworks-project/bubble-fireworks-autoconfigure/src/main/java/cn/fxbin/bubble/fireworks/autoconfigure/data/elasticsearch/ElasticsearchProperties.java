@@ -42,7 +42,7 @@ public class ElasticsearchProperties {
     /**
      * 集群节点
      */
-    private List<String> clusterNodes = new ArrayList<>();
+    private List<String> clusterNodes;
 
     /**
      * 连接超时时间(毫秒)
