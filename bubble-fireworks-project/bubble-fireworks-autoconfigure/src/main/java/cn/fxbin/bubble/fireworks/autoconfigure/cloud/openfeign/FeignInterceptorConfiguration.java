@@ -3,6 +3,8 @@ package cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign;
 import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import feign.RequestInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -33,6 +35,8 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignGloba
 @EnableConfigurationProperties(FeignGlobalProperties.class)
 public class FeignInterceptorConfiguration {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(FeignInterceptorConfiguration.class);
+
     @Resource
     private FeignGlobalProperties properties;
 
@@ -54,15 +58,19 @@ public class FeignInterceptorConfiguration {
                 if (ObjectUtils.isNotEmpty(headerNames)) {
                     while (headerNames.hasMoreElements()) {
                         String key = headerNames.nextElement();
-                        // 仅支持配置的 header
-                        if (allowHeaders.contains(key)) {
-                            String value = request.getHeader(key);
-                            if (StringUtils.isNotBlank(value)) {
-                                requestTemplate.header(key, value);
-                            }
-                        }
-                    }
 
+                        // 仅支持配置的 header
+                        allowHeaders.stream().filter(header -> header.equalsIgnoreCase(key) && StringUtils.isNotBlank(request.getHeader(key)))
+                                .forEach(header -> {
+                                    String value = request.getHeader(key);
+                                    requestTemplate.header(key, value);
+
+                                    if (LOGGER.isDebugEnabled()) {
+                                        LOGGER.debug("feign header penetrate key :[{}], value: [{}]", key, value);
+                                    }
+
+                                });
+                    }
                 }
             }
         };
