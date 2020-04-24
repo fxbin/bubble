@@ -12,6 +12,8 @@ import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
@@ -32,7 +34,8 @@ import java.util.stream.Collectors;
 @Configuration(
         proxyBeanMethods = false
 )
-@ConditionalOnClass(GatewayAutoConfiguration.class)
+@Import({SwaggerResourceHandler.class, SwaggerSecurityHandler.class, SwaggerUiHandler.class})
+@ConditionalOnClass({GatewayAutoConfiguration.class, SwaggerResourcesProvider.class})
 @ConditionalOnWebApplication(type = Type.REACTIVE)
 public class SwaggerResourceConfiguration implements SwaggerResourcesProvider {
 
