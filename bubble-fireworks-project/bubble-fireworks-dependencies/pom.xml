@@ -129,6 +129,12 @@
                 <version>${bubble-fireworks.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-openfeign</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
             <!-- other dependencies versions -->
             <!-- https://mvnrepository.com/artifact/com.github.xiaoymin/knife4j-dependencies -->
             <dependency>

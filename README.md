@@ -1,4 +1,4 @@
-# bubble fireworks
+# bubble fireworks 🎉🎉🎉
 
 [![Spring Boot](https://img.shields.io/badge/SpringBoot-2.2.6.RELEASE-blue.svg)](https://github.com/spring-projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/SpringCloud-Hoxton.SR3-blue.svg)](https://github.com/spring-cloud)
