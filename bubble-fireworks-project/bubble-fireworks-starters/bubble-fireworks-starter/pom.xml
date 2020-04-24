@@ -17,6 +17,10 @@
     <dependencies>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-autoconfigure</artifactId>
         </dependency>
     </dependencies>
