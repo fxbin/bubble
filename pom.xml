@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.fxbin.bubble.fireworks</groupId>
+    <groupId>cn.fxbin.bubble</groupId>
     <artifactId>bubble-fireworks-build</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -59,6 +59,8 @@
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-scm-provider-gitexe.version>1.11.2</maven-scm-provider-gitexe.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <flatten-maven-plugin.version>1.2.1</flatten-maven-plugin.version>
         <maven-site-plugin.version>3.9.0</maven-site-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
@@ -112,18 +114,20 @@
                             <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
                         </configuration>
                         <dependencies>
+                            <!-- https://mvnrepository.com/artifact/org.apache.maven.scm/maven-scm-provider-gitexe -->
                             <dependency>
                                 <groupId>org.apache.maven.scm</groupId>
                                 <artifactId>maven-scm-provider-gitexe</artifactId>
-                                <version>1.9.5</version>
+                                <version>${maven-scm-provider-gitexe.version}</version>
                             </dependency>
+
                         </dependencies>
                     </plugin>
 
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
+                        <version>${nexus-staging-maven-plugin.version}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
