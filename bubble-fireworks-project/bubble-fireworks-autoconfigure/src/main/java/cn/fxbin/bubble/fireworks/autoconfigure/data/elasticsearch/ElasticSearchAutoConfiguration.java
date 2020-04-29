@@ -8,6 +8,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -69,6 +70,7 @@ public class ElasticSearchAutoConfiguration {
      * @param builder                 RestClientBuilder
      * @param elasticsearchProperties elasticsearch default properties
      * @return {@link org.elasticsearch.client.RestHighLevelClient}
+     * @link <a>https://www.elastic.co/guide/en/elasticsearch/client/java-rest/7.6/_basic_authentication.html</a>
      */
     private static RestHighLevelClient getRestHighLevelClient(RestClientBuilder builder, ElasticsearchProperties elasticsearchProperties) {
 
@@ -93,7 +95,16 @@ public class ElasticSearchAutoConfiguration {
             final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
             credentialsProvider.setCredentials(AuthScope.ANY,
                     new UsernamePasswordCredentials(account.getUsername(), account.getPassword()));
+
+            // https://www.elastic.co/guide/en/elasticsearch/client/java-rest/7.6/_basic_authentication.html
+            builder.setHttpClientConfigCallback(httpClientBuilder -> {
+                httpClientBuilder.disableAuthCaching();
+                return httpClientBuilder
+                        .setDefaultCredentialsProvider(credentialsProvider);
+            });
         }
+
+
         return new RestHighLevelClient(builder);
     }
 
