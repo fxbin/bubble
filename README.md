@@ -4,11 +4,10 @@
 [![Spring Cloud](https://img.shields.io/badge/SpringCloud-Hoxton.SR4-brightgreen.svg)](https://github.com/spring-cloud)
 [![Spring Cloud Alibaba](https://img.shields.io/badge/SpringCloudAlibaba-2.2.1.RELEASE-brightgreen.svg)](https://github.com/alibaba/spring-cloud-alibaba)
 
-<p align="center">
-  <a href="https://github.com/fxbin/bubble-fireworks/stargazers"><img alt="star" src="https://img.shields.io/github/stars/fxbin/bubble-fireworks.svg?label=Stars&style=social"/></a>
-  <a href="https://github.com/fxbin/bubble-fireworks/network/members"><img alt="star" src="https://img.shields.io/github/forks/fxbin/bubble-fireworks.svg?label=Fork&style=social"/></a>
-  <a href="https://github.com/fxbin/bubble-fireworks/watchers"><img alt="star" src="https://img.shields.io/github/watchers/fxbin/bubble-fireworks.svg?label=Watch&style=social"/></a>
-</p>
+[![Star](https://img.shields.io/github/stars/fxbin/bubble-fireworks.svg?label=Stars&style=social)](https://github.com/fxbin/bubble-fireworks/stargazers)
+[![Members](https://img.shields.io/github/forks/fxbin/bubble-fireworks.svg?label=Fork&style=social)](https://github.com/fxbin/bubble-fireworks/network/members)
+[![Watchers](https://img.shields.io/github/watchers/fxbin/bubble-fireworks.svg?label=Watch&style=social)](https://github.com/fxbin/bubble-fireworks/watchers)
+
 
 依赖 | 版本
 ---|---
