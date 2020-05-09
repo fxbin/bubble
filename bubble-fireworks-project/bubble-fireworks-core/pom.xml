@@ -28,6 +28,11 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
         </dependency>
+        <!-- hutool -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

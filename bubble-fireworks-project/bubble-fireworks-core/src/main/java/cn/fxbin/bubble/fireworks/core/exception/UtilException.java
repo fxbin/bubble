@@ -12,8 +12,7 @@ import lombok.Getter;
  */
 public class UtilException extends RuntimeException {
 
-    private static final long serialVersionUID = 7366961732679791481L;
-
+    private static final long serialVersionUID = -880651443441658667L;
     @Getter
     private int errcode;
 

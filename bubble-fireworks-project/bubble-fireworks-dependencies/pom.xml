@@ -21,9 +21,10 @@
         <!-- Other Dependency Versions -->
         <knife4j.version>2.0.2</knife4j.version>
         <okhttp.version>4.5.0</okhttp.version>
+        <hutool-all.version>5.1.4</hutool-all.version>
         <httpclient.version>4.5.12</httpclient.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
-        <easyexcel.version>2.2.0-beta2</easyexcel.version>
+        <easyexcel.version>2.2.3</easyexcel.version>
         <elasticsearch.version>7.6.2</elasticsearch.version>
         <transmittable-thread-local.version>2.11.4</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
@@ -42,6 +43,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-autoconfigure</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-web</artifactId>
                 <version>${bubble-fireworks.version}</version>
             </dependency>
 
@@ -113,6 +120,12 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-web</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-mybatis</artifactId>
                 <version>${bubble-fireworks.version}</version>
             </dependency>
@@ -135,6 +148,12 @@
                 <version>${bubble-fireworks.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-elasticsearch</artifactId>
+                <version>${bubble-fireworks.version}</version>
+            </dependency>
+
             <!-- other dependencies versions -->
             <!-- https://mvnrepository.com/artifact/com.github.xiaoymin/knife4j-dependencies -->
             <dependency>
@@ -150,6 +169,13 @@
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
+            </dependency>
+
+            <!-- hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
             </dependency>
 
             <!-- httpclient -->

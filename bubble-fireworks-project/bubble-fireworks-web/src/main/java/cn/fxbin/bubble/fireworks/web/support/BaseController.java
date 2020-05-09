@@ -5,6 +5,7 @@ import cn.fxbin.bubble.fireworks.core.model.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,8 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public abstract class BaseController {
 
+    @Resource
     public HttpServletRequest request;
 
+    @Resource
     public HttpServletResponse response;
 
     /**

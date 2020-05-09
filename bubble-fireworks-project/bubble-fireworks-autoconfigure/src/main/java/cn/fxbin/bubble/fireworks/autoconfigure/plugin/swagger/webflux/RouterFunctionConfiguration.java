@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.annotation.Resource;
 
+import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProperties.BUBBLE_FIREWORKS_SWAGGER_PREFIX;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
@@ -30,8 +32,9 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @ComponentScan(
         basePackages = {"cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux"}
 )
-@ConditionalOnClass(Docket.class)
+@ConditionalOnClass({Docket.class, RouterFunction.class})
 @ConditionalOnWebApplication(type = Type.REACTIVE)
+@ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_SWAGGER_PREFIX, name = "enabled", havingValue = "true")
 public class RouterFunctionConfiguration {
 
     @Resource

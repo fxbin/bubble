@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
         proxyBeanMethods = false
 )
 @ConditionalOnWebApplication(type = Type.SERVLET)
-@ConditionalOnClass(SentinelWebInterceptor.class)
+@ConditionalOnClass({SentinelWebInterceptor.class, CustomUrlBlockHandler.class})
 public class SentinelAutoConfiguration {
 
     @Bean

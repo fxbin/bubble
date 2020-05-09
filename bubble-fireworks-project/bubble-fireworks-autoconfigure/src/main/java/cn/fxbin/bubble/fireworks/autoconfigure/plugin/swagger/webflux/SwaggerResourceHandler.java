@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import springfox.documentation.swagger.web.SwaggerResourcesProvider;
  */
 @Component
 @AllArgsConstructor
+@ConditionalOnClass({HandlerFunction.class})
 public class SwaggerResourceHandler implements HandlerFunction<ServerResponse> {
 
     private final SwaggerResourcesProvider swaggerResourcesProvider;

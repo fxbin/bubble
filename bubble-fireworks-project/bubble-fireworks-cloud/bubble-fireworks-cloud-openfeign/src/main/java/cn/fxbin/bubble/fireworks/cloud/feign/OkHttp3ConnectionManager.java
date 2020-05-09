@@ -3,7 +3,6 @@ package cn.fxbin.bubble.fireworks.cloud.feign;
 import lombok.experimental.UtilityClass;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,13 +17,10 @@ import java.util.concurrent.TimeUnit;
  * @version v1.0
  * @since 2020/4/22 16:26
  */
+@UtilityClass
 public class OkHttp3ConnectionManager {
 
-    public OkHttp3ConnectionManager() {
-        super();
-    }
-
-    public static OkHttpClient createDefault() {
+    public OkHttpClient createDefault() {
         return new OkHttpClient.Builder()
                 .retryOnConnectionFailure(true)
                 // 设置连接超时时间

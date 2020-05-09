@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ import java.util.Optional;
  */
 @SuppressWarnings("ALL")
 @Component
+@ConditionalOnClass({HandlerFunction.class})
 public class SwaggerUiHandler implements HandlerFunction<ServerResponse> {
 
     @Autowired(required = false)

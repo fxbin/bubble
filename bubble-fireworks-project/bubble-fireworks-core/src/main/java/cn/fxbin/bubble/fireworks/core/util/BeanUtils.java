@@ -1,15 +1,21 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
 import cn.fxbin.bubble.fireworks.core.exception.UtilException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.cglib.beans.BeanMap;
+import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import java.util.Map;
-import java.util.Objects;
+import java.beans.PropertyDescriptor;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * BeanUtils
@@ -18,8 +24,21 @@ import java.util.Objects;
  * @version v1.0
  * @since 2020/3/30 13:51
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 @UtilityClass
 public class BeanUtils extends org.springframework.beans.BeanUtils {
+
+    /**
+     * initialInstance
+     *
+     * @since 2020/5/7 17:28
+     * @param clazz the class to instantiate
+     * @return T 泛型
+     * @see org.springframework.beans.BeanUtils#instantiateClass(java.lang.Class)
+     */
+    public <T> T initialInstance(Class<?> clazz) {
+        return (T) instantiateClass(clazz);
+    }
 
     /**
      * initialInstance
@@ -28,11 +47,10 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      * @param className class name
      * @return T
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public <T> T initialInstance(String className) {
         try {
             Class clazz = Class.forName(className);
-            return (T) ClassUtils.initialInstance(clazz);
+            return initialInstance(clazz);
         } catch (ClassNotFoundException e) {
             throw new UtilException(e);
         }
@@ -50,6 +68,53 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     public Map<String, Object> object2Map(Object object) {
         Assert.notNull(object, "object can't be null");
         return BeanMap.create(object);
+    }
+
+
+    /**
+     * object2Map
+     *
+     * @since 2020/5/8 17:01
+     * @param objectList  java.lang.Object list
+     * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     */
+    public <T> List<Map<String, Object>> object2Map(List<T> objectList) {
+        List list = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(objectList)) {
+            list = objectList.stream().map(BeanMap::create).collect(Collectors.toList());
+        }
+        return list;
+    }
+
+
+    /**
+     * map2Object
+     *
+     * @since 2020/5/8 11:26
+     * @param map java.util.Map
+     * @param clazz the target object class
+     * @return T 泛型
+     */
+    public <T> T map2Object(Map<?, ?> map, Class<T> clazz) {
+        Assert.notNull(map, "map can't be null");
+        Assert.notNull(clazz, "class can't be null");
+        T target = initialInstance(clazz);
+        BeanMap beanMap = BeanMap.create(target);
+        beanMap.putAll(map);
+        return target;
+    }
+
+
+    /**
+     * copy
+     *
+     * @since 2020/5/7 18:22
+     * @param source source object
+     * @param target target object
+     */
+    public void copy(Object source, Object target) {
+        BeanCopier copier = BeanCopier.create(source.getClass(), target.getClass(), false);
+        copier.copy(source, target, null);
     }
 
 
@@ -79,7 +144,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      * @param propertyName 属性名
      * @param value 属性值
      */
-    public static void setProperty(Object bean, String propertyName, Object value) {
+    public void setProperty(Object bean, String propertyName, Object value) {
         Objects.requireNonNull(bean, "bean Could not null");
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(bean);
         beanWrapper.setPropertyValue(propertyName, value);

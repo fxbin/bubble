@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: elasticsearch-test
+bubble:
+  fireworks:
+    elasticsearch:
+      cluster-nodes: 192.168.7.94:9200
+
+

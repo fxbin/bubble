@@ -12,9 +12,9 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <!-- log base path -->
-    <springProperty scope="context" name="springAppName" source="spring.application.name" defaultValue="bubble-fireworks-application"/>
+    <springProperty scope="context" name="springAppName" source="spring.application.name" defaultValue="application"/>
     <!-- log base path -->
-    <property name="logHome" value="/data/serviceLogs/${springAppName}" />
+    <property name="logHome" value="/data/service-logs/${springAppName}" />
 
     <!-- You can override this to have a custom pattern -->
     <property name="CUSTOM_LOG_PATTERN"

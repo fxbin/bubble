@@ -12,10 +12,11 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @version v1.0
  * @since 2020/4/22 16:13
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class TtlMDCAdapterInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         // 加载TtlMDCAdapter 实例
-        TtlMDCAdapter.getMdcAdapter();
+        TtlMDCAdapter.getTtlMDCAdapter();
     }
 }

@@ -1,14 +1,12 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch;
 
 import cn.fxbin.bubble.fireworks.core.util.StringUtils;
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -19,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticsearchProperties.BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX;
@@ -40,22 +39,23 @@ public class ElasticSearchAutoConfiguration {
 
     private final ElasticsearchProperties properties;
 
-    private final List<HttpHost> httpHosts = Lists.newArrayList();
+    private final List<HttpHost> httpHosts = new ArrayList<>();
 
     @Bean(destroyMethod = "close")
     @ConditionalOnMissingBean
     public RestHighLevelClient restHighLevelClient() {
 
         List<String> clusterNodes = properties.getClusterNodes();
-        Integer port = properties.getPort();
-        clusterNodes.forEach(hostname -> {
+        clusterNodes.forEach(node -> {
             try {
-                Assert.notNull(hostname, "Must defined Cluster Node");
-                Assert.notNull(port, "Must defined Cluster Port");
-                httpHosts.add(new HttpHost(hostname, port, properties.getSchema()));
+                String[] parts = StringUtils.split(node, ":");
+                Assert.notNull(parts, "Must defined Cluster Node");
+                Assert.state(parts.length == 2, "Must be defined as 'host:port'");
+
+                httpHosts.add(new HttpHost(parts[0], Integer.parseInt(parts[1]), properties.getSchema()));
             } catch (Exception e) {
                 throw new IllegalStateException(
-                        "Invalid ES nodes " + "property hostname '" + hostname + "', port '" + port + "'", e);
+                        "Invalid ES nodes " + "property '" + node + "'", e);
             }
         });
         RestClientBuilder builder = RestClient.builder(httpHosts.toArray(new HttpHost[0]));

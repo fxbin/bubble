@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.filter.factory;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ServerWebExchange;
  * @since 2020/4/3 14:13
  */
 @Component
+@ConditionalOnClass({AbstractGatewayFilterFactory.class})
 public class SwaggerHeaderFilterFactory extends AbstractGatewayFilterFactory<AbstractGatewayFilterFactory.NameConfig> {
 
     private static final String HEADER_NAME = "X-Forwarded-Prefix";

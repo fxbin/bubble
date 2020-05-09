@@ -2,8 +2,10 @@ package cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticsearchProperties.BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX;
@@ -35,14 +37,10 @@ public class ElasticsearchProperties {
     private String clusterName = "elasticsearch";
 
     /**
-     * elasticsearch 端口, 默认9200
-     */
-    private Integer port = 9200;
-
-    /**
      * 集群节点
      */
-    private List<String> clusterNodes;
+    @NonNull
+    private List<String> clusterNodes = new ArrayList<>(Collections.singletonList("localhost:9200"));
 
     /**
      * 连接超时时间(毫秒)

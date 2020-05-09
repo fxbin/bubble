@@ -13,7 +13,6 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 

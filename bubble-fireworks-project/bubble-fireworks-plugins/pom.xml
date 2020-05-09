@@ -20,6 +20,8 @@
         <module>bubble-fireworks-plugin-test</module>
         <module>bubble-fireworks-plugin-http</module>
         <module>bubble-fireworks-plugin-swagger</module>
+        <module>bubble-fireworks-plugin-excel</module>
+        <module>bubble-fireworks-plugin-lock</module>
     </modules>
 
 </project>

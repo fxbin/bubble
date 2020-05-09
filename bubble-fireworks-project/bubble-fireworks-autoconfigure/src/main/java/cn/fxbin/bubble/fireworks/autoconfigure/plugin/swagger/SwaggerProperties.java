@@ -28,9 +28,9 @@ public class SwaggerProperties {
     public static final String BUBBLE_FIREWORKS_SWAGGER_PREFIX = "bubble.fireworks.swagger";
 
     /**
-     * 是否开启 swagger，默认：true
+     * 是否开启 swagger，默认：false
      */
-    private boolean enabled = true;
+    private boolean enabled = false;
 
     /**
      * host

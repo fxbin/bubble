@@ -39,7 +39,7 @@ public class TtlMDCAdapter implements MDCAdapter {
         MDC.mdcAdapter = ttlMDCAdapter;
     }
 
-    public static TtlMDCAdapter getMdcAdapter() {
+    public static TtlMDCAdapter getTtlMDCAdapter() {
         return ttlMDCAdapter;
     }
 
