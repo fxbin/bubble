@@ -1,6 +1,5 @@
 package test.data.elasticsearch.service.impl;
 
-import cn.fxbin.bubble.fireworks.core.util.BeanUtils;
 import cn.hutool.core.bean.BeanUtil;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;

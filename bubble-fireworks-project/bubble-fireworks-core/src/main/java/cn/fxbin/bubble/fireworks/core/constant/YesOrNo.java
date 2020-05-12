@@ -1,7 +1,6 @@
 package cn.fxbin.bubble.fireworks.core.constant;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 /**
