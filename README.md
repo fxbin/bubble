@@ -10,11 +10,11 @@
 [![Watchers](https://img.shields.io/github/watchers/fxbin/bubble-fireworks.svg?label=Watch&style=social)](https://github.com/fxbin/bubble-fireworks/watchers)
 
 
-依赖 | 版本
+| 依赖 | 版本 |
 ---|---
-Spring Boot |  2.2.7.RELEASE
-Spring Cloud |  Hoxton.SR4  
-Spring Cloud Alibaba |  2.2.1.RELEASE  
+| Spring Boot |  2.2.7.RELEASE |
+| Spring Cloud |  Hoxton.SR4 | 
+| Spring Cloud Alibaba |  2.2.1.RELEASE |  
 
 ## 项目简介
 

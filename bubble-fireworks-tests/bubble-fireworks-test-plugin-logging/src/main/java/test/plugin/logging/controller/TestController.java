@@ -1,8 +1,9 @@
 package test.plugin.logging.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * TestController
@@ -16,14 +17,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 
-    @GetMapping("/test")
-    public String test(String name) {
+    @GetMapping("/test/{name}")
+    public String test(@PathVariable("name") String name) {
 
         log.info("test:{} ", name);
 
         new Thread(() -> log.info("thread test:{}", name)).start();
 
         return "test";
+    }
+
+    @PostMapping("/test")
+    public String test(@RequestBody Map<String, Object> map) {
+
+        log.info("test:{} ", map);
+
+        new Thread(() -> log.info("thread test:{}", map)).start();
+
+        return "test post";
     }
 
 }

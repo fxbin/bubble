@@ -101,7 +101,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param css java.lang.CharSequence
      * @return boolean
      */
-    public static boolean isNoneBlank(final CharSequence... css) {
+    public boolean isNoneBlank(final CharSequence... css) {
         if (ObjectUtils.isEmpty(css)) {
             return false;
         }
@@ -115,7 +115,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param cs the CharSequence to check, may be null
      * @return boolean
      */
-    public static boolean isNumeric(final CharSequence cs) {
+    public boolean isNumeric(final CharSequence cs) {
         if (StringUtils.isBlank(cs)) {
             return false;
         }
@@ -135,7 +135,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param coll the {@code Collection} to convert
      * @return the delimited {@code String}
      */
-    public static String join(Collection<?> coll) {
+    public String join(Collection<?> coll) {
         return StringUtils.collectionToCommaDelimitedString(coll);
     }
 
@@ -147,7 +147,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param delim the delimiter to use (typically a ",")
      * @return the delimited {@code String}
      */
-    public static String join(Collection<?> coll, String delim) {
+    public String join(Collection<?> coll, String delim) {
         return StringUtils.collectionToDelimitedString(coll, delim);
     }
 
@@ -159,7 +159,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param arr the array to display
      * @return the delimited {@code String}
      */
-    public static String join(Object[] arr) {
+    public String join(Object[] arr) {
         return StringUtils.arrayToCommaDelimitedString(arr);
     }
 
@@ -171,7 +171,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param delim the delimiter to use (typically a ",")
      * @return the delimited {@code String}
      */
-    public static String join(Object[] arr, String delim) {
+    public String join(Object[] arr, String delim) {
         return StringUtils.arrayToDelimitedString(arr, delim);
     }
 
@@ -210,7 +210,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return substring from start position to end position,
      *  {@code null} if null String input
      */
-    public static String substring(final String str, int start, int end) {
+    public String substring(final String str, int start, int end) {
         if (isBlank(str)) {
             return StringPool.EMPTY;
         }
@@ -253,7 +253,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param delimiter 分割符
      * @return java.lang.String[]
      */
-    public static String[] splitTrim(@Nullable String str, @Nullable String delimiter) {
+    public String[] splitTrim(@Nullable String str, @Nullable String delimiter) {
         return delimitedListToStringArray(str, delimiter, " \t\n\n\f");
     }
 
@@ -264,7 +264,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param html html string
      * @return java.lang.String
      */
-    public static String escapeHtml(String html) {
+    public String escapeHtml(String html) {
         return HtmlUtils.htmlEscape(html);
     }
 
@@ -286,7 +286,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param params 参数值
      * @return java.lang.String
      */
-    public static String format(CharSequence template, Object... params) {
+    public String format(CharSequence template, Object... params) {
         if (null == template) {
             return null;
         }
@@ -314,7 +314,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param argArray 参数列表
      * @return java.lang.String
      */
-    public static String format(final String strPattern, final Object... argArray) {
+    public String format(final String strPattern, final Object... argArray) {
         if (StringUtils.isBlank(strPattern) || ArrayUtils.isEmpty(argArray)) {
             return strPattern;
         }
@@ -378,7 +378,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param obj 对象
      * @return java.lang.String
      */
-    public static String utf8Str(Object obj) {
+    public String utf8Str(Object obj) {
         return str(obj, CharsetUtils.CHARSET_UTF_8);
     }
 
@@ -393,7 +393,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param charsetName 字符集
      * @return java.lang.String
      */
-    public static String str(Object obj, String charsetName) {
+    public String str(Object obj, String charsetName) {
         return str(obj, Charset.forName(charsetName));
     }
 
@@ -410,7 +410,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @param charset 字符集
      * @return java.lang.String
      */
-    public static String str(Object obj, Charset charset) {
+    public String str(Object obj, Charset charset) {
         if (null == obj) {
             return null;
         }
@@ -435,7 +435,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @since 2020/3/23 17:36
      * @return java.lang.String
      */
-    public static String generateId() {
+    public String getUUID() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         long lsb = random.nextLong();
         long msb = random.nextLong();
@@ -448,7 +448,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
         return new String(buf, StandardCharsets.UTF_8);
     }
 
-    private static void formatUnsignedLong(long val, byte[] buf, int offset, int len) {
+    private void formatUnsignedLong(long val, byte[] buf, int offset, int len) {
         int charPos = offset + len;
         int radix = 1 << 4;
         int mask = radix - 1;

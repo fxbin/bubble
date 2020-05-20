@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("unchecked")
 @UtilityClass
-public class TtlUtils {
+public class TtlMap {
 
     private final TransmittableThreadLocal<Map<String, Object>> LOCAL_CACHE = new TransmittableThreadLocal<>();
 

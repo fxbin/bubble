@@ -9,4 +9,6 @@ cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.SwaggerResourceCo
 cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticSearchAutoConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignInterceptorConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignOkHttp3Configuration,\
-cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignMultipartFormConfiguration
+cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignMultipartFormConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.LoggingAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.AliyunLogContextAutoConfigure
