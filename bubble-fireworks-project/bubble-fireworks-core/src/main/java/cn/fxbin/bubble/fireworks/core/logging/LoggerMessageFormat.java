@@ -13,9 +13,9 @@ import java.util.Set;
  */
 public class LoggerMessageFormat {
 
-    static final char DELIM_START = '{';
-    static final char DELIM_STOP = '}';
-    static final String DELIM_STR = "{}";
+    private static final char DELIM_START = '{';
+    private static final char DELIM_STOP = '}';
+    private static final String DELIM_STR = "{}";
     private static final char ESCAPE_CHAR = '\\';
 
     public static String format(final String messagePattern, final Object... argArray) {

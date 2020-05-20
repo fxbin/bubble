@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2020/5/8 17:23
  */
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"test", "cn.fxbin"})
 public class SampleLoggingApplication {
 
     public static void main(String[] args) {

@@ -4,15 +4,15 @@ import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
 import lombok.Getter;
 
 /**
- * UtilException
+ * LoggingException
  *
  * @author fxbin
  * @version v1.0
- * @since 2020/3/23 17:53
+ * @since 2020/5/19 13:51
  */
-public class UtilException extends RuntimeException {
-
-    private static final long serialVersionUID = -880651443441658667L;
+public class LoggingException extends RuntimeException {
+    
+    private static final long serialVersionUID = 2857970996604031794L;
 
     @Getter
     private int errcode;
@@ -20,29 +20,29 @@ public class UtilException extends RuntimeException {
     @Getter
     private String errmsg;
 
-    public UtilException(String message) {
+    public LoggingException(String message) {
         super(message);
     }
 
-    public UtilException(Integer errcode, String errmsg) {
+    public LoggingException(Integer errcode, String errmsg) {
         super(errmsg);
         this.errcode = errcode;
         this.errmsg = errmsg;
     }
 
-    public UtilException(String msg, Object... args) {
+    public LoggingException(String msg, Object... args) {
         super(LoggerMessageFormat.format(msg, args));
     }
 
-    public UtilException(String message, Throwable cause) {
+    public LoggingException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public UtilException(Throwable cause) {
+    public LoggingException(Throwable cause) {
         super(cause);
     }
 
-    protected UtilException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected LoggingException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

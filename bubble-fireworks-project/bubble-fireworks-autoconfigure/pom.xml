@@ -82,6 +82,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-plugin-logging</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 

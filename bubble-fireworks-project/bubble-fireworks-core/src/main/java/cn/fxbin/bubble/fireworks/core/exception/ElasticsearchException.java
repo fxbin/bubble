@@ -12,8 +12,8 @@ import lombok.Getter;
  */
 public class ElasticsearchException extends RuntimeException {
 
-
     private static final long serialVersionUID = -8858817180797916781L;
+
     @Getter
     private int errcode;
 
