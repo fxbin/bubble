@@ -6,7 +6,6 @@ import cn.fxbin.bubble.fireworks.plugin.logging.constant.ReportType;
 import cn.fxbin.bubble.fireworks.plugin.logging.event.LoggingNoticeEvent;
 import cn.fxbin.bubble.fireworks.plugin.logging.model.BubbleFireworksLogging;
 import cn.fxbin.bubble.fireworks.plugin.logging.report.AliyunLoggingReport;
-import cn.fxbin.bubble.fireworks.plugin.logging.report.LoggingReport;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

@@ -1,8 +1,6 @@
 package cn.fxbin.bubble.fireworks.plugin.logging.report;
 
-import cn.fxbin.bubble.fireworks.plugin.logging.constant.ReportType;
 import cn.fxbin.bubble.fireworks.plugin.logging.model.BubbleFireworksLogging;
-import lombok.Setter;
 
 import java.util.List;
 

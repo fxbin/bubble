@@ -2,7 +2,6 @@ package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -63,9 +62,6 @@ public class SwaggerAutoConfiguration {
 
     @Resource
     private SwaggerProperties properties;
-
-    @Resource
-    private BeanFactory beanFactory;
 
 
     /**
