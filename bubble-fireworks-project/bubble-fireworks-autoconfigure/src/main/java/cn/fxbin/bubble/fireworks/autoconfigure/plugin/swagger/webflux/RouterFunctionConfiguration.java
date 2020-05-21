@@ -49,7 +49,7 @@ public class RouterFunctionConfiguration {
     @Bean
     public RouterFunction<?> routerFunction() {
         return RouterFunctions.route(
-                RequestPredicates.GET("/swagger-resources").and(accept(MediaType.ALL)), swaggerResourceHandler)
+                GET("/swagger-resources").and(accept(MediaType.ALL)), swaggerResourceHandler)
                 .andRoute(GET("/swagger-resources/configuration/ui")
                         .and(accept(MediaType.ALL)), swaggerUiHandler)
                 .andRoute(GET("/swagger-resources/configuration/security")

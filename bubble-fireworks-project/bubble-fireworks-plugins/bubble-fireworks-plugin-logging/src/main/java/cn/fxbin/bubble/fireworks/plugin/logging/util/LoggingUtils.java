@@ -6,7 +6,6 @@ import cn.fxbin.bubble.fireworks.plugin.logging.model.BubbleFireworksLogging;
 import com.aliyun.openservices.log.common.LogItem;
 import lombok.experimental.UtilityClass;
 
-import java.util.Iterator;
 import java.util.Map;
 
 /**

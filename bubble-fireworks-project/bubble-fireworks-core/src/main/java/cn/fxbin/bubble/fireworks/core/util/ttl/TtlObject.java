@@ -1,10 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.util.ttl;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.experimental.UtilityClass;
-
-import java.util.Map;
 
 /**
  * TtlObjectUtils

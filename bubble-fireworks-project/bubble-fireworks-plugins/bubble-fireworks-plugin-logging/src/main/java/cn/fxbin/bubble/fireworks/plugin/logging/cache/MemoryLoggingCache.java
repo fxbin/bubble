@@ -2,9 +2,7 @@ package cn.fxbin.bubble.fireworks.plugin.logging.cache;
 
 import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import cn.fxbin.bubble.fireworks.core.util.StringUtils;
-import cn.fxbin.bubble.fireworks.plugin.logging.constant.BeanKey;
 import cn.fxbin.bubble.fireworks.plugin.logging.model.BubbleFireworksLogging;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
