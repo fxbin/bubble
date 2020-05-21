@@ -18,6 +18,7 @@
     <modules>
         <module>bubble-fireworks-data-mybatis</module>
         <module>bubble-fireworks-data-elasticsearch</module>
+        <module>bubble-fireworks-data-zookeeper</module>
     </modules>
 
 </project>

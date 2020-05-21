@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
+import cn.fxbin.bubble.fireworks.core.exception.UtilException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.experimental.UtilityClass;
@@ -28,7 +29,7 @@ public class JsonUtils {
         try {
             return getInstance().writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new UtilException(e);
         }
     }
 
@@ -79,7 +80,7 @@ public class JsonUtils {
         try {
             return getInstance().readValue(jsonString, requiredType);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UtilException(e);
         }
     }
 

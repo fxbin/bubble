@@ -24,7 +24,7 @@ import java.util.Set;
 public class TtlMDCAdapter implements MDCAdapter {
 
     // The internal map is copied so as
-    final ThreadLocal<Map<String, String>> copyOnThreadLocal = new TransmittableThreadLocal<>();
+    private static final ThreadLocal<Map<String, String>> copyOnThreadLocal = new TransmittableThreadLocal<>();
 
     private static final int WRITE_OPERATION = 1;
     private static final int MAP_COPY_OPERATION = 2;
