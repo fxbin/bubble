@@ -112,16 +112,14 @@ public class AliyunLoggingReport implements LoggingReport {
 
             } catch (InterruptedException e) {
                 log.warn("The current thread has been interrupted during send logs.", e);
+            } catch (MaxBatchCountExceedException e){
+                log.error("The logs exceeds the maximum batch count", e);
+            } catch (LogSizeTooLargeException e) {
+                log.error("The size of log is larger than the maximum allowable size", e);
+            } catch (TimeoutException e) {
+                log.error("The time taken for allocating memory for the logs has surpassed.", e);
             } catch (Exception e) {
-                if (e instanceof MaxBatchCountExceedException) {
-                    log.error("The logs exceeds the maximum batch count", e);
-                } else if (e instanceof LogSizeTooLargeException) {
-                    log.error("The size of log is larger than the maximum allowable size", e);
-                } else if (e instanceof TimeoutException) {
-                    log.error("The time taken for allocating memory for the logs has surpassed.", e);
-                } else {
-                    log.error("Failed to send logs", e);
-                }
+                log.error("Failed to send logs", e);
             }
         }
     }

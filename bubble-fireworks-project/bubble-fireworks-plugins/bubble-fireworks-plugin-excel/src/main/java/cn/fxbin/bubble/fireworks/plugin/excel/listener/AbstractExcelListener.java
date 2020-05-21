@@ -30,7 +30,6 @@ public abstract class AbstractExcelListener<M> extends AnalysisEventListener<M> 
      */
     private final boolean isContinueAfterThrowing = true;
 
-    @Getter
     List<M> list = new ArrayList<>();
 
     /**
