@@ -80,6 +80,11 @@ public interface StringPool {
     String DASH = "-";
 
     /**
+     * 下划线
+     */
+    String UNDERLINE = "_";
+
+    /**
      * 制表符
      */
     String TAB = "\t";
