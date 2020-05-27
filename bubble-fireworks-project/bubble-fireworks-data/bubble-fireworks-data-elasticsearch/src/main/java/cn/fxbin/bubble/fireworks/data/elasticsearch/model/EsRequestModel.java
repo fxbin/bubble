@@ -1,10 +1,10 @@
 package cn.fxbin.bubble.fireworks.data.elasticsearch.model;
 
-import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,7 +26,7 @@ public class EsRequestModel implements Serializable {
     /**
      * elasticsearch index name
      */
-    @NotNull private String indexName;
+    @NonNull private String indexName;
 
     /**
      * elasticsearch alias
@@ -47,7 +47,7 @@ public class EsRequestModel implements Serializable {
         /**
          * elasticsearch doc id
          */
-        @NotNull private String id;
+        @NonNull private String id;
 
         /**
          * elasticsearch doc source

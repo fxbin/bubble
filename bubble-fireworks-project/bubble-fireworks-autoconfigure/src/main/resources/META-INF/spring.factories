@@ -6,7 +6,8 @@ cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerAutoConfiguration,
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.web.SwaggerWebAutoConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.RouterFunctionConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.SwaggerResourceConfiguration,\
-cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticSearchAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticsearchConfigurationSupport,\
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignInterceptorConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignOkHttp3Configuration,\
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignMultipartFormConfiguration,\
