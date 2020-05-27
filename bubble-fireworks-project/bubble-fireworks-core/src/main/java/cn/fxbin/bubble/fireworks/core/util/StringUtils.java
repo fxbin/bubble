@@ -2,6 +2,7 @@ package cn.fxbin.bubble.fireworks.core.util;
 
 import cn.fxbin.bubble.fireworks.core.constant.CharPool;
 import cn.fxbin.bubble.fireworks.core.constant.StringPool;
+import cn.fxbin.bubble.fireworks.core.exception.UtilException;
 import lombok.experimental.UtilityClass;
 import org.springframework.lang.Nullable;
 import org.springframework.web.util.HtmlUtils;
@@ -9,8 +10,10 @@ import org.springframework.web.util.HtmlUtils;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.sql.Blob;
 import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -22,6 +25,11 @@ import java.util.stream.Stream;
  */
 @UtilityClass
 public class StringUtils extends org.springframework.util.StringUtils {
+
+    /**
+     * 验证字符串是否是数据库字段
+     */
+    private final Pattern PROPERTY_IS_COLUMN = Pattern.compile("^\\w\\S*[\\w\\d]*$");
 
 
     /**
@@ -427,6 +435,124 @@ public class StringUtils extends org.springframework.util.StringUtils {
             return ArrayUtils.toString(obj);
         }
         return obj.toString();
+    }
+
+    /**
+     * Blob 转为 String 格式
+     *
+     * @param blob Blob 对象
+     * @return 转换后的
+     */
+    public String blob2String(Blob blob) {
+        if (null != blob) {
+            try {
+                byte[] returnValue = blob.getBytes(1, (int) blob.length());
+                return utf8Str(returnValue);
+            } catch (Exception e) {
+                throw new UtilException("Blob Convert To String Error!");
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 大写第一个字母
+     *
+     * @param src 源字符串
+     * @return 返回第一个大写后的字符串
+     */
+    public String upperFirst(String src) {
+        if (Character.isLowerCase(src.charAt(0))) {
+            return 1 == src.length() ? src.toUpperCase() : Character.toUpperCase(src.charAt(0)) + src.substring(1);
+        }
+        return src;
+    }
+
+    /**
+     * 判断字符串是不是驼峰命名
+     *
+     * <li> 包含 '_' 不算 </li>
+     * <li> 首字母大写的不算 </li>
+     *
+     * @param str 字符串
+     * @return 结果
+     */
+    public boolean isCamel(String str) {
+        if (str.contains(StringPool.UNDERLINE)) {
+            return false;
+        }
+        return Character.isLowerCase(str.charAt(0));
+    }
+
+    /**
+     * 判断字符串是否符合数据库字段的命名
+     *
+     * @param str 字符串
+     * @return 判断结果
+     */
+    public boolean isNotColumnName(String str) {
+        return !PROPERTY_IS_COLUMN.matcher(str).matches();
+    }
+
+    /**
+     * 字符串驼峰转下划线格式
+     *
+     * @param param 需要转换的字符串
+     * @return 转换好的字符串
+     */
+    public String camelToUnderline(String param) {
+        if (isBlank(param)) {
+            return StringPool.EMPTY;
+        }
+        int len = param.length();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c = param.charAt(i);
+            if (Character.isUpperCase(c) && i > 0) {
+                sb.append(StringPool.UNDERLINE);
+            }
+            sb.append(Character.toLowerCase(c));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 字符串下划线转驼峰格式
+     *
+     * @param param 需要转换的字符串
+     * @return 转换好的字符串
+     */
+    public String underlineToCamel(String param) {
+        if (isBlank(param)) {
+            return StringPool.EMPTY;
+        }
+        String temp = param.toLowerCase();
+        int len = temp.length();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c = temp.charAt(i);
+            if (c == CharPool.UNDERLINE) {
+                if (++i < len) {
+                    sb.append(Character.toUpperCase(temp.charAt(i)));
+                }
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 首字母转换小写
+     *
+     * @param param 需要转换的字符串
+     * @return 转换好的字符串
+     */
+    public String firstToLowerCase(String param) {
+        if (isBlank(param)) {
+            return StringPool.EMPTY;
+        }
+        return param.substring(0, 1).toLowerCase() + param.substring(1);
     }
 
     /**

@@ -44,4 +44,9 @@ public interface CharPool {
      */
     char RIGHT_SQ_BRACKET = ']';
 
+    /**
+     * 下划线
+     */
+    char UNDERLINE = '_';
+
 }
