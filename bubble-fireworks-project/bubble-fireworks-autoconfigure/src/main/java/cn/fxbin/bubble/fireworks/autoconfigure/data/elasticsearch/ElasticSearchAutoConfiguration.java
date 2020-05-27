@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch;
 
 import cn.fxbin.bubble.fireworks.core.util.StringUtils;
+import cn.fxbin.bubble.fireworks.data.elasticsearch.support.AbstractElasticsearchSupport;
 import lombok.AllArgsConstructor;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -10,6 +11,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -61,6 +63,11 @@ public class ElasticSearchAutoConfiguration {
         RestClientBuilder builder = RestClient.builder(httpHosts.toArray(new HttpHost[0]));
 
         return getRestHighLevelClient(builder, properties);
+    }
+
+    @Bean
+    AbstractElasticsearchSupport elasticsearchSupport(@Qualifier("restHighLevelClient") RestHighLevelClient restHighLevelClient) {
+        return new AbstractElasticsearchSupport(restHighLevelClient, properties.getIndex().getNumberOfShards(), properties.getIndex().getNumberOfReplicas());
     }
 
     /**
