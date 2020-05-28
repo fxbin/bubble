@@ -4,7 +4,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-dependencies</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-dependencies/pom.xml</relativePath>
     </parent>
 

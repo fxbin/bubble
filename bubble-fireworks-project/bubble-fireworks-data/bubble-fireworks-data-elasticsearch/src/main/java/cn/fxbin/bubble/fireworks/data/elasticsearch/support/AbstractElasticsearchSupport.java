@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.data.elasticsearch.support;
 
 import cn.fxbin.bubble.fireworks.core.exception.ElasticsearchException;
+import cn.fxbin.bubble.fireworks.core.util.BeanUtils;
 import cn.fxbin.bubble.fireworks.core.util.SystemClock;
 import cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel;
 import lombok.extern.slf4j.Slf4j;
@@ -103,7 +104,7 @@ public class AbstractElasticsearchSupport {
      * @return org.elasticsearch.action.index.IndexRequest
      */
     protected IndexRequest indexRequest(String indexName, String id, Object source) {
-        return new IndexRequest(indexName).id(id).source(source, XContentType.JSON);
+        return new IndexRequest(indexName).id(id).source(BeanUtils.object2Map(source, true), XContentType.JSON);
     }
 
     /**
@@ -216,7 +217,7 @@ public class AbstractElasticsearchSupport {
      * @return org.elasticsearch.action.update.UpdateRequest
      */
     protected UpdateRequest updateRequest(String indexName, String id, Object source) {
-        return new UpdateRequest(indexName, id).doc(XContentType.JSON, source);
+        return new UpdateRequest(indexName, id).doc(BeanUtils.object2Map(source, true), XContentType.JSON);
     }
 
     /**
@@ -269,7 +270,7 @@ public class AbstractElasticsearchSupport {
             }
         });
 
-        log.info("bulk data build consuming「{}」ms", (SystemClock.INSTANCE.currentTimeMillis() - startNs));
+        log.info("bulk「{}」data build consuming「{}」ms", requestModel.getIndexName(), (SystemClock.INSTANCE.currentTimeMillis() - startNs));
 
         return bulkRequest;
     }
@@ -290,7 +291,7 @@ public class AbstractElasticsearchSupport {
         try {
             return callback.doWithClient(client);
         } catch (IOException | RuntimeException e) {
-            throw new ElasticsearchException("elasticsearch opetration error", e);
+            throw new ElasticsearchException("elasticsearch operation error", e);
         }
     }
 
@@ -302,6 +303,13 @@ public class AbstractElasticsearchSupport {
      */
     @FunctionalInterface
     public interface ClientCallback<T> {
+        /**
+         * doWithClient
+         *
+         * @since 2020/5/28 11:17
+         * @param client org.elasticsearch.client.RestHighLevelClient
+         * @return T
+         */
         T doWithClient(RestHighLevelClient client) throws IOException;
     }
 

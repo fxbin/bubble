@@ -1,5 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.util.time;
 
+import cn.fxbin.bubble.fireworks.core.exception.UtilException;
+import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
@@ -138,6 +140,25 @@ public class DateUtils {
         return formatDataStr;
     }
 
+
+    /**
+     * isDateType 判断对象是否为日期类型
+     *
+     * @since 2020/5/28 11:36
+     * @param object object
+     * @return boolean
+     */
+    public boolean isDateType(Object object) {
+        boolean isDateType = false;
+        if (object instanceof Date) {
+            isDateType = true;
+        } else if (object instanceof LocalDate) {
+            isDateType = true;
+        } else if (object instanceof LocalDateTime) {
+            isDateType = true;
+        }
+        return isDateType;
+    }
 
     // ========= 日期格式化 =========
 
@@ -732,6 +753,18 @@ public class DateUtils {
      */
     public Instant toInstant(@NonNull ZonedDateTime zonedDateTime) {
         return zonedDateTime.toInstant();
+    }
+
+    public long toEpochMilli(@NonNull Object object){
+        if (object instanceof Date) {
+            return toEpochMilli((Date) object);
+        } else if (object instanceof LocalDate) {
+            return toEpochMilli((LocalDate) object);
+        } else if (object instanceof LocalDateTime) {
+            return toEpochMilli((LocalDateTime) object);
+        } else {
+            throw new UtilException("入参不属于日期类型");
+        }
     }
 
     /**
