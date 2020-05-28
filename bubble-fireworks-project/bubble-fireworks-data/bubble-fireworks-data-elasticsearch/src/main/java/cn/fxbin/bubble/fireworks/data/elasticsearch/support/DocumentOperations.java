@@ -14,6 +14,9 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RestHighLevelClient;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * ElasticsearchOperations
  *
@@ -56,6 +59,19 @@ public class DocumentOperations extends AbstractElasticsearchSupport {
      */
     public void bulkDelete(EsRequestModel requestModel) {
         bulkOperation(requestModel, DeleteRequest.class);
+    }
+
+    /**
+     * bulkDelete
+     *
+     * @since 2020/5/28 15:52
+     * @param indexName index name
+     * @param docIds doc ids
+     */
+    public void bulkDelete(String indexName, List<String> docIds) {
+        List<EsRequestModel.DocSource> docSourceList = docIds.stream().map(id -> EsRequestModel.DocSource.builder().id(id).build()).collect(Collectors.toList());
+        EsRequestModel requestModel = EsRequestModel.builder().indexName(indexName).dataList(docSourceList).build();
+        bulkDelete(requestModel);
     }
 
     /**
