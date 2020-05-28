@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- own project versions -->
-        <bubble-fireworks.version>0.0.1-SNAPSHOT</bubble-fireworks.version>
+        <bubble-fireworks.version>0.0.2-SNAPSHOT</bubble-fireworks.version>
 
         <!-- Other Dependency Versions -->
         <knife4j.version>2.0.2</knife4j.version>
