@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.data.elasticsearch.support;
 
+import cn.fxbin.bubble.fireworks.core.util.SystemClock;
 import cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.DocWriteResponse;
@@ -65,7 +66,7 @@ public class DocumentOperations extends AbstractElasticsearchSupport {
      * @param requestClass @link cn.fxbin.bubble.fireworks.data.elasticsearch.support.AbstractElasticsearchSupport#bulkRequest(cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel, java.lang.Class)
      */
     public void bulkOperation(EsRequestModel requestModel, Class<?> requestClass) {
-        bulkRequestExecute(bulkRequest(requestModel, requestClass));
+        bulkRequestExecute(bulkRequest(requestModel, requestClass), requestModel);
     }
 
     /**
@@ -74,11 +75,13 @@ public class DocumentOperations extends AbstractElasticsearchSupport {
      * @since 2020/5/27 18:00
      * @param bulkRequest org.elasticsearch.action.bulk.BulkRequest
      */
-    public void bulkRequestExecute(BulkRequest bulkRequest) {
+    public void bulkRequestExecute(BulkRequest bulkRequest, EsRequestModel requestModel) {
+        long startNs = SystemClock.INSTANCE.currentTimeMillis();
         BulkResponse bulkResponse = execute(client -> client.bulk(bulkRequest, COMMON_OPTIONS));
+        log.info("bulk index 「{}」 data consuming「{}」ms", requestModel.getIndexName(), (SystemClock.INSTANCE.currentTimeMillis() - startNs));
         bulkResponse.forEach(bulkItemResponse -> {
             if (bulkItemResponse.isFailed()) {
-                log.info("bulk failure message: {}, index is {}, id is {}", bulkItemResponse.getFailureMessage(),
+                log.warn("bulk failure message: 「{}」, index is 「{}」, id is 「{}」", bulkItemResponse.getFailureMessage(),
                         bulkItemResponse.getIndex(), bulkItemResponse.getId());
             }
 
@@ -87,15 +90,15 @@ public class DocumentOperations extends AbstractElasticsearchSupport {
                 case INDEX:
                 case CREATE:
                     IndexResponse indexResponse = (IndexResponse) itemResponse;
-                    log.info("创建索引|新增数据成功, index:{}, id :{}", indexResponse.getIndex(), indexResponse.getId());
+                    log.info("创建索引|新增数据成功, index:「{}」, id :「{}」", indexResponse.getIndex(), indexResponse.getId());
                     break;
                 case UPDATE:
                     UpdateResponse updateResponse = (UpdateResponse) itemResponse;
-                    log.info("修改数据成功, index:{}, id :{}", updateResponse.getIndex(), updateResponse.getId());
+                    log.info("修改数据成功, index:「{}」, id :「{}」", updateResponse.getIndex(), updateResponse.getId());
                     break;
                 case DELETE:
                     DeleteResponse deleteResponse = (DeleteResponse) itemResponse;
-                    log.info("删除数据成功, index:{}, id :{}", deleteResponse.getIndex(), deleteResponse.getId());
+                    log.info("删除数据成功, index:「{}」, id :「{}」", deleteResponse.getIndex(), deleteResponse.getId());
                     break;
                 default:
             }

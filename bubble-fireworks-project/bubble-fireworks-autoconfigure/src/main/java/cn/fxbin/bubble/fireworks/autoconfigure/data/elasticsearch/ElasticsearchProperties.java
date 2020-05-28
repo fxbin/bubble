@@ -91,7 +91,7 @@ public class ElasticsearchProperties {
         /**
          * 副本数量
          */
-        private Integer numberOfReplicas = 2;
+        private Integer numberOfReplicas = 1;
 
     }
 

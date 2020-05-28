@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
 import cn.fxbin.bubble.fireworks.core.exception.UtilException;
+import cn.fxbin.bubble.fireworks.core.util.time.DateUtils;
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
@@ -9,10 +10,8 @@ import org.springframework.cglib.beans.BeanMap;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -62,10 +61,28 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      * @param object java.lang.Object
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    @SuppressWarnings("unchecked")
     public Map<String, Object> object2Map(Object object) {
+        return object2Map(object, false);
+    }
+
+    /**
+     * object2Map
+     *
+     * @since 2020/5/28 10:36
+     * @param object java.lang.Object
+     * @param timestampDefault 日期类型是否默认默认转时间戳
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     */
+    public Map<String, Object> object2Map(Object object, boolean timestampDefault) {
         Assert.notNull(object, "object can't be null");
-        return BeanMap.create(object);
+        BeanMap beanMap = BeanMap.create(object);
+        if (timestampDefault) {
+            Map<String, Object> map = new HashMap<>();
+            beanMap.keySet().forEach(key ->
+                    map.put(String.valueOf(key), DateUtils.isDateType(beanMap.get(key))? DateUtils.toEpochMilli(beanMap.get(key)) : beanMap.get(key)));
+            return map;
+        }
+        return beanMap;
     }
 
 
