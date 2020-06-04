@@ -7,6 +7,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,6 +23,7 @@ import javax.annotation.Resource;
 @Configuration(
         proxyBeanMethods = false
 )
+@ConditionalOnClass({AbstractElasticsearchSupport.class, DocumentOperations.class, IndexOperations.class})
 @AutoConfigureAfter(ElasticsearchAutoConfiguration.class)
 public class ElasticsearchConfigurationSupport {
 
