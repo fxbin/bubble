@@ -20,12 +20,10 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -104,7 +102,7 @@ public class AbstractElasticsearchSupport {
      * @return org.elasticsearch.action.index.IndexRequest
      */
     protected IndexRequest indexRequest(String indexName, String id, Object source) {
-        return new IndexRequest(indexName).id(id).source(BeanUtils.object2Map(source, true), XContentType.JSON);
+        return new IndexRequest(indexName).id(id).source(source instanceof Map? (Map<String, Object>) source : BeanUtils.object2Map(source, true), XContentType.JSON);
     }
 
     /**
@@ -217,7 +215,7 @@ public class AbstractElasticsearchSupport {
      * @return org.elasticsearch.action.update.UpdateRequest
      */
     protected UpdateRequest updateRequest(String indexName, String id, Object source) {
-        return new UpdateRequest(indexName, id).doc(BeanUtils.object2Map(source, true), XContentType.JSON);
+        return new UpdateRequest(indexName, id).doc(source instanceof Map? (Map<String, Object>) source : BeanUtils.object2Map(source, true), XContentType.JSON);
     }
 
     /**
