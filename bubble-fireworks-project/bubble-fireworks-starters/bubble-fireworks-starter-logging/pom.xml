@@ -16,6 +16,10 @@
     <dependencies>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-plugin-logging</artifactId>
         </dependency>
     </dependencies>
