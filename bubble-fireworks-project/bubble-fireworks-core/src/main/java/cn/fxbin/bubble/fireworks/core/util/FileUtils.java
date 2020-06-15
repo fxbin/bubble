@@ -5,6 +5,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * FileUtils
@@ -15,6 +17,62 @@ import java.io.*;
  */
 @UtilityClass
 public class FileUtils extends FileCopyUtils {
+
+    /**
+     * Writes a String to a file creating the file if it does not exist.
+     *
+     * @since 2020/6/12 18:38
+     * @param file the file to write
+     * @param data the content to write to the file
+     */
+    public void writeToFile(final File file, final String data) {
+        writeToFile(file, data, StandardCharsets.UTF_8, false);
+    }
+
+    /**
+     * Writes a String to a file creating the file if it does not exist.
+     *
+     * @since 2020/6/12 18:38
+     * @param file the file to write
+     * @param data the content to write to the file
+     * @param append if {@code true}, then the String will be added to the
+     *               end of the file rather than overwriting
+     */
+    public void writeToFile(final File file, final String data, final boolean append){
+        writeToFile(file, data, StandardCharsets.UTF_8, append);
+    }
+
+    /**
+     * Writes a String to a file creating the file if it does not exist.
+     *
+     * @since 2020/6/12 18:38
+     * @param file the file to write
+     * @param data the content to write to the file
+     * @param encoding the encoding to use, {@code null} means platform default
+     */
+    public void writeToFile(final File file, final String data, final Charset encoding) {
+        writeToFile(file, data, encoding, false);
+    }
+
+
+    /**
+     * Writes a String to a file creating the file if it does not exist.
+     *
+     * @since 2020/6/12 18:37
+     * @param file the file to write
+     * @param data the content to write to the file
+     * @param encoding the encoding to use, {@code null} means platform default
+     * @param append if {@code true}, then the String will be added to the
+     *                 end of the file rather than overwriting
+     */
+    public void writeToFile(final File file, final String data, final Charset encoding, final boolean append) {
+        try (OutputStream out = new FileOutputStream(file, append)) {
+            IoUtils.write(data, out, encoding);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * toFile MultipartFile 转成file
