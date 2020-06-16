@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-parent</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
@@ -21,7 +21,7 @@
         <module>bubble-fireworks-plugin-http</module>
         <module>bubble-fireworks-plugin-swagger</module>
         <module>bubble-fireworks-plugin-excel</module>
-        <module>bubble-fireworks-plugin-lock</module>
+<!--        <module>bubble-fireworks-plugin-lock</module>-->
     </modules>
 
 </project>
