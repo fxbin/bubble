@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging;
 
 import cn.fxbin.bubble.fireworks.plugin.logging.aspect.LoggingWebAspect;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -23,6 +24,7 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.LoggingProp
 @ComponentScan(
         basePackages = {"cn.fxbin.bubble.fireworks.plugin.logging"}
 )
+@ConditionalOnClass(LoggingWebAspect.class)
 @EnableConfigurationProperties(LoggingProperties.class)
 @ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_LOGGING_PREFIX, name = "enabled", matchIfMissing = true)
 public class LoggingAutoConfiguration {
