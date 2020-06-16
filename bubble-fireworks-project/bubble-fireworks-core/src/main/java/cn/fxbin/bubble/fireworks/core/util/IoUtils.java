@@ -1,7 +1,6 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
 import cn.fxbin.bubble.fireworks.core.constant.StringPool;
-import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
@@ -53,6 +52,20 @@ public class IoUtils extends StreamUtils {
      */
     public String readerFileAsString(String filename) {
         return readerFileAsString(new File(filename));
+    }
+
+
+    /**
+     * readerFileAsString
+     *
+     * @since 2020/6/15 15:56
+     * @param inputStream InputStream
+     * @return java.lang.String
+     */
+    public String readerFileAsString(InputStream inputStream) {
+        File file = new File(StringUtils.getUUID());
+        FileUtils.toFile(inputStream, file);
+        return readerFileAsString(file);
     }
 
     /**
