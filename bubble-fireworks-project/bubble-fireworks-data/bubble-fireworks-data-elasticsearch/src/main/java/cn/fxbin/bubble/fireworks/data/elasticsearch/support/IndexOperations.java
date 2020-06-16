@@ -8,11 +8,11 @@ import org.elasticsearch.action.admin.indices.alias.Alias;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.settings.get.GetSettingsRequest;
 import org.elasticsearch.action.admin.indices.settings.get.GetSettingsResponse;
-import org.elasticsearch.action.support.ActiveShardCount;
 import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
+import org.elasticsearch.client.indices.PutMappingRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -116,23 +116,14 @@ public class IndexOperations extends AbstractElasticsearchSupport {
      * @param sourceObject source object
      */
     public void mapping(String indexName, String alias, Object sourceObject) {
-        try {
-            if (!exists(indexName)) {
-                index(indexName, alias);
-            }
-            CreateIndexRequest request = createIndexRequest(indexName)
-                    .mapping(JsonUtils.toJson(sourceObject), XContentType.JSON);
-            request.setMasterTimeout(TimeValue.timeValueMinutes(1));
-            request.waitForActiveShards(ActiveShardCount.DEFAULT);
-
-            CreateIndexResponse response = client.indices().create(request, COMMON_OPTIONS);
-
-            log.info(" whether all of the nodes have acknowledged the request : 「{}」", response.isAcknowledged());
-            log.info(" Indicates whether the requisite number of shard copies were started for each shard in the index before timing out :「{}」",
-                    response.isShardsAcknowledged());
-        } catch (IOException e) {
-            throw new ElasticsearchException("创建索引「{}」mapping「{}」失败", indexName, JsonUtils.toJson(sourceObject), e);
+        if (!exists(indexName)) {
+            index(indexName, alias);
         }
+        PutMappingRequest request = putMappingRequest(indexName);
+        request.source(JsonUtils.isJsonString((String) sourceObject) ? (String) sourceObject : JsonUtils.toJson(sourceObject), XContentType.JSON);
+        request.setTimeout(TimeValue.timeValueMinutes(2));
+        request.setMasterTimeout(TimeValue.timeValueMinutes(2));
+        execute(client -> client.indices().putMapping(request, COMMON_OPTIONS));
     }
 
     /**

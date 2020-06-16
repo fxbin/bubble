@@ -18,6 +18,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.client.indices.PutMappingRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.util.Assert;
@@ -62,10 +63,10 @@ public class AbstractElasticsearchSupport {
     static {
         RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
 
-        // 默认缓冲限制为100MB，此处修改为60MB。
+        // 默认缓冲限制为100MB，此处修改为150MB。
         builder.setHttpAsyncResponseConsumerFactory(
                 new HttpAsyncResponseConsumerFactory
-                        .HeapBufferedResponseConsumerFactory(60 * 1024 * 1024));
+                        .HeapBufferedResponseConsumerFactory(150 * 1024 * 1024));
         COMMON_OPTIONS = builder.build();
     }
 
@@ -136,6 +137,17 @@ public class AbstractElasticsearchSupport {
      */
     protected DeleteIndexRequest deleteIndexRequest(String indexName) {
         return new DeleteIndexRequest(indexName);
+    }
+
+    /**
+     * putMappingRequest
+     *
+     * @since 2020/6/15 11:01
+     * @param indexName index
+     * @return org.elasticsearch.client.indices.PutMappingRequest
+     */
+    protected PutMappingRequest putMappingRequest(String indexName) {
+        return new PutMappingRequest(indexName);
     }
 
     /**
