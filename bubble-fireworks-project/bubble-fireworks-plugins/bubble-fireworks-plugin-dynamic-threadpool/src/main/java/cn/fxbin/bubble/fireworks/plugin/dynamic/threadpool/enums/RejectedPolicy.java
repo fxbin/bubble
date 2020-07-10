@@ -1,7 +1,5 @@
 package cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.enums;
 
-import cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.customizer.RetryAndLogPolicy;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -36,13 +34,7 @@ public enum RejectedPolicy {
     /**
      * 由调用线程（提交任务的线程）处理该任务
      */
-    CallerRunsPolicy("CallerRunsPolicy", new ThreadPoolExecutor.CallerRunsPolicy()),
-
-    /**
-     * 继承于 java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy
-     * 打印日志
-     */
-    RetryAndLogPolicy("RetryAndLogPolicy", new RetryAndLogPolicy());
+    CallerRunsPolicy("CallerRunsPolicy", new ThreadPoolExecutor.CallerRunsPolicy());
 
     RejectedPolicy(String name, RejectedExecutionHandler handler) {
         this.name = name;

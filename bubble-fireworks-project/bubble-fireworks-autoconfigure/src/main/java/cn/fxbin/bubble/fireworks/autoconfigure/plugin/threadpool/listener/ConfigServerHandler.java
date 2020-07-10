@@ -35,6 +35,10 @@ public class ConfigServerHandler implements ConfigListenerHandler {
 
     private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
 
+    public ConfigServerHandler() {
+        refreshConfig();
+    }
+
     /**
      * refreshConfig 刷新配置
      *
