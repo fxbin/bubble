@@ -12,4 +12,6 @@ cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignInterceptorConfigur
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignOkHttp3Configuration,\
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignMultipartFormConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.LoggingAutoConfiguration,\
-cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.AliyunLogContextAutoConfigure
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.AliyunLogContextAutoConfigure,\
+cn.fxbin.bubble.fireworks.autoconfigure.web.i18n.InternationalConfigure,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.DynamicThreadPoolAutoConfiguration

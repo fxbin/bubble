@@ -4,7 +4,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-build</artifactId>
-        <version>0.0.3-RELEASE</version>
+        <version>0.0.4-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -17,18 +17,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
-        <spring-boot.version>2.2.8.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+        <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
 
         <!-- Other Dependency Versions -->
-        <knife4j.version>2.0.2</knife4j.version>
+        <knife4j.version>2.0.4</knife4j.version>
         <okhttp.version>4.5.0</okhttp.version>
         <hutool-all.version>5.3.7</hutool-all.version>
         <guava.version>29.0-jre</guava.version>
         <httpclient.version>4.5.12</httpclient.version>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
-        <easyexcel.version>2.2.3</easyexcel.version>
+        <easyexcel.version>2.2.6</easyexcel.version>
         <elasticsearch.version>7.6.2</elasticsearch.version>
         <transmittable-thread-local.version>2.11.4</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
@@ -46,121 +46,133 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-core</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-autoconfigure</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-web</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <!-- bubble fireworks plugins -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-logging</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-test</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-http</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-swagger</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-dynamic-threadpool</artifactId>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <!-- bubble fireworks cloud -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-cloud-sentinel</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-cloud-openfeign</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
             
             <!-- bubble-fireworks data -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-data-mybatis</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-data-elasticsearch</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <!-- bubble fireworks starters -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-logging</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-test</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-web</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-mybatis</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-sentinel</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-swagger</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-openfeign</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-elasticsearch</artifactId>
-                <version>0.0.3-RELEASE</version>
+                <version>0.0.4-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-dynamic-threadpool</artifactId>
+                <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
             <!-- Spring Boot POM -->

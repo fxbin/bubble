@@ -25,7 +25,7 @@ public class LoggingReportScheduled {
     @Resource
     private LoggingReport loggingReport;
 
-    private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+    private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
 
     public LoggingReportScheduled() {
         executorService.scheduleAtFixedRate(() -> {

@@ -15,7 +15,7 @@ import java.util.Locale;
  * @since 2020/3/30 18:17
  */
 @Component
-public class I18nService {
+public class I18nOperations {
 
     @Resource
     private MessageSource messageSource;

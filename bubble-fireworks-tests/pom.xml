@@ -4,11 +4,12 @@
     <modules>
         <module>bubble-fireworks-test-data-elasticsearch</module>
         <module>bubble-fireworks-test-plugin-logging</module>
+        <module>bubble-fireworks-test-plugin-dynamic-threadpool</module>
     </modules>
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-parent</artifactId>
-        <version>0.0.3-RELEASE</version>
+        <version>0.0.4-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-project/bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
@@ -19,6 +20,7 @@
 
     <properties>
         <main.basedir>${basedir}/..</main.basedir>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <build>
@@ -71,14 +73,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
                 <inherited>true</inherited>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
+                <!-- skip默认deploy插件的执行 -->
                 <configuration>
                     <skip>true</skip>
                 </configuration>
