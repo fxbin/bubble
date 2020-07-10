@@ -6,16 +6,12 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-tests</artifactId>
-        <version>0.0.3-RELEASE</version>
+        <version>0.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>bubble-fireworks-test-data-elasticsearch</artifactId>
     <name>Bubble Fireworks Data Elasticsearch Test</name>
     <description>Bubble Fireworks Data Elasticsearch Test</description>
-
-    <properties>
-        <main.basedir>${basedir}/../..</main.basedir>
-    </properties>
 
     <dependencies>
         <!-- Web -->
@@ -42,6 +38,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <!-- skip默认deploy插件的执行 -->
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-parent</artifactId>
-        <version>0.0.3-RELEASE</version>
+        <version>0.0.4-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
@@ -25,6 +25,7 @@
         <module>bubble-fireworks-starter-elasticsearch</module>
         <module>bubble-fireworks-starter-openfeign</module>
         <module>bubble-fireworks-starter-web</module>
+        <module>bubble-fireworks-starter-dynamic-threadpool</module>
     </modules>
 
 

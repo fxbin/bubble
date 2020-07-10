@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-parent</artifactId>
-        <version>0.0.3-RELEASE</version>
+        <version>0.0.4-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
@@ -47,8 +47,14 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-fireworks-core</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
             <optional>true</optional>
         </dependency>
 
@@ -85,6 +91,19 @@
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-plugin-logging</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-plugin-dynamic-threadpool</artifactId>
+            <version>0.0.4-SNAPSHOT</version>
             <optional>true</optional>
         </dependency>
 

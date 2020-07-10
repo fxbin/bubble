@@ -6,7 +6,7 @@
     <parent>
         <artifactId>bubble-fireworks-plugins</artifactId>
         <groupId>cn.fxbin.bubble</groupId>
-        <version>0.0.3-RELEASE</version>
+        <version>0.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>bubble-fireworks-plugin-excel</artifactId>

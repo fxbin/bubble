@@ -4,10 +4,11 @@
 
     <groupId>cn.fxbin.bubble</groupId>
     <artifactId>bubble-fireworks-build</artifactId>
-    <version>0.0.3-RELEASE</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>bubble-fireworks-build</name>
     <description>Bubble Fireworks Build project, managing plugins</description>
+    <url>https://github.com/fxbin/bubble-fireworks</url>
 
     <licenses>
         <license>
@@ -64,7 +65,7 @@
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <flatten-maven-plugin.version>1.2.1</flatten-maven-plugin.version>
         <maven-site-plugin.version>3.9.0</maven-site-plugin.version>
-        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
         <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
@@ -114,15 +115,6 @@
                             <mavenExecutorId>forked-path</mavenExecutorId>
                             <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
                         </configuration>
-                        <dependencies>
-                            <!-- https://mvnrepository.com/artifact/org.apache.maven.scm/maven-scm-provider-gitexe -->
-                            <dependency>
-                                <groupId>org.apache.maven.scm</groupId>
-                                <artifactId>maven-scm-provider-gitexe</artifactId>
-                                <version>${maven-scm-provider-gitexe.version}</version>
-                            </dependency>
-
-                        </dependencies>
                     </plugin>
 
                     <plugin>
@@ -369,8 +361,6 @@
                     </reportSet>
                 </reportSets>
             </plugin>
-
-
         </plugins>
     </reporting>
 
