@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool;
 
 import cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.endpoint.ThreadPoolEndpoint;
+import cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.listener.ConfigServerHandler;
 import cn.fxbin.bubble.fireworks.core.util.CollectionUtils;
 import cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.customizer.ResizableCapacityLinkedBlockIngQueue;
 import cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.enums.QueueType;
@@ -75,6 +76,11 @@ public class DynamicThreadPoolAutoConfiguration implements InitializingBean {
     @Bean(destroyMethod = "clear")
     public ThreadPoolRejectedRecordOperations rejectedRecordOperations() {
         return rejectedRecordOperations;
+    }
+
+    @Bean
+    public ConfigServerHandler configServerHandler() {
+        return new ConfigServerHandler();
     }
 
     @PostConstruct

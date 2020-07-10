@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.wrapper;
 
 import cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.support.ThreadPoolRejectedRecordOperations;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -13,6 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @version v1.0
  * @since 2020/7/10 15:38
  */
+@Slf4j
 public class RejectedExecutionHandlerWrapper implements RejectedExecutionHandler {
 
     private final String poolName;
@@ -46,6 +48,14 @@ public class RejectedExecutionHandlerWrapper implements RejectedExecutionHandler
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
         rejectedExecutionHandler.rejectedExecution(r, executor);
+
+        String msg = String.format("Thread pool is EXHAUSTED!" +
+                        " Thread Name: %s, Pool Size: %d (active: %d, core: %d, max: %d, largest: %d), Task: %d (completed: %d)," +
+                        " Executor status:(isShutdown:%s, isTerminated:%s, isTerminating:%s)",
+                poolName, executor.getPoolSize(), executor.getActiveCount(), executor.getCorePoolSize(), executor.getMaximumPoolSize(), executor.getLargestPoolSize(),
+                executor.getTaskCount(), executor.getCompletedTaskCount(), executor.isShutdown(), executor.isTerminated(), executor.isTerminating());
+        log.warn(msg);
+
         rejectedRecordOperations.put(poolName);
     }
 }

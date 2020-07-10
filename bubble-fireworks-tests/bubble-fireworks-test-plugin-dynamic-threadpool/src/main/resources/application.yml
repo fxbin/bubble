@@ -18,9 +18,4 @@ bubble:
           pool-name: test2222
           queue-type: ArrayBlockingQueue
           rejected-policy: RetryAndLogPolicy
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
 
