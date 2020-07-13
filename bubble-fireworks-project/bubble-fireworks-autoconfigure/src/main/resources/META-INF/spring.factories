@@ -14,4 +14,5 @@ cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignMultipartFormConfig
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.LoggingAutoConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.AliyunLogContextAutoConfigure,\
 cn.fxbin.bubble.fireworks.autoconfigure.web.i18n.InternationalConfigure,\
-cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.DynamicThreadPoolAutoConfiguration
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.DynamicThreadPoolAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.ConfigServerRefreshAutoConfiguration
