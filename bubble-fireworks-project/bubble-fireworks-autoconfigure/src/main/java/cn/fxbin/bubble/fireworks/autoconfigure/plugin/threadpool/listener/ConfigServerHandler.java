@@ -24,7 +24,6 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.DynamicT
  * @version v1.0
  * @since 2020/7/8 14:34
  */
-@ConditionalOnClass({ConfigServicePropertySourceLocator.class, ConfigListenerHandler.class})
 public class ConfigServerHandler implements ConfigListenerHandler {
 
     @Resource
