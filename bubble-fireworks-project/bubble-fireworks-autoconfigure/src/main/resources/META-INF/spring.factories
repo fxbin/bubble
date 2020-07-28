@@ -15,4 +15,6 @@ cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.LoggingAutoConfiguration,
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.AliyunLogContextAutoConfigure,\
 cn.fxbin.bubble.fireworks.autoconfigure.web.i18n.InternationalConfigure,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.DynamicThreadPoolAutoConfiguration,\
-cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.ConfigServerRefreshAutoConfiguration
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.ConfigServerRefreshAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.data.redis.SessionConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.web.GlobalHandlerAutoConfiguration
