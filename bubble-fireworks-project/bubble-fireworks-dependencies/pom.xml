@@ -18,7 +18,7 @@
 
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
         <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
 
         <!-- Other Dependency Versions -->
@@ -33,7 +33,7 @@
         <transmittable-thread-local.version>2.11.5</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
         <feign-form.version>3.8.0</feign-form.version>
-        <redisson.version>3.12.5</redisson.version>
+        <redisson.version>3.13.2</redisson.version>
         <curator.version>4.3.0</curator.version>
         <aliyun-log.version>0.6.50</aliyun-log.version>
         <aliyun-log-producer.version>0.3.5</aliyun-log-producer.version>
@@ -90,6 +90,12 @@
                 <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-lock</artifactId>
+                <version>0.0.4-SNAPSHOT</version>
+            </dependency>
+
             <!-- bubble fireworks cloud -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
@@ -112,6 +118,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-data-elasticsearch</artifactId>
+                <version>0.0.4-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-data-redis</artifactId>
                 <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
@@ -173,6 +185,18 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-dynamic-threadpool</artifactId>
+                <version>0.0.4-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-lock</artifactId>
+                <version>0.0.4-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-redis</artifactId>
                 <version>0.0.4-SNAPSHOT</version>
             </dependency>
 
@@ -306,6 +330,11 @@
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-data-23</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
 

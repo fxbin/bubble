@@ -79,6 +79,12 @@
 
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-data-redis</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-cloud-sentinel</artifactId>
             <optional>true</optional>
         </dependency>
@@ -110,7 +116,12 @@
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-plugin-dynamic-threadpool</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-plugin-lock</artifactId>
             <optional>true</optional>
         </dependency>
 
