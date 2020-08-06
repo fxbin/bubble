@@ -26,6 +26,8 @@
         <module>bubble-fireworks-starter-openfeign</module>
         <module>bubble-fireworks-starter-web</module>
         <module>bubble-fireworks-starter-dynamic-threadpool</module>
+        <module>bubble-fireworks-starter-lock</module>
+        <module>bubble-fireworks-starter-redis</module>
     </modules>
 
 

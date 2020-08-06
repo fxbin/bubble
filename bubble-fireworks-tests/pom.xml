@@ -5,6 +5,7 @@
         <module>bubble-fireworks-test-data-elasticsearch</module>
         <module>bubble-fireworks-test-plugin-logging</module>
         <module>bubble-fireworks-test-plugin-dynamic-threadpool</module>
+        <module>bubble-fireworks-test-plugin-lock</module>
     </modules>
     <parent>
         <groupId>cn.fxbin.bubble</groupId>

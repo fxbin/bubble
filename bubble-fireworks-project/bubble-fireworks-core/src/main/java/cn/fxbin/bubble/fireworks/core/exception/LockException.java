@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 public class LockException extends RuntimeException {
 
-    private static final long serialVersionUID = -8858817180797916781L;
+    private static final long serialVersionUID = 2916692088969689609L;
 
     @Getter
     private int errcode;

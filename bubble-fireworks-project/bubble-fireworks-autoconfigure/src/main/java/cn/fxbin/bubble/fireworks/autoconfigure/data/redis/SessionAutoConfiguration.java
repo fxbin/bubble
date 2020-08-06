@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.session.data.redis.RedisIndexedSessionRepository;
+import org.springframework.session.data.redis.config.ConfigureRedisAction;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration;
 
@@ -20,7 +21,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.RedisHt
 )
 @EnableRedisHttpSession
 @ConditionalOnClass({RedisIndexedSessionRepository.class, RedisHttpSessionConfiguration.class})
-public class SessionConfiguration {
+public class SessionAutoConfiguration {
 
     /**
      * 创建 {@link RedisIndexedSessionRepository} 使用的 RedisSerializer Bean 。
@@ -33,6 +34,17 @@ public class SessionConfiguration {
     @Bean(name = "springSessionDefaultRedisSerializer")
     public RedisSerializer springSessionDefaultRedisSerializer() {
         return RedisSerializer.json();
+    }
+
+    /**
+     * Redis云服务Unable to configure Redis to keyspace notifications异常
+     * @see <a href="#">https://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoperationssessionrepository-sessiondestroyedevent</a>
+     * @return {@link ConfigureRedisAction }
+     */
+    @Bean
+    @ConditionalOnClass(ConfigureRedisAction.class)
+    public ConfigureRedisAction configureRedisAction() {
+        return ConfigureRedisAction.NO_OP;
     }
 
 }

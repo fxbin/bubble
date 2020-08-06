@@ -5,24 +5,26 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
-        <artifactId>bubble-fireworks-starters</artifactId>
+        <artifactId>bubble-fireworks-data</artifactId>
         <version>0.0.4-SNAPSHOT</version>
     </parent>
 
-    <artifactId>bubble-fireworks-starter</artifactId>
-    <name>bubble-fireworks-starter</name>
-    <description>Core starter, including auto-configuration support and YAML</description>
-
+    <artifactId>bubble-fireworks-data-redis</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-fireworks-autoconfigure</artifactId>
+            <artifactId>bubble-fireworks-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
     </dependencies>
+
 
 </project>

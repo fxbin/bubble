@@ -5,24 +5,23 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
-        <artifactId>bubble-fireworks-starters</artifactId>
+        <artifactId>bubble-fireworks-tests</artifactId>
         <version>0.0.4-SNAPSHOT</version>
     </parent>
 
-    <artifactId>bubble-fireworks-starter</artifactId>
-    <name>bubble-fireworks-starter</name>
-    <description>Core starter, including auto-configuration support and YAML</description>
-
+    <artifactId>bubble-fireworks-test-plugin-lock</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-fireworks-autoconfigure</artifactId>
+            <artifactId>bubble-fireworks-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-starter-lock</artifactId>
+            <version>0.0.4-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
 
 </project>
