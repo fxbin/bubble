@@ -30,7 +30,7 @@ public class AnnotationUtils extends org.springframework.core.annotation.Annotat
      * @param attributeName 属性名
      * @param attributeValue 属性值
      */
-    public void setValue(Annotation annotation, String attributeName, String attributeValue) {
+    public void setValue(Annotation annotation, String attributeName, Object attributeValue) {
         Assert.notNull(annotation, "annotation is not allowed null");
         Assert.notNull(attributeName, "attributeName is not allowed null");
         Assert.notNull(attributeValue, "attributeValue is not allowed null");

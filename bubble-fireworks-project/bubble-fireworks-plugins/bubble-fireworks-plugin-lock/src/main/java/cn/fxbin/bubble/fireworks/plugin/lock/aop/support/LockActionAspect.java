@@ -1,13 +1,12 @@
 package cn.fxbin.bubble.fireworks.plugin.lock.aop.support;
 
-import cn.fxbin.bubble.fireworks.core.util.CollectionUtils;
-import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
-import cn.fxbin.bubble.fireworks.core.util.RunTimeUtils;
-import cn.fxbin.bubble.fireworks.core.util.StringUtils;
+import cn.fxbin.bubble.fireworks.core.constant.StringPool;
+import cn.fxbin.bubble.fireworks.core.util.*;
 import cn.fxbin.bubble.fireworks.plugin.lock.annotation.LockAction;
 import cn.fxbin.bubble.fireworks.plugin.lock.executor.LockExecutor;
 import cn.fxbin.bubble.fireworks.plugin.lock.factory.LockFactory;
 import cn.fxbin.bubble.fireworks.plugin.lock.model.LockInfo;
+import cn.fxbin.bubble.fireworks.plugin.lock.model.LockKeyGeneratorStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -18,6 +17,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Method;
 
 /**
  * LockInterceptor
@@ -49,7 +49,8 @@ public class LockActionAspect {
         try {
             MethodSignature methodSignature = (MethodSignature) point.getSignature();
             LockAction lockAction = methodSignature.getMethod().getAnnotation(LockAction.class);
-            String lockName = (String) KEY_GENERATOR.generate(methodSignature.getMethod(), lockAction);
+
+            String lockName = getKey(methodSignature.getMethod(), lockAction, point);
             String lockValue = RunTimeUtils.getPid() + ":" + StringUtils.getUUID();
 
             lockInfo = LockInfo.builder()
@@ -77,6 +78,21 @@ public class LockActionAspect {
             if (!lockExecutor.releaseLock(lockInfo)) {
                 lockInfo.getReleaseTimeoutStrategy().handle(lockInfo, lockExecutor);
             }
+        }
+    }
+
+    private String getKey(Method method, LockAction lockAction, ProceedingJoinPoint point) {
+
+        if(ArrayUtils.isEmpty(lockAction.keys()) || StringPool.EMPTY.equals(lockAction.keys()[0])) {
+            AnnotationUtils.setValue(lockAction, "keyGeneratorType", LockKeyGeneratorStrategy.Sample);
+        }
+
+        switch (lockAction.keyGeneratorType()) {
+            case Expression:
+                return KEY_GENERATOR.generate(lockAction.keys()[0], method, point.getArgs());
+            case Sample:
+            default:
+                return (String) KEY_GENERATOR.generate(method, lockAction);
         }
     }
 
