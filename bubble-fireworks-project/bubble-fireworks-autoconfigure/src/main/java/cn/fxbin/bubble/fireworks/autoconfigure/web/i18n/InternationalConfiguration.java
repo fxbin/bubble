@@ -23,7 +23,6 @@ import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * I18nConfigure
@@ -39,7 +38,7 @@ import java.util.Optional;
 )
 @ConditionalOnClass({LocaleChangeInterceptor.class, LocalValidatorFactoryBean.class})
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class InternationalConfigure implements WebMvcConfigurer {
+public class InternationalConfiguration implements WebMvcConfigurer {
 
     @Resource
     private Environment environment;

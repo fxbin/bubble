@@ -2,7 +2,6 @@ package cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.listener;
 
 import cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.event.ThreadContextRefreshEvent;
 import cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.handler.ConfigListenerHandler;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.config.client.ConfigServicePropertySourceLocator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.EnumerablePropertySource;
