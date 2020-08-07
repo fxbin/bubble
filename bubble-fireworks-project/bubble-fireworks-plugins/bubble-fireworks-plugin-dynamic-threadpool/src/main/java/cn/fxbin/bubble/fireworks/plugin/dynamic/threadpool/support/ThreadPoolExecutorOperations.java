@@ -1,8 +1,9 @@
 package cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.support;
 
-import org.springframework.stereotype.Component;
-
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**

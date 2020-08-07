@@ -16,14 +16,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.annotation.Order;
-import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Method;
 
 /**
  * LockInterceptor
@@ -90,21 +87,4 @@ public class LockActionAspect {
         }
     }
 
-    /**
-     * parse, 解析Spring EL 表达式
-     *
-     * @since 2020/8/4 15:28
-     * @param expression 表达式
-     * @param method 方法
-     * @param args 方法参数
-     * @return java.lang.String
-     */
-    private String parse(String expression, Method method, Object [] args) {
-        String[] parameterNames = discoverer.getParameterNames(method);
-        EvaluationContext context = new StandardEvaluationContext();
-        for (int i = 0; i < (parameterNames != null ? parameterNames.length : 0); i++) {
-            context.setVariable(parameterNames[i], args[i]);
-        }
-        return parser.parseExpression(expression).getValue(context, String.class);
-    }
 }

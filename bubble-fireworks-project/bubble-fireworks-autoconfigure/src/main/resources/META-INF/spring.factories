@@ -19,5 +19,5 @@ cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticsearchAutoConf
 cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticsearchConfigurationSupport,\
 cn.fxbin.bubble.fireworks.autoconfigure.data.redis.RedisAutoConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.data.redis.SessionAutoConfiguration,\
-cn.fxbin.bubble.fireworks.autoconfigure.web.i18n.InternationalConfigure,\
+cn.fxbin.bubble.fireworks.autoconfigure.web.i18n.InternationalConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.web.GlobalHandlerAutoConfiguration
