@@ -14,10 +14,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.annotation.Order;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -35,10 +32,6 @@ import javax.annotation.Resource;
 public class LockActionAspect {
 
     private static final LockKeyGenerator KEY_GENERATOR = new LockKeyGenerator();
-
-    private final ExpressionParser parser = new SpelExpressionParser();
-
-    private final LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
     @Resource
     private LockFactory lockFactory;
