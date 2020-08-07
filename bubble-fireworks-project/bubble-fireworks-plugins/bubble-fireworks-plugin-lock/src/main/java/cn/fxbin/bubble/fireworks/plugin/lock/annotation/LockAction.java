@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.plugin.lock.annotation;
 
+import cn.fxbin.bubble.fireworks.plugin.lock.model.LockKeyGeneratorStrategy;
 import cn.fxbin.bubble.fireworks.plugin.lock.model.LockTimeoutStrategy;
 import cn.fxbin.bubble.fireworks.plugin.lock.model.ReleaseTimeoutStrategy;
 
@@ -26,9 +27,15 @@ public @interface LockAction {
     String[] keys() default {""};
 
     /**
-     * 进程号 + uuid
+     * 默认 进程号 + uuid, 同时支持spring el 表达式
      */
     String value() default "";
+
+    /**
+     * lock key 生成策略, 如果 {@link cn.fxbin.bubble.fireworks.plugin.lock.annotation.LockAction#keys()} 为空,
+     * 则key生成策略自动降级为 {@link cn.fxbin.bubble.fireworks.plugin.lock.model.LockKeyGeneratorStrategy#Sample}
+     */
+    LockKeyGeneratorStrategy keyGeneratorType() default LockKeyGeneratorStrategy.Sample;
 
     /**
      * 锁类型

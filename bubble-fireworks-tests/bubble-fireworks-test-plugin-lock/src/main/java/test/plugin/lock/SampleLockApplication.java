@@ -38,6 +38,18 @@ public class SampleLockApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(() -> lockAnnotationService.aaa());
+
+        User user = new User();
+        user.setId(999);
+        User.Test test = new User.Test();
+        test.setNumber("123456789");
+        user.setTest(test);
+
+        // spring el 表达式测试
+        lockAnnotationService.spel1(user);
+
+        // key 生成策略降级测试
+        lockAnnotationService.spel2(user);
     }
 
 }
