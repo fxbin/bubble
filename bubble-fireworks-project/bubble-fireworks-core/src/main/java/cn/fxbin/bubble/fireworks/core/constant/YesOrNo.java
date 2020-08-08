@@ -17,12 +17,12 @@ public enum YesOrNo {
     /**
      *
      */
-    YES(0, "Y"),
+    YES(1, "Y"),
 
     /**
      *
      */
-    NO(1, "N");
+    NO(0, "N");
 
 
     final int value;
