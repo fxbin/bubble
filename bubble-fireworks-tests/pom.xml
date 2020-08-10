@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <modules>
-        <module>bubble-fireworks-test-data-elasticsearch</module>
-        <module>bubble-fireworks-test-plugin-logging</module>
-        <module>bubble-fireworks-test-plugin-dynamic-threadpool</module>
-        <module>bubble-fireworks-test-plugin-lock</module>
-    </modules>
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-parent</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.0.4-RELEASE</version>
         <relativePath>../bubble-fireworks-project/bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
@@ -18,6 +12,13 @@
     <packaging>pom</packaging>
     <name>Bubble Fireworks Tests</name>
     <description>Bubble Fireworks Tests</description>
+    
+    <modules>
+        <module>bubble-fireworks-test-data-elasticsearch</module>
+        <module>bubble-fireworks-test-plugin-logging</module>
+        <module>bubble-fireworks-test-plugin-dynamic-threadpool</module>
+        <module>bubble-fireworks-test-plugin-lock</module>
+    </modules>
 
     <properties>
         <main.basedir>${basedir}/..</main.basedir>
