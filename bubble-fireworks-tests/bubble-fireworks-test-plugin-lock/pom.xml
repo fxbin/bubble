@@ -6,10 +6,12 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-tests</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.0.4-RELEASE</version>
     </parent>
 
     <artifactId>bubble-fireworks-test-plugin-lock</artifactId>
+    <name>Bubble Fireworks Test Plugin Lock</name>
+    <description>Bubble Fireworks Test Plugin Lock</description>
 
     <dependencies>
         <dependency>
@@ -19,7 +21,7 @@
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-starter-lock</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.4-RELEASE</version>
         </dependency>
     </dependencies>
 

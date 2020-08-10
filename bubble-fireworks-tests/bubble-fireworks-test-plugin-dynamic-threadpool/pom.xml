@@ -6,10 +6,12 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-tests</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.0.4-RELEASE</version>
     </parent>
 
     <artifactId>bubble-fireworks-test-plugin-dynamic-threadpool</artifactId>
+    <name>Bubble Fireworks Test Plugin Dynamic ThreadPool</name>
+    <description>Bubble Fireworks Test Plugin Dynamic ThreadPool</description>
 
     <dependencies>
         <dependency>
