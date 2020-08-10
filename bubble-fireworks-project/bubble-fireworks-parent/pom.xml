@@ -4,7 +4,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-dependencies</artifactId>
-        <version>0.0.4-RELEASE</version>
+        <version>0.0.5-RELEASE</version>
         <relativePath>../bubble-fireworks-dependencies/pom.xml</relativePath>
     </parent>
 
@@ -66,6 +66,12 @@
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
                                 <version>1.18.12</version>
+                            </path>
+                            <!-- 引入spring-boot-configuration-processor -->
+                            <path>
+                                <groupId>org.springframework.boot</groupId>
+                                <artifactId>spring-boot-configuration-processor</artifactId>
+                                <version>${spring-boot.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
