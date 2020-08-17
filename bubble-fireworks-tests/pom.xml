@@ -18,6 +18,7 @@
         <module>bubble-fireworks-test-plugin-logging</module>
         <module>bubble-fireworks-test-plugin-dynamic-threadpool</module>
         <module>bubble-fireworks-test-plugin-lock</module>
+        <module>bubble-fireworks-test-plugin-swagger</module>
     </modules>
 
     <properties>
