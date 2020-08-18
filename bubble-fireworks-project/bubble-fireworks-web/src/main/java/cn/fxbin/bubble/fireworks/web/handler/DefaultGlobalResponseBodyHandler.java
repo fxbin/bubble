@@ -22,7 +22,8 @@ import java.util.List;
 @RestControllerAdvice
 public class DefaultGlobalResponseBodyHandler implements ResponseBodyAdvice {
 
-    private final static List<String> SWAGGER_RESOURCES = Lists.newArrayList("/swagger-resources", "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security");
+    private final static List<String> SWAGGER_RESOURCES = Lists.newArrayList(
+            "/v2/api-docs", "/v2/api-docs-ext","/swagger-resources", "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security");
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
@@ -35,7 +36,7 @@ public class DefaultGlobalResponseBodyHandler implements ResponseBodyAdvice {
 
         String path = serverHttpRequest.getURI().getPath();
 
-        if (SWAGGER_RESOURCES.contains(path)) {
+        if (SWAGGER_RESOURCES.stream().filter(swaggerResource -> path.contains(swaggerResource)).count() >= 1L){
             return body;
         }
 
