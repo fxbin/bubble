@@ -70,6 +70,16 @@ public interface StringPool {
     String SLASH = "/";
 
     /**
+     * 竖杠
+     */
+    String VERTICAL_BAR = "|";
+
+    /**
+     * 转义竖杠
+     */
+    String BACK_SLASH_VERTICAL_BAR = "\\|";
+
+    /**
      * '@'符
      */
     String AT = "@";
