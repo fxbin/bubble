@@ -16,7 +16,7 @@ public class ServiceException extends RuntimeException {
     private static final long serialVersionUID = 7366961732679791481L;
 
     @Getter
-    private int errcode = ResultCode.FAILURE.getCode();
+    private int errcode;
 
     @Getter
     private String errmsg;
@@ -29,6 +29,12 @@ public class ServiceException extends RuntimeException {
         super(errmsg);
         this.errcode = errcode;
         this.errmsg = errmsg;
+    }
+
+    public ServiceException(ResultCode resultCode, String errmsg, Object... args) {
+        super(LoggerMessageFormat.format(errmsg, args));
+        this.errcode = resultCode.getCode();
+        this.errmsg = LoggerMessageFormat.format(errmsg, args);
     }
 
     public ServiceException(String msg, Object... args) {
