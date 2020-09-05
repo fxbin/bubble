@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.exception;
 
 import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
+import cn.fxbin.bubble.fireworks.core.model.ResultCode;
 import lombok.Getter;
 
 /**
@@ -15,7 +16,7 @@ public class ServiceException extends RuntimeException {
     private static final long serialVersionUID = 7366961732679791481L;
 
     @Getter
-    private int errcode;
+    private int errcode = ResultCode.FAILURE.getCode();
 
     @Getter
     private String errmsg;
