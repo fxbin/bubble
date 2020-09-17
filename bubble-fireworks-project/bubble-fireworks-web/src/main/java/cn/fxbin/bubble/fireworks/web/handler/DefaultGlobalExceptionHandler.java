@@ -2,6 +2,7 @@ package cn.fxbin.bubble.fireworks.web.handler;
 
 import cn.fxbin.bubble.fireworks.core.exception.ServiceException;
 import cn.fxbin.bubble.fireworks.core.model.Result;
+import cn.fxbin.bubble.fireworks.core.model.ResultCode;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class DefaultGlobalExceptionHandler {
     @ExceptionHandler(value = ServiceException.class)
     public Result exceptionHandler(ServiceException ex) {
         log.warn("[ServiceException]", ex);
-        return Result.failure(ex.getErrcode(), ex.getMessage());
+        return Result.failure((ex.getErrcode() == 0 ? ResultCode.FAILURE.getCode() : ex.getErrcode()), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
