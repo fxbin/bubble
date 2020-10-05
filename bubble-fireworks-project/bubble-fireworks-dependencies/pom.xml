@@ -20,6 +20,7 @@
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
+        <spring-boot-admin.version>2.3.0</spring-boot-admin.version>
 
         <!-- Other Dependency Versions -->
         <knife4j.version>2.0.5</knife4j.version>
@@ -223,6 +224,14 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-dependencies</artifactId>
+                <version>${spring-boot-admin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
