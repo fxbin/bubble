@@ -1,0 +1,9 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: test-plugin-swagger
+bubble:
+  fireworks:
+    swagger:
+      enabled: true
