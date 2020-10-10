@@ -32,7 +32,7 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProp
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @ConditionalOnClass({SwaggerCommonConfiguration.class, Swagger2DocumentationConfiguration.class, Swagger2Controller.class})
-@ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_SWAGGER_PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_SWAGGER_PREFIX, name = "enabled", havingValue = "true")
 public class SwaggerWebAutoConfiguration implements WebMvcConfigurer {
 
     @Override
