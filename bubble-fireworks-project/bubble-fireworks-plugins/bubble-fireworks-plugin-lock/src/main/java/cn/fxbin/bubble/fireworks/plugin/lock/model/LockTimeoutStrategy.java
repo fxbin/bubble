@@ -31,7 +31,7 @@ public enum LockTimeoutStrategy implements TimeoutHandler {
          */
         @Override
         public void handle(LockInfo lockInfo, LockExecutor lockExecutor) {
-            log.info("try lock timeout, do nothing");
+            log.warn("try lock failed, do nothing");
         }
     },
 
@@ -46,7 +46,7 @@ public enum LockTimeoutStrategy implements TimeoutHandler {
          */
         @Override
         public void handle(LockInfo lockInfo, LockExecutor lockExecutor) {
-            throw new LockTimeoutException("try lock failed, lock key is {} with timeout {} {}", lockInfo.getLockKey(), lockInfo.getWaitTime(), lockInfo.getTimeUnit().name());
+            throw new LockTimeoutException("try lock failed, execute [FAIL_FAST Strategy], lock key is {} ", lockInfo.getLockKey());
         }
     },
 
@@ -69,7 +69,7 @@ public enum LockTimeoutStrategy implements TimeoutHandler {
                     count.incrementAndGet();
                 }
             }
-            throw new LockTimeoutException("try lock failed, lock key is {} with timeout {} {}", lockInfo.getLockKey(), lockInfo.getWaitTime(), lockInfo.getTimeUnit().name());
+            throw new LockTimeoutException("try lock retry {} times failed, lock key is {} with timeout {} {}", count.get(), lockInfo.getLockKey(), lockInfo.getWaitTime(), lockInfo.getTimeUnit().name());
         }
     },
 
