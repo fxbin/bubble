@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-starters</artifactId>
-        <version>0.0.7-RELEASE</version>
+        <version>0.0.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>bubble-fireworks-starter-lock</artifactId>
