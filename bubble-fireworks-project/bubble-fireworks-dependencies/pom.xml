@@ -25,7 +25,7 @@
         <!-- Other Dependency Versions -->
         <knife4j.version>2.0.5</knife4j.version>
         <okhttp.version>4.5.0</okhttp.version>
-        <hutool-all.version>5.3.10</hutool-all.version>
+        <hutool-all.version>5.4.6</hutool-all.version>
         <guava.version>29.0-jre</guava.version>
         <httpclient.version>4.5.12</httpclient.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
