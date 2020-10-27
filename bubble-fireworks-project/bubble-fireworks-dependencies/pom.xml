@@ -36,7 +36,7 @@
         <feign-form.version>3.8.0</feign-form.version>
         <redisson.version>3.13.2</redisson.version>
         <curator.version>4.3.0</curator.version>
-        <aliyun-log.version>0.6.50</aliyun-log.version>
+        <aliyun-log.version>0.6.60</aliyun-log.version>
         <aliyun-log-producer.version>0.3.5</aliyun-log-producer.version>
         <protobuf-java.version>3.12.0</protobuf-java.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
