@@ -1,7 +1,14 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.github.xiaoymin.knife4j.spring.configuration.Knife4jAutoConfiguration;
+import com.github.xiaoymin.knife4j.spring.configuration.Knife4jProperties;
+import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -10,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
+import org.springframework.util.AntPathMatcher;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -32,9 +40,11 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProp
  * @version v1.0
  * @since 2020/3/31 18:00
  */
+@EnableKnife4j
 @Configuration(
         proxyBeanMethods = false
 )
+@AutoConfigureBefore(Knife4jAutoConfiguration.class)
 @ConditionalOnClass(Docket.class)
 @Import(BeanValidatorPluginsConfiguration.class)
 @EnableConfigurationProperties(SwaggerProperties.class)
@@ -63,7 +73,6 @@ public class SwaggerAutoConfiguration {
     @Resource
     private SwaggerProperties properties;
 
-
     /**
      * docket  创建Docket对象
      *
@@ -78,7 +87,7 @@ public class SwaggerAutoConfiguration {
             properties.getBasePath().add(BASE_PATH);
         }
         List<Predicate<String>> basePath = new ArrayList<>();
-        properties.getBasePath().forEach(path -> basePath.add(PathSelectors.ant(path)));
+        properties.getBasePath().forEach(path -> basePath.add(ant(path)));
 
 
         // exclude base path 处理
@@ -86,7 +95,8 @@ public class SwaggerAutoConfiguration {
             properties.getExcludeBasePath().addAll(EXCLUDE_BASE_PATH);
         }
         List<Predicate<String>> excludePath = new ArrayList<>();
-        properties.getExcludeBasePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
+        properties.getExcludeBasePath().forEach(path -> excludePath.add(ant(path)));
+
 
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .host(properties.getHost())
@@ -103,6 +113,22 @@ public class SwaggerAutoConfiguration {
         }
 
         return docket;
+    }
+
+    /***
+     * ant
+     * refrence {@link PathSelectors#ant(java.lang.String)}
+     *
+     * @author fxbin
+     * @since 2020/10/27 15:11
+     * @param antPattern pattern
+     * @return com.google.common.base.Predicate<java.lang.String>
+     */
+    private Predicate<String> ant(final String antPattern) {
+        return input -> {
+            AntPathMatcher matcher = new AntPathMatcher();
+            return matcher.match(antPattern, input);
+        };
     }
 
     /**

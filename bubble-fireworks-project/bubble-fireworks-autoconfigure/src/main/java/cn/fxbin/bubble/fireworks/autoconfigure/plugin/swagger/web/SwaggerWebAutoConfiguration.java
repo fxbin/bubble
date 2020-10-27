@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.swagger.configuration.SwaggerCommonConfiguration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration;
-import springfox.documentation.swagger2.web.Swagger2Controller;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.configuration.Swagger2DocumentationWebMvcConfiguration;
+import springfox.documentation.swagger2.web.Swagger2ControllerWebMvc;
 
 import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProperties.BUBBLE_FIREWORKS_SWAGGER_PREFIX;
 
@@ -25,13 +25,13 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProp
  * @since 2020/3/31 18:54
  */
 @EnableKnife4j
-@EnableSwagger2
+@EnableSwagger2WebMvc
 @Configuration(
         proxyBeanMethods = false
 )
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnWebApplication(type = Type.SERVLET)
-@ConditionalOnClass({SwaggerCommonConfiguration.class, Swagger2DocumentationConfiguration.class, Swagger2Controller.class})
+@ConditionalOnClass({SwaggerCommonConfiguration.class, Swagger2DocumentationWebMvcConfiguration.class, Swagger2ControllerWebMvc.class})
 @ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_SWAGGER_PREFIX, name = "enabled", havingValue = "true")
 public class SwaggerWebAutoConfiguration implements WebMvcConfigurer {
 
