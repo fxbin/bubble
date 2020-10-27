@@ -4,7 +4,7 @@
 
     <groupId>cn.fxbin.bubble</groupId>
     <artifactId>bubble-fireworks-build</artifactId>
-    <version>0.0.7-RELEASE</version>
+    <version>0.0.8-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>bubble-fireworks-build</name>
     <description>Bubble Fireworks Build project, managing plugins</description>
