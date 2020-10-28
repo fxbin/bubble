@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.xxl.job.XxlJobProperties.BUBBLE_FIREWORKS_XXl_JOB_PREFIX;
@@ -22,6 +23,9 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.xxl.job.XxlJobPrope
  */
 @Configuration(
         proxyBeanMethods = false
+)
+@ComponentScan(
+        basePackages = {"cn.fxbin.bubble.plugin.xxl.job.service.jobhandler"}
 )
 @ConditionalOnClass(XxlJobExecutor.class)
 @EnableConfigurationProperties(XxlJobProperties.class)
