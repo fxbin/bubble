@@ -28,6 +28,7 @@
         <module>bubble-fireworks-starter-dynamic-threadpool</module>
         <module>bubble-fireworks-starter-lock</module>
         <module>bubble-fireworks-starter-redis</module>
+        <module>bubble-fireworks-starter-xxl-job</module>
     </modules>
 
 
