@@ -125,6 +125,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-plugin-xxl-job</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 

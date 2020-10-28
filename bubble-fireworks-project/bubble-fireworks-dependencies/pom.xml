@@ -40,6 +40,7 @@
         <aliyun-log-producer.version>0.3.5</aliyun-log-producer.version>
         <protobuf-java.version>3.13.0</protobuf-java.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <xxl.job.version>2.2.0</xxl.job.version>
     </properties>
 
     <dependencyManagement>
@@ -94,6 +95,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-lock</artifactId>
+                <version>0.0.8-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-xxl-job</artifactId>
                 <version>0.0.8-SNAPSHOT</version>
             </dependency>
 
@@ -198,6 +205,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-redis</artifactId>
+                <version>0.0.8-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-xxl-job</artifactId>
                 <version>0.0.8-SNAPSHOT</version>
             </dependency>
 
@@ -379,6 +392,13 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl.job.version}</version>
             </dependency>
 
 
