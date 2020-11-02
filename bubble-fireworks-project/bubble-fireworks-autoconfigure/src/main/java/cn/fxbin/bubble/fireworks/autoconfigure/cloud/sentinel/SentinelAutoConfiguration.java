@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.cloud.sentinel;
 
-import cn.fxbin.bubble.fireworks.cloud.sentinel.handler.CustomUrlBlockHandler;
+import cn.fxbin.bubble.fireworks.cloud.sentinel.handler.CustomizeUrlBlockHandler;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.SentinelWebInterceptor;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -21,13 +21,13 @@ import org.springframework.context.annotation.Configuration;
         proxyBeanMethods = false
 )
 @ConditionalOnWebApplication(type = Type.SERVLET)
-@ConditionalOnClass({SentinelWebInterceptor.class, CustomUrlBlockHandler.class})
+@ConditionalOnClass({SentinelWebInterceptor.class, CustomizeUrlBlockHandler.class})
 public class SentinelAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
     public BlockExceptionHandler blockExceptionHandler() {
-        return new CustomUrlBlockHandler();
+        return new CustomizeUrlBlockHandler();
     }
 
 }
