@@ -24,6 +24,7 @@
         <module>bubble-fireworks-plugin-lock</module>
         <module>bubble-fireworks-plugin-dynamic-threadpool</module>
         <module>bubble-fireworks-plugin-xxl-job</module>
+        <module>bubble-fireworks-plugin-token</module>
     </modules>
 
 </project>
