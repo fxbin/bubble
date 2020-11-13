@@ -47,6 +47,19 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
                 .orElse(null);
     }
 
+    /**
+     * getRequestUrl
+     *
+     * @author fxbin
+     * @since 2020/11/13 10:11
+     * @return java.lang.String
+     */
+    public String getRequestUrl() {
+        return Optional.ofNullable(WebUtils.getRequest())
+                .map(HttpServletRequest::getServletPath)
+                .orElse(null);
+    }
+
 
     /**
      * getResponse
