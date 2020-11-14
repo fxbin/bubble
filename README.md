@@ -1,8 +1,8 @@
 # bubble fireworks 🎉🎉🎉
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/63f51f8ee55f42bd8284c1c04e2b6f7d)](https://app.codacy.com/manual/fxbin/bubble-fireworks?utm_source=github.com&utm_medium=referral&utm_content=fxbin/bubble-fireworks&utm_campaign=Badge_Grade_Settings)
-[![Spring Boot](https://img.shields.io/badge/SpringBoot-2.3.5.RELEASE-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
-[![Spring Cloud](https://img.shields.io/badge/SpringCloud-Hoxton.SR8-brightgreen.svg)](https://github.com/spring-cloud)
+[![Spring Boot](https://img.shields.io/badge/SpringBoot-2.3.6.RELEASE-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
+[![Spring Cloud](https://img.shields.io/badge/SpringCloud-Hoxton.SR9-brightgreen.svg)](https://github.com/spring-cloud)
 [![Spring Cloud Alibaba](https://img.shields.io/badge/SpringCloudAlibaba-2.2.3.RELEASE-brightgreen.svg)](https://github.com/alibaba/spring-cloud-alibaba)
 
 [![Star](https://img.shields.io/github/stars/fxbin/bubble-fireworks.svg?label=Stars&style=social)](https://github.com/fxbin/bubble-fireworks/stargazers)
@@ -12,10 +12,11 @@
 
 | 依赖 | 版本 |
 ---|---
-| Spring Boot |  2.3.5.RELEASE |
-| Spring Cloud |  Hoxton.SR8 | 
-| Spring Cloud Alibaba |  2.2.3.RELEASE |  
+| Spring Boot |  2.3.6.RELEASE |
+| Spring Cloud |  Hoxton.SR9 | 
+| Spring Cloud Alibaba |  2.2.3.RELEASE |
+| Mybatis-Plus | 3.4.1 |  
 
 ## 项目简介
 
-基于SpringBoot,SpringCloud&SpringCloud Alibaba 的日常通用代码集，简化开发
+基于SpringBoot,SpringCloud,Mybatis Plus 的快速开发脚手架
