@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.plugin.token;
+package cn.fxbin.bubble.plugin.token.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
