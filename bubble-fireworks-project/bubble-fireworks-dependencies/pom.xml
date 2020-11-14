@@ -28,7 +28,7 @@
         <hutool-all.version>5.4.7</hutool-all.version>
         <guava.version>30.0-jre</guava.version>
         <httpclient.version>4.5.12</httpclient.version>
-        <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <easyexcel.version>2.2.6</easyexcel.version>
         <elasticsearch.version>7.6.2</elasticsearch.version>
         <transmittable-thread-local.version>2.11.5</transmittable-thread-local.version>
