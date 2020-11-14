@@ -4,7 +4,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-build</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
+        <version>0.0.8-RELEASE</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -51,181 +51,181 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-core</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-autoconfigure</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-web</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <!-- bubble fireworks plugins -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-logging</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-test</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-http</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-swagger</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-dynamic-threadpool</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-lock</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-xxl-job</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-token</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <!-- bubble fireworks cloud -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-cloud-sentinel</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-cloud-openfeign</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
             
             <!-- bubble-fireworks data -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-data-mybatis</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-data-elasticsearch</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-data-redis</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <!-- bubble fireworks starters -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-logging</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-test</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-web</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-mybatis</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-sentinel</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-swagger</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-openfeign</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-elasticsearch</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-dynamic-threadpool</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-lock</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-redis</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-xxl-job</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-token</artifactId>
-                <version>0.0.8-SNAPSHOT</version>
+                <version>0.0.8-RELEASE</version>
             </dependency>
 
             <!-- Spring Boot POM -->
