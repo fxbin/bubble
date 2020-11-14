@@ -41,6 +41,8 @@
         <protobuf-java.version>3.13.0</protobuf-java.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <xxl.job.version>2.2.0</xxl.job.version>
+        <jjwt.version>0.11.2</jjwt.version>
+        <fastjson.version>1.2.75</fastjson.version>
     </properties>
 
     <dependencyManagement>
@@ -101,6 +103,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-plugin-xxl-job</artifactId>
+                <version>0.0.8-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-token</artifactId>
                 <version>0.0.8-SNAPSHOT</version>
             </dependency>
 
@@ -214,6 +222,12 @@
                 <version>0.0.8-SNAPSHOT</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-token</artifactId>
+                <version>0.0.8-SNAPSHOT</version>
+            </dependency>
+
             <!-- Spring Boot POM -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -291,6 +305,12 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
@@ -401,6 +421,40 @@
                 <version>${xxl.job.version}</version>
             </dependency>
 
+            <!--
+                jjwt Java JWT: JSON Web Token for Java and Android
+                <a href=""#>https://github.com/jwtk/jjwt</a>
+            -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-gson</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

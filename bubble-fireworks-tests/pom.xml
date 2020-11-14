@@ -19,6 +19,7 @@
         <module>bubble-fireworks-test-plugin-dynamic-threadpool</module>
         <module>bubble-fireworks-test-plugin-lock</module>
         <module>bubble-fireworks-test-plugin-swagger</module>
+        <module>bubble-fireworks-test-web</module>
     </modules>
 
     <properties>

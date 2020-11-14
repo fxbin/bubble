@@ -131,6 +131,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-plugin-token</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 
