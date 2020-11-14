@@ -29,6 +29,7 @@
         <module>bubble-fireworks-starter-lock</module>
         <module>bubble-fireworks-starter-redis</module>
         <module>bubble-fireworks-starter-xxl-job</module>
+        <module>bubble-fireworks-starter-token</module>
     </modules>
 
 
