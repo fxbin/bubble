@@ -106,6 +106,12 @@
                 <version>0.0.8-SNAPSHOT</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-plugin-token</artifactId>
+                <version>0.0.8-SNAPSHOT</version>
+            </dependency>
+
             <!-- bubble fireworks cloud -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
@@ -213,6 +219,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-xxl-job</artifactId>
+                <version>0.0.8-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-token</artifactId>
                 <version>0.0.8-SNAPSHOT</version>
             </dependency>
 

@@ -18,7 +18,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenClaims {
+public class TokenPayload {
 
     /**
      * 标识token type
@@ -31,7 +31,7 @@ public class TokenClaims {
     private String identity;
 
     /**
-     * 请求标识吗 ex: web, app
+     * 请求标识码 ex: web, app
      */
     private String scope;
 
@@ -39,5 +39,15 @@ public class TokenClaims {
      * 附加信息，用户自定义信息
      */
     private Map<String, Object> extra;
+
+    /**
+     * 当前时间戳
+     */
+    private Integer iat;
+
+    /**
+     * 过期时间戳
+     */
+    private Integer exp;
 
 }
