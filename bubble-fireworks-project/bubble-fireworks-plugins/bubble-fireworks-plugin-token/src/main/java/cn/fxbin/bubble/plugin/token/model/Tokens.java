@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.plugin.token.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import cn.fxbin.bubble.fireworks.core.util.JsonUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +20,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Tokens {
 
-    @JsonAlias("access_token")
+    @JsonProperty("access_token")
     private String accessToken;
 
-    @JsonAlias("refresh_token")
+    @JsonProperty("refresh_token")
     private String refreshToken;
 
 }
