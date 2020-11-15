@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.data.mybatis;
 
-import cn.fxbin.bubble.fireworks.data.mybatis.customizer.CustomIdGenerator;
+import cn.fxbin.bubble.fireworks.data.mybatis.customizer.CustomizeIdentifierGenerator;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
@@ -52,9 +52,9 @@ public class MybatisPlusAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnClass({CustomIdGenerator.class})
+    @ConditionalOnClass({CustomizeIdentifierGenerator.class})
     public MybatisPlusPropertiesCustomizer identifierGeneratorCustomizer() {
-        return plusProperties -> plusProperties.getGlobalConfig().setIdentifierGenerator(new CustomIdGenerator());
+        return plusProperties -> plusProperties.getGlobalConfig().setIdentifierGenerator(new CustomizeIdentifierGenerator());
     }
 
     @Bean
