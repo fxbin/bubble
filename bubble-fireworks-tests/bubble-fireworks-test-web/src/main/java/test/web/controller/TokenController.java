@@ -1,5 +1,6 @@
 package test.web.controller;
 
+import cn.fxbin.bubble.fireworks.core.model.Result;
 import cn.fxbin.bubble.plugin.token.DoubleJwt;
 import cn.fxbin.bubble.plugin.token.model.Tokens;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,8 @@ public class TokenController {
     private DoubleJwt doubleJwt;
 
     @GetMapping("/get")
-    public Tokens get() {
-        return doubleJwt.generateTokens("1");
+    public Result<Tokens> get() {
+        return Result.success(doubleJwt.generateTokens("1"));
     }
 
 }
