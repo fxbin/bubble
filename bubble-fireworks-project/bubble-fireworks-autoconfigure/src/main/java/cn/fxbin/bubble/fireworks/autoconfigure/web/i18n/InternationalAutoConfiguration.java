@@ -38,7 +38,7 @@ import java.util.Objects;
 )
 @ConditionalOnClass({LocaleChangeInterceptor.class, LocalValidatorFactoryBean.class})
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class InternationalConfiguration implements WebMvcConfigurer {
+public class InternationalAutoConfiguration implements WebMvcConfigurer {
 
     @Resource
     private Environment environment;
