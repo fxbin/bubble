@@ -3,6 +3,7 @@ package cn.fxbin.bubble.fireworks.web.handler;
 import cn.fxbin.bubble.fireworks.core.exception.ServiceException;
 import cn.fxbin.bubble.fireworks.core.model.Result;
 import cn.fxbin.bubble.fireworks.core.model.ResultCode;
+import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+
+import static cn.fxbin.bubble.fireworks.core.model.ResultCode.REQUEST_PARAM_VALIDATION_ERROR;
 
 /**
  * DefaultGlobalExceptionHandler
@@ -29,45 +32,45 @@ public class DefaultGlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
-    public Result exceptionHandler(Exception exception) {
+    public Result<String> exceptionHandler(Exception exception) {
         log.warn("[Exception]", exception);
         return Result.failure(exception.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = ServiceException.class)
-    public Result exceptionHandler(ServiceException ex) {
+    public Result<String> exceptionHandler(ServiceException ex) {
         log.warn("[ServiceException]", ex);
         return Result.failure((ex.getErrcode() == 0 ? ResultCode.FAILURE.getCode() : ex.getErrcode()), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public Result bodyValidExceptionHandler(MethodArgumentNotValidException exception) {
+    public Result<String> bodyValidExceptionHandler(MethodArgumentNotValidException exception) {
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
-        log.warn(fieldErrors.get(0).getDefaultMessage());
+        log.warn("MethodArgumentNotValidException: {}", exception.getMessage());
         return Result.failure(fieldErrors.get(0).getDefaultMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({BindException.class})
-    public Result bindExceptionHandler(BindException exception) {
-        List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
-        log.warn(fieldErrors.get(0).getDefaultMessage());
-        return Result.failure(fieldErrors.get(0).getDefaultMessage());
+    public Result<String> bindExceptionHandler(BindException exception) {
+        @SuppressWarnings("ConstantConditions") String defaultMessage = exception.getGlobalError().getDefaultMessage();
+        log.warn("BindException: {}", exception.getMessage());
+        return Result.failure(ObjectUtils.isEmpty(defaultMessage) ? REQUEST_PARAM_VALIDATION_ERROR.getMsg() : defaultMessage);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({JsonParseException.class})
-    public Result exceptionHandler(JsonParseException exception) {
-        log.error("JsonParseException: {}", exception.getMessage());
+    public Result<String> exceptionHandler(JsonParseException exception) {
+        log.warn("JsonParseException: {}", exception.getMessage());
         return Result.failure(exception.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({JsonMappingException.class})
-    public Result exceptionHandler(JsonMappingException exception) {
-        log.error("JsonMappingException: {}", exception.getMessage());
+    public Result<String> exceptionHandler(JsonMappingException exception) {
+        log.warn("JsonMappingException: {}", exception.getMessage());
         return Result.failure(exception.getMessage());
     }
 
