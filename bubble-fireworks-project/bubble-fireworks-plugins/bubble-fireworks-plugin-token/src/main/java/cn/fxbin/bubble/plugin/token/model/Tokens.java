@@ -1,6 +1,5 @@
 package cn.fxbin.bubble.plugin.token.model;
 
-import cn.fxbin.bubble.fireworks.core.util.JsonUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
