@@ -3,7 +3,6 @@ package cn.fxbin.bubble.fireworks.autoconfigure.plugin.token;
 import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import cn.fxbin.bubble.plugin.token.DoubleJwt;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +10,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 import javax.annotation.Resource;
-
-import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.token.TokenProperties.BUBBLE_FIREWORKS_TOKEN_PREFIX;
 
 /**
  * TokenAutoConfiguration
