@@ -10,7 +10,8 @@
     </parent>
 
     <artifactId>bubble-fireworks-test-web</artifactId>
-
+    <name>Bubble Fireworks Test Web</name>
+    <description>Bubble Fireworks Test Web</description>
 
     <dependencies>
         <dependency>
