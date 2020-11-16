@@ -62,7 +62,21 @@ public enum ResultCode {
     /**
      * 请求参数校验错误
      */
-    REQUEST_PARAM_VALIDATION_ERROR(40025, "Request parameter validation error");
+    REQUEST_PARAM_VALIDATION_ERROR(40025, "Request parameter validation error"),
+
+    /**
+     * access toekn 过期
+     */
+    AUTHORIZATION_ACCESS_TOKEN_EXPIRED(40031, "access token 过期"),
+
+    /**
+     * refresh token 过期
+     */
+    AUTHORIZATION_REFRESH_TOKEN_EXPIRED(40032, "refresh token 过期");
+
+
+    // 400|20--40  参数异常[20-30]  token认证问题异常[31-35]
+
 
 
     final int code;
