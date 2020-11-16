@@ -38,7 +38,7 @@ public @interface EqualField {
      */
     String target();
 
-    String message() default "";
+    String message() default "both fields must be equal";
 
     Class<?>[] groups() default {};
 
