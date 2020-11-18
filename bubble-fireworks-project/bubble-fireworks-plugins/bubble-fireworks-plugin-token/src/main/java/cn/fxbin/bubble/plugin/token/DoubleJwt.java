@@ -87,9 +87,13 @@ public class DoubleJwt {
     }
 
     public String generateToken(String tokenType, long identity, String scope, long expire, Map<String, Object> extra) {
+        return generateToken(tokenType, String.valueOf(identity), scope, expire, extra);
+    }
+
+    public String generateToken(String tokenType, String identity, String scope, long expire, Map<String, Object> extra) {
         TokenPayload claims = TokenPayload.builder()
                 .type(tokenType)
-                .identity(String.valueOf(identity))
+                .identity(identity)
                 .scope(scope)
                 .extra(extra)
                 .build();
@@ -323,8 +327,23 @@ public class DoubleJwt {
      * @return cn.fxbin.bubble.plugin.token.model.Tokens
      */
     public Tokens generateTokens(String identity, String scope) {
-        String access = this.generateToken(TokenConstants.ACCESS_TYPE, identity, scope, this.accessExpire);
-        String refresh = this.generateToken(TokenConstants.REFRESH_TYPE, identity, scope, this.refreshExpire);
+        return this.generateTokens(identity, scope, null);
+    }
+
+
+    /**
+     * generateTokens
+     *
+     * @author fxbin
+     * @since 2020/11/18 19:08
+     * @param identity 身份标识
+     * @param scope 请求标识码
+     * @param extra 额外扩展信息
+     * @return cn.fxbin.bubble.plugin.token.model.Tokens
+     */
+    public Tokens generateTokens(String identity, String scope, Map<String, Object> extra) {
+        String access = this.generateToken(TokenConstants.ACCESS_TYPE, identity, scope, this.accessExpire, extra);
+        String refresh = this.generateToken(TokenConstants.REFRESH_TYPE, identity, scope, this.refreshExpire, extra);
         return new Tokens(access, refresh);
     }
 
