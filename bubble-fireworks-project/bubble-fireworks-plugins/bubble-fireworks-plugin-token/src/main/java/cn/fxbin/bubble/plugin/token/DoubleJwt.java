@@ -123,6 +123,26 @@ public class DoubleJwt {
     }
 
     /**
+     * parseToken
+     *
+     * @author fxbin
+     * @since 2020/11/18 19:35
+     * @param token jwt token
+     * @return cn.fxbin.bubble.plugin.token.model.TokenPayload
+     */
+    @SuppressWarnings("unchecked")
+    public TokenPayload parseToken(String token) {
+        Map<String, Object> mapObj = (Map<String, Object>) Jwts.parserBuilder()
+                .setSigningKey(key).build()
+                .parse(token)
+                .getBody();
+
+        TokenPayload payload = BeanUtils.map2Object(mapObj, TokenPayload.class);
+        checkTokenExpired(payload.getExp());
+        return payload;
+    }
+
+    /**
      * parseAccessToken
      *
      * @author fxbin
@@ -148,15 +168,9 @@ public class DoubleJwt {
      * @param scope scope
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    @SuppressWarnings({"unchecked", "DuplicatedCode"})
+    @SuppressWarnings({"DuplicatedCode"})
     public TokenPayload parseAccessToken(String token, String scope) {
-        Map<String, Object> mapObj = (Map<String, Object>) Jwts.parserBuilder()
-                .setSigningKey(key).build()
-                .parse(token)
-                .getBody();
-
-        TokenPayload payload = BeanUtils.map2Object(mapObj, TokenPayload.class);
-        checkTokenExpired(payload.getExp());
+        TokenPayload payload = parseToken(token);
         checkTokenScope(payload.getScope(), scope);
         checkTokenType(payload.getType(), TokenConstants.ACCESS_TYPE);
         return payload;
@@ -188,15 +202,9 @@ public class DoubleJwt {
      * @param scope scope
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    @SuppressWarnings({"unchecked", "DuplicatedCode"})
+    @SuppressWarnings({"DuplicatedCode"})
     public TokenPayload parseRefreshToken(String token, String scope) {
-        Map<String, Object> mapObj = (Map<String, Object>) Jwts.parserBuilder()
-                .setSigningKey(key).build()
-                .parse(token)
-                .getBody();
-
-        TokenPayload payload = BeanUtils.map2Object(mapObj, TokenPayload.class);
-        checkTokenExpired(payload.getExp());
+        TokenPayload payload = parseToken(token);
         checkTokenScope(payload.getScope(), scope);
         checkTokenType(payload.getType(), TokenConstants.REFRESH_TYPE);
         return payload;
