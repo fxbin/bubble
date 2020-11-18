@@ -121,28 +121,13 @@ public class DoubleJwt {
     /**
      * parseAccessToken
      *
-     * <p>
-     *     Jwt Token 解析, jjwt-impl 会将毫秒值转化为秒
-     *     {@link io.jsonwebtoken.impl.JwtMap#setDateAsSeconds(java.lang.String, java.util.Date)}
-     * </p>
-     *
      * @author fxbin
-     * @since 2020/11/13 16:45
+     * @since 2020/11/18 18:58
      * @param token jwt token
-     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @return cn.fxbin.bubble.plugin.token.model.TokenPayload
      */
-    @SuppressWarnings({"unchecked", "DuplicatedCode"})
     public TokenPayload parseAccessToken(String token) {
-        Map<String, Object> mapObj = (Map<String, Object>) Jwts.parserBuilder()
-                .setSigningKey(key).build()
-                .parse(token)
-                .getBody();
-
-        TokenPayload payload = BeanUtils.map2Object(mapObj, TokenPayload.class);
-        checkTokenExpired(payload.getExp());
-        checkTokenScope(payload.getScope());
-        checkTokenType(payload.getType(), TokenConstants.ACCESS_TYPE);
-        return payload;
+        return this.parseAccessToken(token, TokenConstants.BUBBLE_FIREWORKS_SCOPE);
     }
 
     /**
@@ -156,10 +141,11 @@ public class DoubleJwt {
      * @author fxbin
      * @since 2020/11/13 16:45
      * @param token jwt token
+     * @param scope scope
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
     @SuppressWarnings({"unchecked", "DuplicatedCode"})
-    public TokenPayload parseRefreshToken(String token) {
+    public TokenPayload parseAccessToken(String token, String scope) {
         Map<String, Object> mapObj = (Map<String, Object>) Jwts.parserBuilder()
                 .setSigningKey(key).build()
                 .parse(token)
@@ -167,7 +153,47 @@ public class DoubleJwt {
 
         TokenPayload payload = BeanUtils.map2Object(mapObj, TokenPayload.class);
         checkTokenExpired(payload.getExp());
-        checkTokenScope(payload.getScope());
+        checkTokenScope(payload.getScope(), scope);
+        checkTokenType(payload.getType(), TokenConstants.ACCESS_TYPE);
+        return payload;
+    }
+
+    /**
+     * parseRefreshToken
+     *
+     * @author fxbin
+     * @since 2020/11/18 18:57
+     * @param token jwt token
+     * @return cn.fxbin.bubble.plugin.token.model.TokenPayload
+     */
+    public TokenPayload parseRefreshToken(String token) {
+       return this.parseRefreshToken(token, TokenConstants.BUBBLE_FIREWORKS_SCOPE);
+    }
+
+    /**
+     * parseAccessToken
+     *
+     * <p>
+     *     Jwt Token 解析, jjwt-impl 会将毫秒值转化为秒
+     *     {@link io.jsonwebtoken.impl.JwtMap#setDateAsSeconds(java.lang.String, java.util.Date)}
+     * </p>
+     *
+     * @author fxbin
+     * @since 2020/11/13 16:45
+     * @param token jwt token
+     * @param scope scope
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     */
+    @SuppressWarnings({"unchecked", "DuplicatedCode"})
+    public TokenPayload parseRefreshToken(String token, String scope) {
+        Map<String, Object> mapObj = (Map<String, Object>) Jwts.parserBuilder()
+                .setSigningKey(key).build()
+                .parse(token)
+                .getBody();
+
+        TokenPayload payload = BeanUtils.map2Object(mapObj, TokenPayload.class);
+        checkTokenExpired(payload.getExp());
+        checkTokenScope(payload.getScope(), scope);
         checkTokenType(payload.getType(), TokenConstants.REFRESH_TYPE);
         return payload;
     }
@@ -184,17 +210,6 @@ public class DoubleJwt {
         if (nowSeconds > exp.longValue()) {
             throw new TokenExpiredException("token is expired");
         }
-    }
-
-    /**
-     * checkTokenScope
-     *
-     * @author fxbin
-     * @since 2020/11/14 18:56
-     * @param scope 请求标识码
-     */
-    private void checkTokenScope(String scope) {
-        this.checkTokenScope(scope, TokenConstants.BUBBLE_FIREWORKS_SCOPE);
     }
 
     /**
@@ -283,9 +298,7 @@ public class DoubleJwt {
      * @return cn.fxbin.bubble.plugin.token.model.Tokens
      */
     public Tokens generateTokens(long identity) {
-        String access = this.generateToken(TokenConstants.ACCESS_TYPE, identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, this.accessExpire);
-        String refresh = this.generateToken(TokenConstants.REFRESH_TYPE, identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, this.refreshExpire);
-        return new Tokens(access, refresh);
+        return this.generateTokens(String.valueOf(identity));
     }
 
     /**
@@ -297,8 +310,21 @@ public class DoubleJwt {
      * @return cn.fxbin.bubble.plugin.token.model.Tokens
      */
     public Tokens generateTokens(String identity) {
-        String access = this.generateToken(TokenConstants.ACCESS_TYPE, identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, this.accessExpire);
-        String refresh = this.generateToken(TokenConstants.REFRESH_TYPE, identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, this.refreshExpire);
+        return this.generateTokens(identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE);
+    }
+
+    /**
+     * generateTokens
+     *
+     * @author fxbin
+     * @since 2020/11/18 18:52
+     * @param identity 身份标识
+     * @param scope 请求标识码
+     * @return cn.fxbin.bubble.plugin.token.model.Tokens
+     */
+    public Tokens generateTokens(String identity, String scope) {
+        String access = this.generateToken(TokenConstants.ACCESS_TYPE, identity, scope, this.accessExpire);
+        String refresh = this.generateToken(TokenConstants.REFRESH_TYPE, identity, scope, this.refreshExpire);
         return new Tokens(access, refresh);
     }
 
