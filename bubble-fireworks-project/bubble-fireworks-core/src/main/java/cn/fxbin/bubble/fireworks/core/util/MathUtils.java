@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
+import cn.hutool.core.util.NumberUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -16,7 +17,7 @@ import java.util.Optional;
  */
 @Slf4j
 @UtilityClass
-public class MathUtils {
+public class MathUtils extends NumberUtil {
 
 
 
