@@ -329,6 +329,19 @@ public class DoubleJwt {
      * generateTokens
      *
      * @author fxbin
+     * @since 2020/11/19 16:58
+     * @param identity 身份标识
+     * @param scope 请求标识码
+     * @return cn.fxbin.bubble.plugin.token.model.Tokens
+     */
+    public Tokens generateTokens(long identity, String scope) {
+        return this.generateTokens(String.valueOf(identity), scope, null);
+    }
+
+    /**
+     * generateTokens
+     *
+     * @author fxbin
      * @since 2020/11/18 18:52
      * @param identity 身份标识
      * @param scope 请求标识码
@@ -338,6 +351,31 @@ public class DoubleJwt {
         return this.generateTokens(identity, scope, null);
     }
 
+    /**
+     * generateTokens
+     *
+     * @author fxbin
+     * @since 2020/11/19 16:57
+     * @param identity 身份标识
+     * @param extra 额外扩展信息
+     * @return cn.fxbin.bubble.plugin.token.model.Tokens
+     */
+    public Tokens generateTokens(long identity, Map<String, Object> extra) {
+        return this.generateTokens(String.valueOf(identity), TokenConstants.BUBBLE_FIREWORKS_SCOPE, extra);
+    }
+
+    /**
+     * generateTokens
+     *
+     * @author fxbin
+     * @since 2020/11/19 10:19
+     * @param identity 身份标识
+     * @param extra 额外扩展信息
+     * @return cn.fxbin.bubble.plugin.token.model.Tokens
+     */
+    public Tokens generateTokens(String identity, Map<String, Object> extra) {
+        return this.generateTokens(identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, extra);
+    }
 
     /**
      * generateTokens
