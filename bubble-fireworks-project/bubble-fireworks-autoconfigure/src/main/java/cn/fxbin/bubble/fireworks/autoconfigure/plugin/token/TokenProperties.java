@@ -41,6 +41,11 @@ public class TokenProperties {
     private Long tokenRefreshExpire = 2592000L;
 
     /**
+     * 秘钥
+     */
+    private String secret;
+
+    /**
      * 签名算法
      */
     private SignatureAlgorithm algorithm = SignatureAlgorithm.HS512;
