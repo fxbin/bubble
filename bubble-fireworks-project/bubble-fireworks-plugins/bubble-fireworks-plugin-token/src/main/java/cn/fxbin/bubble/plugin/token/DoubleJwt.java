@@ -12,6 +12,7 @@ import cn.fxbin.bubble.plugin.token.model.TokenPayload;
 import cn.fxbin.bubble.plugin.token.model.Tokens;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
@@ -47,25 +48,32 @@ public class DoubleJwt {
      */
     private Key key;
 
-    public DoubleJwt(long accessExpire, long refreshExpire, SignatureAlgorithm algorithm, Key key) {
+    /**
+     * 秘钥
+     */
+    private String secret;
+
+
+    public DoubleJwt(long accessExpire, long refreshExpire, SignatureAlgorithm algorithm, Key key, String secret) {
         this.accessExpire = accessExpire;
         this.refreshExpire = refreshExpire;
         this.algorithm = algorithm;
         this.key = key;
+        this.secret = secret;
     }
 
-    public DoubleJwt(long accessExpire, long refreshExpire, SignatureAlgorithm algorithm) {
+    public DoubleJwt(long accessExpire, long refreshExpire, SignatureAlgorithm algorithm, String secret) {
         this.accessExpire = accessExpire;
         this.refreshExpire = refreshExpire;
         this.algorithm = algorithm;
-        this.key = Keys.secretKeyFor(algorithm);
+        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
-    public DoubleJwt(long accessExpire, long refreshExpire) {
+    public DoubleJwt(long accessExpire, long refreshExpire, String secret) {
         this.accessExpire = accessExpire;
         this.refreshExpire = refreshExpire;
         this.algorithm = SignatureAlgorithm.HS512;
-        this.key = Keys.secretKeyFor(this.algorithm);
+        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
     public String generateToken(String tokenType, String identity, String scope, long expire) {
@@ -118,7 +126,7 @@ public class DoubleJwt {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expireDate)
-                .signWith(key)
+                .signWith(key, algorithm)
                 .compact();
     }
 
@@ -133,7 +141,8 @@ public class DoubleJwt {
     @SuppressWarnings("unchecked")
     public TokenPayload parseToken(String token) {
         Map<String, Object> mapObj = (Map<String, Object>) Jwts.parserBuilder()
-                .setSigningKey(key).build()
+                .setSigningKey(key)
+                .build()
                 .parse(token)
                 .getBody();
 
