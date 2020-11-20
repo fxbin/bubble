@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.token;
 
 import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
+import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import cn.fxbin.bubble.plugin.token.DoubleJwt;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -34,6 +35,7 @@ public class TokenAutoConfiguration {
 
         Long accessExpire = tokenProperties.getTokenAccessExpire();
         Long refreshExpire = tokenProperties.getTokenRefreshExpire();
+        String secret = tokenProperties.getSecret();
         if (ObjectUtils.isEmpty(accessExpire)) {
             // 1 小时
             accessExpire = 60 * 60L;
@@ -42,7 +44,10 @@ public class TokenAutoConfiguration {
             // 30 天
             refreshExpire = 60 * 60 * 24 * 30L;
         }
-        return new DoubleJwt(accessExpire, refreshExpire);
+        if (StringUtils.isBlank(secret)) {
+            secret = "bubble-fireworks";
+        }
+        return new DoubleJwt(accessExpire, refreshExpire, secret);
     }
 
 
