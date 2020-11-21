@@ -7,3 +7,5 @@ bubble:
   fireworks:
     token:
       token-access-expire: 10
+    swagger:
+      enabled: true
