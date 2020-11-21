@@ -3,10 +3,11 @@ package test.web.controller;
 import cn.fxbin.bubble.fireworks.core.model.Result;
 import cn.fxbin.bubble.fireworks.web.validator.EqualField;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import test.web.dto.TestEqualDTO;
+import test.web.dto.TestMessageDTO;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * ValidatorController
@@ -31,6 +32,21 @@ public class ValidatorController {
     @GetMapping("/equal_param")
     public Result equal(@EqualField(source = "a", target = "b") String a, String b) {
         return Result.success(a + ":" + b);
+    }
+
+    @GetMapping("/test")
+    public Result<?> testMessage(@NotBlank(message = "{test.aaa}") String test) {
+        return Result.success(test);
+    }
+
+    @PostMapping("/testJsonMessage")
+    public Result<?> testJsonMessage(@RequestBody @Validated TestMessageDTO test) {
+        return Result.success(test);
+    }
+
+    @PostMapping("/testFormMessage")
+    public Result<?> testFormMessage(@Validated TestMessageDTO test) {
+        return Result.success(test);
     }
 
 }

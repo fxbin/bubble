@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-fireworks-starter-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-starter-token</artifactId>
         </dependency>
     </dependencies>
