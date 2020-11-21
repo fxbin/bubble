@@ -41,9 +41,9 @@ public class TokenProperties {
     private Long tokenRefreshExpire = 2592000L;
 
     /**
-     * 秘钥
+     * 秘钥，不建议使用默认值
      */
-    private String secret;
+    private String secret = "CnNzZqcjvdU4IaQuDgpbJP8V193BKHwYOReMTtAEfXoGSl6rs7FLkx2y5ihm0WR5PwDlgxe1iA8hC1QnLWhFswCubF88eNk4vG8V3FY5ASu1al3PNBaolIGy5r1lRFLL";
 
     /**
      * 签名算法

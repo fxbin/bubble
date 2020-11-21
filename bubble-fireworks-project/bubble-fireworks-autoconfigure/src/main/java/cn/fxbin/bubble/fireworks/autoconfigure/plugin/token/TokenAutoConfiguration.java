@@ -32,21 +32,9 @@ public class TokenAutoConfiguration {
 
     @Bean
     public DoubleJwt doubleJwt() {
-
         Long accessExpire = tokenProperties.getTokenAccessExpire();
         Long refreshExpire = tokenProperties.getTokenRefreshExpire();
         String secret = tokenProperties.getSecret();
-        if (ObjectUtils.isEmpty(accessExpire)) {
-            // 1 小时
-            accessExpire = 60 * 60L;
-        }
-        if (ObjectUtils.isEmpty(refreshExpire)) {
-            // 30 天
-            refreshExpire = 60 * 60 * 24 * 30L;
-        }
-        if (StringUtils.isBlank(secret)) {
-            secret = "bubble-fireworks";
-        }
         return new DoubleJwt(accessExpire, refreshExpire, secret);
     }
 
