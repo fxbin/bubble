@@ -6,6 +6,6 @@ spring:
 bubble:
   fireworks:
     token:
-      token-access-expire: 10
+      token-access-expire: 100
     swagger:
       enabled: true
