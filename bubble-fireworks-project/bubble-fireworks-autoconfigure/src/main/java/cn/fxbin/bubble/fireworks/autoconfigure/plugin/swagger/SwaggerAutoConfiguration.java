@@ -2,12 +2,6 @@ package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.github.xiaoymin.knife4j.spring.configuration.Knife4jAutoConfiguration;
-import com.github.xiaoymin.knife4j.spring.configuration.Knife4jProperties;
-import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -17,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
-import org.springframework.util.AntPathMatcher;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -25,11 +18,15 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProperties.BUBBLE_FIREWORKS_SWAGGER_PREFIX;
 
@@ -65,7 +62,7 @@ public class SwaggerAutoConfiguration {
     /**
      * 默认的基于BASE_PATH 需要排除的规则, 排除SpringBoot默认的错误处理路径和端点
      */
-    private static final List<String> EXCLUDE_BASE_PATH = Arrays.asList("/error", "/actuator/**");
+    private static final List<String> DEFAULT_EXCLUDE_PATH = Arrays.asList("/**/error/**", "/**/actuator/**");
 
     @Resource
     private Environment environment;
@@ -86,26 +83,21 @@ public class SwaggerAutoConfiguration {
         if(properties.getBasePath().isEmpty()){
             properties.getBasePath().add(BASE_PATH);
         }
-        List<Predicate<String>> basePath = new ArrayList<>();
-        properties.getBasePath().forEach(path -> basePath.add(ant(path)));
 
-
-        // exclude base path 处理
+        // exclude path 处理
         if(properties.getExcludeBasePath().isEmpty()){
-            properties.getExcludeBasePath().addAll(EXCLUDE_BASE_PATH);
+            properties.getExcludeBasePath().addAll(DEFAULT_EXCLUDE_PATH);
         }
-        List<Predicate<String>> excludePath = new ArrayList<>();
-        properties.getExcludeBasePath().forEach(path -> excludePath.add(ant(path)));
 
-
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+        ApiSelectorBuilder builder = new Docket(DocumentationType.SWAGGER_2)
                 .host(properties.getHost())
                 .apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage(properties.getBasePackage()))
-                .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath)))
-                .build()
-                .pathMapping("/");
+                .apis(RequestHandlerSelectors.basePackage(properties.getBasePackage()));
 
+        properties.getBasePath().forEach(p -> builder.paths(PathSelectors.ant(p)));
+        properties.getExcludeBasePath().forEach(p -> builder.paths(PathSelectors.ant(p).negate()));
+
+        Docket docket = builder.build().pathMapping("/");
         // 如果开启认证
         if (properties.getAuthorization().getEnabled()) {
             docket.securitySchemes(Collections.singletonList(apiKey()));
@@ -115,21 +107,6 @@ public class SwaggerAutoConfiguration {
         return docket;
     }
 
-    /***
-     * ant
-     * refrence {@link PathSelectors#ant(java.lang.String)}
-     *
-     * @author fxbin
-     * @since 2020/10/27 15:11
-     * @param antPattern pattern
-     * @return com.google.common.base.Predicate<java.lang.String>
-     */
-    private Predicate<String> ant(final String antPattern) {
-        return input -> {
-            AntPathMatcher matcher = new AntPathMatcher();
-            return matcher.match(antPattern, input);
-        };
-    }
 
     /**
      * apiInfo 配置文档基本信息
