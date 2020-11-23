@@ -1,9 +1,11 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.data.mybatis;
 
 import cn.fxbin.bubble.fireworks.data.mybatis.customizer.CustomizeIdentifierGenerator;
+import cn.fxbin.bubble.fireworks.data.mybatis.handler.CustomizeMetaObjectHandler;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -61,5 +63,10 @@ public class MybatisPlusAutoConfiguration {
     @Bean
     public MybatisPlusPropertiesCustomizer idTypeCustomizer() {
         return plusProperties -> plusProperties.getGlobalConfig().getDbConfig().setIdType(IdType.AUTO);
+    }
+
+    @Bean
+    public MetaObjectHandler metaObjectHandler() {
+        return new CustomizeMetaObjectHandler();
     }
 }
