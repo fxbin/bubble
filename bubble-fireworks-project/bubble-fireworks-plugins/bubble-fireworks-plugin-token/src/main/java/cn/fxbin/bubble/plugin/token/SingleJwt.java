@@ -135,7 +135,8 @@ public class SingleJwt {
         tokenPayload.setExtra(null);
         Map<String, Object> claims = BeanUtils.object2Map(tokenPayload);
         if (CollectionUtils.isNotEmpty(extra)) {
-            extra.keySet().forEach(key -> claims.put(key, extra.get(key)));
+            extra.keySet().stream().filter(key -> ObjectUtils.isNotEmpty(extra.get(key)))
+                    .forEach(key -> claims.put(key, extra.get(key)));
         }
         Date now = DateUtils.toDate(SystemClock.INSTANCE.currentTimeMillis());
         Date expireDate = DateUtils.toDate(now.getTime() + expire * 1000);
