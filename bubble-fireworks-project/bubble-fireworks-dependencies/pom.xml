@@ -43,6 +43,7 @@
         <xxl.job.version>2.2.0</xxl.job.version>
         <jjwt.version>0.11.2</jjwt.version>
         <fastjson.version>1.2.75</fastjson.version>
+        <aliyun-oss.version>3.11.1</aliyun-oss.version>
     </properties>
 
     <dependencyManagement>
@@ -455,6 +456,14 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-oss.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
