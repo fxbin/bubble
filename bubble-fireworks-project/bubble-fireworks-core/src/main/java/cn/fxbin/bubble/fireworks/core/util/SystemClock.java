@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
+import java.sql.Timestamp;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -28,22 +29,63 @@ import java.util.concurrent.atomic.AtomicLong;
 public enum SystemClock {
 
     // ====
-    INSTANCE(1L, 1);
 
-    private final AtomicLong now;
+    INSTANCE(1);
 
-    SystemClock(long period, int corePoolSize) {
-        this.now = new AtomicLong(System.currentTimeMillis());
-        ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(corePoolSize, r -> {
-            Thread t = new Thread(r, "system-clock");
-            t.setDaemon(true);
-            return t;
-        });
-        scheduler.scheduleAtFixedRate(() -> now.set(System.currentTimeMillis()), period, period, TimeUnit.MILLISECONDS);
+    private final long period;
+    private final AtomicLong nowTime;
+    private boolean started = false;
+    private ScheduledExecutorService executorService;
+
+    SystemClock(long period) {
+        this.period = period;
+        this.nowTime = new AtomicLong(System.currentTimeMillis());
     }
 
+    /**
+     * The initialize scheduled executor service
+     */
+    public void initialize() {
+        if (started) {
+            return;
+        }
+
+        this.executorService = new ScheduledThreadPoolExecutor(1, r -> {
+            Thread thread = new Thread(r, "system-clock");
+            thread.setDaemon(true);
+            return thread;
+        });
+        executorService.scheduleAtFixedRate(() -> nowTime.set(System.currentTimeMillis()),
+                this.period, this.period, TimeUnit.MILLISECONDS);
+        Runtime.getRuntime().addShutdownHook(new Thread(this::destroy));
+        started = true;
+    }
+
+    /**
+     * The get current time milliseconds
+     *
+     * @return long time
+     */
     public long currentTimeMillis() {
-        return now.get();
+        return started ? nowTime.get() : System.currentTimeMillis();
+    }
+
+    /**
+     * The get string current time
+     *
+     * @return string time
+     */
+    public String currentTime() {
+        return new Timestamp(currentTimeMillis()).toString();
+    }
+
+    /**
+     * The destroy of executor service
+     */
+    public void destroy() {
+        if (executorService != null) {
+            executorService.shutdown();
+        }
     }
 
 }
