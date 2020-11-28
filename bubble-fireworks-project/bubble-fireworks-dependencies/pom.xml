@@ -34,7 +34,7 @@
         <transmittable-thread-local.version>2.11.5</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
         <feign-form.version>3.8.0</feign-form.version>
-        <redisson.version>3.13.2</redisson.version>
+        <redisson.version>3.14.0</redisson.version>
         <curator.version>4.3.0</curator.version>
         <aliyun-log.version>0.6.61</aliyun-log.version>
         <aliyun-log-producer.version>0.3.5</aliyun-log-producer.version>
