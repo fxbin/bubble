@@ -31,7 +31,7 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <easyexcel.version>2.2.6</easyexcel.version>
         <elasticsearch.version>7.6.2</elasticsearch.version>
-        <transmittable-thread-local.version>2.11.5</transmittable-thread-local.version>
+        <transmittable-thread-local.version>2.12.0</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
         <feign-form.version>3.8.0</feign-form.version>
         <redisson.version>3.14.0</redisson.version>
