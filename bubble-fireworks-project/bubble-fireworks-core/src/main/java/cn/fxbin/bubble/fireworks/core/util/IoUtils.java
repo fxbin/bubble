@@ -69,6 +69,19 @@ public class IoUtils extends StreamUtils {
     }
 
     /**
+     * readerToFile
+     *
+     * @since 2020/12/1 15:50
+     * @param inputStream InputStream
+     * @return java.io.File
+     */
+    public File readerToFile(InputStream inputStream) {
+        File file = new File(StringUtils.getUUID());
+        FileUtils.toFile(inputStream, file);
+        return file;
+    }
+
+    /**
      * readerFileAsString
      *
      * @since 2020/6/15 10:23
