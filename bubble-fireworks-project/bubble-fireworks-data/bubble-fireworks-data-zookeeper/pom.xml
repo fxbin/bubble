@@ -6,7 +6,7 @@
     <parent>
         <artifactId>bubble-fireworks-data</artifactId>
         <groupId>cn.fxbin.bubble</groupId>
-        <version>0.0.9-SNAPSHOT</version>
+        <version>0.0.9-RELEASE</version>
     </parent>
 
     <artifactId>bubble-fireworks-data-zookeeper</artifactId>
