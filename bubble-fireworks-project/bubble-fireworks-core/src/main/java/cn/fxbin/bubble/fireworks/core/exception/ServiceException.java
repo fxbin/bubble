@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.exception;
 
 import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
+import cn.fxbin.bubble.fireworks.core.model.Result;
 import cn.fxbin.bubble.fireworks.core.model.ResultCode;
 import lombok.Getter;
 
@@ -29,6 +30,11 @@ public class ServiceException extends RuntimeException {
         super(errmsg);
         this.errcode = errcode;
         this.errmsg = errmsg;
+    }
+
+    public ServiceException(Result<?> result) {
+        this.errcode = result.getErrcode();
+        this.errmsg = result.getErrmsg();
     }
 
     public ServiceException(ResultCode resultCode, String errmsg, Object... args) {
