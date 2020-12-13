@@ -1,5 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
+import cn.hutool.core.util.RandomUtil;
+
 import java.net.InetAddress;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -88,7 +90,7 @@ public class IdGenerator {
     private final ThreadLocalRandom tlr = ThreadLocalRandom.current();
 
     public IdGenerator() {
-        this(MAX_DATA_CENTER_ID, 0x000000FF & getLastIPAddress(), false, 5L, false);
+        this(RandomUtil.getSecureRandom().nextInt(4), 0x000000FF & getLastIPAddress(), false, 5L, false);
     }
 
     public IdGenerator(long dataCenterId) {
@@ -233,7 +235,6 @@ public class IdGenerator {
         } catch (Exception e) {
             throw new RuntimeException("Unknown Host Exception", e);
         }
-
         return LAST_IP;
     }
 
