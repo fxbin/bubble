@@ -2,6 +2,8 @@ package cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign;
 
 import cn.fxbin.bubble.fireworks.cloud.feign.CustomizeFeignErrorDecoder;
 import cn.fxbin.bubble.fireworks.cloud.feign.OkHttp3ConnectionManager;
+import feign.Logger;
+import feign.Request;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 import okhttp3.OkHttpClient;
@@ -10,6 +12,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * FeignGlobalConfiguration
@@ -43,6 +47,15 @@ public class FeignGlobalConfiguration {
         return new SpringFormEncoder(new SpringEncoder(messageConverters));
     }
 
+    @Bean
+    Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
+    }
+
+    @Bean
+    public Request.Options options() {
+        return new Request.Options(2000, TimeUnit.MILLISECONDS, 2000, TimeUnit.MILLISECONDS, true);
+    }
 
 
 }
