@@ -566,7 +566,7 @@ public class RedisOperations {
      * @param end 结束, 0 到 -1 表示所有值
      * @return java.util.List
      */
-    public List<Object> lGet(String key, long start, long end) {
+    public <T> List<T> lGet(String key, long start, long end) {
         try {
             
             return redisTemplate.opsForList().range(key, start, end);
@@ -624,7 +624,7 @@ public class RedisOperations {
      * @param value 值
      * @return boolean
      */
-    public boolean lPush(String key, Object value) {
+    public <T> boolean lPush(String key, T value) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
             return true;
@@ -645,7 +645,7 @@ public class RedisOperations {
      * @param time 时间(秒)
      * @return boolean
      */
-    public boolean lPush(String key, Object value, long time) {
+    public <T> boolean lPush(String key, T value, long time) {
         try {
             boolean flag = lPush(key, value);
             if(time > 0 && flag) {
@@ -668,7 +668,7 @@ public class RedisOperations {
      * @param value 值
      * @return boolean
      */
-    public boolean lPushAll(String key, List<Object> value) {
+    public boolean lPushAll(String key, List<?> value) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
             return true;
@@ -689,7 +689,7 @@ public class RedisOperations {
      * @param time 时间(秒)
      * @return boolean
      */
-    public boolean lPushAll(String key, List<Object> value, long time) {
+    public boolean lPushAll(String key, List<?> value, long time) {
         try {
             boolean flag = lPushAll(key, value);
             if(time > 0 && flag) {
@@ -713,7 +713,7 @@ public class RedisOperations {
      * @param value 值
      * @return boolean
      */
-    public boolean lUpdateIndex(String key, long index, Object value) {
+    public <T> boolean lUpdateIndex(String key, long index, T value) {
         try {
             redisTemplate.opsForList().set(key, index, value);
             return true;
