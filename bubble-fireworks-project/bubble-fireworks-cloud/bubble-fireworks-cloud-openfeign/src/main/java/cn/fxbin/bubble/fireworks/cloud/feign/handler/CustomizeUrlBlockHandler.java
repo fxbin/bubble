@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.cloud.sentinel.handler;
+package cn.fxbin.bubble.fireworks.cloud.feign.handler;
 
 import cn.fxbin.bubble.fireworks.core.model.Result;
 import cn.fxbin.bubble.fireworks.core.util.JsonUtils;
