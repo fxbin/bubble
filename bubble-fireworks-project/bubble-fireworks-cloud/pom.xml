@@ -6,7 +6,7 @@
     <parent>
         <artifactId>bubble-fireworks-parent</artifactId>
         <groupId>cn.fxbin.bubble</groupId>
-        <version>1.0.0.M1</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
