@@ -65,6 +65,12 @@
                                 <artifactId>mapstruct-processor</artifactId>
                                 <version>${mapstruct.version}</version>
                             </path>
+                            <!-- lombok-mapstruct-binding -->
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>0.2.0</version>
+                            </path>
                             <!-- 引入 lombok-processor -->
                             <path>
                                 <groupId>org.projectlombok</groupId>
