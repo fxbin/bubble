@@ -6,7 +6,7 @@
     <parent>
         <artifactId>bubble-fireworks-parent</artifactId>
         <groupId>cn.fxbin.bubble</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
@@ -15,7 +15,6 @@
 
 
     <modules>
-        <module>bubble-fireworks-cloud-sentinel</module>
         <module>bubble-fireworks-cloud-openfeign</module>
     </modules>
 

@@ -1,6 +1,5 @@
 ## Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.fxbin.bubble.fireworks.autoconfigure.cloud.sentinel.SentinelAutoConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignInterceptorConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignGlobalConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerAutoConfiguration,\
