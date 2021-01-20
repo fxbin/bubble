@@ -1,12 +1,16 @@
 package cn.fxbin.bubble.fireworks.plugin.lock.aop.support;
 
 import cn.fxbin.bubble.fireworks.core.constant.StringPool;
-import cn.fxbin.bubble.fireworks.core.util.*;
+import cn.fxbin.bubble.fireworks.core.util.AnnotationUtils;
+import cn.fxbin.bubble.fireworks.core.util.ArrayUtils;
+import cn.fxbin.bubble.fireworks.core.util.RunTimeUtils;
+import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import cn.fxbin.bubble.fireworks.plugin.lock.annotation.LockAction;
 import cn.fxbin.bubble.fireworks.plugin.lock.executor.LockExecutor;
 import cn.fxbin.bubble.fireworks.plugin.lock.factory.LockFactory;
 import cn.fxbin.bubble.fireworks.plugin.lock.model.LockInfo;
 import cn.fxbin.bubble.fireworks.plugin.lock.model.LockKeyGeneratorStrategy;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -52,9 +56,9 @@ public class LockActionAspect {
 
             String lockName = getKey(methodSignature.getMethod(), lockAction, point);
             String lockValue = RunTimeUtils.getPid() + ":" + StringUtils.getUUID();
-
+            ;
             lockInfo = LockInfo.builder()
-                    .lockKey(CollectionUtils.arrayToList(ObjectUtils.isEmpty(lockAction.keys()) ? new String[]{lockName} : lockAction.keys().length > 1 ? lockAction.keys() : new String[]{lockName}))
+                    .lockKey(Lists.newArrayList(ArrayUtils.isEmpty(lockAction.keys()) ? new String[]{lockName} : lockAction.keys().length > 1 ? lockAction.keys() : new String[]{lockName}))
                     .lockValue(lockValue)
                     .lockType(lockAction.lockType())
                     .leaseTime(lockAction.leaseTime())

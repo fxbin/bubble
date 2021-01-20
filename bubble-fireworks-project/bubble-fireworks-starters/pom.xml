@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
@@ -20,7 +20,6 @@
         <module>bubble-fireworks-starter-logging</module>
         <module>bubble-fireworks-starter-test</module>
         <module>bubble-fireworks-starter-mybatis</module>
-        <module>bubble-fireworks-starter-sentinel</module>
         <module>bubble-fireworks-starter-swagger</module>
         <module>bubble-fireworks-starter-elasticsearch</module>
         <module>bubble-fireworks-starter-openfeign</module>
