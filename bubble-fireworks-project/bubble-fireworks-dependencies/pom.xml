@@ -38,7 +38,7 @@
         <aliyun-log.version>0.6.61</aliyun-log.version>
         <aliyun-log-producer.version>0.3.5</aliyun-log-producer.version>
         <protobuf-java.version>3.14.0</protobuf-java.version>
-        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
         <xxl.job.version>2.2.0</xxl.job.version>
         <jjwt.version>0.11.2</jjwt.version>
         <fastjson.version>1.2.75</fastjson.version>
