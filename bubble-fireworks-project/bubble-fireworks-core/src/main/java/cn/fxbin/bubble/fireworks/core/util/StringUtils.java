@@ -48,6 +48,48 @@ public class StringUtils extends org.springframework.util.StringUtils {
     }
 
     /**
+     * <p>Returns either the passed in String, or if the String is
+     * {@code null}, the value of {@code defaultStr}.</p>
+     *
+     * <pre>
+     * StringUtils.defaultString(null, "NULL")  = "NULL"
+     * StringUtils.defaultString("", "NULL")    = ""
+     * StringUtils.defaultString("bat", "NULL") = "bat"
+     * </pre>
+     *
+     * @see String#valueOf(Object)
+     * @param str  the String to check, may be null
+     * @param defaultStr  the default String to return
+     *  if the input is {@code null}, may be null
+     * @return the passed in String, or the default if it was {@code null}
+     */
+    public static String defaultString(final String str, final String defaultStr) {
+        return str == null ? defaultStr : str;
+    }
+
+    /**
+     * <p>Returns either the passed in CharSequence, or if the CharSequence is
+     * empty or {@code null}, the value of {@code defaultStr}.</p>
+     *
+     * <pre>
+     * StringUtils.defaultIfEmpty(null, "NULL")  = "NULL"
+     * StringUtils.defaultIfEmpty("", "NULL")    = "NULL"
+     * StringUtils.defaultIfEmpty(" ", "NULL")   = " "
+     * StringUtils.defaultIfEmpty("bat", "NULL") = "bat"
+     * StringUtils.defaultIfEmpty("", null)      = null
+     * </pre>
+     * @param <T> the specific kind of CharSequence
+     * @param str  the CharSequence to check, may be null
+     * @param defaultStr  the default CharSequence to return
+     *  if the input is empty ("") or {@code null}, may be null
+     * @return the passed in CharSequence, or the default
+     * @see StringUtils#defaultString(String, String)
+     */
+    public static <T extends CharSequence> T defaultIfEmpty(final T str, final T defaultStr) {
+        return isBlank(str) ? defaultStr : str;
+    }
+
+    /**
      * Check whether the given {@code CharSequence} contains actual <em>text</em>.
      * <p>More specifically, this method returns {@code true} if the
      * {@code CharSequence} is not {@code null}, its length is greater than

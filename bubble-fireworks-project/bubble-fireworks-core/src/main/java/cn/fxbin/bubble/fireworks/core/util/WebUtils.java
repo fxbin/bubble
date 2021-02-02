@@ -9,9 +9,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -114,6 +116,89 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
             headers.put(headerName, headerValue);
         }
         return headers;
+    }
+
+    /**
+     * get target value from parameterMap, if not found will throw {@link IllegalArgumentException}.
+     *
+     * @param req {@link HttpServletRequest}
+     * @param key key
+     * @return value
+     */
+    public static String required(final HttpServletRequest req, final String key) {
+        String value = req.getParameter(key);
+        if (StringUtils.isEmpty(value)) {
+            throw new IllegalArgumentException("Param '" + key + "' is required.");
+        }
+        String encoding = req.getParameter("encoding");
+        return resolveValue(value, encoding);
+    }
+
+    /**
+     * get target value from parameterMap, if not found will return default value.
+     *
+     * @param req          {@link HttpServletRequest}
+     * @param key          key
+     * @param defaultValue default value
+     * @return value
+     */
+    public static String optional(final HttpServletRequest req, final String key, final String defaultValue) {
+        if (!req.getParameterMap().containsKey(key) || req.getParameterMap().get(key)[0] == null) {
+            return defaultValue;
+        }
+        String value = req.getParameter(key);
+        if (StringUtils.isBlank(value)) {
+            return defaultValue;
+        }
+        String encoding = req.getParameter("encoding");
+        return resolveValue(value, encoding);
+    }
+
+    /**
+     * decode target value.
+     *
+     * @param value    value
+     * @param encoding encode
+     * @return Decoded data
+     */
+    private static String resolveValue(String value, String encoding) {
+        if (StringUtils.isBlank(encoding)) {
+            encoding = StandardCharsets.UTF_8.name();
+        }
+        try {
+            value = new String(value.getBytes(StandardCharsets.UTF_8), encoding);
+        } catch (UnsupportedEncodingException ignore) {
+        }
+        return value.trim();
+    }
+
+
+    /**
+     * get accept encode from request.
+     *
+     * @param req {@link HttpServletRequest}
+     * @return accept encode
+     */
+    public static String getAcceptEncoding(HttpServletRequest req) {
+        String encode = StringUtils.defaultIfEmpty(req.getHeader("Accept-Charset"), StandardCharsets.UTF_8.name());
+        encode = encode.contains(",") ? encode.substring(0, encode.indexOf(",")) : encode;
+        return encode.contains(";") ? encode.substring(0, encode.indexOf(";")) : encode;
+    }
+
+    /**
+     * Returns the value of the request header "user-agent" as a <code>String</code>.
+     *
+     * @param request HttpServletRequest
+     * @return the value of the request header "user-agent", or the value of the request header "client-version" if the
+     * request does not have a header of "user-agent".
+     */
+    public static String getUserAgent(HttpServletRequest request) {
+        String userAgent = request.getHeader("User-Agent");
+        if (StringUtils.isBlank(userAgent)) {
+            userAgent = StringUtils
+                    .defaultIfEmpty(request.getHeader("Client-Version"), StringPool.EMPTY);
+        }
+        return userAgent;
     }
 
     /**
