@@ -33,7 +33,7 @@
         <elasticsearch.version>7.11.2</elasticsearch.version>
         <transmittable-thread-local.version>2.12.1</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
-        <redisson.version>3.15.1</redisson.version>
+        <redisson.version>3.15.2</redisson.version>
         <curator.version>4.3.0</curator.version>
         <aliyun-log.version>0.6.61</aliyun-log.version>
         <aliyun-log-producer.version>0.3.9</aliyun-log-producer.version>
