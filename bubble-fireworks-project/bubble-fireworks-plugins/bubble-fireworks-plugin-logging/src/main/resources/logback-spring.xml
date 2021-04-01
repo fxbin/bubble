@@ -35,7 +35,7 @@
     <!--获取比info级别高(包括info级别)但除error级别的日志-->
     <appender name="INFO-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
+            <level>INFO</level>
             <onMatch>DENY</onMatch>
             <onMismatch>ACCEPT</onMismatch>
         </filter>
@@ -94,7 +94,7 @@
 
     <root level="info">
         <appender-ref ref="CONSOLE-LOG" />
-        <appender-ref ref="INFO-LOG" />
-        <appender-ref ref="ERROR-LOG" />
+        <appender-ref ref="ASYNC-INFO" />
+        <appender-ref ref="ASYNC-ERROR" />
     </root>
 </configuration>
