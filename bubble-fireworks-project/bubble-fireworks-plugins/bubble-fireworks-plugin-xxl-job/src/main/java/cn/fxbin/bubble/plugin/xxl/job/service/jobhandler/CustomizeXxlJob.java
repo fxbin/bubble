@@ -1,14 +1,14 @@
 package cn.fxbin.bubble.plugin.xxl.job.service.jobhandler;
 
 import cn.fxbin.bubble.fireworks.core.util.JsonUtils;
+import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import cn.fxbin.bubble.fireworks.core.util.RunTimeUtils;
 import com.xxl.job.core.biz.model.ReturnT;
+import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import com.xxl.job.core.log.XxlJobLogger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 /**
  * CustomizeXxlJob
@@ -31,10 +31,10 @@ public class CustomizeXxlJob {
     @XxlJob("curlJobHandler")
     public ReturnT<String> curlJobHandler(String param) {
         log.info("Curl Job Start,param is:{}", param);
-        XxlJobLogger.log("Curl Job Start,param {}", param);
-        if (StringUtils.isEmpty(param)) {
-            XxlJobLogger.log("参数不能为空，请设置");
-            return new ReturnT<>(IJobHandler.FAIL.getCode(), "参数不能为空，请设置");
+        XxlJobHelper.log("Curl Job Start,param {}", param);
+        if (ObjectUtils.isEmpty(param)) {
+            XxlJobHelper.log("参数不能为空，请设置");
+            return new ReturnT<>(ReturnT.FAIL_CODE, "参数不能为空，请设置");
         }
 
         // 处理换行符
@@ -49,19 +49,19 @@ public class CustomizeXxlJob {
 
         String command = "curl ";
         String m = RunTimeUtils.getOptionValue("-m", param);
-        if (StringUtils.isEmpty(m)) {
+        if (ObjectUtils.isEmpty(m)) {
             command += "-m 1200 ";
         }
 
         String connectTimeout = RunTimeUtils.getOptionValue("--connect-timeout", param);
-        if (StringUtils.isEmpty(connectTimeout)) {
+        if (ObjectUtils.isEmpty(connectTimeout)) {
             command += "--connect-timeout 1200 ";
         }
 
         command += param;
 
         String result = RunTimeUtils.exec(86400, command);
-        XxlJobLogger.log("Curl Job End,param {},command {} result {}",param, command, JsonUtils.toJson(result));
+        XxlJobHelper.log("Curl Job End,param {},command {} result {}",param, command, JsonUtils.toJson(result));
         log.info("Curl Job End, Param {}, Command {} Result {}", param, command, JsonUtils.toJson(result));
 
         return new ReturnT<>(result);
