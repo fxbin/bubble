@@ -19,13 +19,13 @@
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
         <spring-boot.version>2.4.4</spring-boot.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <spring-cloud-alibaba.version>2020.0.RC1</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <spring-boot-admin.version>2.4.0</spring-boot-admin.version>
 
         <!-- Other Dependency Versions -->
         <knife4j.version>2.0.8</knife4j.version>
         <okhttp.version>4.9.1</okhttp.version>
-        <hutool-all.version>5.6.1</hutool-all.version>
+        <hutool-all.version>5.6.3</hutool-all.version>
         <guava.version>30.0-jre</guava.version>
         <httpclient.version>4.5.12</httpclient.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
@@ -33,16 +33,16 @@
         <elasticsearch.version>7.12.0</elasticsearch.version>
         <transmittable-thread-local.version>2.12.1</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
-        <redisson.version>3.15.2</redisson.version>
+        <redisson.version>3.15.3</redisson.version>
         <curator.version>4.3.0</curator.version>
         <aliyun-log.version>0.6.61</aliyun-log.version>
         <aliyun-log-producer.version>0.3.9</aliyun-log-producer.version>
-        <protobuf-java.version>3.15.6</protobuf-java.version>
+        <protobuf-java.version>3.15.8</protobuf-java.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <xxl.job.version>2.2.0</xxl.job.version>
         <jjwt.version>0.11.2</jjwt.version>
         <fastjson.version>1.2.76</fastjson.version>
-        <aliyun-oss.version>3.11.3</aliyun-oss.version>
+        <aliyun-oss.version>3.12.0</aliyun-oss.version>
         <lombok.version>1.18.16</lombok.version>
     </properties>
 
