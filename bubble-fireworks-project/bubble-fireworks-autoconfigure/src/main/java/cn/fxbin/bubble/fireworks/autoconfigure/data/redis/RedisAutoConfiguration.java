@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.data.redis;
 
+import cn.fxbin.bubble.fireworks.core.module.JacksonHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -43,7 +44,7 @@ public class RedisAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(RedisSerializer.class)
     public RedisSerializer<Object> redisSerializer() {
-        return new GenericJackson2JsonRedisSerializer();
+        return new GenericJackson2JsonRedisSerializer(JacksonHolder.INSTANCE);
     }
 
     @Bean
@@ -94,4 +95,5 @@ public class RedisAutoConfiguration {
         log.info("StringRedisTemplate init... successfully!!!");
         return template;
     }
+
 }
