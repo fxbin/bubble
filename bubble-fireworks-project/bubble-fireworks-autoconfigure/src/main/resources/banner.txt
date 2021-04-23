@@ -6,4 +6,4 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| {======|_|"""""|_|"""""|_|"""""
 "`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'./o--000'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'
 
 :: Based On Spring Boot Version :: ${spring-boot.formatted-version}
-:: Bubble Fireworks Version :: (v1.0.0-RELEASE)
+:: Bubble Fireworks Version :: (v1.0.1-RELEASE)
