@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-plugins</artifactId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.0-RELEASE</version>
     </parent>
 
     <artifactId>bubble-fireworks-plugin-logging</artifactId>
