@@ -4,6 +4,7 @@ import cn.fxbin.bubble.fireworks.core.util.CollectionUtils;
 import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import io.lettuce.core.RedisException;
 import io.lettuce.core.api.sync.RedisHashCommands;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisOperations {
 
-
+    @Getter
     @Resource
     private RedisTemplate redisTemplate;
 
