@@ -6,7 +6,7 @@
     <parent>
         <artifactId>bubble-fireworks-cloud</artifactId>
         <groupId>cn.fxbin.bubble</groupId>
-        <version>1.0.1-RELEASE</version>
+        <version>2021.BUILD-SNAPSHOT</version>
     </parent>
 
     <artifactId>bubble-fireworks-cloud-openfeign</artifactId>
