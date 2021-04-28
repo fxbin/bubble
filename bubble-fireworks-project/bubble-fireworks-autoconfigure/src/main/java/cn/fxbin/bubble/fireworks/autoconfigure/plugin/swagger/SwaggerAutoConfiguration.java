@@ -21,6 +21,7 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -38,6 +39,7 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProp
  * @since 2020/3/31 18:00
  */
 @EnableKnife4j
+@EnableSwagger2
 @Configuration(
         proxyBeanMethods = false
 )

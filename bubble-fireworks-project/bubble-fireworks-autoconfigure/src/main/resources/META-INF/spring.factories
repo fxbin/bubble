@@ -4,8 +4,8 @@ cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignInterceptorConfigur
 cn.fxbin.bubble.fireworks.autoconfigure.cloud.openfeign.FeignGlobalConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerAutoConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.web.SwaggerWebAutoConfiguration,\
+cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.SwaggerWebFluxAutoConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.RouterFunctionConfiguration,\
-cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux.SwaggerResourceConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.LoggingAutoConfiguration,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.logging.AliyunLogContextAutoConfigure,\
 cn.fxbin.bubble.fireworks.autoconfigure.plugin.threadpool.DynamicThreadPoolAutoConfiguration,\

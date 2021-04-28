@@ -1,7 +1,6 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.web;
 
 import cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProperties;
-import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.swagger.configuration.SwaggerCommonConfiguration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.swagger2.configuration.Swagger2WebMvcConfiguration;
 import springfox.documentation.swagger2.web.Swagger2ControllerWebMvc;
 
@@ -24,8 +22,6 @@ import static cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.SwaggerProp
  * @version v1.0
  * @since 2020/3/31 18:54
  */
-@EnableKnife4j
-@EnableSwagger2
 @Configuration(
         proxyBeanMethods = false
 )
