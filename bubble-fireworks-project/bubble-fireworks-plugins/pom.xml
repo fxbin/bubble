@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-parent</artifactId>
-        <version>1.0.1-RELEASE</version>
+        <version>2021.BUILD-SNAPSHOT</version>
         <relativePath>../bubble-fireworks-parent/pom.xml</relativePath>
     </parent>
 
@@ -25,6 +25,7 @@
         <module>bubble-fireworks-plugin-dynamic-threadpool</module>
         <module>bubble-fireworks-plugin-xxl-job</module>
         <module>bubble-fireworks-plugin-token</module>
+        <module>bubble-fireworks-plugin-pay</module>
     </modules>
 
 </project>

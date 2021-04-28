@@ -4,7 +4,7 @@
 
     <groupId>cn.fxbin.bubble</groupId>
     <artifactId>bubble-fireworks-build</artifactId>
-    <version>1.0.1-RELEASE</version>
+    <version>2021.BUILD-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>bubble-fireworks-build</name>
     <description>Bubble Fireworks Build project, managing plugins</description>
@@ -332,7 +332,7 @@
                 </configuration>
             </plugin>
 
-            <!-- mvn versions:set -DnewVersion=1.0.0-RELEASE -->
+            <!-- mvn versions:set -DnewVersion=2021.BUILD-SNAPSHOT -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
