@@ -33,6 +33,7 @@ public class ServiceException extends RuntimeException {
     }
 
     public ServiceException(Result<?> result) {
+        super(result.getErrmsg());
         this.errcode = result.getErrcode();
         this.errmsg = result.getErrmsg();
     }
