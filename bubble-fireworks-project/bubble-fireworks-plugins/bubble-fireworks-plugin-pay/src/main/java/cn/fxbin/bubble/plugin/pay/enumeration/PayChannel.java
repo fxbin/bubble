@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.plugin.pay.enums;
+package cn.fxbin.bubble.plugin.pay.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

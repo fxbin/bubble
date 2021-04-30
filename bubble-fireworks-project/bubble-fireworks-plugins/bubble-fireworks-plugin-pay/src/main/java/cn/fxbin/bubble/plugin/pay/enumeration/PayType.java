@@ -1,9 +1,9 @@
-package cn.fxbin.bubble.plugin.pay.enums;
+package cn.fxbin.bubble.plugin.pay.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static cn.fxbin.bubble.plugin.pay.enums.PayChannel.WX;
+import static cn.fxbin.bubble.plugin.pay.enumeration.PayChannel.WX;
 
 /**
  * PayType 支付类型
