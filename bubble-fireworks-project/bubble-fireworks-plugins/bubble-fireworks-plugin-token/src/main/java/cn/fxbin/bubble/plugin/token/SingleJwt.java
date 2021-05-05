@@ -169,7 +169,7 @@ public class SingleJwt {
     public TokenPayload parseToken(String token) {
         Map<String, Object> mapObj = (Map<String, Object>) Jwts.parserBuilder()
                 .setSigningKey(key).build()
-                .parse(token)
+                .parseClaimsJws(token)
                 .getBody();
 
         TokenPayload payload = BeanUtils.map2Object(mapObj, TokenPayload.class);
