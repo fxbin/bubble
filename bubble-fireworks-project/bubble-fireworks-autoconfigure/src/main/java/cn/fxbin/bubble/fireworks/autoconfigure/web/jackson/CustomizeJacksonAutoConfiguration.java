@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.web.jackson;
 
+import cn.fxbin.bubble.fireworks.core.module.JavaTimeModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -28,6 +29,8 @@ public class CustomizeJacksonAutoConfiguration {
         return builder -> {
             builder.serializerByType(Long.class, ToStringSerializer.instance);
             builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
+
+            builder.modules(new JavaTimeModule());
         };
     }
 
