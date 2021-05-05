@@ -142,7 +142,7 @@ public class DoubleJwt {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
+ 
         TokenPayload payload = BeanUtils.map2Object(mapObj, TokenPayload.class);
         checkTokenExpired(payload.getExp());
         return payload;
