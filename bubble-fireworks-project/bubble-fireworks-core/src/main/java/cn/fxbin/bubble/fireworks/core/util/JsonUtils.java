@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
 import cn.fxbin.bubble.fireworks.core.exception.UtilException;
+import cn.fxbin.bubble.fireworks.core.module.JacksonHolder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.experimental.UtilityClass;
@@ -95,9 +96,5 @@ public class JsonUtils {
         return JacksonHolder.INSTANCE;
     }
 
-
-    private class JacksonHolder {
-        private static final ObjectMapper INSTANCE = new ObjectMapper();
-    }
 
 }

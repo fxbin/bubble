@@ -5,6 +5,8 @@ server:
 spring:
   application:
     name: test-plugin-swagger
+  main:
+    allow-bean-definition-overriding: true
 bubble:
   fireworks:
     swagger:

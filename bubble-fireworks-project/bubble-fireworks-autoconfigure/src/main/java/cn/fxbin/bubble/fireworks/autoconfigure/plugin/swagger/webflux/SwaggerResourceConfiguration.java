@@ -13,6 +13,7 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
  * @since 2020/4/3 11:19
  */
 @Slf4j
+@Primary
 @Configuration(
         proxyBeanMethods = false
 )
