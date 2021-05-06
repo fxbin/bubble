@@ -1,12 +1,12 @@
 package cn.fxbin.bubble.fireworks.plugin.lock.aop.support;
 
-import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import cn.fxbin.bubble.fireworks.plugin.lock.annotation.LockAction;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
