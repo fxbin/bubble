@@ -3,18 +3,23 @@ package cn.fxbin.bubble.fireworks.core.util;
 import cn.fxbin.bubble.fireworks.core.constant.CharPool;
 import cn.fxbin.bubble.fireworks.core.constant.StringPool;
 import cn.fxbin.bubble.fireworks.core.exception.UtilException;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.experimental.UtilityClass;
 import org.springframework.lang.Nullable;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.HtmlUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
-import java.util.Collection;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+
+import static org.springframework.util.StringUtils.arrayToDelimitedString;
 
 /**
  * StringUtils
@@ -24,13 +29,27 @@ import java.util.stream.Stream;
  * @since 2020/3/23 17:10
  */
 @UtilityClass
-public class StringUtils extends org.springframework.util.StringUtils {
+public class StringUtils extends StrUtil {
 
     /**
      * 验证字符串是否是数据库字段
      */
     private final Pattern PROPERTY_IS_COLUMN = Pattern.compile("^\\w\\S*[\\w\\d]*$");
 
+    /**
+     * isEmpty
+     *
+     * <p>
+     *     {@link org.springframework.util.ObjectUtils#isEmpty(Object)}
+     * </p>
+     *
+     * @since 2021/4/30 10:49
+     * @param str the candidate object (possibly a {@code String})
+     * @return boolean
+     */
+    public boolean isEmpty(@Nullable Object str) {
+        return ObjectUtils.isEmpty(str);
+    }
 
     /**
      * Check whether the given {@code String} is not empty.
@@ -44,7 +63,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @since 3.2.1
      */
     public boolean isNotEmpty(@Nullable Object str) {
-        return !(str == null || "".equals(str));
+        return !isEmpty(str);
     }
 
     /**
@@ -87,47 +106,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
      */
     public static <T extends CharSequence> T defaultIfEmpty(final T str, final T defaultStr) {
         return isBlank(str) ? defaultStr : str;
-    }
-
-    /**
-     * Check whether the given {@code CharSequence} contains actual <em>text</em>.
-     * <p>More specifically, this method returns {@code true} if the
-     * {@code CharSequence} is not {@code null}, its length is greater than
-     * 0, and it contains at least one non-whitespace character.
-     * <pre class="code">
-     * StringUtil.isBlank(null) = true
-     * StringUtil.isBlank("") = true
-     * StringUtil.isBlank(" ") = true
-     * StringUtil.isBlank("12345") = false
-     * StringUtil.isBlank(" 12345 ") = false
-     * </pre>
-     *
-     * @param cs the {@code CharSequence} to check (may be {@code null})
-     * @return {@code true} if the {@code CharSequence} is not {@code null},
-     * its length is greater than 0, and it does not contain whitespace only
-     * @see Character#isWhitespace
-     */
-    public boolean isBlank(@Nullable final CharSequence cs) {
-        return !StringUtils.hasText(cs);
-    }
-
-    /**
-     * <p>Checks if a CharSequence is not empty (""), not null and not whitespace only.</p>
-     * <pre>
-     * StringUtil.isNotBlank(null)	  = false
-     * StringUtil.isNotBlank("")		= false
-     * StringUtil.isNotBlank(" ")	   = false
-     * StringUtil.isNotBlank("bob")	 = true
-     * StringUtil.isNotBlank("  bob  ") = true
-     * </pre>
-     *
-     * @param cs the CharSequence to check, may be null
-     * @return {@code true} if the CharSequence is
-     * not empty and not null and not whitespace
-     * @see Character#isWhitespace
-     */
-    public boolean isNotBlank(@Nullable final CharSequence cs) {
-        return StringUtils.hasText(cs);
     }
 
     /**
@@ -186,7 +164,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return the delimited {@code String}
      */
     public String join(Collection<?> coll) {
-        return StringUtils.collectionToCommaDelimitedString(coll);
+        return org.springframework.util.StringUtils.collectionToDelimitedString(coll, ",");
     }
 
     /**
@@ -198,7 +176,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return the delimited {@code String}
      */
     public String join(Collection<?> coll, String delim) {
-        return StringUtils.collectionToDelimitedString(coll, delim);
+        return org.springframework.util.StringUtils.collectionToDelimitedString(coll, delim, "", "");
     }
 
     /**
@@ -210,7 +188,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return the delimited {@code String}
      */
     public String join(Object[] arr) {
-        return StringUtils.arrayToCommaDelimitedString(arr);
+        return org.springframework.util.StringUtils.arrayToDelimitedString(arr, ",");
     }
 
     /**
@@ -222,7 +200,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return the delimited {@code String}
      */
     public String join(Object[] arr, String delim) {
-        return StringUtils.arrayToDelimitedString(arr, delim);
+        return org.springframework.util.StringUtils.arrayToDelimitedString(arr, delim);
     }
 
     /**
@@ -304,7 +282,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return java.lang.String[]
      */
     public String[] splitTrim(@Nullable String str, @Nullable String delimiter) {
-        return delimitedListToStringArray(str, delimiter, " \t\n\n\f");
+        return org.springframework.util.StringUtils.delimitedListToStringArray(str, delimiter, " \t\n\n\f");
     }
 
     /**
@@ -419,67 +397,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
     }
 
     /**
-     * utf8Str
-     *
-     * 将对象转为字符串<br>
-     * 1、Byte数组和ByteBuffer会被转换为对应字符串的数组 2、对象数组会调用Arrays.toString方法
-     *
-     * @since 2020/3/23 17:58
-     * @param obj 对象
-     * @return java.lang.String
-     */
-    public String utf8Str(Object obj) {
-        return str(obj, CharsetUtils.CHARSET_UTF_8);
-    }
-
-    /**
-     * str
-     *
-     * 将对象转为字符串<br>
-     * 1、Byte数组和ByteBuffer会被转换为对应字符串的数组 2、对象数组会调用Arrays.toString方法
-     *
-     * @since 2020/3/23 17:58
-     * @param obj 对象
-     * @param charsetName 字符集
-     * @return java.lang.String
-     */
-    public String str(Object obj, String charsetName) {
-        return str(obj, Charset.forName(charsetName));
-    }
-
-    /**
-     * str
-     *
-     * <p>
-     * 将对象转为字符串<br>
-     * 1、Byte数组和ByteBuffer会被转换为对应字符串的数组 2、对象数组会调用Arrays.toString方法
-     * </p>
-     *
-     * @since 2020/3/23 17:57
-     * @param obj 对象
-     * @param charset 字符集
-     * @return java.lang.String
-     */
-    public String str(Object obj, Charset charset) {
-        if (null == obj) {
-            return null;
-        }
-
-        if (obj instanceof String) {
-            return (String) obj;
-        } else if (obj instanceof byte[]) {
-            return str((byte[]) obj, charset);
-        } else if (obj instanceof Byte[]) {
-            return str((Byte[]) obj, charset);
-        } else if (obj instanceof ByteBuffer) {
-            return str((ByteBuffer) obj, charset);
-        } else if (ArrayUtils.isArray(obj)) {
-            return ArrayUtils.toString(obj);
-        }
-        return obj.toString();
-    }
-
-    /**
      * Blob 转为 String 格式
      *
      * @param blob Blob 对象
@@ -495,19 +412,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
             }
         }
         return null;
-    }
-
-    /**
-     * 大写第一个字母
-     *
-     * @param src 源字符串
-     * @return 返回第一个大写后的字符串
-     */
-    public String upperFirst(String src) {
-        if (Character.isLowerCase(src.charAt(0))) {
-            return 1 == src.length() ? src.toUpperCase() : Character.toUpperCase(src.charAt(0)) + src.substring(1);
-        }
-        return src;
     }
 
     /**

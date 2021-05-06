@@ -20,7 +20,8 @@ import java.io.IOException;
 public interface JacksonHolder {
 
     ObjectMapper INSTANCE = new ObjectMapper()
-            .registerModule(new JavaTimeModule().addSerializer(new NullValueSerializer((String) null)));
+            .registerModule(new JavaTimeModule()
+                    .addSerializer(new NullValueSerializer(null)));
 
     /**
      * {@link StdSerializer} adding class information required by default typing. This allows de-/serialization of
@@ -29,7 +30,7 @@ public interface JacksonHolder {
      * @author Christoph Strobl
      * @since 1.8
      */
-    public class NullValueSerializer extends StdSerializer<NullValue> {
+    class NullValueSerializer extends StdSerializer<NullValue> {
 
         private static final long serialVersionUID = 1999052150548658808L;
         private final String classIdentifier;
