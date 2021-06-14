@@ -5,7 +5,7 @@
     <parent>
         <artifactId>bubble-fireworks-starters</artifactId>
         <groupId>cn.fxbin.bubble</groupId>
-        <version>2021.5</version>
+        <version>2021.6.BUILD-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
