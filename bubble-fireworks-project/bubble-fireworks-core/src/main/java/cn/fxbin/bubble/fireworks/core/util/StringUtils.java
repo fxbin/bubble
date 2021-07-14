@@ -3,23 +3,17 @@ package cn.fxbin.bubble.fireworks.core.util;
 import cn.fxbin.bubble.fireworks.core.constant.CharPool;
 import cn.fxbin.bubble.fireworks.core.constant.StringPool;
 import cn.fxbin.bubble.fireworks.core.exception.UtilException;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.experimental.UtilityClass;
 import org.springframework.lang.Nullable;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.HtmlUtils;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
-import java.util.*;
+import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import static org.springframework.util.StringUtils.arrayToDelimitedString;
 
 /**
  * StringUtils
