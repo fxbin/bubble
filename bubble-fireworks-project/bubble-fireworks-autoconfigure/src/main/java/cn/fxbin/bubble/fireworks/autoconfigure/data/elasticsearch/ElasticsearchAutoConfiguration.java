@@ -48,7 +48,7 @@ public class ElasticsearchAutoConfiguration {
         List<String> clusterNodes = properties.getClusterNodes();
         clusterNodes.forEach(node -> {
             try {
-                String[] parts = StringUtils.split(node, ":");
+                String[] parts = StringUtils.splitToArray(node, ":");
                 Assert.notNull(parts, "Must defined Cluster Node");
                 Assert.state(parts.length == 2, "Must be defined as 'host:port'");
 
