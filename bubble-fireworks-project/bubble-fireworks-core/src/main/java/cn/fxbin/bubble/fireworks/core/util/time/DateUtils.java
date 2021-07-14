@@ -159,6 +159,31 @@ public class DateUtils {
         return isDateType;
     }
 
+
+    /**
+     * isToday
+     *
+     * <p>
+     *     判断日期是否为今天
+     * </p>
+     *
+     * @since 2021/7/14 15:07
+     * @param object 日期对象
+     * @return boolean
+     */
+    public boolean isToday(Object object) {
+        LocalDate today = DateUtils.localDate();
+        if (object instanceof Date) {
+            return today.isEqual(DateUtils.toLocalDate((Date) object));
+        } else if (object instanceof LocalDate) {
+            return today.isEqual((LocalDate) object);
+        } else if (object instanceof LocalDateTime) {
+            return today.isEqual(DateUtils.toLocalDate((LocalDateTime) object));
+        } else {
+            return false;
+        }
+    }
+
     // ========= 日期格式化 =========
 
 
@@ -201,6 +226,42 @@ public class DateUtils {
      */
     public String getCurDateTime(@NonNull String pattern) {
         return format(localDateTime(), pattern);
+    }
+
+    /**
+     * format
+     *
+     * <p>
+     *     根据日期格式 , 将秒转化为指定的 mm:ss 或者 HH:mm:ss 格式
+     * </p>
+     *
+     * @since 2021/7/14 15:10
+     * @param totalSeconds total seconds
+     * @param pattern the pattern to use, not null
+     * @return java.lang.String
+     */
+    public String format(Integer totalSeconds, @NonNull String pattern) {
+        if (totalSeconds == null || totalSeconds < 1) {
+            return "00:01";
+        }
+
+        if ("mm:ss".equals(pattern)) {
+            // 将秒格式化成 mm:ss
+            // 这里应该用Duration更合理，但它不能格式化成字符串
+            // 而使用LocalTime，在时间超过24小时后格式化也会有问题（！）
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+            return String.format("%02d:%02d", minutes, seconds);
+        } else if ("HH:mm:ss".equals(pattern)) {
+
+            int hours = totalSeconds / 3600;
+            int rem = totalSeconds % 3600;
+            int minutes = rem / 60;
+            int seconds = rem % 60;
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            return "";
+        }
     }
 
     /**
