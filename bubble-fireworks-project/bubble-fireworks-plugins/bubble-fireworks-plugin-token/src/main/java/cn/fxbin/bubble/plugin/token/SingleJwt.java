@@ -8,7 +8,6 @@ import cn.fxbin.bubble.plugin.token.model.TokenPayload;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import jdk.nashorn.internal.parser.Token;
 
 import java.security.Key;
 import java.util.Date;

@@ -1,7 +1,5 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.token;
 
-import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
-import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import cn.fxbin.bubble.plugin.token.DoubleJwt;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

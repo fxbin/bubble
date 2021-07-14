@@ -5,7 +5,6 @@ import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import cn.fxbin.bubble.fireworks.core.util.RunTimeUtils;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.context.XxlJobHelper;
-import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
