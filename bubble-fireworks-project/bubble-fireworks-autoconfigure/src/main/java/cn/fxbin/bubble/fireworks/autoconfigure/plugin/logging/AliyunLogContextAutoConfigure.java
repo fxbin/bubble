@@ -60,7 +60,7 @@ public class AliyunLogContextAutoConfigure {
 
     @Bean(name = BeanKey.ALIYUN_LOGGING_REPORT)
     @ConditionalOnMissingBean(name = {BeanKey.ALIYUN_LOGGING_REPORT})
-    LoggingReport aliyunLoggingReport(@Qualifier("producer") Producer producer) {
+    public LoggingReport aliyunLoggingReport(@Qualifier("producer") Producer producer) {
         AliyunLoggingReport aliyunLoggingReport = new AliyunLoggingReport(producer);
         aliyunLoggingReport.setProjectName(properties.getAliyun().getProjectName());
         aliyunLoggingReport.setLogStore(properties.getAliyun().getLogStore());
@@ -71,7 +71,7 @@ public class AliyunLogContextAutoConfigure {
 
     @Bean(name = BeanKey.MEMORY_LOGGING_CACHE)
     @ConditionalOnMissingBean
-    LoggingCache loggingCache() {
+    public LoggingCache loggingCache() {
         return new MemoryLoggingCache();
     }
 
