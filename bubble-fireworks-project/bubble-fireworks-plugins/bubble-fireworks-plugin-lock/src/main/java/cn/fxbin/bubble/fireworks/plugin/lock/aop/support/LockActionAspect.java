@@ -56,7 +56,7 @@ public class LockActionAspect {
 
             String lockName = getKey(methodSignature.getMethod(), lockAction, point);
             String lockValue = RunTimeUtils.getPid() + ":" + StringUtils.getUUID();
-            ;
+
             lockInfo = LockInfo.builder()
                     .lockKey(Lists.newArrayList(ArrayUtils.isEmpty(lockAction.keys()) ? new String[]{lockName} : lockAction.keys().length > 1 ? lockAction.keys() : new String[]{lockName}))
                     .lockValue(lockValue)

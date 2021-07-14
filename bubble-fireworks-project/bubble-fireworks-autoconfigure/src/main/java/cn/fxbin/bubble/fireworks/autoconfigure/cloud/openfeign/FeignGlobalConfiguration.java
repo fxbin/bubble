@@ -42,7 +42,7 @@ public class FeignGlobalConfiguration {
     }
 
     @Bean
-    Logger.Level feignLoggerLevel() {
+    public Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }
 
