@@ -20,3 +20,6 @@
 ## 项目简介
 
 基于SpringBoot,SpringCloud,Mybatis Plus 的快速开发脚手架
+
+## 参考文档
+[git commit emoji 使用指南](https://github.com/liuchengxu/git-commit-emoji-cn)
