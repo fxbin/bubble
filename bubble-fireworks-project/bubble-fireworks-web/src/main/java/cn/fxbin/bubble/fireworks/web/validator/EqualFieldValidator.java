@@ -60,7 +60,7 @@ public class EqualFieldValidator implements ConstraintValidator<EqualField, Obje
             }
 
             // 如果两个对象内存地址相同，则一定相等
-            if (src == dst) {
+            if (src.equals(dst)) {
                 return true;
             }
 

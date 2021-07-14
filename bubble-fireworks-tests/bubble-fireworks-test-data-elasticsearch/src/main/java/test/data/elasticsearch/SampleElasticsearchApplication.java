@@ -1,7 +1,6 @@
 package test.data.elasticsearch;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +20,7 @@ import java.util.List;
  * @version v1.0
  * @since 2020/5/6 11:07
  */
+@Slf4j
 @SpringBootApplication
 public class SampleElasticsearchApplication implements CommandLineRunner {
 
@@ -31,8 +31,6 @@ public class SampleElasticsearchApplication implements CommandLineRunner {
 
     @Resource
     private PersonService personService;
-
-    private static Logger logger = LoggerFactory.getLogger(SampleElasticsearchApplication.class);
 
     @Override
     public void run(String... args) throws Exception {
@@ -52,6 +50,6 @@ public class SampleElasticsearchApplication implements CommandLineRunner {
         personService.update(ElasticsearchConstant.INDEX_NAME, updateList);
 
         List<Person> personList = personService.searchList(ElasticsearchConstant.INDEX_NAME);
-        logger.info("person list data: {}", personList);
+        log.info("person list data: {}", personList);
     }
 }

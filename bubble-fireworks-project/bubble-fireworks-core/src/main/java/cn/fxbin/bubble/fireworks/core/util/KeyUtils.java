@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
+import cn.fxbin.bubble.fireworks.core.exception.UtilException;
 import lombok.experimental.UtilityClass;
 
 import java.io.ByteArrayOutputStream;
@@ -52,11 +53,11 @@ public class KeyUtils {
             return kf.generatePrivate(
                     new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKey)));
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("当前Java环境不支持RSA", e);
+            throw new UtilException("当前Java环境不支持RSA", e);
         } catch (InvalidKeySpecException e) {
-            throw new RuntimeException("无效的密钥格式");
+            throw new UtilException("无效的密钥格式");
         } catch (IOException e) {
-            throw new RuntimeException("无效的密钥");
+            throw new UtilException("无效的密钥");
         }
     }
 
@@ -79,11 +80,11 @@ public class KeyUtils {
             cert.checkValidity();
             return cert;
         } catch (CertificateExpiredException var3) {
-            throw new RuntimeException("证书已过期", var3);
+            throw new UtilException("证书已过期", var3);
         } catch (CertificateNotYetValidException var4) {
-            throw new RuntimeException("证书尚未生效", var4);
+            throw new UtilException("证书尚未生效", var4);
         } catch (CertificateException var5) {
-            throw new RuntimeException("无效的证书", var5);
+            throw new UtilException("无效的证书", var5);
         }
     }
 
