@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
+import cn.hutool.core.map.MapUtil;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -10,5 +11,5 @@ import lombok.experimental.UtilityClass;
  * @since 2020/3/30 13:54
  */
 @UtilityClass
-public class MapUtils {
+public class MapUtils extends MapUtil {
 }
