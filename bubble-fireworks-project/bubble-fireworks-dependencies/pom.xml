@@ -30,7 +30,7 @@
         <httpclient.version>4.5.13</httpclient.version>
         <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
         <easyexcel.version>2.2.10</easyexcel.version>
-        <elasticsearch.version>7.13.3</elasticsearch.version>
+        <elasticsearch.version>7.13.4</elasticsearch.version>
         <transmittable-thread-local.version>2.12.1</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
         <redisson.version>3.16.0</redisson.version>
