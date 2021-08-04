@@ -1,12 +1,14 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.plugin.swagger.webflux;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.server.HandlerFunction;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Primary
 @Component
+@ConditionalOnClass({HandlerFunction.class})
 public class SwaggerProvider implements SwaggerResourcesProvider {
 
     private static final String API_URI = "/v2/api-docs";
