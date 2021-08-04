@@ -13,8 +13,18 @@
 
     <!-- log base path -->
     <springProperty scope="context" name="springAppName" source="spring.application.name" defaultValue="application"/>
-    <!-- log base path -->
-    <property name="logHome" value="/data/service-logs/${springAppName}" />
+
+    <!-- mac auto create folder restricted permissions  -->
+    <springProfile name="dev | local">
+        <!-- log base path -->
+        <property name="logHome" value="./data/service-logs/${springAppName}" />
+    </springProfile>
+    <springProfile name="default">
+        <!-- log base path -->
+        <property name="logHome" value="/data/service-logs/${springAppName}" />
+    </springProfile>
+
+
 
     <!-- You can override this to have a custom pattern -->
     <property name="CUSTOM_LOG_PATTERN"
@@ -33,68 +43,53 @@
     </appender>
 
     <!--获取比info级别高(包括info级别)但除error级别的日志-->
-    <appender name="INFO-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>DENY</onMatch>
-            <onMismatch>ACCEPT</onMismatch>
-        </filter>
+    <appender name="FILE-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <pattern>${CUSTOM_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
 
         <file>${logHome}/${springAppName}-info.log</file>
 
         <!--滚动策略-->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--路径-->
-            <fileNamePattern>${logHome}/${springAppName}-info-%d{yyyy-MM-dd}.gz</fileNamePattern>
-            <maxHistory>7</maxHistory>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 滚动后的日志文件名 -->
+            <fileNamePattern>${LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN:-${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz}</fileNamePattern>
+            <!-- 启动服务时，是否清理历史日志，一般不建议清理 -->
+            <cleanHistoryOnStart>${LOGBACK_ROLLINGPOLICY_CLEAN_HISTORY_ON_START:-false}</cleanHistoryOnStart>
+            <!-- 日志文件，到达多少容量，进行滚动 -->
+            <maxFileSize>${LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE:-10MB}</maxFileSize>
+            <!-- 日志文件的总大小，0 表示不限制 -->
+            <totalSizeCap>${LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP:-0}</totalSizeCap>
+            <!-- 日志文件的保留天数 -->
+            <maxHistory>${LOGBACK_ROLLINGPOLICY_MAX_HISTORY:-30}</maxHistory>
         </rollingPolicy>
     </appender>
-    <appender name="ERROR-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
 
-        <file>${logHome}/${springAppName}-error.log</file>
-
-        <!--滚动策略-->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--路径-->
-            <fileNamePattern>${logHome}/${springAppName}-error-%d{yyyy-MM-dd}.gz</fileNamePattern>
-            <maxHistory>7</maxHistory>
-        </rollingPolicy>
-    </appender>
 
     <!-- 异步输出 -->
-    <appender name="ASYNC-INFO" class="ch.qos.logback.classic.AsyncAppender">
+    <appender name="ASYNC-LOG" class="ch.qos.logback.classic.AsyncAppender">
         <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-        <discardingThreshold>0</discardingThreshold>
+        <discardingThreshold>80</discardingThreshold>
         <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
         <queueSize>256</queueSize>
         <!-- 添加附加的appender,最多只能添加一个 -->
-        <appender-ref ref="INFO-LOG"/>
+        <appender-ref ref="FILE-LOG"/>
     </appender>
 
-    <appender name="ASYNC-ERROR" class="ch.qos.logback.classic.AsyncAppender">
-        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-        <discardingThreshold>0</discardingThreshold>
-        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
-        <queueSize>256</queueSize>
-        <!-- 添加附加的appender,最多只能添加一个 -->
-        <appender-ref ref="ERROR-LOG"/>
-    </appender>
+    <springProfile name="dev | local">
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE-LOG"/>
+            <appender-ref ref="FILE-LOG"/>
+            <appender-ref ref="ASYNC-LOG"/>
+        </root>
+    </springProfile>
 
-
-    <root level="info">
-        <appender-ref ref="CONSOLE-LOG" />
-        <appender-ref ref="ASYNC-INFO" />
-        <appender-ref ref="ASYNC-ERROR" />
-    </root>
+    <springProfile name="default">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE-LOG"/>
+            <appender-ref ref="FILE-LOG"/>
+            <appender-ref ref="ASYNC-LOG"/>
+        </root>
+    </springProfile>
 </configuration>
