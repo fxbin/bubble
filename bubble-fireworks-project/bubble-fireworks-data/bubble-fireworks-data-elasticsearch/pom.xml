@@ -30,10 +30,6 @@
             <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
