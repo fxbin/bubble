@@ -44,7 +44,7 @@ public class RedisAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(RedisSerializer.class)
     public RedisSerializer<Object> redisSerializer() {
-        return new GenericJackson2JsonRedisSerializer(JacksonHolder.INSTANCE);
+        return new GenericJackson2JsonRedisSerializer();
     }
 
     @Bean
