@@ -20,7 +20,6 @@
         <module>bubble-fireworks-starter-logging</module>
         <module>bubble-fireworks-starter-test</module>
         <module>bubble-fireworks-starter-mybatis</module>
-        <module>bubble-fireworks-starter-swagger</module>
         <module>bubble-fireworks-starter-elasticsearch</module>
         <module>bubble-fireworks-starter-openfeign</module>
         <module>bubble-fireworks-starter-web</module>

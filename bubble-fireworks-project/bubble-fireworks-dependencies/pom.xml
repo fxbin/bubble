@@ -83,11 +83,6 @@
                 <artifactId>bubble-fireworks-plugin-http</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-plugin-swagger</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
@@ -167,12 +162,6 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-mybatis</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-swagger</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
