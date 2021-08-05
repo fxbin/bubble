@@ -12,7 +12,7 @@
 
 | 依赖 | 版本 |
 ---|---
-| Spring Boot |  2.5.2 |
+| Spring Boot |  2.5.3 |
 | Spring Cloud |  2020.0.3 | 
 | Spring Cloud Alibaba |  2021.1 |
 | Mybatis-Plus | 3.4.3.1 |  
