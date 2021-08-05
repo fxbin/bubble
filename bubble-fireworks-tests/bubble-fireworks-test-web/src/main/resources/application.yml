@@ -3,9 +3,11 @@ server:
 spring:
   application:
     name: test-web
+  swagger:
+    enabled: true
+  main:
+    allow-bean-definition-overriding: true
 bubble:
   fireworks:
     token:
       token-access-expire: 100
-    swagger:
-      enabled: true
