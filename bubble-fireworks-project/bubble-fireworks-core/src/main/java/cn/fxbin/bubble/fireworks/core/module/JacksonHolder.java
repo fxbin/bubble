@@ -1,6 +1,5 @@
 package cn.fxbin.bubble.fireworks.core.module;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -22,8 +21,7 @@ public interface JacksonHolder {
 
     ObjectMapper INSTANCE = new ObjectMapper()
             .registerModule(new JavaTimeModule()
-                    .addSerializer(new NullValueSerializer(null)))
-            .enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+                    .addSerializer(new NullValueSerializer(null)));
 
     /**
      * {@link StdSerializer} adding class information required by default typing. This allows de-/serialization of
