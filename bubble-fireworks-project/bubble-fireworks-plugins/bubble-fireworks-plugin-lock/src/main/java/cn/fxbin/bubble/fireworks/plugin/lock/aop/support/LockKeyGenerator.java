@@ -30,7 +30,7 @@ public class LockKeyGenerator {
     /**
      * Generate a key for the given package and method.
      * @param method a single method on a class or interface
-     * @param lockAction the annotation of {@see com.zichan360.framework.lock.annotation.Lock}
+     * @param lockAction the annotation of {@link LockAction}
      * @return a generated key
      */
     public Object generate(Method method, LockAction lockAction) {
