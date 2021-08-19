@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
 import cn.fxbin.bubble.fireworks.core.exception.UtilException;
+import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -47,7 +48,8 @@ public class AnnotationUtils extends org.springframework.core.annotation.Annotat
                 log.warn("{} 注解属性 {} 修改失败, {}", annotation.getClass(), attributeName, annotation);
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new UtilException("com.zichan360.middle.account.util.AnnotationUtils.setValue 异常", e);
+            throw new UtilException(LoggerMessageFormat.format("{} {} error",
+                    AnnotationUtils.class, Thread.currentThread().getStackTrace()[1].getMethodName()), e);
         }
     }
 

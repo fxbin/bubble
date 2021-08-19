@@ -2,6 +2,7 @@ package cn.fxbin.bubble.fireworks.core.util;
 
 import cn.fxbin.bubble.fireworks.core.exception.UtilException;
 import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
+import cn.hutool.core.util.ArrayUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +18,7 @@ import java.util.Arrays;
  */
 @Slf4j
 @UtilityClass
-public class ArrayUtils {
+public class ArrayUtils extends ArrayUtil {
 
     /**
      * isEmpty
@@ -113,7 +114,8 @@ public class ArrayUtils {
             try {
                 return Arrays.deepToString((Object[]) obj);
             } catch (Exception e) {
-                log.error("cn.fxbin.bubble.core.util.ArrayUtils.toString error", e);
+                log.error(LoggerMessageFormat.format("{} {} error",
+                        ArrayUtils.class, Thread.currentThread().getStackTrace()[1].getMethodName()), e);
                 return Arrays.toString(wrap(obj));
             }
         }

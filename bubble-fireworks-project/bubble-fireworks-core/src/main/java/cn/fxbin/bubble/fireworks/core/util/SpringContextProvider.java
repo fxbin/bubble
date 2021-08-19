@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
  * @since 2020/3/20 17:37
  */
 @Slf4j
-@Service
+@Component
 @Lazy(false)
 public class SpringContextProvider implements ApplicationContextAware, DisposableBean {
 
