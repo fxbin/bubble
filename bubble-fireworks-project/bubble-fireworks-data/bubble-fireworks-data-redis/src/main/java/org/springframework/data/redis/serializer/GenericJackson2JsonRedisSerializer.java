@@ -50,9 +50,9 @@ public class GenericJackson2JsonRedisSerializer implements RedisSerializer<Objec
         registerNullValueSerializer(mapper, classPropertyTypeName);
 
         if (StringUtils.hasText(classPropertyTypeName)) {
-            mapper.enableDefaultTypingAsProperty(DefaultTyping.NON_FINAL, classPropertyTypeName);
+            mapper.activateDefaultTypingAsProperty(mapper.getPolymorphicTypeValidator(), DefaultTyping.NON_FINAL, classPropertyTypeName);
         } else {
-            mapper.enableDefaultTyping(DefaultTyping.NON_FINAL, As.PROPERTY);
+            mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(), DefaultTyping.NON_FINAL, As.PROPERTY);
         }
     }
 
