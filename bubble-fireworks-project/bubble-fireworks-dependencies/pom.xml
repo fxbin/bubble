@@ -42,7 +42,7 @@
         <xxl.job.version>2.3.0</xxl.job.version>
         <jjwt.version>0.11.2</jjwt.version>
         <fastjson.version>1.2.78</fastjson.version>
-        <aliyun-oss.version>3.13.0</aliyun-oss.version>
+        <aliyun-oss.version>3.13.1</aliyun-oss.version>
         <lombok.version>1.18.20</lombok.version>
     </properties>
 
