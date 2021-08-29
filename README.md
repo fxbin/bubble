@@ -1,7 +1,7 @@
 # bubble fireworks 🎉🎉🎉
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/63f51f8ee55f42bd8284c1c04e2b6f7d)](https://app.codacy.com/manual/fxbin/bubble-fireworks?utm_source=github.com&utm_medium=referral&utm_content=fxbin/bubble-fireworks&utm_campaign=Badge_Grade_Settings)
-[![Spring Boot](https://img.shields.io/badge/SpringBoot-2.5.3-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
+[![Spring Boot](https://img.shields.io/badge/SpringBoot-2.5.4-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/SpringCloud-2020.0.3-brightgreen.svg)](https://github.com/spring-cloud)
 [![Spring Cloud Alibaba](https://img.shields.io/badge/SpringCloudAlibaba-2021.1-brightgreen.svg)](https://github.com/alibaba/spring-cloud-alibaba)
 
@@ -12,10 +12,10 @@
 
 | 依赖 | 版本 |
 ---|---
-| Spring Boot |  2.5.3 |
+| Spring Boot |  2.5.4 |
 | Spring Cloud |  2020.0.3 | 
 | Spring Cloud Alibaba |  2021.1 |
-| Mybatis-Plus | 3.4.3.1 |  
+| Mybatis-Plus | 3.4.3.2 |  
 
 ## 项目简介
 
