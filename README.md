@@ -15,7 +15,7 @@
 | Spring Boot |  2.5.4 |
 | Spring Cloud |  2020.0.3 | 
 | Spring Cloud Alibaba |  2021.1 |
-| Mybatis-Plus | 3.4.3.2 |  
+| Mybatis-Plus | 3.4.3.3 |  
 
 ## 项目简介
 
