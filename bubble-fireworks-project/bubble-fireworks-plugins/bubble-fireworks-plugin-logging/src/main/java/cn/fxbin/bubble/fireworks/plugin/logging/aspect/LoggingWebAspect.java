@@ -5,6 +5,7 @@ import cn.fxbin.bubble.fireworks.core.util.ttl.TtlMap;
 import cn.fxbin.bubble.fireworks.plugin.logging.LoggingFactoryBean;
 import cn.fxbin.bubble.fireworks.plugin.logging.event.LoggingNoticeEvent;
 import cn.fxbin.bubble.fireworks.plugin.logging.model.BubbleFireworksLogging;
+import cn.hutool.core.date.SystemClock;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -50,7 +51,7 @@ public class LoggingWebAspect extends AbstractLogging {
 
     private Object logGenerate(ProceedingJoinPoint point) throws Throwable {
         HttpServletResponse response = WebUtils.getResponse();
-        long startNs = SystemClock.INSTANCE.currentTimeMillis();
+        long startNs = SystemClock.now();
 
         // 初始化日志对象实例
         BubbleFireworksLogging fireworksLogging = initializeLog();
@@ -72,7 +73,7 @@ public class LoggingWebAspect extends AbstractLogging {
             fireworksLogging.setExceptionStack(ExceptionUtils.getStackTrace(e));
             throw e;
         } finally {
-            long endNs = SystemClock.INSTANCE.currentTimeMillis();
+            long endNs = SystemClock.now();
             long tookMs = TimeUnit.MILLISECONDS.toMillis(endNs - startNs);
 
             fireworksLogging

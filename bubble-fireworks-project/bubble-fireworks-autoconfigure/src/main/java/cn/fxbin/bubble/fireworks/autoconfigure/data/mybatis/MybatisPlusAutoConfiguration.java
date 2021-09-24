@@ -1,6 +1,5 @@
 package cn.fxbin.bubble.fireworks.autoconfigure.data.mybatis;
 
-import cn.fxbin.bubble.fireworks.data.mybatis.customizer.CustomizeIdentifierGenerator;
 import cn.fxbin.bubble.fireworks.data.mybatis.handler.CustomizeMetaObjectHandler;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -15,7 +14,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -51,13 +49,6 @@ public class MybatisPlusAutoConfiguration {
     @Bean
     public ISqlInjector sqlInjector() {
         return new DefaultSqlInjector();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnClass({CustomizeIdentifierGenerator.class})
-    public MybatisPlusPropertiesCustomizer identifierGeneratorCustomizer() {
-        return plusProperties -> plusProperties.getGlobalConfig().setIdentifierGenerator(new CustomizeIdentifierGenerator());
     }
 
     @Bean
