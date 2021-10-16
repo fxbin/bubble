@@ -20,10 +20,26 @@
         </dependency>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-fireworks-starter-lock</artifactId>
-            <version>2021.6.BUILD-SNAPSHOT</version>
+            <artifactId>bubble-fireworks-starter-plugin-lock</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <!-- skip默认deploy插件的执行 -->
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

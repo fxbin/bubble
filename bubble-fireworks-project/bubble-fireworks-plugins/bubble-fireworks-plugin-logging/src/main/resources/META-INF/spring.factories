@@ -1,2 +1,0 @@
-org.springframework.context.ApplicationContextInitializer=\
-cn.fxbin.bubble.fireworks.plugin.logging.TtlMDCAdapterInitializer

@@ -12,22 +12,28 @@
 
     <artifactId>bubble-fireworks-starters</artifactId>
     <packaging>pom</packaging>
-    <name>bubble-fireworks-starters</name>
+    <name>Bubble Fireworks Starters</name>
     <description>Bubble Fireworks Starters</description>
 
     <modules>
         <module>bubble-fireworks-starter</module>
-        <module>bubble-fireworks-starter-logging</module>
-        <module>bubble-fireworks-starter-test</module>
-        <module>bubble-fireworks-starter-mybatis</module>
-        <module>bubble-fireworks-starter-elasticsearch</module>
-        <module>bubble-fireworks-starter-openfeign</module>
+        <!-- boot basic starter -->
+        <!-- web、test -->
         <module>bubble-fireworks-starter-web</module>
-        <module>bubble-fireworks-starter-dynamic-threadpool</module>
-        <module>bubble-fireworks-starter-lock</module>
-        <module>bubble-fireworks-starter-redis</module>
-        <module>bubble-fireworks-starter-xxl-job</module>
-        <module>bubble-fireworks-starter-token</module>
+        <module>bubble-fireworks-starter-test</module>
+        <!-- cloud -->
+        <module>bubble-fireworks-starter-cloud-openfeign</module>
+        <!-- data -->
+        <module>bubble-fireworks-starter-data-redis</module>
+        <module>bubble-fireworks-starter-data-mybatis</module>
+        <module>bubble-fireworks-starter-data-elasticsearch</module>
+        <!-- plugins -->
+        <module>bubble-fireworks-starter-plugin-lock</module>
+        <module>bubble-fireworks-starter-plugin-excel</module>
+        <module>bubble-fireworks-starter-plugin-token</module>
+        <module>bubble-fireworks-starter-plugin-logging</module>
+        <module>bubble-fireworks-starter-plugin-xxl-job</module>
+        <module>bubble-fireworks-starter-plugin-dynamic-threadpool</module>
     </modules>
 
 

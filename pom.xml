@@ -6,7 +6,7 @@
     <artifactId>bubble-fireworks-build</artifactId>
     <version>2021.6.BUILD-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>bubble-fireworks-build</name>
+    <name>Bubble Fireworks Build</name>
     <description>Bubble Fireworks Build project, managing plugins</description>
     <url>https://github.com/fxbin/bubble-fireworks</url>
 

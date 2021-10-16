@@ -10,7 +10,7 @@
 
     <artifactId>bubble-fireworks-parent</artifactId>
     <packaging>pom</packaging>
-    <name>bubble-fireworks-parent</name>
+    <name>Bubble Fireworks Parent</name>
     <description>Bubble Fireworks Parent</description>
 
     <properties>

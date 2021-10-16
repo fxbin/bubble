@@ -9,7 +9,7 @@
 
     <artifactId>bubble-fireworks-project</artifactId>
     <packaging>pom</packaging>
-    <name>bubble-fireworks-project</name>
+    <name>Bubble Fireworks Project</name>
     <description>Bubble Fireworks Project</description>
 
     <properties>
@@ -20,12 +20,7 @@
         <module>bubble-fireworks-dependencies</module>
         <module>bubble-fireworks-parent</module>
         <module>bubble-fireworks-core</module>
-        <module>bubble-fireworks-web</module>
-        <module>bubble-fireworks-plugins</module>
         <module>bubble-fireworks-starters</module>
-        <module>bubble-fireworks-cloud</module>
-        <module>bubble-fireworks-data</module>
-        <module>bubble-fireworks-autoconfigure</module>
     </modules>
 
 </project>

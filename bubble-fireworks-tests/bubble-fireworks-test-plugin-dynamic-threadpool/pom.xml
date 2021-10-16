@@ -20,8 +20,24 @@
         </dependency>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-fireworks-starter-dynamic-threadpool</artifactId>
+            <artifactId>bubble-fireworks-starter-plugin-dynamic-threadpool</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <!-- skip默认deploy插件的执行 -->
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
