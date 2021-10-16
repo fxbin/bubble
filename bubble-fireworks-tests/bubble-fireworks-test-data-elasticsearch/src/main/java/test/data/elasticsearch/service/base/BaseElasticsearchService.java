@@ -1,6 +1,6 @@
 package test.data.elasticsearch.service.base;
 
-import cn.fxbin.bubble.fireworks.autoconfigure.data.elasticsearch.ElasticsearchProperties;
+import cn.fxbin.bubble.fireworks.data.elasticsearch.autoconfigure.ElasticsearchProperties;
 import cn.fxbin.bubble.fireworks.core.exception.ElasticsearchException;
 import cn.fxbin.bubble.fireworks.core.util.BeanUtils;
 import lombok.extern.slf4j.Slf4j;

@@ -23,7 +23,7 @@
         <!-- Logging -->
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-fireworks-starter-logging</artifactId>
+            <artifactId>bubble-fireworks-starter-plugin-logging</artifactId>
         </dependency>
         <!-- Test -->
         <dependency>

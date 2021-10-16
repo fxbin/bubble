@@ -10,7 +10,7 @@
 
     <artifactId>bubble-fireworks-dependencies</artifactId>
     <packaging>pom</packaging>
-    <name>bubble-fireworks-dependencies</name>
+    <name>Bubble Fireworks Dependencies</name>
     <description>Bubble Fireworks Project Dependencies: manager jar version dependency, Use as a BOM </description>
 
     <properties>
@@ -44,6 +44,7 @@
         <fastjson.version>1.2.78</fastjson.version>
         <aliyun-oss.version>3.13.0</aliyun-oss.version>
         <lombok.version>1.18.20</lombok.version>
+
     </properties>
 
     <dependencyManagement>
@@ -52,85 +53,6 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-core</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-autoconfigure</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-web</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <!-- bubble fireworks plugins -->
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-plugin-logging</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-plugin-test</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-plugin-http</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-plugin-dynamic-threadpool</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-plugin-lock</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-plugin-xxl-job</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-plugin-token</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <!-- bubble fireworks cloud -->
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-cloud-openfeign</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-            
-            <!-- bubble-fireworks data -->
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-data-mybatis</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-data-elasticsearch</artifactId>
-                <version>2021.6.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-data-redis</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
@@ -143,7 +65,7 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-logging</artifactId>
+                <artifactId>bubble-fireworks-starter-web</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
@@ -155,55 +77,61 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-web</artifactId>
+                <artifactId>bubble-fireworks-starter-cloud-openfeign</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-mybatis</artifactId>
+                <artifactId>bubble-fireworks-starter-data-redis</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-openfeign</artifactId>
+                <artifactId>bubble-fireworks-starter-data-mybatis</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-elasticsearch</artifactId>
+                <artifactId>bubble-fireworks-starter-data-elasticsearch</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-dynamic-threadpool</artifactId>
+                <artifactId>bubble-fireworks-starter-plugin-lock</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-lock</artifactId>
+                <artifactId>bubble-fireworks-starter-plugin-excel</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-redis</artifactId>
+                <artifactId>bubble-fireworks-starter-plugin-token</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-xxl-job</artifactId>
+                <artifactId>bubble-fireworks-starter-plugin-logging</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-token</artifactId>
+                <artifactId>bubble-fireworks-starter-plugin-xxl-job</artifactId>
+                <version>2021.6.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-plugin-dynamic-threadpool</artifactId>
                 <version>2021.6.BUILD-SNAPSHOT</version>
             </dependency>
 

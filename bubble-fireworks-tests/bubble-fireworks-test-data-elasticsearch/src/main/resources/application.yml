@@ -7,6 +7,6 @@ spring:
 bubble:
   fireworks:
     elasticsearch:
-      cluster-nodes: 192.168.7.94:9200
+      cluster-nodes: 127.0.0.1:9200
 
 

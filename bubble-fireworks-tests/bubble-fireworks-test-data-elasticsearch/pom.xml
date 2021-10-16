@@ -23,7 +23,7 @@
         <!-- Elasticsearch -->
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-fireworks-starter-elasticsearch</artifactId>
+            <artifactId>bubble-fireworks-starter-data-elasticsearch</artifactId>
         </dependency>
         
         <!-- Test -->

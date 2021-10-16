@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
 import cn.fxbin.bubble.fireworks.core.constant.StringPool;
+import cn.hutool.core.date.SystemClock;
 import cn.hutool.core.util.RuntimeUtil;
 import lombok.Cleanup;
 import lombok.experimental.UtilityClass;
@@ -134,7 +135,7 @@ public class RunTimeUtils extends RuntimeUtil {
         StringBuilder sbStd = new StringBuilder();
         StringBuilder sbErr = new StringBuilder();
 
-        long start = SystemClock.INSTANCE.currentTimeMillis()/1000;
+        long start = SystemClock.now()/1000;
         try {
             process = exec(cmds);
             @Cleanup BufferedReader brStd = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -161,7 +162,7 @@ public class RunTimeUtils extends RuntimeUtil {
                     }
                 }
 
-                if (SystemClock.INSTANCE.currentTimeMillis() / 1000 - start > timeout) {
+                if (SystemClock.now() / 1000 - start > timeout) {
                     sbErr.append("\n命令执行超时退出.");
                     break;
                 }

@@ -10,15 +10,51 @@
     </parent>
 
     <artifactId>bubble-fireworks-starter-web</artifactId>
+    <name>Bubble Fireworks Starter Web</name>
 
     <dependencies>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-fireworks-starter</artifactId>
         </dependency>
+
+        <!--
+         You can easily generate your own configuration metadata file from items annotated with
+         @ConfigurationProperties by using the spring-boot-configuration-processor jar.
+       -->
         <dependency>
-            <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-fireworks-web</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- undertow -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 

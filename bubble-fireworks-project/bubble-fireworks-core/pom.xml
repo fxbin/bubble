@@ -9,9 +9,8 @@
     </parent>
 
     <artifactId>bubble-fireworks-core</artifactId>
-    <name>bubble-fireworks-core</name>
-    <description>Bubble Fireworks Core</description>
-
+    <name>Bubble Fireworks Core</name>
+    <description>Bubble Fireworks Core: core util</description>
 
     <dependencies>
         <!-- spring-boot-starter-json -->
@@ -43,12 +42,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
         <!-- transmittable-thread-local -->
         <dependency>
@@ -63,6 +56,11 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,4 @@
+## Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.autoconfigure.DynamicThreadPoolAutoConfiguration,\
+cn.fxbin.bubble.fireworks.plugin.dynamic.threadpool.autoconfigure.ConfigServerRefreshAutoConfiguration
