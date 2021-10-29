@@ -56,8 +56,4 @@ public class MybatisPlusAutoConfiguration {
         return plusProperties -> plusProperties.getGlobalConfig().getDbConfig().setIdType(IdType.AUTO);
     }
 
-    @Bean
-    public MetaObjectHandler metaObjectHandler() {
-        return new CustomizeMetaObjectHandler();
-    }
 }
