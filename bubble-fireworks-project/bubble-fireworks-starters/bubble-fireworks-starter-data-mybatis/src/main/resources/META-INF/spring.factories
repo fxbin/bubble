@@ -1,3 +1,4 @@
 ## Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.fxbin.bubble.fireworks.data.mybatis.autoconfigure.MybatisPlusAutoConfiguration
+cn.fxbin.bubble.fireworks.data.mybatis.autoconfigure.MybatisPlusAutoConfiguration,\
+cn.fxbin.bubble.fireworks.data.mybatis.autoconfigure.DataSourceConfiguration

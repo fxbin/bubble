@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>bubble-fireworks-starter-data-mybatis</artifactId>
+    <name>Bubble Fireworks Starter Data Mybatis</name>
 
     <dependencies>
         <dependency>
