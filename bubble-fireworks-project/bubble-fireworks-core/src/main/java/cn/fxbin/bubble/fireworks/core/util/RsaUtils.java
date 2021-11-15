@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.core.util;
 
+import cn.fxbin.bubble.fireworks.core.exception.UtilException;
 import lombok.experimental.UtilityClass;
 
 import javax.crypto.BadPaddingException;
@@ -31,7 +32,7 @@ public class RsaUtils {
             byte[] ciphertext = cipher.doFinal(data);
             return Base64.getEncoder().encodeToString(ciphertext);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw new RuntimeException("当前Java环境不支持RSA v1.5/OAEP", e);
+            throw new UtilException("当前Java环境不支持RSA v1.5/OAEP", e);
         } catch (InvalidKeyException e) {
             throw new IllegalArgumentException("无效的证书", e);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
@@ -48,7 +49,7 @@ public class RsaUtils {
             byte[] data = Base64.getDecoder().decode(ciphertext);
             return new String(cipher.doFinal(data), StandardCharsets.UTF_8);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException e) {
-            throw new RuntimeException("当前Java环境不支持RSA v1.5/OAEP", e);
+            throw new UtilException("当前Java环境不支持RSA v1.5/OAEP", e);
         } catch (InvalidKeyException e) {
             throw new IllegalArgumentException("无效的私钥", e);
         } catch (BadPaddingException | IllegalBlockSizeException e) {
@@ -75,7 +76,7 @@ public class RsaUtils {
             signature.update(data.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(signature.sign());
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("当前Java环境不支持SHA256withRSA", e);
+            throw new UtilException("当前Java环境不支持SHA256withRSA", e);
         } catch (SignatureException e) {
             throw new RuntimeException("签名计算失败", e);
         } catch (InvalidKeyException e) {
