@@ -20,7 +20,7 @@
         <spring-boot.version>2.5.4</spring-boot.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
-        <spring-boot-admin.version>2.5.1</spring-boot-admin.version>
+        <spring-boot-admin.version>2.5.4</spring-boot-admin.version>
 
         <!-- Other Dependency Versions -->
         <knife4j.version>3.0.3</knife4j.version>
@@ -34,7 +34,7 @@
         <elasticsearch.version>7.13.3</elasticsearch.version>
         <transmittable-thread-local.version>2.12.1</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
-        <redisson.version>3.16.2</redisson.version>
+        <redisson.version>3.16.4</redisson.version>
         <curator.version>5.2.0</curator.version>
         <aliyun-log.version>0.6.66</aliyun-log.version>
         <aliyun-log-producer.version>0.3.10</aliyun-log-producer.version>
