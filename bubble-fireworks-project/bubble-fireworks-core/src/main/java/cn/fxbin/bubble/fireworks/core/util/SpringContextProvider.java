@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * SpringUtils
