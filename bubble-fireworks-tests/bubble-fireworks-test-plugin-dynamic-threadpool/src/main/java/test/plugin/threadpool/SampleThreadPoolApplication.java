@@ -19,13 +19,12 @@ import java.util.Set;
 @SpringBootApplication
 public class SampleThreadPoolApplication implements CommandLineRunner {
 
+    @Resource
+    private ThreadPoolExecutorOperations operations;
+
     public static void main(String[] args) {
         SpringApplication.run(SampleThreadPoolApplication.class, args);
     }
-
-
-    @Resource
-    private ThreadPoolExecutorOperations operations;
 
     @Override
     public void run(String... args) throws Exception {

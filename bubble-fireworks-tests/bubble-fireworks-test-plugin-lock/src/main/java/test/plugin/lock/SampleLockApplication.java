@@ -20,13 +20,13 @@ import java.util.concurrent.Executors;
 @SpringBootApplication
 public class SampleLockApplication implements CommandLineRunner {
 
+    @Resource
+    private LockAnnotationService lockAnnotationService;
+
     public static void main(String[] args) {
         SpringApplication.run(SampleLockApplication.class, args);
     }
 
-
-    @Resource
-    private LockAnnotationService lockAnnotationService;
 
     /**
      * Callback used to run the bean.
