@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * SimpleWebApplicationTests
  *
@@ -27,12 +29,14 @@ public class SimpleWebApplicationTests {
     public void context() {
         Tokens tokens = doubleJwt.generateTokens(1);
         log.info("tokens: {}", tokens);
+        assertNotNull(tokens);
     }
 
     @Test
     public void parseToken() {
         TokenPayload payload = doubleJwt.parseToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eSI6IjEiLCJzY29wZSI6ImJ1YmJsZS1maXJld29ya3MiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjA1OTIxNDIyLCJleHAiOjE2MDU5MjE1MjJ9.C5IMP_knsMZA-ojufGvWDZxBOWzfPGILQiOPpVmObahRdvPdCLk2q8Q7W3wJPZFTK46sd9e9nFgTG2dwh3pumg");
         log.info("payload: {}", payload);
+        assertNotNull(payload);
     }
 
 }
