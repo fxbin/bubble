@@ -32,6 +32,16 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
     private final Pattern PATTERN = Pattern.compile(HTTP_RULE);
 
+    private final String[] IP_HEADER_NAMES = new String[]{
+            "x-forwarded-for",
+            "Proxy-Client-IP",
+            "WL-Proxy-Client-IP",
+            "HTTP_CLIENT_IP",
+            "HTTP_X_FORWARDED_FOR"
+    };
+
+    private final Predicate<String> IP_PREDICATE = (ip) -> StringUtils.isBlank(ip) || StringPool.UNKNOWN.equalsIgnoreCase(ip);
+
     /**
      * getRequest
      *
@@ -213,16 +223,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return Pattern.compile(regex).matcher(ip).matches();
     }
 
-
-    private final String[] IP_HEADER_NAMES = new String[]{
-            "x-forwarded-for",
-            "Proxy-Client-IP",
-            "WL-Proxy-Client-IP",
-            "HTTP_CLIENT_IP",
-            "HTTP_X_FORWARDED_FOR"
-    };
-
-    private final Predicate<String> IP_PREDICATE = (ip) -> StringUtils.isBlank(ip) || StringPool.UNKNOWN.equalsIgnoreCase(ip);
 
     /**
      * 获取ip
