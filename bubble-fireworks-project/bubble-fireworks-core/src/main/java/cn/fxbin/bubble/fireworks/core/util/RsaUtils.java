@@ -78,9 +78,9 @@ public class RsaUtils {
         } catch (NoSuchAlgorithmException e) {
             throw new UtilException("当前Java环境不支持SHA256withRSA", e);
         } catch (SignatureException e) {
-            throw new RuntimeException("签名计算失败", e);
+            throw new UtilException("签名计算失败", e);
         } catch (InvalidKeyException e) {
-            throw new RuntimeException("无效的私钥", e);
+            throw new UtilException("无效的私钥", e);
         }
     }
 
