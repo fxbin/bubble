@@ -6,6 +6,11 @@ import lombok.Getter;
 /**
  * ResultCode
  *
+ * 0 标识成功， -1 为默认失败状态码
+ *
+ * 一般情况下，建议使用  <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status">HTTP 响应状态码</a>
+ *
+ *
  * @author fxbin
  * @version v1.0
  * @since 2020/3/20 17:19
@@ -25,9 +30,43 @@ public enum ResultCode {
     FAILURE(-1, "System Busy"),
 
     /**
+     * 请求参数有误
+     */
+    BAD_REQUEST(400, "Bad Request"),
+
+    /**
+     * Unauthorized
+     */
+    UNAUTHORIZED(401, "Unauthorized"),
+
+    /**
+     * Forbidden
+     */
+    FORBIDDEN(403, "Forbidden"),
+
+    /**
      * 找不到地址
      */
-    NOT_FOUND(40404, "Not Found"),
+    NOT_FOUND(404, "Not Found"),
+
+    /**
+     * 不支持当前请求方法
+     */
+    METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+
+    /**
+     * 不接受的媒体类型
+     */
+    UNSUPPORTED_MEDIA_TYPE(415, "Unsupported Media Type"),
+
+    /**
+     * 服务异常
+     */
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+
+
+    // === 自定义
+    // 400|20--40  参数异常[20-30]  token认证问题异常[31-35]
 
     /**
      * 消息不能读取
@@ -39,15 +78,6 @@ public enum ResultCode {
      */
     REDIRECT_LOGIN_CODE(30302, "Please login again"),
 
-    /**
-     * 不接受的媒体类型
-     */
-    UNSUPPORTED_MEDIA_TYPE(41415, "Unsupported Media Type"),
-
-    /**
-     * 不支持当前请求方法
-     */
-    METHOD_NOT_ALLOWED(40405, "Method Not Allowed"),
 
     /**
      * 请求参数缺失
@@ -73,10 +103,6 @@ public enum ResultCode {
      * refresh token 过期
      */
     AUTHORIZATION_REFRESH_TOKEN_EXPIRED(40032, "refresh token 过期");
-
-
-    // 400|20--40  参数异常[20-30]  token认证问题异常[31-35]
-
 
 
     final int code;
