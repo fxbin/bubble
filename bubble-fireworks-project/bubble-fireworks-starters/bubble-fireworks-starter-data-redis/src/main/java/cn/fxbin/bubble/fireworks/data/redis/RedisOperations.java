@@ -3,19 +3,16 @@ package cn.fxbin.bubble.fireworks.data.redis;
 import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
 import cn.fxbin.bubble.fireworks.core.util.CollectionUtils;
 import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
+import com.google.common.collect.Lists;
 import io.lettuce.core.RedisException;
 import io.lettuce.core.api.sync.RedisHashCommands;
-import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,12 +23,12 @@ import java.util.concurrent.TimeUnit;
  * @since 2019/11/18 0:31
  */
 @Slf4j
-@Component
+@RequiredArgsConstructor
 public class RedisOperations {
 
-    @Getter
-    @Resource
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
+
+    private final StringRedisTemplate stringRedisTemplate;
 
 
     /**
@@ -141,6 +138,16 @@ public class RedisOperations {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 
+    /**
+     * multiGet
+     *
+     * @since 2021/8/19 16:36
+     * @param keys must not be {@literal null}.
+     * @return java.util.List<java.lang.String>
+     */
+    public <V> List<V> multiGet(Collection<String> keys) {
+        return CollectionUtils.isNotEmpty(keys) ? redisTemplate.opsForValue().multiGet(keys) : Lists.newArrayList();
+    }
 
     /**
      * set 设置值
@@ -231,7 +238,7 @@ public class RedisOperations {
         if (delta < 0) {
             throw new RedisException("递增因子 [{}] 必须大于0");
         }
-        return redisTemplate.opsForValue().increment(key, delta);
+        return stringRedisTemplate.opsForValue().increment(key, delta);
     }
 
 
@@ -261,7 +268,7 @@ public class RedisOperations {
         if (delta < 0) {
             throw new RedisException("递减因子 [{}] 必须大于0");
         }
-        return redisTemplate.opsForValue().decrement(key, -delta);
+        return stringRedisTemplate.opsForValue().decrement(key, delta);
     }
 
 
