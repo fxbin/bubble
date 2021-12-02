@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>bubble-fireworks-starter</artifactId>
-    <name>bubble-fireworks-starter</name>
+    <name>Bubble Fireworks Starter</name>
     <description>Core starter, including auto-configuration support and YAML</description>
 
 
