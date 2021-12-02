@@ -17,14 +17,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
-        <spring-boot.version>2.5.4</spring-boot.version>
+        <spring-boot.version>2.6.1</spring-boot.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <spring-boot-admin.version>2.5.4</spring-boot-admin.version>
 
         <!-- Other Dependency Versions -->
         <knife4j.version>3.0.3</knife4j.version>
-        <okhttp.version>4.9.1</okhttp.version>
+        <okhttp.version>4.9.3</okhttp.version>
         <hutool-all.version>5.7.13</hutool-all.version>
         <guava.version>30.1.1-jre</guava.version>
         <httpclient.version>4.5.13</httpclient.version>
