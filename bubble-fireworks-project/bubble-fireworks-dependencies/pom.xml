@@ -25,7 +25,7 @@
         <!-- Other Dependency Versions -->
         <knife4j.version>3.0.3</knife4j.version>
         <okhttp.version>4.9.3</okhttp.version>
-        <hutool-all.version>5.7.17</hutool-all.version>
+        <hutool-all.version>5.7.20</hutool-all.version>
         <guava.version>31.0.1-jre</guava.version>
         <httpclient.version>4.5.13</httpclient.version>
         <mybatis-plus.version>3.5.0</mybatis-plus.version>
@@ -43,7 +43,7 @@
         <xxl.job.version>2.3.0</xxl.job.version>
         <jjwt.version>0.11.2</jjwt.version>
         <fastjson.version>1.2.79</fastjson.version>
-        <aliyun-oss.version>3.13.2</aliyun-oss.version>
+        <aliyun-oss.version>3.14.0</aliyun-oss.version>
         <lombok.version>1.18.20</lombok.version>
 
     </properties>
