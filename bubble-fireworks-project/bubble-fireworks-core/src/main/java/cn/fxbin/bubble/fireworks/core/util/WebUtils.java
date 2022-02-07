@@ -9,12 +9,16 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -42,6 +46,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
     private final Predicate<String> IP_PREDICATE = (ip) -> StringUtils.isBlank(ip) || StringPool.UNKNOWN.equalsIgnoreCase(ip);
 
+
     /**
      * getRequest
      *
@@ -59,12 +64,38 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
                 .orElse(null);
     }
 
+
+    /**
+     * getRequestMethod
+     *
+     * @since 2022/2/7 10:59 AM
+     * @return {@link String}
+     */
+    public String getRequestMethod() {
+        return Optional.ofNullable(WebUtils.getRequest())
+                .map(HttpServletRequest::getMethod)
+                .orElse(null);
+    }
+
+
+    /**
+     * getQueryString
+     *
+     * @since 2022/2/7 10:37 AM
+     * @return {@link String}
+     */
+    public String getQueryString() {
+        return Optional.ofNullable(WebUtils.getRequest())
+                .map(HttpServletRequest::getQueryString)
+                .orElse(null);
+    }
+
+
     /**
      * getRequestUrl
      *
-     * @author fxbin
-     * @since 2020/11/13 10:11
-     * @return java.lang.String
+     * @since 2022/2/7 10:57 AM
+     * @return {@link String}
      */
     public String getRequestUrl() {
         return Optional.ofNullable(WebUtils.getRequest())
@@ -74,19 +105,14 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 
     /**
-     * getResponse
+     * getSession
      *
-     * <p>
-     *     get javax.servlet.http.HttpServletResponse instance
-     * </p>
-     *
-     * @since 2020/4/13 17:31
-     * @return javax.servlet.http.HttpServletResponse
+     * @since 2022/2/7 10:58 AM
+     * @return {@link HttpSession}
      */
-    public HttpServletResponse getResponse() {
-        return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-                .map(x -> (ServletRequestAttributes) x)
-                .map(ServletRequestAttributes::getResponse)
+    public HttpSession getSession() {
+        return Optional.ofNullable(WebUtils.getRequest())
+                .map(HttpServletRequest::getSession)
                 .orElse(null);
     }
 
@@ -112,6 +138,24 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 
     /**
+     * getResponse
+     *
+     * <p>
+     *     get javax.servlet.http.HttpServletResponse instance
+     * </p>
+     *
+     * @since 2020/4/13 17:31
+     * @return javax.servlet.http.HttpServletResponse
+     */
+    public HttpServletResponse getResponse() {
+        return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                .map(x -> (ServletRequestAttributes) x)
+                .map(ServletRequestAttributes::getResponse)
+                .orElse(null);
+    }
+
+
+    /**
      * getResponseHeaders
      *
      * @since 2020/4/13 17:17
@@ -128,6 +172,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return headers;
     }
 
+
     /**
      * get target value from parameterMap, if not found will throw {@link IllegalArgumentException}.
      *
@@ -143,6 +188,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         String encoding = req.getParameter("encoding");
         return resolveValue(value, encoding);
     }
+
 
     /**
      * get target value from parameterMap, if not found will return default value.
@@ -163,6 +209,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         String encoding = req.getParameter("encoding");
         return resolveValue(value, encoding);
     }
+
 
     /**
      * decode target value.
@@ -195,6 +242,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return encode.contains(";") ? encode.substring(0, encode.indexOf(";")) : encode;
     }
 
+
     /**
      * Returns the value of the request header "user-agent" as a <code>String</code>.
      *
@@ -210,6 +258,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         }
         return userAgent;
     }
+
 
     /**
      * IPv4 地址校验
@@ -259,6 +308,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
         return StringUtils.isBlank(ip) ? null : StringUtils.splitTrim(ip, StringPool.COMMA)[0];
     }
+
 
     /**
      * 获取本机网卡地址
