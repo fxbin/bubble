@@ -20,8 +20,10 @@ public class UtilException extends RuntimeException {
     @Getter
     private String errmsg;
 
-    public UtilException(String message) {
-        super(message);
+    public UtilException(String errmsg) {
+        super(errmsg);
+        this.errcode = -1;
+        this.errmsg = errmsg;
     }
 
     public UtilException(Integer errcode, String errmsg) {

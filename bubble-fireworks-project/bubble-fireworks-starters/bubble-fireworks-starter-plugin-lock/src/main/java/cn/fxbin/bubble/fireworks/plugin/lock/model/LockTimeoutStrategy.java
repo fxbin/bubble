@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.fireworks.plugin.lock.model;
 
-import cn.fxbin.bubble.fireworks.core.exception.LockTimeoutException;
+import cn.fxbin.bubble.fireworks.plugin.lock.exception.LockTimeoutException;
 import cn.fxbin.bubble.fireworks.core.util.ThreadUtils;
 import cn.fxbin.bubble.fireworks.plugin.lock.executor.LockExecutor;
 import cn.fxbin.bubble.fireworks.plugin.lock.handler.TimeoutHandler;

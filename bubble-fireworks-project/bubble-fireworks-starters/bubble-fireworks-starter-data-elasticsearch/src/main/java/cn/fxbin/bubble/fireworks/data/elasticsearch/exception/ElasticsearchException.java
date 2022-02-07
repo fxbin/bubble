@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.core.exception;
+package cn.fxbin.bubble.fireworks.data.elasticsearch.exception;
 
 import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
 import lombok.Getter;
@@ -20,8 +20,10 @@ public class ElasticsearchException extends RuntimeException {
     @Getter
     private String errmsg;
 
-    public ElasticsearchException(String message) {
-        super(message);
+    public ElasticsearchException(String errmsg) {
+        super(errmsg);
+        this.errcode = -1;
+        this.errmsg = errmsg;
     }
 
     public ElasticsearchException(Integer errcode, String errmsg) {

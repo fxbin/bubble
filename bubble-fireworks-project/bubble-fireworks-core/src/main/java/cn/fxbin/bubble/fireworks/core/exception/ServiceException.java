@@ -22,8 +22,10 @@ public class ServiceException extends RuntimeException {
     @Getter
     private String errmsg;
 
-    public ServiceException(String message) {
-        super(message);
+    public ServiceException(String errmsg) {
+        super(errmsg);
+        this.errcode = -1;
+        this.errmsg = errmsg;
     }
 
     public ServiceException(Integer errcode, String errmsg) {
