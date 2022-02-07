@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.core.exception;
+package cn.fxbin.bubble.fireworks.plugin.logging.exception;
 
 import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
 import lombok.Getter;
@@ -20,8 +20,10 @@ public class LoggingException extends RuntimeException {
     @Getter
     private String errmsg;
 
-    public LoggingException(String message) {
-        super(message);
+    public LoggingException(String errmsg) {
+            super(errmsg);
+            this.errcode = -1;
+            this.errmsg = errmsg;
     }
 
     public LoggingException(Integer errcode, String errmsg) {

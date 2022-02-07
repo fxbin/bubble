@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.fireworks.data.elasticsearch.support;
 
-import cn.fxbin.bubble.fireworks.core.exception.ElasticsearchException;
+import cn.fxbin.bubble.fireworks.data.elasticsearch.exception.ElasticsearchException;
 import cn.fxbin.bubble.fireworks.core.util.JsonUtils;
 import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;

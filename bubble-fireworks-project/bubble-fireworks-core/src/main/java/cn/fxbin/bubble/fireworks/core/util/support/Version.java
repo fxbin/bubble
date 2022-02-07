@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.util;
+package cn.fxbin.bubble.fireworks.core.util.support;
 
 import org.springframework.boot.SpringBootVersion;
 

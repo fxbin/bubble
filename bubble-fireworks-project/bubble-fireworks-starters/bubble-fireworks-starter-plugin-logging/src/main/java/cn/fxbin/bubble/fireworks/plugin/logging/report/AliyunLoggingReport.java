@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.fireworks.plugin.logging.report;
 
-import cn.fxbin.bubble.fireworks.core.exception.LoggingException;
+import cn.fxbin.bubble.fireworks.plugin.logging.exception.LoggingException;
 import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import cn.fxbin.bubble.fireworks.plugin.logging.cache.LoggingCache;
 import cn.fxbin.bubble.fireworks.plugin.logging.constant.ReportType;

@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.fireworks.lanuch;
 
-import cn.fxbin.bubble.fireworks.util.Version;
+import cn.fxbin.bubble.fireworks.core.util.support.Version;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.web.context.WebServerApplicationContext;
@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
-import static cn.fxbin.bubble.fireworks.util.AppUtils.*;
+import static cn.fxbin.bubble.fireworks.core.util.support.AppUtils.*;
 
 /**
  * StartedEventListener

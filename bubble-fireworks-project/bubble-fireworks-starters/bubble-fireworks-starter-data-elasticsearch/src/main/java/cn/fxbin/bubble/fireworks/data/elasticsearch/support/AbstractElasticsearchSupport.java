@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.fireworks.data.elasticsearch.support;
 
-import cn.fxbin.bubble.fireworks.core.exception.ElasticsearchException;
+import cn.fxbin.bubble.fireworks.data.elasticsearch.exception.ElasticsearchException;
 import cn.fxbin.bubble.fireworks.core.util.BeanUtils;
 import cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel;
 import cn.hutool.core.date.SystemClock;

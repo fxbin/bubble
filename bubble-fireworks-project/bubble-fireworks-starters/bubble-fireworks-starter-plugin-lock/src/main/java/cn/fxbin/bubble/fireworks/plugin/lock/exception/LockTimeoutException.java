@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.core.exception;
+package cn.fxbin.bubble.fireworks.plugin.lock.exception;
 
 import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
 import lombok.Getter;
@@ -20,8 +20,10 @@ public class LockTimeoutException extends RuntimeException {
     @Getter
     private String errmsg;
 
-    public LockTimeoutException(String message) {
-        super(message);
+    public LockTimeoutException(String errmsg) {
+        super(errmsg);
+        this.errcode = -1;
+        this.errmsg = errmsg;
     }
 
     public LockTimeoutException(Integer errcode, String errmsg) {
