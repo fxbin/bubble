@@ -26,7 +26,7 @@
         <knife4j.version>3.0.3</knife4j.version>
         <okhttp.version>4.9.3</okhttp.version>
         <hutool-all.version>5.7.20</hutool-all.version>
-        <guava.version>31.0.1-jre</guava.version>
+        <guava.version>31.1-jre</guava.version>
         <httpclient.version>4.5.13</httpclient.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <dynamic-datasource.version>3.5.0</dynamic-datasource.version>
