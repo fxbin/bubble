@@ -4,7 +4,7 @@
 
     <groupId>cn.fxbin.bubble</groupId>
     <artifactId>bubble-fireworks-build</artifactId>
-    <version>2021.6.BUILD-SNAPSHOT</version>
+    <version>2022.0.0.BUILD-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Bubble Fireworks Build</name>
     <description>Bubble Fireworks Build project, managing plugins</description>
@@ -219,6 +219,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>${maven-install-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
             </plugin>
 
             <!-- jar -->
