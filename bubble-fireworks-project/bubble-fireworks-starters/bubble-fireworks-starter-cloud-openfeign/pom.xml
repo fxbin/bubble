@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>bubble-fireworks-starter-cloud-openfeign</artifactId>
+    <name>Bubble Fireworks Starter Cloud OpenFeign</name>
 
     <dependencies>
         <dependency>
