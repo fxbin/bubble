@@ -3,6 +3,7 @@ package cn.fxbin.bubble.fireworks.lanuch;
 import cn.fxbin.bubble.fireworks.core.util.support.Version;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringBootVersion;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.context.WebServerApplicationContext;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,8 +12,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
@@ -27,6 +28,7 @@ import static cn.fxbin.bubble.fireworks.core.util.support.AppUtils.*;
  * @since 2021/12/2 10:05 上午
  */
 @Slf4j
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ComponentScan(basePackages = {"cn.fxbin.bubble.fireworks"})
 @Configuration(
         proxyBeanMethods = false
@@ -54,11 +56,16 @@ public class StartedEventListener {
         int localPort = event.getWebServer().getPort();
         String profile = StringUtils.arrayToCommaDelimitedString(environment.getActiveProfiles());
         String startInfo = String.format("[%s]---启动完成，当前使用的端口:[%d]，环境变量:[%s]", appName, localPort, profile);
-        String url = "";
+        String url;
+
         // 如果有 swagger，打印开发阶段的 swagger ui 地址
         // noinspection AlibabaUndefineMagicConstant
-        if (ClassUtils.isPresent("springfox.documentation.spring.web.plugins.Docket", null)) {
+        if (this.hasKnife4jUi()) {
             url = String.format("http://localhost:%s%s/doc.html", localPort, contextPath);
+        } else if (this.hasSpringfoxSwaggerUi()) {
+            url = String.format("http://localhost:%s%s/swagger-ui/index.html", localPort, contextPath);
+        } else if (this.hasSwagger2Ui()) {
+            url = String.format("http://localhost:%s%s/swagger-ui.html", localPort, contextPath);
         } else {
             url = String.format("http://localhost:%s%s", localPort, contextPath);
         }
@@ -92,6 +99,64 @@ public class StartedEventListener {
                 .append(LINE_SEPARATOR)
         ;
         return bannerTextBuilder.toString();
+    }
+
+
+    /**
+     * hasKnife4jUi
+     *
+     * <p>
+     *     是否包含 knife4j-spring-ui
+     * </p>
+     *
+     * @since 2022/3/17 19:16
+     * @return {@link boolean}
+     */
+    private boolean hasKnife4jUi() {
+        try {
+            ClassPathResource resource = new ClassPathResource("META-INF/resources/doc.html");
+            return resource.exists();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * hasSpringfoxSwaggerUi
+     *
+     * <p>
+     *     是否包含 springfox-swagger-ui
+     * </p>
+     *
+     * @since 2022/3/17 19:37
+     * @return {@link boolean}
+     */
+    private boolean hasSpringfoxSwaggerUi() {
+        try {
+            ClassPathResource resource = new ClassPathResource("META-INF/resources/webjars/springfox-swagger-ui/index.html");
+            return resource.exists();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * hasSwagger2Ui
+     *
+     * <p>
+     *     是否包含 springfox-swagger-ui
+     * </p>
+     *
+     * @since 2022/3/17 19:33
+     * @return {@link boolean}
+     */
+    private boolean hasSwagger2Ui() {
+        try {
+            ClassPathResource resource = new ClassPathResource("META-INF/resources/swagger-ui.html");
+            return resource.exists();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
