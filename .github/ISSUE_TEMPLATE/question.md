@@ -1,17 +1,24 @@
 ---
 name: Question
-about: 'Ask your question after you try '
-title: "[Question]"
-labels: help wanted
-assignees: ''
+about: Describe your questions in details
+title: "[Question] your title here"
+labels: question
+assignees: fxbin
 
 ---
 
-我们鼓励使用英文，如果不能直接使用，可以使用翻译软件，您仍旧可以保留中文原文。
-We recommend using English. If you are non-native English speaker, you can use the translation software. 
+**Component**
 
-**Describe what problem you have encountered**
-A clear and concise description of what you want to do.
+<!-- Choose one of the following and delete all others. -->
+eg.
+* bubble-fireworks-starter-data-redis
+* bubble-fireworks-starter-web
 
-**Describe what information you have read**
-eg. I have read the reference doc of Sentinel
+**Description**
+A clear and concise details.
+
+**Environment**
+<!-- Add information about your environment and ThingsBoard version if applicable -->
+ * OS:  name and version
+ * bubble-fireworks: version
+ * Browser: name and version
