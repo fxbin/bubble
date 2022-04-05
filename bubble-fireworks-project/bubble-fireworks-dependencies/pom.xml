@@ -42,7 +42,7 @@
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <xxl.job.version>2.3.0</xxl.job.version>
         <jjwt.version>0.11.2</jjwt.version>
-        <fastjson.version>1.2.79</fastjson.version>
+        <fastjson.version>1.2.80</fastjson.version>
         <aliyun-oss.version>3.14.0</aliyun-oss.version>
         <lombok.version>1.18.20</lombok.version>
 
