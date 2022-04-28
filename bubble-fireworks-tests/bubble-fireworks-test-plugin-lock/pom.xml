@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.fxbin.bubble</groupId>
         <artifactId>bubble-fireworks-tests</artifactId>
-        <version>2022.0.0.BUILD-SNAPSHOT</version>
+        <version>2022.0.0</version>
     </parent>
 
     <artifactId>bubble-fireworks-test-plugin-lock</artifactId>
