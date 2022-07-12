@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2011-2022, baomidou (jobob@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.baomidou.mybatisplus.core.conditions.interfaces;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
@@ -7,11 +22,11 @@ import java.util.Map;
 import java.util.function.BiPredicate;
 
 /**
- * Compare
+ * 查询条件封装
+ * <p>比较值</p>
  *
- * @author fxbin
- * @version v1.0
- * @since 2020/9/21 17:01
+ * @author hubin miemie HCL
+ * @since 2017-05-26
  */
 public interface Compare<Children, R> extends Serializable {
 
@@ -322,20 +337,6 @@ public interface Compare<Children, R> extends Serializable {
      */
     default Children notLike(R column, Object val) {
         return notLike(true, column, val);
-    }
-
-    /**
-     * 忽略空值
-     *
-     * @param column 字段
-     * @param val 值
-     * @return children
-     */
-    default Children notLikeIfPresent(R column, Object val) {
-        if(ObjectUtils.isNotEmpty(val)) {
-            return notLike(true, column, val);
-        }
-        return (Children) this;
     }
 
     /**
