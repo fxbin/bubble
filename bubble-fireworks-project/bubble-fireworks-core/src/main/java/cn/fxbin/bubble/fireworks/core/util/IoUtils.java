@@ -63,9 +63,7 @@ public class IoUtils extends StreamUtils {
      * @return java.lang.String
      */
     public String readerFileAsString(InputStream inputStream) {
-        File file = new File(StringUtils.getUUID());
-        FileUtils.toFile(inputStream, file);
-        return readerFileAsString(file);
+        return readerFileAsString(readerToFile(inputStream));
     }
 
     /**
@@ -76,7 +74,7 @@ public class IoUtils extends StreamUtils {
      * @return java.io.File
      */
     public File readerToFile(InputStream inputStream) {
-        File file = new File(StringUtils.getUUID());
+        File file = FileUtils.createTempFile();
         FileUtils.toFile(inputStream, file);
         return file;
     }
