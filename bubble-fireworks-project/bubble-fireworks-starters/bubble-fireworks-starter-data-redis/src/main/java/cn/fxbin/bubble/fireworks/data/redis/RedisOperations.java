@@ -30,6 +30,16 @@ public class RedisOperations {
 
     private final StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * keys
+     *
+     * @since 2021/8/19 16:31
+     * @param pattern  must not be {@literal null}.
+     * @return java.util.Set<java.lang.String>
+     */
+    public Set<String> keys(String pattern) {
+        return redisTemplate.keys(pattern);
+    }
 
     /**
      * delete 删除键
@@ -39,7 +49,7 @@ public class RedisOperations {
      * @param key 键
      * @return boolean 删除成功/失败
      */
-    public boolean delete(@NonNull String key) {
+    public boolean delete(@NonNull Object key) {
         return redisTemplate.delete(key);
     }
 
@@ -51,7 +61,7 @@ public class RedisOperations {
      * @since 2019/11/21 16:50
      * @param keys 键 一个或多个
      */
-    public void delete(String... keys) {
+    public void delete(Object... keys) {
         if (ObjectUtils.isNotEmpty(keys)) {
             if (keys.length == 1) {
                 redisTemplate.delete(keys[0]);
@@ -59,7 +69,6 @@ public class RedisOperations {
                 redisTemplate.delete(CollectionUtils.arrayToList(keys));
             }
         }
-
     }
 
 
@@ -207,6 +216,55 @@ public class RedisOperations {
         } catch (Exception e) {
             log.error(LoggerMessageFormat.format("{} error",
                     Thread.currentThread().getStackTrace()[1].getMethodName()), e);
+            return false;
+        }
+    }
+
+
+    /**
+     * setNX
+     *
+     * @param key   键
+     * @param value 值
+     * @return boolean 成功/失败
+     */
+    public Boolean setIfAbsent(String key, Object value) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value);
+    }
+
+
+    /**
+     * setNX  并设置过期时间
+     *
+     * @param key   键
+     * @param value 值
+     * @param time  时间(秒) time &gt; 0, 则设置time, 否则无限期
+     * @return boolean 成功/失败
+     */
+    public Boolean setIfAbsent(String key, Object value, long time) {
+        return setIfAbsent(key, value, time, TimeUnit.SECONDS);
+    }
+
+
+    /**
+     * setNX  并设置过期时间
+     *
+     * @param key      键
+     * @param value    值
+     * @param time     时间(秒) time &gt; 0, 则设置time, 否则无限期
+     * @param timeUnit timeUnit
+     * @return boolean 成功/失败
+     */
+    public Boolean setIfAbsent(String key, Object value, long time, TimeUnit timeUnit) {
+        try {
+            if(time > 0) {
+                return redisTemplate.opsForValue().setIfAbsent(key, value, time, timeUnit);
+            } else {
+                return setIfAbsent(key, value);
+            }
+        } catch (Exception e) {
+            log.error(LoggerMessageFormat.format("{} {} error",
+                    RedisOperations.class, Thread.currentThread().getStackTrace()[1].getMethodName()), e);
             return false;
         }
     }
