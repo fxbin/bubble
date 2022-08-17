@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StreamUtils;
 
 import java.io.*;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -100,7 +101,10 @@ public class IoUtils extends StreamUtils {
             ByteBuffer buff = ByteBuffer.allocate(bufferSize);
             while (fileChannel.read(buff) > 0) {
                 out.write(buff.array(), 0, buff.position());
-                buff.clear();
+
+                // 在JDK9中，使所有Buffer方法都返回子类型（即ByteBuffer或IntBuffer而不是Buffer），因此运行JRE8的人们（我们的大部分用户群）遇到NoSuchMethodError的问题
+                // 需要强制转化，进行处理
+                ((Buffer) buff).clear();
             }
             return new String(out.toByteArray(), StandardCharsets.UTF_8).trim();
         } catch (IOException e) {
