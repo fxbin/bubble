@@ -293,7 +293,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         }
         if (IP_PREDICATE.test(ip)) {
             ip = request.getRemoteAddr();
-            if (StringPool.LOCALHOST.equals(ip)) {
+            if (StringPool.LOCALHOST.equals(ip) || StringPool.LOCALHOST_IPV6.equals(ip)) {
                 // 根据网卡取本机配置的IP
                 InetAddress inet = null;
                 try {

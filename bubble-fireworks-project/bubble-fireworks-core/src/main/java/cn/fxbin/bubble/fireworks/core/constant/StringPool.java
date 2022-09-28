@@ -40,6 +40,11 @@ public interface StringPool {
     String LOCALHOST = "127.0.0.1";
 
     /**
+     * 本机地址-ipv6
+     */
+    String LOCALHOST_IPV6 = "0:0:0:0:0:0:0:1";
+
+    /**
      * 空的json字符串
      */
     String EMPTY_JSON = "{}";
