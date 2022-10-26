@@ -36,7 +36,7 @@
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
         <redisson.version>3.17.3</redisson.version>
         <curator.version>5.2.1</curator.version>
-        <aliyun-log.version>0.6.69</aliyun-log.version>
+        <aliyun-log.version>0.6.74</aliyun-log.version>
         <aliyun-log-producer.version>0.3.10</aliyun-log-producer.version>
         <protobuf-java.version>3.20.1</protobuf-java.version>
         <mapstruct.version>1.5.1.Final</mapstruct.version>
