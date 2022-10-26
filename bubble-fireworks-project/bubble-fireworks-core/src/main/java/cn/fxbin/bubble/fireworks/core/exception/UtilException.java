@@ -10,9 +10,7 @@ import lombok.Getter;
  * @version v1.0
  * @since 2020/3/23 17:53
  */
-public class UtilException extends RuntimeException {
-
-    private static final long serialVersionUID = -880651443441658667L;
+public class UtilException extends ServiceException {
 
     @Getter
     private int errcode;
