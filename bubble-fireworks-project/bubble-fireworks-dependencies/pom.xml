@@ -27,14 +27,14 @@
         <okhttp.version>4.9.3</okhttp.version>
         <hutool-all.version>5.8.11</hutool-all.version>
         <guava.version>31.1-jre</guava.version>
-        <httpclient.version>4.5.13</httpclient.version>
+        <httpclient.version>4.5.14</httpclient.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
-        <easyexcel.version>3.1.4</easyexcel.version>
+        <easyexcel.version>3.2.1</easyexcel.version>
         <elasticsearch.version>7.13.4</elasticsearch.version>
         <transmittable-thread-local.version>2.12.6</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
-        <redisson.version>3.19.0</redisson.version>
+        <redisson.version>3.20.0</redisson.version>
         <curator.version>5.3.0</curator.version>
         <aliyun-log.version>0.6.74</aliyun-log.version>
         <aliyun-log-producer.version>0.3.10</aliyun-log-producer.version>
@@ -43,7 +43,7 @@
         <xxl.job.version>2.3.1</xxl.job.version>
         <jjwt.version>0.11.5</jjwt.version>
         <fastjson.version>2.0.15</fastjson.version>
-        <aliyun-oss.version>3.15.0</aliyun-oss.version>
+        <aliyun-oss.version>3.16.2</aliyun-oss.version>
         <lombok.version>1.18.20</lombok.version>
 
     </properties>
