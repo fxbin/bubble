@@ -1,7 +1,6 @@
 package cn.fxbin.bubble.fireworks.data.mybatis.core;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -19,10 +18,12 @@ public class BaseModel {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    private LocalDateTime deleteTime;
+    private Boolean deleted;
 
 }

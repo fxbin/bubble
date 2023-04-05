@@ -21,14 +21,13 @@ public class CustomizeMetaObjectHandler implements com.baomidou.mybatisplus.core
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("start insert fill ....");
         this.strictInsertFill(metaObject, "createTime", DateUtils::localDateTime, LocalDateTime.class);
+        this.strictInsertFill(metaObject, "updateTime", DateUtils::localDateTime, LocalDateTime.class);
 
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("start update fill ....");
         this.strictUpdateFill(metaObject, "updateTime", DateUtils::localDateTime, LocalDateTime.class);
     }
 }
