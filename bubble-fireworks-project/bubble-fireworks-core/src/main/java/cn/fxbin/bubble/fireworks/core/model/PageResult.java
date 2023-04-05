@@ -77,21 +77,7 @@ public class PageResult<T> implements Serializable {
     }
 
     public PageResult<T> compute(Integer pageSize, Integer pageNo, Long total) {
-        this.pageSize = Long.valueOf(pageSize);
-        this.pageNo = Long.valueOf(pageNo);
-        if (total > 0) {
-            this.total = total;
-
-            if (total % this.pageSize > 0) {
-                this.totalPage = (total / this.pageSize) + 1;
-            } else {
-                this.totalPage = (total / this.pageSize);
-            }
-        } else {
-            this.totalPage = 0L;
-            this.total = 0L;
-        }
-        return this;
+        return this.compute(pageSize.longValue(), pageNo.longValue(), total);
     }
 
     public PageResult<T> compute(Long pageSize, Long pageNo, Long total) {
