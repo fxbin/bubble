@@ -35,7 +35,7 @@
         <transmittable-thread-local.version>2.12.6</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
         <redisson.version>3.20.0</redisson.version>
-        <curator.version>5.3.0</curator.version>
+        <curator.version>5.4.0</curator.version>
         <aliyun-log.version>0.6.74</aliyun-log.version>
         <aliyun-log-producer.version>0.3.10</aliyun-log-producer.version>
         <protobuf-java.version>3.22.2</protobuf-java.version>
