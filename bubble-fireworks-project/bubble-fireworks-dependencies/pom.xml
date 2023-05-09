@@ -38,7 +38,7 @@
         <curator.version>5.4.0</curator.version>
         <aliyun-log.version>0.6.74</aliyun-log.version>
         <aliyun-log-producer.version>0.3.10</aliyun-log-producer.version>
-        <protobuf-java.version>3.22.2</protobuf-java.version>
+        <protobuf-java.version>3.23.0</protobuf-java.version>
         <mapstruct.version>1.5.1.Final</mapstruct.version>
         <xxl.job.version>2.4.0</xxl.job.version>
         <jjwt.version>0.11.5</jjwt.version>
