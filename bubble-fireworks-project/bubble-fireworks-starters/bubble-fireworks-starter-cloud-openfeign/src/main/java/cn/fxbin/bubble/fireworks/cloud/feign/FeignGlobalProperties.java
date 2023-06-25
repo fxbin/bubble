@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.cloud.feign.autoconfigure;
+package cn.fxbin.bubble.fireworks.cloud.feign;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.fxbin.bubble.fireworks.cloud.feign.autoconfigure.FeignGlobalProperties.BUBBLE_FIREWORKS_FEIGN_PREFIX;
+import static cn.fxbin.bubble.fireworks.cloud.feign.FeignGlobalProperties.BUBBLE_FIREWORKS_FEIGN_PREFIX;
 
 /**
  * FeignGlobalProperties
