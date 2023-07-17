@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.fireworks.cloud.feign.autoconfigure;
 
+import cn.fxbin.bubble.fireworks.cloud.feign.FeignGlobalProperties;
 import cn.fxbin.bubble.fireworks.cloud.feign.OkHttp3ConnectionManager;
 import cn.fxbin.bubble.fireworks.cloud.feign.codec.CustomizeFeignErrorDecoder;
 import cn.fxbin.bubble.fireworks.cloud.feign.handler.CustomizeUrlBlockHandler;
@@ -13,11 +14,13 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,8 +34,12 @@ import java.util.concurrent.TimeUnit;
         proxyBeanMethods = false
 )
 @Import(CustomizeFeignErrorDecoder.class)
+@EnableConfigurationProperties(FeignGlobalProperties.class)
 @ConditionalOnClass({SpringFormEncoder.class, OkHttp3ConnectionManager.class})
 public class FeignGlobalConfiguration {
+
+    @Resource
+    private FeignGlobalProperties properties;
 
     @Bean
     public OkHttpClient okHttpClient() {
@@ -52,7 +59,7 @@ public class FeignGlobalConfiguration {
 
     @Bean
     public Request.Options options() {
-        return new Request.Options(2000, TimeUnit.MILLISECONDS, 2000, TimeUnit.MILLISECONDS, true);
+        return new Request.Options(properties.getConnectTimeout(), TimeUnit.MILLISECONDS, properties.getReadTimeout(), TimeUnit.MILLISECONDS, true);
     }
 
     @Bean
