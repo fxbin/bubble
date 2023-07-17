@@ -38,6 +38,15 @@ public class FeignGlobalProperties {
      */
     private List<String> allowHeaders = new ArrayList<>();
 
+    /**
+     * 连接超时时间，单位：毫秒
+     */
+    private long connectTimeout = 2000;
+
+    /**
+     * 读取超时，单位：毫秒
+     */
+    private long readTimeout = 2000;
 
 
 }
