@@ -40,6 +40,13 @@ public class PageUtils extends PageUtil {
                 .setList(list);
     }
 
+    /**
+     * 构建页面结果
+     *
+     * @param request 请求
+     * @param page    页面
+     * @return {@link PageResult}<{@link T}>
+     */
     public <T> PageResult<T> buildPageResult(PageRequest request, Page<T> page) {
         return new PageResult<T>()
                 .compute(request.getPageSize(), request.getPageNo(), page.getTotal())
