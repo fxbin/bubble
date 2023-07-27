@@ -25,7 +25,7 @@
         <module>bubble-fireworks-starter-cloud-openfeign</module>
         <!-- data -->
         <module>bubble-fireworks-starter-data-redis</module>
-        <module>bubble-fireworks-starter-data-mybatis</module>
+        <module>bubble-fireworks-starter-data-mybatis-plus</module>
         <module>bubble-fireworks-starter-data-elasticsearch</module>
         <!-- plugins -->
         <module>bubble-fireworks-starter-plugin-lock</module>

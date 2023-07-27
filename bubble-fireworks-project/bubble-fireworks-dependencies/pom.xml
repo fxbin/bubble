@@ -90,7 +90,7 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-data-mybatis</artifactId>
+                <artifactId>bubble-fireworks-starter-data-mybatis-plus</artifactId>
                 <version>2022.0.1</version>
             </dependency>
 
