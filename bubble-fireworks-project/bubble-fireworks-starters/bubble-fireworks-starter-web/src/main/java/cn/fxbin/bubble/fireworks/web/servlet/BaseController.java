@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.web.support;
+package cn.fxbin.bubble.fireworks.web.servlet;
 
 import cn.fxbin.bubble.fireworks.core.model.Result;
 import cn.fxbin.bubble.fireworks.core.model.ResultCode;
