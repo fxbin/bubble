@@ -1,5 +1,7 @@
-package cn.fxbin.bubble.fireworks.web.support;
+package cn.fxbin.bubble.fireworks.web.servlet;
 
+import cn.fxbin.bubble.fireworks.core.model.Result;
+import cn.fxbin.bubble.fireworks.core.util.BeanUtils;
 import com.google.common.collect.Maps;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
@@ -40,14 +42,12 @@ public class DefaultErrorController extends BasicErrorController {
         }
 
         Map<String, Object> body = getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.ALL));
-        String path = (String) body.get("path");
+        String path = (String) body.getOrDefault("path", "");
         String error = (String) body.get("error");
         String errmsg = String.format("path %s %s", path, error);
 
-        Map<String, Object> bodyResult = Maps.newHashMap();
-        bodyResult.put("errcode", -1);
-        bodyResult.put("errmsg", errmsg);
-        return new ResponseEntity<>(bodyResult, status);
+        Result<Object> bodyResult = Result.failure(errmsg);
+        return new ResponseEntity<>(BeanUtils.object2Map(bodyResult), status);
     }
 
 }
