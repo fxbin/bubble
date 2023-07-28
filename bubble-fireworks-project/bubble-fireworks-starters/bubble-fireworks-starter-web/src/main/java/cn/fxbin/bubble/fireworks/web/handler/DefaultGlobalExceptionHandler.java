@@ -17,14 +17,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static cn.fxbin.bubble.fireworks.core.model.ResultCode.REQUEST_PARAM_VALIDATION_ERROR;
 
 /**
  * DefaultGlobalExceptionHandler
