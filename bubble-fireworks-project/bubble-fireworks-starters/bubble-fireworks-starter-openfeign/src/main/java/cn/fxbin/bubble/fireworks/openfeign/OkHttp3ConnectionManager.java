@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.cloud.feign;
+package cn.fxbin.bubble.fireworks.openfeign;
 
 import lombok.experimental.UtilityClass;
 import okhttp3.*;

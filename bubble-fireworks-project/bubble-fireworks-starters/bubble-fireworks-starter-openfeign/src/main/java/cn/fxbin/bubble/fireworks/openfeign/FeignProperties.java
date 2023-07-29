@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.cloud.feign;
+package cn.fxbin.bubble.fireworks.openfeign;
 
 import feign.Logger;
 import lombok.Data;
@@ -8,7 +8,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.fxbin.bubble.fireworks.cloud.feign.FeignProperties.BUBBLE_FIREWORKS_FEIGN_PREFIX;
+import static cn.fxbin.bubble.fireworks.openfeign.FeignProperties.BUBBLE_FIREWORKS_FEIGN_PREFIX;
 
 /**
  * FeignGlobalProperties

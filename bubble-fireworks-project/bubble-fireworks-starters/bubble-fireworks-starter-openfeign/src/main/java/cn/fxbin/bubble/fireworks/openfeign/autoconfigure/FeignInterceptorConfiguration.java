@@ -1,6 +1,6 @@
-package cn.fxbin.bubble.fireworks.cloud.feign.autoconfigure;
+package cn.fxbin.bubble.fireworks.openfeign.autoconfigure;
 
-import cn.fxbin.bubble.fireworks.cloud.feign.FeignProperties;
+import cn.fxbin.bubble.fireworks.openfeign.FeignProperties;
 import cn.fxbin.bubble.fireworks.core.util.ObjectUtils;
 import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import feign.RequestInterceptor;
@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
-import static cn.fxbin.bubble.fireworks.cloud.feign.FeignProperties.ALLOW_HEADERS;
+import static cn.fxbin.bubble.fireworks.openfeign.FeignProperties.ALLOW_HEADERS;
 
 /**
  * FeignInterceptorConfiguration

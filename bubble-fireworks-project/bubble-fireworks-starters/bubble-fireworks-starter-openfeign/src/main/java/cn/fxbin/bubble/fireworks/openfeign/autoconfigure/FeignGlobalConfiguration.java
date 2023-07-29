@@ -1,9 +1,9 @@
-package cn.fxbin.bubble.fireworks.cloud.feign.autoconfigure;
+package cn.fxbin.bubble.fireworks.openfeign.autoconfigure;
 
-import cn.fxbin.bubble.fireworks.cloud.feign.FeignProperties;
-import cn.fxbin.bubble.fireworks.cloud.feign.OkHttp3ConnectionManager;
-import cn.fxbin.bubble.fireworks.cloud.feign.codec.CustomizeFeignErrorDecoder;
-import cn.fxbin.bubble.fireworks.cloud.feign.handler.CustomizeUrlBlockHandler;
+import cn.fxbin.bubble.fireworks.openfeign.FeignProperties;
+import cn.fxbin.bubble.fireworks.openfeign.OkHttp3ConnectionManager;
+import cn.fxbin.bubble.fireworks.openfeign.codec.CustomizeFeignErrorDecoder;
+import cn.fxbin.bubble.fireworks.openfeign.handler.CustomizeUrlBlockHandler;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import feign.Logger;
 import feign.Request;
