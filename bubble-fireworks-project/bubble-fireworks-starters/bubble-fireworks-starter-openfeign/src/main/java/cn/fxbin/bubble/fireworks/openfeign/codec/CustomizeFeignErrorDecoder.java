@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.cloud.feign.codec;
+package cn.fxbin.bubble.fireworks.openfeign.codec;
 
 import cn.fxbin.bubble.fireworks.core.exception.ServiceException;
 import cn.fxbin.bubble.fireworks.core.model.Result;

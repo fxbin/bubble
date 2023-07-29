@@ -1,4 +1,4 @@
 ## Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.fxbin.bubble.fireworks.cloud.feign.autoconfigure.FeignInterceptorConfiguration,\
-cn.fxbin.bubble.fireworks.cloud.feign.autoconfigure.FeignGlobalConfiguration
+cn.fxbin.bubble.fireworks.openfeign.autoconfigure.FeignInterceptorConfiguration,\
+cn.fxbin.bubble.fireworks.openfeign.autoconfigure.FeignGlobalConfiguration
