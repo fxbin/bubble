@@ -35,11 +35,11 @@ public class CustomizeUrlBlockHandler implements BlockExceptionHandler {
      * @param e com.alibaba.csp.sentinel.slots.block.BlockException
      *          <p>
      *              BlockException 包含以下几种异常
-     *                  FlowException    限流异常
-     *                  DegradeException    降级异常
-     *                  ParamFlowException    参数限流异常
-     *                  SystemBlockException    系统负载异常
-     *                   AuthorityException    授权异常
+     *              FlowException    限流异常
+     *              DegradeException    降级异常
+     *              ParamFlowException    参数限流异常
+     *              SystemBlockException    系统负载异常
+     *              AuthorityException    授权异常
      *          </p>
      */
     @Override
