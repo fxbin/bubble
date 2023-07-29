@@ -25,7 +25,7 @@
         <!-- Other Dependency Versions -->
         <knife4j.version>3.0.3</knife4j.version>
         <okhttp.version>4.9.3</okhttp.version>
-        <hutool-all.version>5.8.18</hutool-all.version>
+        <hutool.version>5.8.20</hutool.version>
         <guava.version>31.1-jre</guava.version>
         <httpclient.version>4.5.14</httpclient.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
@@ -195,12 +195,21 @@
                 <version>${guava.version}</version>
             </dependency>
 
-            <!-- hutool -->
+            <!-- hutool  https://github.com/dromara/hutool/issues/1561 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
-                <version>${hutool-all.version}</version>
+                <version>${hutool.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+
 
             <!-- httpclient -->
             <dependency>
