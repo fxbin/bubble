@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.fireworks.cloud.feign.autoconfigure;
 
-import cn.fxbin.bubble.fireworks.cloud.feign.FeignGlobalProperties;
+import cn.fxbin.bubble.fireworks.cloud.feign.FeignProperties;
 import cn.fxbin.bubble.fireworks.cloud.feign.OkHttp3ConnectionManager;
 import cn.fxbin.bubble.fireworks.cloud.feign.codec.CustomizeFeignErrorDecoder;
 import cn.fxbin.bubble.fireworks.cloud.feign.handler.CustomizeUrlBlockHandler;
@@ -34,12 +34,12 @@ import java.util.concurrent.TimeUnit;
         proxyBeanMethods = false
 )
 @Import(CustomizeFeignErrorDecoder.class)
-@EnableConfigurationProperties(FeignGlobalProperties.class)
+@EnableConfigurationProperties(FeignProperties.class)
 @ConditionalOnClass({SpringFormEncoder.class, OkHttp3ConnectionManager.class})
 public class FeignGlobalConfiguration {
 
     @Resource
-    private FeignGlobalProperties properties;
+    private FeignProperties properties;
 
     @Bean
     public OkHttpClient okHttpClient() {
@@ -54,7 +54,7 @@ public class FeignGlobalConfiguration {
 
     @Bean
     public Logger.Level feignLoggerLevel() {
-        return Logger.Level.FULL;
+        return properties.getLoggingLevel();
     }
 
     @Bean
