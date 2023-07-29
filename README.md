@@ -10,12 +10,12 @@
 [![Watchers](https://img.shields.io/github/watchers/fxbin/bubble-fireworks.svg?label=Watch&style=social)](https://github.com/fxbin/bubble-fireworks/watchers)
 
 
-| 依赖 | 版本 |
----|---
-| Spring Boot |  2.6.4 |
-| Spring Cloud |  2021.0.1 | 
-| Spring Cloud Alibaba |  2021.0.1.0 |
-| Mybatis-Plus | 3.5.1 |  
+| 依赖 | 版本         |
+---|------------
+| Spring Boot | 2.7.14     |
+| Spring Cloud | 2021.0.8   | 
+| Spring Cloud Alibaba | 2021.0.5.0 |
+| Mybatis-Plus | 3.5.2      |  
 
 ## 项目简介
 
@@ -24,3 +24,6 @@
 ## 参考文档
 * [lombok.config--lombok配置系统](https://www.freesion.com/article/8894123984/)
 * [Junit5 使用](https://www.morcat.cn/archives/junit5)
+
+## 规范定义
+* [规范定义](规范定义.md)
