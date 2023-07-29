@@ -78,7 +78,13 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-cloud-openfeign</artifactId>
+                <artifactId>bubble-fireworks-starter-logging</artifactId>
+                <version>2022.0.2.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-fireworks-starter-openfeign</artifactId>
                 <version>2022.0.2.BUILD-SNAPSHOT</version>
             </dependency>
 
@@ -115,12 +121,6 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-fireworks-starter-plugin-token</artifactId>
-                <version>2022.0.2.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-fireworks-starter-plugin-logging</artifactId>
                 <version>2022.0.2.BUILD-SNAPSHOT</version>
             </dependency>
 

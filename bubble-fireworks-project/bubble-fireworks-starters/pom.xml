@@ -22,7 +22,7 @@
         <module>bubble-fireworks-starter-web</module>
         <module>bubble-fireworks-starter-test</module>
         <!-- cloud -->
-        <module>bubble-fireworks-starter-cloud-openfeign</module>
+        <module>bubble-fireworks-starter-openfeign</module>
         <!-- data -->
         <module>bubble-fireworks-starter-data-redis</module>
         <module>bubble-fireworks-starter-data-mybatis-plus</module>
@@ -31,7 +31,7 @@
         <module>bubble-fireworks-starter-plugin-lock</module>
         <module>bubble-fireworks-starter-plugin-excel</module>
         <module>bubble-fireworks-starter-plugin-token</module>
-        <module>bubble-fireworks-starter-plugin-logging</module>
+        <module>bubble-fireworks-starter-logging</module>
         <module>bubble-fireworks-starter-plugin-xxl-job</module>
         <module>bubble-fireworks-starter-plugin-dynamic-threadpool</module>
     </modules>
