@@ -44,7 +44,7 @@
         <jjwt.version>0.11.5</jjwt.version>
         <fastjson.version>2.0.15</fastjson.version>
         <aliyun-oss.version>3.17.1</aliyun-oss.version>
-        <lombok.version>1.18.26</lombok.version>
+        <lombok.version>1.18.28</lombok.version>
 
     </properties>
 
