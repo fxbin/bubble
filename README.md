@@ -1,9 +1,9 @@
 # bubble fireworks 🎉🎉🎉
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/63f51f8ee55f42bd8284c1c04e2b6f7d)](https://app.codacy.com/manual/fxbin/bubble-fireworks?utm_source=github.com&utm_medium=referral&utm_content=fxbin/bubble-fireworks&utm_campaign=Badge_Grade_Settings)
-[![Spring Boot](https://img.shields.io/badge/SpringBoot-2.6.4-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
-[![Spring Cloud](https://img.shields.io/badge/SpringCloud-2021.0.1-brightgreen.svg)](https://github.com/spring-cloud)
-[![Spring Cloud Alibaba](https://img.shields.io/badge/SpringCloudAlibaba-2021.0.1.0-brightgreen.svg)](https://github.com/alibaba/spring-cloud-alibaba)
+[![Spring Boot](https://img.shields.io/badge/SpringBoot-2.7.14-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
+[![Spring Cloud](https://img.shields.io/badge/SpringCloud-2021.0.8-brightgreen.svg)](https://github.com/spring-cloud)
+[![Spring Cloud Alibaba](https://img.shields.io/badge/SpringCloudAlibaba-2021.0.5.0-brightgreen.svg)](https://github.com/alibaba/spring-cloud-alibaba)
 
 [![Star](https://img.shields.io/github/stars/fxbin/bubble-fireworks.svg?label=Stars&style=social)](https://github.com/fxbin/bubble-fireworks/stargazers)
 [![Members](https://img.shields.io/github/forks/fxbin/bubble-fireworks.svg?label=Fork&style=social)](https://github.com/fxbin/bubble-fireworks/network/members)
