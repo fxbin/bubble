@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.web.autoconfigure.i18n;
+package cn.fxbin.bubble.i18n;
 
 import cn.fxbin.bubble.fireworks.core.util.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -38,7 +38,7 @@ import java.util.Objects;
 )
 @ConditionalOnClass({LocaleChangeInterceptor.class, LocalValidatorFactoryBean.class})
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class InternationalAutoConfiguration implements WebMvcConfigurer {
+public class I18nAutoConfiguration implements WebMvcConfigurer {
 
     @Resource
     private Environment environment;
