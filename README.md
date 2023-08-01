@@ -9,21 +9,16 @@
 [![Members](https://img.shields.io/github/forks/fxbin/bubble-fireworks.svg?label=Fork&style=social)](https://github.com/fxbin/bubble-fireworks/network/members)
 [![Watchers](https://img.shields.io/github/watchers/fxbin/bubble-fireworks.svg?label=Watch&style=social)](https://github.com/fxbin/bubble-fireworks/watchers)
 
-
-| 依赖 | 版本         |
----|------------
-| Spring Boot | 2.7.14     |
-| Spring Cloud | 2021.0.8   | 
-| Spring Cloud Alibaba | 2021.0.5.0 |
-| Mybatis-Plus | 3.5.2      |  
-
 ## 项目简介
 
-基于SpringBoot,SpringCloud,Mybatis Plus 的快速开发脚手架
+`bubble-fireworks` 旨在为项目快速开发提供一系列的基础能力，方便使用者根据项目需求快速进行功能拓展。已将所有 JAR 包都推送至中央仓库，也会为每个版本的升级改动列出详细的更新日志
 
-## 参考文档
+## 更新记录详见
+[项目更新记录](CHANGELOG.md)
+
+## 参考链接
 * [lombok.config--lombok配置系统](https://www.freesion.com/article/8894123984/)
 * [Junit5 使用](https://www.morcat.cn/archives/junit5)
 
 ## 规范定义
-* [规范定义](规范定义.md)
+* [项目规范定义](docs/规范定义.md)
