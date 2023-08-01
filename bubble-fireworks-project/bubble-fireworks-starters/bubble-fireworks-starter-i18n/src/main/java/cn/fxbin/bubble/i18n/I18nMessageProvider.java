@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.fireworks.web.support;
+package cn.fxbin.bubble.i18n;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -8,14 +8,14 @@ import javax.annotation.Resource;
 import java.util.Locale;
 
 /**
- * I18nService
+ * I18nMessageProvider
  *
  * @author fxbin
  * @version v1.0
  * @since 2020/3/30 18:17
  */
 @Component
-public class I18nOperations {
+public class I18nMessageProvider {
 
     @Resource
     private MessageSource messageSource;

@@ -34,6 +34,7 @@
         <module>bubble-fireworks-starter-logging</module>
         <module>bubble-fireworks-starter-plugin-xxl-job</module>
         <module>bubble-fireworks-starter-plugin-dynamic-threadpool</module>
+        <module>bubble-fireworks-starter-i18n</module>
     </modules>
 
 
