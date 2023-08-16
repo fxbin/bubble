@@ -46,7 +46,7 @@
         <aliyun-oss.version>3.16.2</aliyun-oss.version>
         <lombok.version>1.18.28</lombok.version>
         <mica-auto.version>2.3.2</mica-auto.version>
-
+        <easy-trans.version>2.2.5</easy-trans.version>
     </properties>
 
     <dependencyManagement>
@@ -399,6 +399,19 @@
                 <groupId>net.dreamlu</groupId>
                 <artifactId>mica-auto</artifactId>
                 <version>${mica-auto.version}</version>
+            </dependency>
+
+            <!-- easy-trans -->
+            <dependency>
+                <groupId>com.fhs-opensource</groupId>
+                <artifactId>easy-trans-spring-boot-starter</artifactId>
+                <version>${easy-trans.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fhs-opensource</groupId>
+                <artifactId>easy-trans-mybatis-plus-extend</artifactId>
+                <version>${easy-trans.version}</version>
             </dependency>
 
 
