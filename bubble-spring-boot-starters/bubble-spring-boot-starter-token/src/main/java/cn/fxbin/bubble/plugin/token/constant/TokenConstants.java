@@ -17,7 +17,7 @@ public interface TokenConstants {
 
     String REFRESH_TYPE = "refresh";
 
-    String BUBBLE_FIREWORKS_SCOPE = "bubble-fireworks";
+    String BUBBLE_FIREWORKS_SCOPE = "bubble";
 
     String OTHER_SCOPE = "other";
 

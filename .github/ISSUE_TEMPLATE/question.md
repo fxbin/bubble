@@ -11,8 +11,8 @@ assignees: fxbin
 
 <!-- Choose one of the following and delete all others. -->
 eg.
-* bubble-fireworks-starter-data-redis
-* bubble-fireworks-starter-web
+* bubble-spring-boot-starter-data-redis
+* bubble-spring-boot-starter-web
 
 **Description**
 A clear and concise details.
@@ -20,5 +20,5 @@ A clear and concise details.
 **Environment**
 <!-- Add information about your environment and ThingsBoard version if applicable -->
  * OS:  name and version
- * bubble-fireworks: version
+ * bubble: version
  * Browser: name and version
