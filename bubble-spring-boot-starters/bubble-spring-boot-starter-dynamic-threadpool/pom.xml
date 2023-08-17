@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>bubble-spring-boot-starter-dynamic-threadpool</artifactId>
-    <name>Bubble SpringBoot Starter Dynamic ThreadPool</name>
+    <name>Bubble SpringBoot Starter Plugin Dynamic ThreadPool</name>
 
     <dependencies>
         <dependency>
