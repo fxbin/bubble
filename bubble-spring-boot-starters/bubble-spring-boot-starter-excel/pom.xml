@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>bubble-spring-boot-starter-excel</artifactId>
-    <name>Bubble SpringBoot Starter Excel</name>
+    <name>Bubble SpringBoot Starter Plugin Excel</name>
 
     <dependencies>
         <dependency>
