@@ -1,6 +1,6 @@
 package org.springframework.data.redis.serializer;
 
-import cn.fxbin.bubble.fireworks.core.module.JavaTimeModule;
+import cn.fxbin.bubble.core.module.JavaTimeModule;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.core.JsonGenerator;

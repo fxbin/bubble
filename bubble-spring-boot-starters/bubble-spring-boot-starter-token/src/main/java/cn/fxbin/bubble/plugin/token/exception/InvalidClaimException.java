@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.plugin.token.exception;
 
-import cn.fxbin.bubble.fireworks.core.logging.LoggerMessageFormat;
+import cn.fxbin.bubble.core.logging.LoggerMessageFormat;
 import lombok.Getter;
 
 /**

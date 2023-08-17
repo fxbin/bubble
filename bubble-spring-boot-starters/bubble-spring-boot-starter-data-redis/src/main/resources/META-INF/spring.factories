@@ -1,4 +1,4 @@
 ## Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.fxbin.bubble.fireworks.data.redis.autoconfigure.RedisTemplateAutoConfiguration,\
-cn.fxbin.bubble.fireworks.data.redis.autoconfigure.SessionAutoConfiguration
+cn.fxbin.bubble.data.redis.autoconfigure.RedisTemplateAutoConfiguration,\
+cn.fxbin.bubble.data.redis.autoconfigure.SessionAutoConfiguration
