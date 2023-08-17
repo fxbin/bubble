@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.fxbin.bubble</groupId>
-    <artifactId>bubble-fireworks-build</artifactId>
-    <version>2022.0.1</version>
+    <artifactId>bubble-build</artifactId>
+    <version>2.0.0.BUILD-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Bubble Fireworks Build</name>
-    <description>Bubble Fireworks Build project, managing plugins</description>
+    <name>Bubble Build</name>
+    <description>Bubble Build project, managing plugins</description>
     <url>https://github.com/fxbin/bubble-fireworks</url>
 
     <licenses>
@@ -74,8 +74,10 @@
     </properties>
 
     <modules>
-        <module>bubble-fireworks-project</module>
-        <module>bubble-fireworks-tests</module>
+        <module>bubble-dependencies</module>
+        <module>bubble-parent</module>
+        <module>bubble-core</module>
+        <module>bubble-spring-boot-starters</module>
     </modules>
 
     <profiles>
@@ -338,7 +340,7 @@
                 </configuration>
             </plugin>
 
-            <!-- mvn versions:set -DnewVersion=2021.BUILD-SNAPSHOT -->
+            <!-- mvn versions:set -DnewVersion=2.0.0.BUILD-SNAPSHOT -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
