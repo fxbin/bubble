@@ -1,0 +1,6 @@
+## Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.fxbin.bubble.fireworks.web.autoconfigure.GlobalHandlerAutoConfiguration,\
+cn.fxbin.bubble.fireworks.web.autoconfigure.RestTemplateAutoConfiguration,\
+cn.fxbin.bubble.fireworks.web.autoconfigure.jackson.CustomizeJacksonAutoConfiguration,\
+cn.fxbin.bubble.fireworks.web.autoconfigure.CustomizeWebAutoConfiguration
