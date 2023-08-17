@@ -1,4 +1,4 @@
-# bubble fireworks 🎉🎉🎉
+# bubble 🎉🎉🎉
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/63f51f8ee55f42bd8284c1c04e2b6f7d)](https://app.codacy.com/manual/fxbin/bubble-fireworks?utm_source=github.com&utm_medium=referral&utm_content=fxbin/bubble-fireworks&utm_campaign=Badge_Grade_Settings)
 [![Spring Boot](https://img.shields.io/badge/SpringBoot-2.7.14-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
@@ -11,7 +11,7 @@
 
 ## 项目简介
 
-`bubble-fireworks` 旨在为项目快速开发提供一系列的基础能力，方便使用者根据项目需求快速进行功能拓展。已将所有 JAR 包都推送至中央仓库，也会为每个版本的升级改动列出详细的更新日志
+`bubble` 旨在为项目快速开发提供一系列的基础能力，方便使用者根据项目需求快速进行功能拓展。已将所有 JAR 包都推送至中央仓库，也会为每个版本的升级改动列出详细的更新日志
 
 ## 更新记录详见
 [项目更新记录](CHANGELOG.md)
