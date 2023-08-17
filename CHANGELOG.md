@@ -2,6 +2,49 @@
 ## 发行版本
 
 ### [2022.0.1] - 2023.06.25
+🎇New Features
+* 增加枚举基础定义&枚举helper类
+* add HttpServletRequest wrapper classes
+* 增加mybatis-plus 相关组件依赖管理
+
+🛠 Bug Fix
+* 🐛 Buffer子类型 clear 方法兼容问题
+* 🐛 mybatis-plus 排序问题修复
+
+🎨 Other Changes
+* 优化mybatis-plus相关实现
+* 优化getIpAddr方法
+* redis setNX, keys 操作
+* BaseMapper 增加自定义方法
+* bean转化时日期数据处理
+
+  🔨Dependency Upgrades
+* Upgrade to lombok 1.18.26
+* Upgrade to hutool 5.8.18
+* Upgrade to jjwt 0.11.5
+* Upgrade to fastjson 2.0.15
+* Upgrade to httpclient 4.5.14
+* Upgrade to protobuf-java 3.22.2
+* Upgrade to mapstruct 1.5.1.Final
+* Upgrade to easyexcel 3.2.1
+* Upgrade to xxl-job 2.4.0
+* Upgrade to dynamic-datasource-spring-boot-starter 3.6.1
+* Upgrade to aliyun-log 0.6.74
+* Upgrade to aliyun-sdk-oss 3.16.2
+* Upgrade to redisson 3.20.1
+* Upgrade to curator-framework 5.4.0
+* Upgrade to elasticsearch 7.13.4
+* Upgrade to spring-boot 2.7.5
+* Upgrade to spring-boot-admin 2.7.5
+* Upgrade to spring-cloud 2021.0.2
+* Upgrade to maven-jar-plugin 3.3.0
+* Upgrade to maven-enforcer-plugin 3.3.0
+* Upgrade to maven-deploy-plugin 3.0.0
+* Upgrade to maven-surefire-plugin 3.0.0
+* Upgrade to maven-javadoc-plugin 3.5.0
+* Upgrade to maven-install-plugin 3.1.1
+* Upgrade to maven-compiler-plugin 3.11.0
+* Upgrade to version-maven-plugin 2.11.0
 
 ### [2022.0.0] - 2022.04.28
 🎇New Features
