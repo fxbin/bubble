@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.i18n;
 
-import cn.fxbin.bubble.fireworks.core.util.StringUtils;
+import cn.fxbin.bubble.core.util.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
