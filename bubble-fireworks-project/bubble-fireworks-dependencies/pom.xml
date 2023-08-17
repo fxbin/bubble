@@ -47,6 +47,7 @@
         <lombok.version>1.18.28</lombok.version>
         <mica-auto.version>2.3.2</mica-auto.version>
         <easy-trans.version>2.2.5</easy-trans.version>
+        <dubbo.version>3.1.11</dubbo.version>
     </properties>
 
     <dependencyManagement>
@@ -414,6 +415,37 @@
                 <version>${easy-trans.version}</version>
             </dependency>
 
+            <!-- dubbo -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-nacos</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
