@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <name>Bubble Build</name>
     <description>Bubble Build project, managing plugins</description>
-    <url>https://github.com/fxbin/bubble-fireworks</url>
+    <url>https://github.com/fxbin/bubble</url>
 
     <licenses>
         <license>
@@ -19,15 +19,15 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/fxbin/bubble-fireworks</url>
-        <connection>scm:git:git://github.com/fxbin/bubble-fireworks.git</connection>
-        <developerConnection>scm:git:ssh://git@//github.com/fxbin/bubble-fireworks.git</developerConnection>
+        <url>https://github.com/fxbin/bubble</url>
+        <connection>scm:git:git://github.com/fxbin/bubble.git</connection>
+        <developerConnection>scm:git:ssh://git@//github.com/fxbin/bubble.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/fxbin/bubble-fireworks/issues</url>
+        <url>https://github.com/fxbin/bubble/issues</url>
     </issueManagement>
 
     <developers>

@@ -1,4 +1,4 @@
 ## Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.fxbin.bubble.fireworks.plugin.lock.autoconfigure.RedissonAutoConfiguration,\
-cn.fxbin.bubble.fireworks.plugin.lock.autoconfigure.LockAutoConfiguration
+cn.fxbin.bubble.plugin.lock.autoconfigure.RedissonAutoConfiguration,\
+cn.fxbin.bubble.plugin.lock.autoconfigure.LockAutoConfiguration
