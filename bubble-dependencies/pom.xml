@@ -14,8 +14,6 @@
     <description>Bubble Project Dependencies: manager jar version dependency, Use as a BOM </description>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
         <spring-boot.version>2.7.14</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
@@ -26,7 +24,7 @@
         <knife4j.version>3.0.3</knife4j.version>
         <okhttp.version>4.9.3</okhttp.version>
         <hutool.version>5.8.21</hutool.version>
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>32.1.2-jre</guava.version>
         <httpclient.version>4.5.14</httpclient.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <dynamic-datasource.version>4.1.3</dynamic-datasource.version>
