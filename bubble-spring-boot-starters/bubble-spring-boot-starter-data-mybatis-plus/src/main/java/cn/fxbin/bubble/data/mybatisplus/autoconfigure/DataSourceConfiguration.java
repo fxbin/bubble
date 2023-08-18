@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.data.mybatis.autoconfigure;
+package cn.fxbin.bubble.data.mybatisplus.autoconfigure;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

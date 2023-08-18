@@ -1,11 +1,14 @@
-package cn.fxbin.bubble.data.mybatis.util;
+package cn.fxbin.bubble.data.mybatisplus.util;
 
 import cn.fxbin.bubble.core.model.PageRequest;
 import cn.fxbin.bubble.core.model.PageResult;
+import cn.fxbin.bubble.core.util.CollectionUtils;
 import cn.hutool.core.util.PageUtil;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * PageUtils
@@ -23,7 +26,18 @@ public class PageUtils extends PageUtil {
      * @return {@link Page}<{@link T}>
      */
     public <T> Page<T> buildPageObj(PageRequest request) {
-        return new Page<T>(request.getPageNo(), request.getPageSize());
+        // 页码 + 每页数量
+        Page<T> page = new Page<>(request.getPageNo(), request.getPageSize());
+
+        // 排序字段拼接
+        List<PageRequest.Sort> sorts = request.getSorts();
+        if (CollectionUtils.isNotEmpty(sorts)) {
+            page.addOrder(sorts.stream()
+                    .map(sort -> sort.isAsc() ?
+                            OrderItem.asc(sort.getField()) : OrderItem.desc(sort.getField()))
+                    .collect(Collectors.toList()));
+        }
+        return page;
     }
 
     /**

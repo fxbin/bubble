@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.data.mybatis.handler;
+package cn.fxbin.bubble.data.mybatisplus.handler;
 
 import cn.fxbin.bubble.core.util.time.DateUtils;
 import lombok.extern.slf4j.Slf4j;
