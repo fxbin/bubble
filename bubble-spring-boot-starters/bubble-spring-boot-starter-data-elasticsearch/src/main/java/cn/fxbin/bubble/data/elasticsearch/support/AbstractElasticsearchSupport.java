@@ -245,7 +245,7 @@ public class AbstractElasticsearchSupport {
      * bulkRequest
      *
      * @since 2020/5/27 17:51
-     * @param requestModel cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel
+     * @param requestModel cn.fxbin.bubble.data.elasticsearch.model.EsRequestModel
      * @return org.elasticsearch.action.bulk.BulkRequest
      */
     protected <T> BulkRequest bulkRequest(EsRequestModel requestModel) {
@@ -257,7 +257,7 @@ public class AbstractElasticsearchSupport {
      * bulkRequest
      *
      * @since 2020/5/27 17:15
-     * @param requestModel cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel
+     * @param requestModel cn.fxbin.bubble.data.elasticsearch.model.EsRequestModel
      * @param requestClass request class, like IndexRequest,DeleteRequest,UpdateRequest
      * @return org.elasticsearch.action.bulk.BulkRequest
      * @see IndexRequest

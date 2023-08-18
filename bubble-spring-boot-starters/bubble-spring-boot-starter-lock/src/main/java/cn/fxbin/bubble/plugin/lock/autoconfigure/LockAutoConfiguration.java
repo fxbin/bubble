@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
         proxyBeanMethods = false
 )
 @ComponentScan(
-        basePackages = "cn.fxbin.bubble.fireworks.plugin.lock"
+        basePackages = "cn.fxbin.bubble.plugin.lock"
 )
 @ConditionalOnClass({LockActionAspect.class})
 public class LockAutoConfiguration {

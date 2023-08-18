@@ -25,8 +25,8 @@ public enum LockTimeoutStrategy implements TimeoutHandler {
         /**
          * handle
          *
-         * @param lockInfo     cn.fxbin.bubble.fireworks.plugin.lock.model.LockInfo
-         * @param lockExecutor cn.fxbin.bubble.fireworks.plugin.lock.executor.LockExecutor
+         * @param lockInfo     cn.fxbin.bubble.plugin.lock.model.LockInfo
+         * @param lockExecutor cn.fxbin.bubble.plugin.lock.executor.LockExecutor
          * @since 2020/8/5 15:03
          */
         @Override
@@ -40,8 +40,8 @@ public enum LockTimeoutStrategy implements TimeoutHandler {
         /**
          * handle
          *
-         * @param lockInfo     cn.fxbin.bubble.fireworks.plugin.lock.model.LockInfo
-         * @param lockExecutor cn.fxbin.bubble.fireworks.plugin.lock.executor.LockExecutor
+         * @param lockInfo     cn.fxbin.bubble.plugin.lock.model.LockInfo
+         * @param lockExecutor cn.fxbin.bubble.plugin.lock.executor.LockExecutor
          * @since 2020/8/5 15:03
          */
         @Override
@@ -57,8 +57,8 @@ public enum LockTimeoutStrategy implements TimeoutHandler {
         /**
          * handle
          *
-         * @param lockInfo     cn.fxbin.bubble.fireworks.plugin.lock.model.LockInfo
-         * @param lockExecutor cn.fxbin.bubble.fireworks.plugin.lock.executor.LockExecutor
+         * @param lockInfo     cn.fxbin.bubble.plugin.lock.model.LockInfo
+         * @param lockExecutor cn.fxbin.bubble.plugin.lock.executor.LockExecutor
          * @since 2020/8/5 15:03
          */
         @Override
@@ -77,8 +77,8 @@ public enum LockTimeoutStrategy implements TimeoutHandler {
         /**
          * handle
          *
-         * @param lockInfo     cn.fxbin.bubble.fireworks.plugin.lock.model.LockInfo
-         * @param lockExecutor cn.fxbin.bubble.fireworks.plugin.lock.executor.LockExecutor
+         * @param lockInfo     cn.fxbin.bubble.plugin.lock.model.LockInfo
+         * @param lockExecutor cn.fxbin.bubble.plugin.lock.executor.LockExecutor
          * @since 2020/8/5 15:03
          */
         @Override

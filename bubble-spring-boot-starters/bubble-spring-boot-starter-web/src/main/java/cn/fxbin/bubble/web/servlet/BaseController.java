@@ -29,7 +29,7 @@ public abstract class BaseController {
      * success
      *
      * @since 2020/3/31 10:59
-     * @return cn.fxbin.bubble.fireworks.core.model.Result<T>
+     * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public <T> Result<T> success() {
         return Result.success();
@@ -40,7 +40,7 @@ public abstract class BaseController {
      *
      * @since 2020/3/31 10:59
      * @param data 数据
-     * @return cn.fxbin.bubble.fireworks.core.model.Result<T>
+     * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public <T> Result<T> success(@Nullable T data) {
         return Result.success(data);
@@ -51,7 +51,7 @@ public abstract class BaseController {
      *
      * @since 2020/3/31 10:59
      * @param errmsg 错误信息
-     * @return cn.fxbin.bubble.fireworks.core.model.Result<T>
+     * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public <T> Result<T> failure(String errmsg) {
         return Result.failure(ResultCode.FAILURE, errmsg);

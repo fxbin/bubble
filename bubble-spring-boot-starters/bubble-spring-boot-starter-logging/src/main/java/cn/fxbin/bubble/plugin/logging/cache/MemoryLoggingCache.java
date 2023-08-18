@@ -43,7 +43,7 @@ public class MemoryLoggingCache implements LoggingCache {
      *
      * @since 2020/5/19 14:00
      * @param count count number
-     * @return java.util.List<cn.fxbin.bubble.fireworks.logging.model.BubbleFireworksLogging>
+     * @return java.util.List<cn.fxbin.bubble.logging.model.BubbleFireworksLogging>
      */
     private List<BubbleFireworksLogging> get(Integer count) {
         List<BubbleFireworksLogging> logs = new ArrayList<>();;
