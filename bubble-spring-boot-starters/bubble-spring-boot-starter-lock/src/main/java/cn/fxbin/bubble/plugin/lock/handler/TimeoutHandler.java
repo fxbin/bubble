@@ -17,8 +17,8 @@ public interface TimeoutHandler {
      * handle
      *
      * @since 2020/8/5 15:03
-     * @param lockInfo cn.fxbin.bubble.fireworks.plugin.lock.model.LockInfo
-     * @param lockExecutor cn.fxbin.bubble.fireworks.plugin.lock.executor.LockExecutor
+     * @param lockInfo cn.fxbin.bubble.plugin.lock.model.LockInfo
+     * @param lockExecutor cn.fxbin.bubble.plugin.lock.executor.LockExecutor
      */
     void handle(LockInfo lockInfo, LockExecutor lockExecutor);
 

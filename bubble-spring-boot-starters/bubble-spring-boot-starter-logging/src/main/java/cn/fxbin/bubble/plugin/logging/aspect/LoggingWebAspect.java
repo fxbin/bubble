@@ -106,7 +106,7 @@ public class LoggingWebAspect extends AbstractLogging {
      * initializeLog
      *
      * @since 2020/5/19 17:50
-     * @return cn.fxbin.bubble.fireworks.logging.model.BubbleFireworksLogging
+     * @return cn.fxbin.bubble.logging.model.BubbleFireworksLogging
      */
     private BubbleFireworksLogging initializeLog() {
 

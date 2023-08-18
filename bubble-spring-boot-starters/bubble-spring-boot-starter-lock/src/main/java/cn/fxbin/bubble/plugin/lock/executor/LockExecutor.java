@@ -23,7 +23,7 @@ public interface LockExecutor {
      * releaseLock
      *
      * @since 2020/8/4 17:34
-     * @param lockInfo cn.fxbin.bubble.fireworks.plugin.lock.model.LockInfo
+     * @param lockInfo cn.fxbin.bubble.plugin.lock.model.LockInfo
      * @return boolean
      */
     boolean releaseLock(LockInfo lockInfo);

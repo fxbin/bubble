@@ -22,7 +22,7 @@ import static cn.fxbin.bubble.plugin.token.autoconfigure.TokenProperties.BUBBLE_
 @ConfigurationProperties(prefix = BUBBLE_FIREWORKS_TOKEN_PREFIX)
 public class TokenProperties {
 
-    public static final String BUBBLE_FIREWORKS_TOKEN_PREFIX = "bubble.fireworks.token";
+    public static final String BUBBLE_FIREWORKS_TOKEN_PREFIX = "bubble.token";
 
     /**
      * 是否开启 token，默认：true

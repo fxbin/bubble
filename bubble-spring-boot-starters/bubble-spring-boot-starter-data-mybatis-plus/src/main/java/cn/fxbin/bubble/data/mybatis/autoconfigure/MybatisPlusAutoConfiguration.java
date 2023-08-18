@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         proxyBeanMethods = false
 )
 @ComponentScan(
-        basePackages = {"cn.fxbin.bubble.fireworks.data.mybatis"}
+        basePackages = {"cn.fxbin.bubble.data.mybatis"}
 )
 @ConditionalOnClass({SqlSessionFactory.class, SqlSessionFactoryBean.class, MapperFactoryBean.class})
 @EnableTransactionManagement

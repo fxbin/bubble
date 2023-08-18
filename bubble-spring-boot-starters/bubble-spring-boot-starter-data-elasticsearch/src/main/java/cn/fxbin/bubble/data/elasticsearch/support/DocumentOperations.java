@@ -35,7 +35,7 @@ public class DocumentOperations extends AbstractElasticsearchSupport {
      * bulkIndex
      *
      * @since 2020/5/27 18:08
-     * @param requestModel cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel
+     * @param requestModel cn.fxbin.bubble.data.elasticsearch.model.EsRequestModel
      */
     public void bulkIndex(EsRequestModel requestModel) {
         bulkOperation(requestModel, IndexRequest.class);
@@ -45,7 +45,7 @@ public class DocumentOperations extends AbstractElasticsearchSupport {
      * bulkUpdate
      *
      * @since 2020/5/27 18:08
-     * @param requestModel cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel
+     * @param requestModel cn.fxbin.bubble.data.elasticsearch.model.EsRequestModel
      */
     public void bulkUpdate(EsRequestModel requestModel) {
         bulkOperation(requestModel, UpdateRequest.class);
@@ -55,7 +55,7 @@ public class DocumentOperations extends AbstractElasticsearchSupport {
      * bulkDelete
      *
      * @since 2020/5/27 18:08
-     * @param requestModel cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel
+     * @param requestModel cn.fxbin.bubble.data.elasticsearch.model.EsRequestModel
      */
     public void bulkDelete(EsRequestModel requestModel) {
         bulkOperation(requestModel, DeleteRequest.class);
@@ -78,8 +78,8 @@ public class DocumentOperations extends AbstractElasticsearchSupport {
      * bulkOperation
      *
      * @since 2020/5/27 18:04
-     * @param requestModel cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel
-     * @param requestClass @link cn.fxbin.bubble.fireworks.data.elasticsearch.support.AbstractElasticsearchSupport#bulkRequest(cn.fxbin.bubble.fireworks.data.elasticsearch.model.EsRequestModel, java.lang.Class)
+     * @param requestModel cn.fxbin.bubble.data.elasticsearch.model.EsRequestModel
+     * @param requestClass @link cn.fxbin.bubble.data.elasticsearch.support.AbstractElasticsearchSupport#bulkRequest(cn.fxbin.bubble.data.elasticsearch.model.EsRequestModel, java.lang.Class)
      */
     public void bulkOperation(EsRequestModel requestModel, Class<?> requestClass) {
         bulkRequestExecute(bulkRequest(requestModel, requestClass), requestModel);

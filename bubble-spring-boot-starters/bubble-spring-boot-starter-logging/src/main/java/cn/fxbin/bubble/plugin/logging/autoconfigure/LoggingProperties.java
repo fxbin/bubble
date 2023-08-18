@@ -20,9 +20,9 @@ import java.util.List;
 @ConfigurationProperties(prefix = LoggingProperties.BUBBLE_FIREWORKS_LOGGING_PREFIX)
 public class LoggingProperties {
 
-    public static final String BUBBLE_FIREWORKS_LOGGING_PREFIX = "bubble.fireworks.logging";
+    public static final String BUBBLE_FIREWORKS_LOGGING_PREFIX = "bubble.logging";
 
-    public static final String BUBBLE_FIREWORKS_LOGGING_ALIYUN_PREFIX = "bubble.fireworks.logging.aliyun";
+    public static final String BUBBLE_FIREWORKS_LOGGING_ALIYUN_PREFIX = "bubble.logging.aliyun";
 
     /**
      * 默认开启日志
