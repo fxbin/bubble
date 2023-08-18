@@ -1,6 +1,5 @@
-package cn.fxbin.bubble.data.mybatis.autoconfigure;
+package cn.fxbin.bubble.data.mybatisplus.autoconfigure;
 
-import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
@@ -28,7 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         proxyBeanMethods = false
 )
 @ComponentScan(
-        basePackages = {"cn.fxbin.bubble.data.mybatis"}
+        basePackages = {"cn.fxbin.bubble.data.mybatisplus"}
 )
 @ConditionalOnClass({SqlSessionFactory.class, SqlSessionFactoryBean.class, MapperFactoryBean.class})
 @EnableTransactionManagement

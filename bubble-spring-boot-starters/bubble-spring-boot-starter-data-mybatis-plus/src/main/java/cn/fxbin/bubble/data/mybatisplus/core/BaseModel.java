@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.data.mybatis.core;
+package cn.fxbin.bubble.data.mybatisplus.core;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
