@@ -27,9 +27,11 @@ public class CustomizeJacksonAutoConfiguration {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer customizer() {
         return builder -> {
+            // Long类型序列化规则，数值超过2^53-1，在JS会出现精度丢失问题，因此Long自动序列化为字符串类型
             builder.serializerByType(Long.class, ToStringSerializer.instance);
             builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
 
+            // LocalDateTime序列化、反序列化规则
             builder.modules(new JavaTimeModule());
         };
     }
