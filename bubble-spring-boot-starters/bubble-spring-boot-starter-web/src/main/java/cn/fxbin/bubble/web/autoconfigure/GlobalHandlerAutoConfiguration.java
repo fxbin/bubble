@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
         proxyBeanMethods = false
 )
 @ComponentScan(
-        basePackages = {"cn.fxbin.bubble.fireworks.web.handler"}
+        basePackages = {"cn.fxbin.bubble.web.handler"}
 )
 public class GlobalHandlerAutoConfiguration {
 }

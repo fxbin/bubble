@@ -38,7 +38,7 @@ import java.util.List;
         proxyBeanMethods = false
 )
 @ComponentScan(
-        basePackages = "cn.fxbin.bubble.fireworks.plugin.lock"
+        basePackages = "cn.fxbin.bubble.plugin.lock"
 )
 @ConditionalOnClass({Redisson.class, RedisOperations.class})
 @AutoConfigureAfter(RedisAutoConfiguration.class)

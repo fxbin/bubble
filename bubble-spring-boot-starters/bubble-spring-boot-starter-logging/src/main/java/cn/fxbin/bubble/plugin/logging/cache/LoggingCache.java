@@ -17,7 +17,7 @@ public interface LoggingCache {
      * cache
      *
      * @since 2020/5/19 13:52
-     * @param fireworksLogging cn.fxbin.bubble.fireworks.logging.model.BubbleFireworksLogging
+     * @param fireworksLogging cn.fxbin.bubble.logging.model.BubbleFireworksLogging
      */
     void cache(BubbleFireworksLogging fireworksLogging);
 
@@ -26,7 +26,7 @@ public interface LoggingCache {
      *
      * @since 2020/5/19 13:54
      * @param count 日志数量
-     * @return java.util.List<cn.fxbin.bubble.fireworks.logging.model.BubbleFireworksLogging>
+     * @return java.util.List<cn.fxbin.bubble.logging.model.BubbleFireworksLogging>
      */
     List<BubbleFireworksLogging> getLogs(Integer count);
 
@@ -34,7 +34,7 @@ public interface LoggingCache {
      * getAllLogs
      *
      * @since 2020/5/19 13:53
-     * @return java.util.List<cn.fxbin.bubble.fireworks.logging.model.BubbleFireworksLogging>
+     * @return java.util.List<cn.fxbin.bubble.logging.model.BubbleFireworksLogging>
      */
     List<BubbleFireworksLogging> getAllLogs();
 

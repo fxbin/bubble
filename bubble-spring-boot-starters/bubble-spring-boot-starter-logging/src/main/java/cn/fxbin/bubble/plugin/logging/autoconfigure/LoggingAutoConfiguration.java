@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
         proxyBeanMethods = false
 )
 @ComponentScan(
-        basePackages = {"cn.fxbin.bubble.fireworks.plugin.logging"}
+        basePackages = {"cn.fxbin.bubble.plugin.logging"}
 )
 @ConditionalOnClass(LoggingWebAspect.class)
 @EnableConfigurationProperties(LoggingProperties.class)

@@ -23,7 +23,7 @@ public class LoggingUtils {
      * generateLogItem
      *
      * @since 2020/5/19 15:31
-     * @param fireworksLogging cn.fxbin.bubble.fireworks.logging.model.BubbleFireworksLogging
+     * @param fireworksLogging cn.fxbin.bubble.logging.model.BubbleFireworksLogging
      * @return com.aliyun.openservices.log.common.LogItem
      */
     public LogItem generateLogItem(BubbleFireworksLogging fireworksLogging) {

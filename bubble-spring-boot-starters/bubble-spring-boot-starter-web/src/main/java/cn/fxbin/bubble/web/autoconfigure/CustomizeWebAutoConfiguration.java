@@ -29,7 +29,7 @@ import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_
         proxyBeanMethods = false
 )
 @ComponentScan(
-        basePackages = {"cn.fxbin.bubble.fireworks.web"}
+        basePackages = {"cn.fxbin.bubble.web"}
 )
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class CustomizeWebAutoConfiguration implements WebMvcConfigurer {

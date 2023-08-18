@@ -24,7 +24,7 @@ public class ElasticsearchProperties {
     /**
      * elasticsearch prefix
      */
-    public static final String BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX = "bubble.fireworks.elasticsearch";
+    public static final String BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX = "bubble.elasticsearch";
 
     /**
      * 请求协议

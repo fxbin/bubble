@@ -32,7 +32,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
         proxyBeanMethods = false
 )
 @ComponentScan(
-        basePackages = "cn.fxbin.bubble.fireworks.data.redis"
+        basePackages = "cn.fxbin.bubble.data.redis"
 )
 @ConditionalOnClass(RedisOperations.class)
 @AutoConfigureAfter(org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration.class)
