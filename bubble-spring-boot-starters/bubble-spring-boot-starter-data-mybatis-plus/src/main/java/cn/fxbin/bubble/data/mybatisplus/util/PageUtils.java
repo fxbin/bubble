@@ -4,8 +4,10 @@ import cn.fxbin.bubble.core.model.PageRequest;
 import cn.fxbin.bubble.core.model.PageResult;
 import cn.fxbin.bubble.core.util.CollectionUtils;
 import cn.hutool.core.util.PageUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.experimental.UtilityClass;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,15 +19,16 @@ import java.util.stream.Collectors;
  * @version v1.0
  * @since 2023/4/5 21:55
  */
+@UtilityClass
 public class PageUtils extends PageUtil {
 
     /**
      * 构建{@link Page}MyBatis Plus分页对象
      *
      * @param request 请求
-     * @return {@link Page}<{@link T}>
+     * @return {@link IPage}<{@link T}>
      */
-    public <T> Page<T> buildPageObj(PageRequest request) {
+    public <T> IPage<T> buildPage(PageRequest request) {
         // 页码 + 每页数量
         Page<T> page = new Page<>(request.getPageNo(), request.getPageSize());
 
@@ -58,13 +61,13 @@ public class PageUtils extends PageUtil {
      * 构建页面结果
      *
      * @param request 请求
-     * @param page    页面
+     * @param mpPage  页面
      * @return {@link PageResult}<{@link T}>
      */
-    public <T> PageResult<T> buildPageResult(PageRequest request, Page<T> page) {
+    public <T> PageResult<T> buildPageResult(PageRequest request, IPage<T> mpPage) {
         return new PageResult<T>()
-                .compute(request.getPageSize(), request.getPageNo(), page.getTotal())
-                .setList(page.getRecords());
+                .compute(request.getPageSize(), request.getPageNo(), mpPage.getTotal())
+                .setList(mpPage.getRecords());
     }
 
 }
