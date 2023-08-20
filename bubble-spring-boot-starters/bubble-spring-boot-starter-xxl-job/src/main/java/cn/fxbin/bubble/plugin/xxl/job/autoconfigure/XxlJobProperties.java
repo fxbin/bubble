@@ -13,10 +13,10 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  */
 @Data
 @RefreshScope
-@ConfigurationProperties(prefix = XxlJobProperties.BUBBLE_FIREWORKS_XXl_JOB_PREFIX)
+@ConfigurationProperties(prefix = XxlJobProperties.BUBBLE_XXL_JOB_PREFIX)
 public class XxlJobProperties {
 
-    public static final String BUBBLE_FIREWORKS_XXl_JOB_PREFIX = "bubble.xxl.job";
+    public static final String BUBBLE_XXL_JOB_PREFIX = "bubble.xxl.job";
 
     /**
      * 是否开启 xxl-job，默认：false
