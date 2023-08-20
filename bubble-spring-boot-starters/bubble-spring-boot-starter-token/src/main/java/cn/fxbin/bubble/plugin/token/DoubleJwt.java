@@ -161,7 +161,7 @@ public class DoubleJwt {
      * @return cn.fxbin.bubble.plugin.token.model.TokenPayload
      */
     public TokenPayload parseAccessToken(String token) {
-        return this.parseAccessToken(token, TokenConstants.BUBBLE_FIREWORKS_SCOPE);
+        return this.parseAccessToken(token, TokenConstants.BUBBLE_SCOPE);
     }
 
     /**
@@ -195,7 +195,7 @@ public class DoubleJwt {
      * @return cn.fxbin.bubble.plugin.token.model.TokenPayload
      */
     public TokenPayload parseRefreshToken(String token) {
-       return this.parseRefreshToken(token, TokenConstants.BUBBLE_FIREWORKS_SCOPE);
+       return this.parseRefreshToken(token, TokenConstants.BUBBLE_SCOPE);
     }
 
     /**
@@ -272,7 +272,7 @@ public class DoubleJwt {
      * @return java.lang.String
      */
     public String generateAccessToken(long identity) {
-        return generateToken(TokenConstants.ACCESS_TYPE, identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, this.accessExpire);
+        return generateToken(TokenConstants.ACCESS_TYPE, identity, TokenConstants.BUBBLE_SCOPE, this.accessExpire);
     }
 
     /**
@@ -284,7 +284,7 @@ public class DoubleJwt {
      * @return java.lang.String
      */
     public String generateAccessToken(String identity) {
-        return generateToken(TokenConstants.ACCESS_TYPE, identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, this.accessExpire);
+        return generateToken(TokenConstants.ACCESS_TYPE, identity, TokenConstants.BUBBLE_SCOPE, this.accessExpire);
     }
 
     /**
@@ -296,7 +296,7 @@ public class DoubleJwt {
      * @return java.lang.String
      */
     public String generateRefreshToken(long identity) {
-        return generateToken(TokenConstants.REFRESH_TYPE, identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, this.refreshExpire);
+        return generateToken(TokenConstants.REFRESH_TYPE, identity, TokenConstants.BUBBLE_SCOPE, this.refreshExpire);
     }
 
     /**
@@ -308,7 +308,7 @@ public class DoubleJwt {
      * @return java.lang.String
      */
     public String generateRefreshToken(String identity) {
-        return generateToken(TokenConstants.REFRESH_TYPE, identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, this.refreshExpire);
+        return generateToken(TokenConstants.REFRESH_TYPE, identity, TokenConstants.BUBBLE_SCOPE, this.refreshExpire);
     }
 
     /**
@@ -332,7 +332,7 @@ public class DoubleJwt {
      * @return cn.fxbin.bubble.plugin.token.model.Tokens
      */
     public Tokens generateTokens(String identity) {
-        return this.generateTokens(identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE);
+        return this.generateTokens(identity, TokenConstants.BUBBLE_SCOPE);
     }
 
     /**
@@ -371,7 +371,7 @@ public class DoubleJwt {
      * @return cn.fxbin.bubble.plugin.token.model.Tokens
      */
     public Tokens generateTokens(long identity, Map<String, Object> extra) {
-        return this.generateTokens(String.valueOf(identity), TokenConstants.BUBBLE_FIREWORKS_SCOPE, extra);
+        return this.generateTokens(String.valueOf(identity), TokenConstants.BUBBLE_SCOPE, extra);
     }
 
     /**
@@ -384,7 +384,7 @@ public class DoubleJwt {
      * @return cn.fxbin.bubble.plugin.token.model.Tokens
      */
     public Tokens generateTokens(String identity, Map<String, Object> extra) {
-        return this.generateTokens(identity, TokenConstants.BUBBLE_FIREWORKS_SCOPE, extra);
+        return this.generateTokens(identity, TokenConstants.BUBBLE_SCOPE, extra);
     }
 
     /**

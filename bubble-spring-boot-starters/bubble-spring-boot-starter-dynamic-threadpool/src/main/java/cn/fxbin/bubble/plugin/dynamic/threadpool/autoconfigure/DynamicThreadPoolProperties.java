@@ -19,11 +19,11 @@ import java.util.concurrent.TimeUnit;
  */
 @Data
 @RefreshScope
-@ConfigurationProperties(prefix = DynamicThreadPoolProperties.BUBBLE_FIREWORKS_DYNAMIC_THREAD_POOL_PREFIX)
+@ConfigurationProperties(prefix = DynamicThreadPoolProperties.BUBBLE_DYNAMIC_THREAD_POOL_PREFIX)
 public class DynamicThreadPoolProperties {
 
 
-    public static final String BUBBLE_FIREWORKS_DYNAMIC_THREAD_POOL_PREFIX = "bubble.dynamic.thread";
+    public static final String BUBBLE_DYNAMIC_THREAD_POOL_PREFIX = "bubble.dynamic.thread";
 
     private String applicationName;
 

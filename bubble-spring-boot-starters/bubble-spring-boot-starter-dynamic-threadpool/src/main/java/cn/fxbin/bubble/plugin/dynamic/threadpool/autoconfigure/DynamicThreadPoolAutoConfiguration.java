@@ -30,7 +30,7 @@ import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import static cn.fxbin.bubble.plugin.dynamic.threadpool.autoconfigure.DynamicThreadPoolProperties.BUBBLE_FIREWORKS_DYNAMIC_THREAD_POOL_PREFIX;
+import static cn.fxbin.bubble.plugin.dynamic.threadpool.autoconfigure.DynamicThreadPoolProperties.BUBBLE_DYNAMIC_THREAD_POOL_PREFIX;
 
 /**
  * ThreadPoolAutoConfiguration
@@ -44,7 +44,7 @@ import static cn.fxbin.bubble.plugin.dynamic.threadpool.autoconfigure.DynamicThr
 )
 @ConditionalOnClass({ThreadContextRefreshEvent.class, ThreadPoolExecutorOperations.class})
 @EnableConfigurationProperties(DynamicThreadPoolProperties.class)
-@ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_DYNAMIC_THREAD_POOL_PREFIX, name = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = BUBBLE_DYNAMIC_THREAD_POOL_PREFIX, name = "enabled", matchIfMissing = true)
 public class DynamicThreadPoolAutoConfiguration implements InitializingBean {
 
     @Resource
@@ -132,7 +132,7 @@ public class DynamicThreadPoolAutoConfiguration implements InitializingBean {
     private void refresh(Map<String, Object> propertyMap) {
         ConfigurationPropertySource configurationPropertySource = new MapConfigurationPropertySource(propertyMap);
         Binder binder = new Binder(configurationPropertySource);
-        binder.bind(BUBBLE_FIREWORKS_DYNAMIC_THREAD_POOL_PREFIX, Bindable.ofInstance(dynamicThreadPoolProperties));
+        binder.bind(BUBBLE_DYNAMIC_THREAD_POOL_PREFIX, Bindable.ofInstance(dynamicThreadPoolProperties));
     }
 
     /***

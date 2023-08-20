@@ -2,8 +2,7 @@ package cn.fxbin.bubble.plugin.xxl.job.autoconfigure;
 
 import com.xxl.job.core.executor.XxlJobExecutor;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import static cn.fxbin.bubble.plugin.xxl.job.autoconfigure.XxlJobProperties.BUBBLE_FIREWORKS_XXl_JOB_PREFIX;
+import static cn.fxbin.bubble.plugin.xxl.job.autoconfigure.XxlJobProperties.BUBBLE_XXL_JOB_PREFIX;
 
 /**
  * XxlJobAutoConfiguration
@@ -21,6 +20,7 @@ import static cn.fxbin.bubble.plugin.xxl.job.autoconfigure.XxlJobProperties.BUBB
  * @version v1.0
  * @since 2020/10/28 10:47
  */
+@Slf4j
 @Configuration(
         proxyBeanMethods = false
 )
@@ -29,15 +29,13 @@ import static cn.fxbin.bubble.plugin.xxl.job.autoconfigure.XxlJobProperties.BUBB
 )
 @ConditionalOnClass(XxlJobExecutor.class)
 @EnableConfigurationProperties(XxlJobProperties.class)
-@ConditionalOnProperty(prefix = BUBBLE_FIREWORKS_XXl_JOB_PREFIX, name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = BUBBLE_XXL_JOB_PREFIX, name = "enabled", havingValue = "true")
 public class XxlJobAutoConfiguration {
-
-    private static Logger logger = LoggerFactory.getLogger(XxlJobAutoConfiguration.class);
 
     @Bean
     @ConditionalOnMissingBean
     public XxlJobSpringExecutor xxlJobExecutor(XxlJobProperties xxlJobProperties) {
-        logger.info(">>>>>>>>>>> xxl-job config init.");
+        log.info(">>>>>>>>>>> xxl-job config init.");
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
         xxlJobSpringExecutor.setAdminAddresses(xxlJobProperties.getAdmin().getAddresses());
         xxlJobSpringExecutor.setAppname(xxlJobProperties.getExecutor().getAppname());

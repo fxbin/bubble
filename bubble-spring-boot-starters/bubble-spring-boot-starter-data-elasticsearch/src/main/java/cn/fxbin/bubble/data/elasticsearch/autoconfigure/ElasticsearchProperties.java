@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.fxbin.bubble.data.elasticsearch.autoconfigure.ElasticsearchProperties.BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX;
+import static cn.fxbin.bubble.data.elasticsearch.autoconfigure.ElasticsearchProperties.BUBBLE_ELASTICSEARCH_PREFIX;
 
 /**
  * ElasticsearchProperties
@@ -18,13 +18,13 @@ import static cn.fxbin.bubble.data.elasticsearch.autoconfigure.ElasticsearchProp
  * @since 2020/4/20 18:28
  */
 @Data
-@ConfigurationProperties(prefix = BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX)
+@ConfigurationProperties(prefix = BUBBLE_ELASTICSEARCH_PREFIX)
 public class ElasticsearchProperties {
 
     /**
      * elasticsearch prefix
      */
-    public static final String BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX = "bubble.elasticsearch";
+    public static final String BUBBLE_ELASTICSEARCH_PREFIX = "bubble.elasticsearch";
 
     /**
      * 请求协议

@@ -8,7 +8,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.fxbin.bubble.openfeign.FeignProperties.BUBBLE_FIREWORKS_FEIGN_PREFIX;
+import static cn.fxbin.bubble.openfeign.FeignProperties.BUBBLE_FEIGN_PREFIX;
 
 /**
  * FeignGlobalProperties
@@ -19,13 +19,13 @@ import static cn.fxbin.bubble.openfeign.FeignProperties.BUBBLE_FIREWORKS_FEIGN_P
  */
 @Data
 @RefreshScope
-@ConfigurationProperties(prefix = BUBBLE_FIREWORKS_FEIGN_PREFIX)
+@ConfigurationProperties(prefix = BUBBLE_FEIGN_PREFIX)
 public class FeignProperties {
 
     /**
      * swagger prefix
      */
-    public static final String BUBBLE_FIREWORKS_FEIGN_PREFIX = "bubble.feign";
+    public static final String BUBBLE_FEIGN_PREFIX = "bubble.feign";
 
     /**
      * 默认的全局透传header 全局透传请求头：X-Real-IP x-forwarded-for 请求和转发的ip, Authorization
