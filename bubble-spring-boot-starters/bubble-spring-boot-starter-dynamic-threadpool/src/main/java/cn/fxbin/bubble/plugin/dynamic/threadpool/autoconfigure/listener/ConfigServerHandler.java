@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static cn.fxbin.bubble.plugin.dynamic.threadpool.autoconfigure.DynamicThreadPoolProperties.BUBBLE_FIREWORKS_DYNAMIC_THREAD_POOL_PREFIX;
+import static cn.fxbin.bubble.plugin.dynamic.threadpool.autoconfigure.DynamicThreadPoolProperties.BUBBLE_DYNAMIC_THREAD_POOL_PREFIX;
 
 /**
  * ConfigServerHandler
@@ -49,7 +49,7 @@ public class ConfigServerHandler implements ConfigListenerHandler {
             Map<String, Object> propertyResult = new HashMap<>();
             PropertySource<?> propertySource = sourceLocator.locate(context.getEnvironment());
             for (String key : ((EnumerablePropertySource<?>) propertySource).getPropertyNames()) {
-                if (key.contains(BUBBLE_FIREWORKS_DYNAMIC_THREAD_POOL_PREFIX)) {
+                if (key.contains(BUBBLE_DYNAMIC_THREAD_POOL_PREFIX)) {
                     propertyResult.put(key, propertySource.getProperty(key));
                 }
             }

@@ -30,7 +30,7 @@ import javax.annotation.Resource;
         proxyBeanMethods = false
 )
 @EnableConfigurationProperties(LoggingProperties.class)
-@ConditionalOnProperty(prefix = LoggingProperties.BUBBLE_FIREWORKS_LOGGING_ALIYUN_PREFIX, name = "project-name", matchIfMissing = false)
+@ConditionalOnProperty(prefix = LoggingProperties.BUBBLE_LOGGING_ALIYUN_PREFIX, name = "project-name", matchIfMissing = false)
 public class AliyunLogContextAutoConfigure {
 
     @Resource

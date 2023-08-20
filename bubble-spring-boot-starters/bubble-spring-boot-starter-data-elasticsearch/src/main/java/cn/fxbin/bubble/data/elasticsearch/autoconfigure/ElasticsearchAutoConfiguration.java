@@ -35,7 +35,7 @@ import java.util.List;
         proxyBeanMethods = false
 )
 @AllArgsConstructor
-@ConditionalOnProperty(prefix = ElasticsearchProperties.BUBBLE_FIREWORKS_ELASTICSEARCH_PREFIX, name = "cluster-nodes", matchIfMissing = false)
+@ConditionalOnProperty(prefix = ElasticsearchProperties.BUBBLE_ELASTICSEARCH_PREFIX, name = "cluster-nodes", matchIfMissing = false)
 @EnableConfigurationProperties(ElasticsearchProperties.class)
 public class ElasticsearchAutoConfiguration {
 

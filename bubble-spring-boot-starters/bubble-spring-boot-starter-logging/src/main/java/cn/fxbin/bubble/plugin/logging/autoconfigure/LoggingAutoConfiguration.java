@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 )
 @ConditionalOnClass(LoggingWebAspect.class)
 @EnableConfigurationProperties(LoggingProperties.class)
-@ConditionalOnProperty(prefix = LoggingProperties.BUBBLE_FIREWORKS_LOGGING_PREFIX, name = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = LoggingProperties.BUBBLE_LOGGING_PREFIX, name = "enabled", matchIfMissing = true)
 public class LoggingAutoConfiguration {
 
     @Bean

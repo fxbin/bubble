@@ -17,12 +17,12 @@ import java.util.List;
  */
 @Data
 @RefreshScope
-@ConfigurationProperties(prefix = LoggingProperties.BUBBLE_FIREWORKS_LOGGING_PREFIX)
+@ConfigurationProperties(prefix = LoggingProperties.BUBBLE_LOGGING_PREFIX)
 public class LoggingProperties {
 
-    public static final String BUBBLE_FIREWORKS_LOGGING_PREFIX = "bubble.logging";
+    public static final String BUBBLE_LOGGING_PREFIX = "bubble.logging";
 
-    public static final String BUBBLE_FIREWORKS_LOGGING_ALIYUN_PREFIX = "bubble.logging.aliyun";
+    public static final String BUBBLE_LOGGING_ALIYUN_PREFIX = "bubble.logging.aliyun";
 
     /**
      * 默认开启日志

@@ -91,7 +91,7 @@ public class StartedEventListener {
                 .append(SPRING_BOOT_GITHUB_URL)
                 .append(LINE_SEPARATOR)
                 .append(" :: Bubble Project (v").append(Version.getVersion()).append(") : ")
-                .append(BUBBLE_FIREWORKS_GITHUB_URL)
+                .append(BUBBLE_GITHUB_URL)
                 .append(LINE_SEPARATOR)
                 .append(" :: 启动信息 : (").append(startInfo).append(")")
                 .append(LINE_SEPARATOR)

@@ -8,7 +8,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import java.security.Key;
 
-import static cn.fxbin.bubble.plugin.token.autoconfigure.TokenProperties.BUBBLE_FIREWORKS_TOKEN_PREFIX;
+import static cn.fxbin.bubble.plugin.token.autoconfigure.TokenProperties.BUBBLE_TOKEN_PREFIX;
 
 /**
  * TokenProperties
@@ -19,10 +19,10 @@ import static cn.fxbin.bubble.plugin.token.autoconfigure.TokenProperties.BUBBLE_
  */
 @Data
 @RefreshScope
-@ConfigurationProperties(prefix = BUBBLE_FIREWORKS_TOKEN_PREFIX)
+@ConfigurationProperties(prefix = BUBBLE_TOKEN_PREFIX)
 public class TokenProperties {
 
-    public static final String BUBBLE_FIREWORKS_TOKEN_PREFIX = "bubble.token";
+    public static final String BUBBLE_TOKEN_PREFIX = "bubble.token";
 
     /**
      * 是否开启 token，默认：true

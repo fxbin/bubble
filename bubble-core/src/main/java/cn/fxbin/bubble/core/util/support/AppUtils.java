@@ -22,6 +22,6 @@ public class AppUtils {
 
     public static final String SPRING_BOOT_GITHUB_URL = "https://github.com/spring-projects/spring-boot";
 
-    public static final String BUBBLE_FIREWORKS_GITHUB_URL = "https://github.com/fxbin/bubble";
+    public static final String BUBBLE_GITHUB_URL = "https://github.com/fxbin/bubble";
 
 }
