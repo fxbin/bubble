@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;

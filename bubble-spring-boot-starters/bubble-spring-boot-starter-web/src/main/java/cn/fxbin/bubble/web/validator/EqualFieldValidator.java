@@ -3,9 +3,9 @@ package cn.fxbin.bubble.web.validator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ValidationException;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ValidationException;
 import java.lang.reflect.Field;
 
 /**

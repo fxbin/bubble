@@ -5,9 +5,9 @@ import cn.fxbin.bubble.core.model.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * BaseController

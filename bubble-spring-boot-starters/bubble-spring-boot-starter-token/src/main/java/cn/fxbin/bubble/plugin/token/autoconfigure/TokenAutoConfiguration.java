@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * TokenAutoConfiguration
