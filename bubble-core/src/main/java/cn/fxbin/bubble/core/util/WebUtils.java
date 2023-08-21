@@ -7,9 +7,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -51,11 +51,11 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * getRequest
      *
      * <p>
-     *     get javax.servlet.http.HttpServletRequest instance
+     *     get jakarta.servlet.http.HttpServletRequest instance
      * </p>
      *
      * @since 2020/4/13 17:32
-     * @return javax.servlet.http.HttpServletRequest
+     * @return jakarta.servlet.http.HttpServletRequest
      */
     public HttpServletRequest getRequest() {
         return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
@@ -141,11 +141,11 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * getResponse
      *
      * <p>
-     *     get javax.servlet.http.HttpServletResponse instance
+     *     get jakarta.servlet.http.HttpServletResponse instance
      * </p>
      *
      * @since 2020/4/13 17:31
-     * @return javax.servlet.http.HttpServletResponse
+     * @return jakarta.servlet.http.HttpServletResponse
      */
     public HttpServletResponse getResponse() {
         return Optional.ofNullable(RequestContextHolder.getRequestAttributes())

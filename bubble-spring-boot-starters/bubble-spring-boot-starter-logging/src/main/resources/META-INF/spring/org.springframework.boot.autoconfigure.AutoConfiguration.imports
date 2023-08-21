@@ -1,0 +1,2 @@
+cn.fxbin.bubble.plugin.logging.autoconfigure.LoggingAutoConfiguration
+cn.fxbin.bubble.plugin.logging.autoconfigure.AliyunLogContextAutoConfigure

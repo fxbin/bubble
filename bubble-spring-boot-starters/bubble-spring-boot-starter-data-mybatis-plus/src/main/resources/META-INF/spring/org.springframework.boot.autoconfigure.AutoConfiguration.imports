@@ -1,0 +1,2 @@
+cn.fxbin.bubble.data.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration
+cn.fxbin.bubble.data.mybatisplus.autoconfigure.DataSourceConfiguration

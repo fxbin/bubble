@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriUtils;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 
 /**
@@ -25,7 +25,7 @@ public class ExcelUtils {
      * setResponse
      *
      * @since 2020/4/7 16:13
-     * @param response javax.servlet.http.HttpServletResponse
+     * @param response jakarta.servlet.http.HttpServletResponse
      * @param fileName excel file name
      */
     public void setResponse(HttpServletResponse response, String fileName) {

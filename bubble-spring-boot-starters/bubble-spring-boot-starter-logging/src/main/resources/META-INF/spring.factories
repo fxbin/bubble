@@ -1,7 +1,0 @@
-## Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.fxbin.bubble.plugin.logging.autoconfigure.LoggingAutoConfiguration,\
-cn.fxbin.bubble.plugin.logging.autoconfigure.AliyunLogContextAutoConfigure
-
-org.springframework.context.ApplicationContextInitializer=\
-cn.fxbin.bubble.plugin.logging.TtlMDCAdapterInitializer

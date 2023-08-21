@@ -82,9 +82,9 @@
 
     <profiles>
         <profile>
-            <id>java11</id>
+            <id>java17</id>
             <activation>
-                <jdk>[11,)</jdk>
+                <jdk>[17,)</jdk>
             </activation>
         </profile>
         <profile>

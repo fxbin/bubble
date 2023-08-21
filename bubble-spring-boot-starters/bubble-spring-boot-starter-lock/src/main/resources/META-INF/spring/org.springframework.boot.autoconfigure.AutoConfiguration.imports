@@ -1,0 +1,2 @@
+cn.fxbin.bubble.plugin.lock.autoconfigure.RedissonAutoConfiguration
+cn.fxbin.bubble.plugin.lock.autoconfigure.LockAutoConfiguration
