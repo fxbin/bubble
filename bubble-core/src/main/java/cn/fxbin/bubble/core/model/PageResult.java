@@ -2,9 +2,13 @@ package cn.fxbin.bubble.core.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * PageResult
@@ -13,6 +17,7 @@ import java.util.List;
  * @version v1.0
  * @since 2020/9/21 15:12
  */
+@Getter
 @ApiModel("分页结果")
 public class PageResult<T> implements Serializable {
 
@@ -31,17 +36,9 @@ public class PageResult<T> implements Serializable {
     @ApiModelProperty(value = "每页条数", required = true)
     private Long pageSize;
 
-    public List<T> getList() {
-        return list;
-    }
-
     public PageResult<T> setList(List<T> list) {
         this.list = list;
         return this;
-    }
-
-    public Long getTotal() {
-        return total;
     }
 
     public PageResult<T> setTotal(Long total) {
@@ -49,26 +46,14 @@ public class PageResult<T> implements Serializable {
         return this;
     }
 
-    public Long getTotalPage() {
-        return totalPage;
-    }
-
     public PageResult<T> setTotalPage(Long totalPage) {
         this.totalPage = totalPage;
         return this;
     }
 
-    public Long getPageNo() {
-        return pageNo;
-    }
-
     public PageResult<T> setPageNo(Long pageNo) {
         this.pageNo = pageNo;
         return this;
-    }
-
-    public Long getPageSize() {
-        return pageSize;
     }
 
     public PageResult<T> setPageSize(Long pageSize) {
@@ -97,4 +82,11 @@ public class PageResult<T> implements Serializable {
         }
         return this;
     }
+
+    @SuppressWarnings("unchecked")
+    public <R> PageResult<R> convert(Function<? super T, ? extends R> mapper) {
+        List<R> collect = this.getList().stream().map(mapper).collect(toList());
+        return ((PageResult<R>)this).setList(collect);
+    }
+
 }

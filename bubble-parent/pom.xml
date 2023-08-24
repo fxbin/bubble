@@ -21,7 +21,6 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
                     <configuration>
-                        <fork>true</fork>
                         <addResources>true</addResources>
                         <layers>
                             <enabled>true</enabled>
