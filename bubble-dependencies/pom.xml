@@ -21,7 +21,8 @@
         <spring-boot-admin.version>3.1.5</spring-boot-admin.version>
 
         <!-- Other Dependency Versions -->
-        <knife4j.version>3.0.3</knife4j.version>
+        <knife4j.version>4.3.0</knife4j.version>
+        <springdoc.version>2.2.0</springdoc.version>
         <okhttp.version>4.9.3</okhttp.version>
         <hutool.version>5.8.21</hutool.version>
         <guava.version>32.1.2-jre</guava.version>
@@ -185,6 +186,33 @@
                 <version>${knife4j.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-common -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-common</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-api</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
 
             <!-- okhttp3 -->

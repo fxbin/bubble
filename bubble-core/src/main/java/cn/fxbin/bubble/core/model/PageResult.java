@@ -1,7 +1,6 @@
 package cn.fxbin.bubble.core.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -18,22 +17,22 @@ import static java.util.stream.Collectors.toList;
  * @since 2020/9/21 15:12
  */
 @Getter
-@ApiModel("分页结果")
+@Schema(description = "分页结果")
 public class PageResult<T> implements Serializable {
 
-    @ApiModelProperty(value = "数据", required = true)
+    @Schema(description = "数据", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<T> list;
 
-    @ApiModelProperty(value = "总量", required = true)
+    @Schema(description = "总量", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long total;
 
-    @ApiModelProperty(value = "总页数", required = true)
+    @Schema(description = "总页数", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long  totalPage;
 
-    @ApiModelProperty(value = "页码，从 1 开始", required = true)
+    @Schema(description = "页码，从 1 开始", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long pageNo;
 
-    @ApiModelProperty(value = "每页条数", required = true)
+    @Schema(description = "每页条数", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long pageSize;
 
     public PageResult<T> setList(List<T> list) {

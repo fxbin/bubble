@@ -33,11 +33,11 @@ public class PageUtils extends PageUtil {
         Page<T> page = new Page<>(request.getPageNo(), request.getPageSize());
 
         // 排序字段拼接
-        List<PageRequest.Sort> sorts = request.getSorts();
+        List<PageRequest.SortItem> sorts = request.getSorts();
         if (CollectionUtils.isNotEmpty(sorts)) {
             page.addOrder(sorts.stream()
-                    .map(sort -> sort.isAsc() ?
-                            OrderItem.asc(sort.getField()) : OrderItem.desc(sort.getField()))
+                    .map(sortItem -> sortItem.isAsc() ?
+                            OrderItem.asc(sortItem.getField()) : OrderItem.desc(sortItem.getField()))
                     .collect(Collectors.toList()));
         }
         return page;

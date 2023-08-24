@@ -2,8 +2,7 @@ package cn.fxbin.bubble.core.model;
 
 import cn.fxbin.bubble.core.exception.ServiceException;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -22,19 +21,19 @@ import java.util.Optional;
 @Data
 @Builder
 @Accessors(chain = true)
-@ApiModel(description = "响应信息")
+@Schema(description = "响应信息")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 5392304127156442143L;
 
-    @ApiModelProperty(value = "状态返回码", required = true)
+    @Schema(description = "状态返回码", requiredMode = Schema.RequiredMode.REQUIRED)
     private int errcode;
 
-    @ApiModelProperty(value = "对返回码的文本描述内容", required = true)
+    @Schema(description = "对返回码的文本描述内容", requiredMode = Schema.RequiredMode.REQUIRED)
     private String errmsg;
 
-    @ApiModelProperty(value = "响应数据")
+    @Schema(description = "响应数据")
     private T data;
 
     public Result() {
