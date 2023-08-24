@@ -1,6 +1,8 @@
 git commit emoji 使用指南
 ============================
 
+[原文出处](https://github.com/liuchengxu/git-commit-emoji-cn)
+
 #### 目录
 
 <!-- vim-markdown-toc GFM -->
