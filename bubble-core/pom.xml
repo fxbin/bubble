@@ -23,10 +23,15 @@
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
-        <!-- swagger-models -->
+        <!-- knife4j -->
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-core</artifactId>
+        </dependency>
+        <!-- springdoc -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-common</artifactId>
         </dependency>
         <!-- hutool -->
         <dependency>
