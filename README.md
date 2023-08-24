@@ -22,3 +22,4 @@
 
 ## 规范定义
 * [项目规范定义](docs/规范定义.md)
+* [git commit emoji 使用指南](docs/git%20commit%20emoji%20使用指南.md)
