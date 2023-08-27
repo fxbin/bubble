@@ -28,10 +28,10 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-core</artifactId>
         </dependency>
-        <!-- springdoc -->
+        <!-- swagger-annotations-jakarta -->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-common</artifactId>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
         </dependency>
         <!-- hutool -->
         <dependency>
