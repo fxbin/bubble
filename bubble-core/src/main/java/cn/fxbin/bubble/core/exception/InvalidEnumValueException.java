@@ -10,12 +10,11 @@ import lombok.Getter;
  * @version v1.0
  * @since 2022/10/26 14:34
  */
+@Getter
 public class InvalidEnumValueException extends ServiceException{
 
-    @Getter
     private int errcode;
 
-    @Getter
     private String errmsg;
 
     public InvalidEnumValueException() {
