@@ -12,14 +12,11 @@ import lombok.Getter;
  * @version v1.0
  * @since 2020/3/23 11:05
  */
+@Getter
 public class ServiceException extends RuntimeException {
 
-    private static final long serialVersionUID = 7366961732679791481L;
-
-    @Getter
     private int errcode;
 
-    @Getter
     private String errmsg;
 
     public ServiceException(String errmsg) {
@@ -38,6 +35,12 @@ public class ServiceException extends RuntimeException {
         super(result.getErrmsg());
         this.errcode = result.getErrcode();
         this.errmsg = result.getErrmsg();
+    }
+
+    public ServiceException(ResultCode resultCode) {
+        super(resultCode.getMsg());
+        this.errcode = resultCode.getCode();
+        this.errmsg = resultCode.getMsg();
     }
 
     public ServiceException(ResultCode resultCode, String errmsg, Object... args) {
