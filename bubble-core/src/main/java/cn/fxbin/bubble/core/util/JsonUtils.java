@@ -2,8 +2,8 @@ package cn.fxbin.bubble.core.util;
 
 import cn.fxbin.bubble.core.exception.UtilException;
 import cn.fxbin.bubble.core.module.JacksonHolder;
+import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * @since 2020/3/20 17:28
  */
 @UtilityClass
-public class JsonUtils {
+public class JsonUtils extends JSONUtil {
 
 
     /**
@@ -28,7 +28,13 @@ public class JsonUtils {
      */
     public String toJson(Object object) {
         try {
-            return getInstance().writeValueAsString(object);
+            if (ObjectUtils.isEmpty(object)) {
+                return null;
+            }
+            if (object instanceof CharSequence) {
+                return StringUtils.utf8Str(object);
+            }
+            return JacksonHolder.INSTANCE.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new UtilException(e);
         }
@@ -44,7 +50,7 @@ public class JsonUtils {
      */
     public boolean isJsonString(String jsonString) {
         try {
-            getInstance().readTree(jsonString);
+            JacksonHolder.INSTANCE.readTree(jsonString);
             return true;
         } catch (IOException e) {
             return false;
@@ -61,7 +67,7 @@ public class JsonUtils {
      */
     public boolean isJsonSerialize(Object object) {
         try {
-            getInstance().writeValueAsBytes(object);
+            JacksonHolder.INSTANCE.writeValueAsBytes(object);
             return true;
         } catch (JsonProcessingException e) {
             return false;
@@ -79,22 +85,10 @@ public class JsonUtils {
      */
     public <T> T parse(String jsonString, Class<T> requiredType) {
         try {
-            return getInstance().readValue(jsonString, requiredType);
+            return JacksonHolder.INSTANCE.readValue(jsonString, requiredType);
         } catch (IOException e) {
             throw new UtilException(e);
         }
     }
-
-
-    /**
-     * getInstance 获取jackson实例
-     *
-     * @since 2020/3/20 17:30
-     * @return com.fasterxml.jackson.databind.ObjectMapper
-     */
-    private ObjectMapper getInstance() {
-        return JacksonHolder.INSTANCE;
-    }
-
 
 }
