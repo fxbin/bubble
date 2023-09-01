@@ -1,6 +1,7 @@
 package cn.fxbin.bubble.core.enumeration;
 
 import cn.fxbin.bubble.core.exception.InvalidEnumValueException;
+import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * @version v1.0
  * @since 2022/10/26 11:49
  */
+@UtilityClass
 public class IEnumHelper {
 
     /**
@@ -23,9 +25,9 @@ public class IEnumHelper {
      * @param <T>   泛型
      * @return true 存在，false 不存在
      */
-    public static <T extends IEnum> boolean existByValue(int value, T[] enums) {
+    public <T extends IEnum> boolean existByValue(int value, T[] enums) {
         return Arrays.stream(enums)
-                .anyMatch(e -> e.getValue() == value);
+                .anyMatch(e -> e.value() == value);
     }
 
     /**
@@ -36,9 +38,9 @@ public class IEnumHelper {
      * @param <T>   泛型
      * @return 枚举对象
      */
-    public static <T extends IEnum> T getByValue(int value, T[] enums) {
+    public <T extends IEnum> T valueOf(int value, T[] enums) {
         return Arrays.stream(enums)
-                .filter(e -> e.getValue() == value)
+                .filter(e -> e.value() == value)
                 .findAny()
                 .orElseThrow(InvalidEnumValueException::new);
     }
@@ -50,9 +52,9 @@ public class IEnumHelper {
      * @param <T>   泛型
      * @return 枚举对象列表
      */
-    public static <T extends IEnum> List<T> getList(T[] enums) {
+    public <T extends IEnum> List<T> allOf(T[] enums) {
         return Arrays.stream(enums)
-                .filter(e -> e.getValue() != -1)
+                .filter(e -> e.value() != -1)
                 .collect(Collectors.toList());
     }
 

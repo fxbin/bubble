@@ -1,7 +1,7 @@
 package cn.fxbin.bubble.core.exception;
 
 import cn.fxbin.bubble.core.logging.LoggerMessageFormat;
-import cn.fxbin.bubble.core.model.ResultCode;
+import cn.fxbin.bubble.core.dataobject.ErrorCode;
 import lombok.Getter;
 
 /**
@@ -24,10 +24,10 @@ public class UtilException extends ServiceException {
         this.errmsg = errmsg;
     }
 
-    public UtilException(ResultCode resultCode) {
-        super(resultCode.getMsg());
-        this.errcode = resultCode.getCode();
-        this.errmsg = resultCode.getMsg();
+    public UtilException(ErrorCode errorCode) {
+        super(errorCode.reasonPhrase());
+        this.errcode = errorCode.value();
+        this.errmsg = errorCode.reasonPhrase();
     }
 
     public UtilException(Integer errcode, String errmsg) {

@@ -1,7 +1,7 @@
 package cn.fxbin.bubble.openfeign.codec;
 
 import cn.fxbin.bubble.core.exception.ServiceException;
-import cn.fxbin.bubble.core.model.Result;
+import cn.fxbin.bubble.core.dataobject.Result;
 import cn.fxbin.bubble.core.util.JsonUtils;
 import cn.fxbin.bubble.core.util.StringUtils;
 import feign.FeignException;

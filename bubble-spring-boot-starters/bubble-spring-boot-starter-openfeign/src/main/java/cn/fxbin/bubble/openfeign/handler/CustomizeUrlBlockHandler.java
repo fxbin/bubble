@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.openfeign.handler;
 
-import cn.fxbin.bubble.core.model.Result;
+import cn.fxbin.bubble.core.dataobject.Result;
 import cn.fxbin.bubble.core.util.JsonUtils;
 import cn.fxbin.bubble.core.util.MimeTypeUtils;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;

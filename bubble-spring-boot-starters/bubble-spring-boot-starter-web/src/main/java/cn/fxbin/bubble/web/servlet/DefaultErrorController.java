@@ -1,6 +1,6 @@
 package cn.fxbin.bubble.web.servlet;
 
-import cn.fxbin.bubble.core.model.Result;
+import cn.fxbin.bubble.core.dataobject.Result;
 import cn.fxbin.bubble.core.util.BeanUtils;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;

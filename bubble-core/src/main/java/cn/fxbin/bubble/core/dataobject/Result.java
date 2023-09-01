@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.core.model;
+package cn.fxbin.bubble.core.dataobject;
 
 import cn.fxbin.bubble.core.exception.ServiceException;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -39,12 +39,12 @@ public class Result<T> implements Serializable {
     public Result() {
     }
 
-    private Result(ResultCode resultCode) {
-        this(resultCode.code, resultCode.msg);
+    private Result(ErrorCode errorCode) {
+        this(errorCode.value(), errorCode.reasonPhrase());
     }
 
-    private Result(ResultCode resultCode, T data) {
-        this(resultCode.code, resultCode.msg, data);
+    private Result(ErrorCode errorCode, T data) {
+        this(errorCode.value(), errorCode.reasonPhrase(), data);
     }
 
     private Result(int errcode, String errmsg) {
@@ -68,7 +68,7 @@ public class Result<T> implements Serializable {
     public static boolean isSuccess(@Nullable Result<?> result) {
         return Optional.ofNullable(result)
                 .map(r -> r.errcode)
-                .map(code -> ResultCode.SUCCESS.code == code)
+                .map(code -> GlobalErrorCode.OK.value() == code)
                 .orElse(Boolean.FALSE);
     }
 
@@ -93,7 +93,7 @@ public class Result<T> implements Serializable {
      * @return java.lang.Integer
      */
     public static Integer getErrCode(@Nullable Result<?> result) {
-        return Optional.ofNullable(result).isPresent() ? Optional.of(result.errcode).get() : ResultCode.FAILURE.code;
+        return Optional.ofNullable(result).isPresent() ? Optional.of(result.errcode).get() : GlobalErrorCode.INTERNAL_SERVER_ERROR.value();
     }
 
 
@@ -105,7 +105,7 @@ public class Result<T> implements Serializable {
      * @return java.lang.String
      */
     public static String getErrMsg(@Nullable Result<?> result) {
-        return Optional.ofNullable(result).isPresent() ? Optional.of(result.errmsg).get() : ResultCode.FAILURE.msg;
+        return Optional.ofNullable(result).isPresent() ? Optional.of(result.errmsg).get() : GlobalErrorCode.INTERNAL_SERVER_ERROR.reasonPhrase();
     }
 
 
@@ -120,7 +120,7 @@ public class Result<T> implements Serializable {
     @Nullable
     public static <T> T getData(@Nullable Result<T> result) {
         return Optional.ofNullable(result)
-                .filter(r -> r.errcode == ResultCode.SUCCESS.code)
+                .filter(r -> r.errcode == GlobalErrorCode.OK.value())
                 .map(r -> r.data)
                 .orElse(null);
     }
@@ -134,7 +134,7 @@ public class Result<T> implements Serializable {
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public static <T> Result<T> success() {
-        return new Result<>(ResultCode.SUCCESS);
+        return new Result<>(GlobalErrorCode.OK);
     }
 
 
@@ -147,7 +147,7 @@ public class Result<T> implements Serializable {
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public static <T> Result<T> success(@Nullable T data) {
-        return new Result<>(ResultCode.SUCCESS, data);
+        return new Result<>(GlobalErrorCode.OK, data);
     }
 
 
@@ -170,12 +170,12 @@ public class Result<T> implements Serializable {
      *
      * @since 2020/3/25 22:51
      * @param status 错误状态
-     * @param resultCode cn.fxbin.bubble.core.model.ResultesultCode
+     * @param errorCode cn.fxbin.bubble.core.model.ResultesultCode
      * @param <T> 泛型标记
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
-    public static <T> Result<T> status(boolean status, ResultCode resultCode) {
-        return status ? Result.success() : Result.failure(resultCode);
+    public static <T> Result<T> status(boolean status, ErrorCode errorCode) {
+        return status ? Result.success() : Result.failure(errorCode);
     }
 
 
@@ -187,7 +187,7 @@ public class Result<T> implements Serializable {
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public static <T> Result<T> failure(String errmsg) {
-        return new Result<>(ResultCode.FAILURE.code, errmsg);
+        return new Result<>(GlobalErrorCode.INTERNAL_SERVER_ERROR.value(), errmsg);
     }
 
 
@@ -205,15 +205,16 @@ public class Result<T> implements Serializable {
 
 
     /**
+     * 失败
      * failure
      *
-     * @since 2020/3/25 22:52
-     * @param resultCode cn.fxbin.bubble.core.model.ResultesultCode
-     * @param errmsg 错误信息
+     * @param errmsg    错误信息
+     * @param errorCode 错误代码
      * @return cn.fxbin.bubble.core.model.Result<T>
+     * @since 2020/3/25 22:52
      */
-    public static <T> Result<T> failure(ResultCode resultCode, String errmsg) {
-        return new Result<>(resultCode.code, errmsg);
+    public static <T> Result<T> failure(ErrorCode errorCode, String errmsg) {
+        return new Result<>(errorCode.value(), errmsg);
     }
 
 
@@ -221,11 +222,11 @@ public class Result<T> implements Serializable {
      * failure
      *
      * @since 2020/3/25 22:53
-     * @param resultCode cn.fxbin.bubble.core.model.ResultesultCode
+     * @param errorCode cn.fxbin.bubble.core.model.ResultesultCode
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
-    public static <T> Result<T> failure(ResultCode resultCode) {
-        return new Result<>(resultCode);
+    public static <T> Result<T> failure(ErrorCode errorCode) {
+        return new Result<>(errorCode);
     }
 
 

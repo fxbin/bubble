@@ -1,8 +1,8 @@
 package cn.fxbin.bubble.core.exception;
 
 import cn.fxbin.bubble.core.logging.LoggerMessageFormat;
-import cn.fxbin.bubble.core.model.Result;
-import cn.fxbin.bubble.core.model.ResultCode;
+import cn.fxbin.bubble.core.dataobject.Result;
+import cn.fxbin.bubble.core.dataobject.ErrorCode;
 import lombok.Getter;
 
 /**
@@ -37,15 +37,15 @@ public class ServiceException extends RuntimeException {
         this.errmsg = result.getErrmsg();
     }
 
-    public ServiceException(ResultCode resultCode) {
-        super(resultCode.getMsg());
-        this.errcode = resultCode.getCode();
-        this.errmsg = resultCode.getMsg();
+    public ServiceException(ErrorCode errorCode) {
+        super(errorCode.reasonPhrase());
+        this.errcode = errorCode.value();
+        this.errmsg = errorCode.reasonPhrase();
     }
 
-    public ServiceException(ResultCode resultCode, String errmsg, Object... args) {
+    public ServiceException(ErrorCode errorCode, String errmsg, Object... args) {
         super(LoggerMessageFormat.format(errmsg, args));
-        this.errcode = resultCode.getCode();
+        this.errcode = errorCode.value();
         this.errmsg = LoggerMessageFormat.format(errmsg, args);
     }
 
