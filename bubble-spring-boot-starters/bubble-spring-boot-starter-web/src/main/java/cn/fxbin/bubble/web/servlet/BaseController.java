@@ -1,7 +1,8 @@
 package cn.fxbin.bubble.web.servlet;
 
-import cn.fxbin.bubble.core.model.Result;
-import cn.fxbin.bubble.core.model.ResultCode;
+import cn.fxbin.bubble.core.dataobject.GlobalErrorCode;
+import cn.fxbin.bubble.core.dataobject.Result;
+import cn.fxbin.bubble.core.dataobject.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
@@ -54,7 +55,7 @@ public abstract class BaseController {
      * @return cn.fxbin.bubble.core.model.Result<T>
      */
     public <T> Result<T> failure(String errmsg) {
-        return Result.failure(ResultCode.FAILURE, errmsg);
+        return Result.failure(GlobalErrorCode.INTERNAL_SERVER_ERROR, errmsg);
     }
 
 }

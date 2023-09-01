@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.core.model;
+package cn.fxbin.bubble.core.dataobject;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

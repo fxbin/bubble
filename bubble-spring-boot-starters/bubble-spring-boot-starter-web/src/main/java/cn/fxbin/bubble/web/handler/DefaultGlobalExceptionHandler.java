@@ -1,8 +1,9 @@
 package cn.fxbin.bubble.web.handler;
 
+import cn.fxbin.bubble.core.dataobject.GlobalErrorCode;
 import cn.fxbin.bubble.core.exception.ServiceException;
-import cn.fxbin.bubble.core.model.Result;
-import cn.fxbin.bubble.core.model.ResultCode;
+import cn.fxbin.bubble.core.dataobject.Result;
+import cn.fxbin.bubble.core.dataobject.ErrorCode;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class DefaultGlobalExceptionHandler {
     @ExceptionHandler(value = ServiceException.class)
     public Result<String> exceptionHandler(ServiceException ex) {
         log.warn("[ServiceException]", ex);
-        return Result.failure((ex.getErrcode() == 0 ? ResultCode.FAILURE.getCode() : ex.getErrcode()), ex.getMessage());
+        return Result.failure((ErrorCode.valueOf(ex.getErrcode()).isError() ? GlobalErrorCode.INTERNAL_SERVER_ERROR.value() : ex.getErrcode()), ex.getMessage());
     }
 
     /**
@@ -54,19 +55,18 @@ public class DefaultGlobalExceptionHandler {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public Result<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException exception) {
         log.warn("MissingServletRequestParameterExceptionHandler", exception);
-        return Result.failure(ResultCode.BAD_REQUEST, String.format("请求参数缺失:%s", exception.getParameterName()));
+        return Result.failure(GlobalErrorCode.BAD_REQUEST, String.format("请求参数缺失:%s", exception.getParameterName()));
     }
 
     /**
      * 处理 SpringMVC 请求参数类型错误
-     *
      * 例如说，接口上设置了 @RequestParam("xx") 参数为 Integer，结果传递 xx 参数类型为 String
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Result<?> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException exception) {
         log.warn("MethodArgumentTypeMismatchExceptionHandler", exception);
-        return Result.failure(ResultCode.BAD_REQUEST, String.format("请求参数类型错误:%s", exception.getMessage()));
+        return Result.failure(GlobalErrorCode.BAD_REQUEST, String.format("请求参数类型错误:%s", exception.getMessage()));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -74,7 +74,7 @@ public class DefaultGlobalExceptionHandler {
     public Result<?> constraintViolationExceptionHandler(ConstraintViolationException exception) {
         log.warn("ConstraintViolationExceptionHandler", exception);
         ConstraintViolation<?> constraintViolation = exception.getConstraintViolations().iterator().next();
-        return Result.failure(ResultCode.BAD_REQUEST, String.format("请求参数不正确:%s", constraintViolation.getMessage()));
+        return Result.failure(GlobalErrorCode.BAD_REQUEST, String.format("请求参数不正确:%s", constraintViolation.getMessage()));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -82,9 +82,9 @@ public class DefaultGlobalExceptionHandler {
     public Result<?> bodyValidExceptionHandler(MethodArgumentNotValidException exception) {
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         // 取出所有的校验不通过的描述
-        List<String> fieldErrorMessages = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
+        List<String> fieldErrorMessages = fieldErrors.stream().map(FieldError::getDefaultMessage).toList();
         log.warn("MethodArgumentNotValidException: {}", exception.getMessage());
-        return Result.failure(ResultCode.BAD_REQUEST, fieldErrorMessages.toString());
+        return Result.failure(GlobalErrorCode.BAD_REQUEST, fieldErrorMessages.toString());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -94,8 +94,8 @@ public class DefaultGlobalExceptionHandler {
         FieldError fieldError = exception.getFieldError();
         // 断言，避免告警
         assert fieldError != null;
-        return Result.failure(ResultCode.BAD_REQUEST,
-                ObjectUtils.isEmpty(fieldError.getDefaultMessage()) ? ResultCode.BAD_REQUEST.getMsg(): fieldError.getDefaultMessage());
+        return Result.failure(GlobalErrorCode.BAD_REQUEST,
+                ObjectUtils.isEmpty(fieldError.getDefaultMessage()) ? GlobalErrorCode.BAD_REQUEST.reasonPhrase(): fieldError.getDefaultMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

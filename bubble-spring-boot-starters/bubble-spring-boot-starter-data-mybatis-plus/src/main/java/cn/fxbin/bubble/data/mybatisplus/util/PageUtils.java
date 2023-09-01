@@ -1,7 +1,7 @@
 package cn.fxbin.bubble.data.mybatisplus.util;
 
-import cn.fxbin.bubble.core.model.PageRequest;
-import cn.fxbin.bubble.core.model.PageResult;
+import cn.fxbin.bubble.core.dataobject.PageRequest;
+import cn.fxbin.bubble.core.dataobject.PageResult;
 import cn.fxbin.bubble.core.util.CollectionUtils;
 import cn.hutool.core.util.PageUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;

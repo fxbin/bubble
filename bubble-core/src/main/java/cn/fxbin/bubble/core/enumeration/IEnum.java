@@ -14,7 +14,7 @@ public interface IEnum {
      *
      * @return int
      */
-    int getValue();
+    int value();
 
 
     /**
@@ -22,6 +22,6 @@ public interface IEnum {
      *
      * @return {@link String}
      */
-    String getName();
+    String name();
 
 }

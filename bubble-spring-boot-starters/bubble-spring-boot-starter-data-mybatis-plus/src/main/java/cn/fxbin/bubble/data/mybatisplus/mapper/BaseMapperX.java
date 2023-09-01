@@ -1,25 +1,19 @@
 package cn.fxbin.bubble.data.mybatisplus.mapper;
 
-import cn.fxbin.bubble.core.model.PageRequest;
-import cn.fxbin.bubble.core.model.PageResult;
+import cn.fxbin.bubble.core.dataobject.PageRequest;
+import cn.fxbin.bubble.core.dataobject.PageResult;
 import cn.fxbin.bubble.data.mybatisplus.util.PageUtils;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.TableInfo;
-import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import org.apache.ibatis.annotations.Param;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * BaseMapperX
