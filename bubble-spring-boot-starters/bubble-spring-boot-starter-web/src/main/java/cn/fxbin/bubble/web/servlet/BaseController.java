@@ -2,13 +2,11 @@ package cn.fxbin.bubble.web.servlet;
 
 import cn.fxbin.bubble.core.dataobject.GlobalErrorCode;
 import cn.fxbin.bubble.core.dataobject.Result;
-import cn.fxbin.bubble.core.dataobject.ErrorCode;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
-
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 
 /**
  * BaseController
