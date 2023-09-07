@@ -37,6 +37,7 @@
         <module>bubble-spring-boot-starter-xxl-job</module>
         <module>bubble-spring-boot-starter-dynamic-threadpool</module>
         <module>bubble-spring-boot-starter-i18n</module>
+        <module>bubble-spring-boot-starter-mail</module>
     </modules>
 
 
