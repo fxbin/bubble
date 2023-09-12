@@ -1,15 +1,15 @@
 package cn.fxbin.bubble.core.util;
 
 import cn.fxbin.bubble.core.constant.StringPool;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.experimental.UtilityClass;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -189,7 +189,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * @param key key
      * @return value
      */
-    public static String required(final HttpServletRequest req, final String key) {
+    public String required(final HttpServletRequest req, final String key) {
         String value = req.getParameter(key);
         if (StringUtils.isEmpty(value)) {
             throw new IllegalArgumentException("Param '" + key + "' is required.");
@@ -207,7 +207,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * @param defaultValue default value
      * @return value
      */
-    public static String optional(final HttpServletRequest req, final String key, final String defaultValue) {
+    public String optional(final HttpServletRequest req, final String key, final String defaultValue) {
         if (!req.getParameterMap().containsKey(key) || req.getParameterMap().get(key)[0] == null) {
             return defaultValue;
         }
@@ -227,7 +227,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * @param encoding encode
      * @return Decoded data
      */
-    private static String resolveValue(String value, String encoding) {
+    private String resolveValue(String value, String encoding) {
         if (StringUtils.isBlank(encoding)) {
             encoding = StandardCharsets.UTF_8.name();
         }
@@ -245,12 +245,20 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * @param request {@link HttpServletRequest}
      * @return accept encode
      */
-    public static String getAcceptEncoding(HttpServletRequest request) {
+    public String getAcceptEncoding(HttpServletRequest request) {
         String encode = StringUtils.defaultIfEmpty(request.getHeader("Accept-Charset"), StandardCharsets.UTF_8.name());
         encode = encode.contains(",") ? encode.substring(0, encode.indexOf(",")) : encode;
         return encode.contains(";") ? encode.substring(0, encode.indexOf(";")) : encode;
     }
 
+    /**
+     * 获取用户代理
+     *
+     * @return {@link String}
+     */
+    public String getUserAgent() {
+        return WebUtils.getUserAgent(WebUtils.getRequest());
+    }
 
     /**
      * Returns the value of the request header "user-agent" as a <code>String</code>.
@@ -259,7 +267,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * @return the value of the request header "user-agent", or the value of the request header "client-version" if the
      * request does not have a header of "user-agent".
      */
-    public static String getUserAgent(HttpServletRequest request) {
+    public String getUserAgent(HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");
         if (StringUtils.isBlank(userAgent)) {
             userAgent = StringUtils
