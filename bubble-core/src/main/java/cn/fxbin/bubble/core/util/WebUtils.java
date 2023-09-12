@@ -44,7 +44,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
             "HTTP_X_FORWARDED_FOR"
     };
 
-    private final Predicate<String> IP_PREDICATE = (ip) -> StringUtils.isBlank(ip) || StringPool.UNKNOWN.equalsIgnoreCase(ip);
+    private final Predicate<String> IP_PREDICATE = (ip) ->
+            StringUtils.isBlank(ip) || StringPool.UNKNOWN.equalsIgnoreCase(ip);
 
 
     /**
@@ -116,6 +117,14 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
                 .orElse(null);
     }
 
+    /**
+     * getRequestHeaders
+     *
+     * @return {@link Map}<{@link String}, {@link String}>
+     */
+    public Map<String, String> getRequestHeaders() {
+        return WebUtils.getRequestHeaders(WebUtils.getRequest());
+    }
 
     /**
      * getRequestHeaders
@@ -233,11 +242,11 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
     /**
      * get accept encode from request.
      *
-     * @param req {@link HttpServletRequest}
+     * @param request {@link HttpServletRequest}
      * @return accept encode
      */
-    public static String getAcceptEncoding(HttpServletRequest req) {
-        String encode = StringUtils.defaultIfEmpty(req.getHeader("Accept-Charset"), StandardCharsets.UTF_8.name());
+    public static String getAcceptEncoding(HttpServletRequest request) {
+        String encode = StringUtils.defaultIfEmpty(request.getHeader("Accept-Charset"), StandardCharsets.UTF_8.name());
         encode = encode.contains(",") ? encode.substring(0, encode.indexOf(",")) : encode;
         return encode.contains(";") ? encode.substring(0, encode.indexOf(";")) : encode;
     }
@@ -272,6 +281,14 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return Pattern.compile(regex).matcher(ip).matches();
     }
 
+    /**
+     * 获取ip地址
+     *
+     * @return {@link String}
+     */
+    public String getIpAddr() {
+        return WebUtils.getIpAddr(WebUtils.getRequest());
+    }
 
     /**
      * 获取ip
