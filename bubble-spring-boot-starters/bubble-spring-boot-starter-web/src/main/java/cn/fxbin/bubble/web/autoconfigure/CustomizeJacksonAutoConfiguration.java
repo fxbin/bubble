@@ -1,4 +1,4 @@
-package cn.fxbin.bubble.web.autoconfigure.jackson;
+package cn.fxbin.bubble.web.autoconfigure;
 
 import cn.fxbin.bubble.core.module.JavaTimeModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
