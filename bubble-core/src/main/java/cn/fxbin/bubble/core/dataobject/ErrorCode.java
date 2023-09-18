@@ -2,6 +2,7 @@ package cn.fxbin.bubble.core.dataobject;
 
 
 import java.io.Serializable;
+import java.util.ServiceLoader;
 
 /**
  * 错误代码
@@ -80,19 +81,64 @@ public sealed interface ErrorCode extends Serializable permits GlobalErrorCode, 
      * @see #is4xxClientError()
      * @see #is5xxServerError()
      */
-    boolean isError();
+    default boolean isError() {
+        return true;
+    };
 
     default boolean isSameCodeAs(ErrorCode other) {
         return value() == other.value();
     }
 
+    /**
+     * 值
+     *
+     * 这是一种示例，关于BizErrorCodee 实现的
+     *
+     * @AutoService(BizErrorCode.class)
+     * public class AppErrorCode implements BizErrorCode {
+     *  public static final AppErrorCode USERNAME_FORMAT_ERROR = new AppErrorCode(1000000, "用户名格式有误");
+     *  private int value;
+     *  private String reasonPhrase;
+     *  public AppErrorCode() {}
+     *  public AppErrorCode(int value, String reasonPhrase) {
+     *       this.value = value;
+     *       this.reasonPhrase = reasonPhrase;
+     *  }
+     *  @Override
+     *  public int value() {
+     *       return this.value;
+     *  }
+     *   @Override
+     *  public String reasonPhrase() {
+     *       return this.reasonPhrase;
+     *  }
+     *  public BizErrorCode resolve(int errorCode) {
+     *           return Arrays.stream(ReflectUtil.getFields(AppErrorCode.class))
+     *                   .filter(field -> !"value".equals(field.getName()) && !"reasonPhrase".equals(field.getName()))
+     *                   .filter(field -> ((AppErrorCode) ReflectUtil.getStaticFieldValue(field)).value == errorCode)
+     *                   .map(field -> ((AppErrorCode) ReflectUtil.getStaticFieldValue(field)))
+     *                   .findAny().orElse(null);
+     *  }
+     * }
+     *
+     * @param code code
+     * @return {@link ErrorCode}
+     */
     static ErrorCode valueOf(int code) {
         GlobalErrorCode errorCode = GlobalErrorCode.resolve(code);
         if (errorCode != null) {
             return errorCode;
         }
 
-        // TODO 实现对业务错误码的判断
+        // BizErrorCode 实现类的一种可行的示例：
+        //
+        ServiceLoader<BizErrorCode> errCodeLoader = ServiceLoader.load(BizErrorCode.class);
+        for (BizErrorCode codeLoader : errCodeLoader) {
+            BizErrorCode bizErrorCode = codeLoader.resolve(code);
+            if (bizErrorCode.value() == code) {
+                return bizErrorCode;
+            }
+        }
 
         return null;
     }
