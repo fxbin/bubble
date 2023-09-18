@@ -65,6 +65,11 @@ public interface StringPool {
     String COMMA = ",";
 
     /**
+     * 冒号
+     */
+    String COLON = ":";
+
+    /**
      * 点
      */
     String DOT = ".";

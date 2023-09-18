@@ -49,4 +49,14 @@ public interface CharPool {
      */
     char UNDERLINE = '_';
 
+    /**
+     * 字符常量：冒号 {@code ':'}
+     */
+    char COLON = ':';
+
+    /**
+     * 字符常量：艾特 {@code '@'}
+     */
+    char AT = '@';
+
 }
