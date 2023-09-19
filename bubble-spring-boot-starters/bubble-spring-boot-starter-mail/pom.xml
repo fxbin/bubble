@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>bubble-spring-boot-starter-mail</artifactId>
+    <name>Bubble SpringBoot Starter Mail</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
