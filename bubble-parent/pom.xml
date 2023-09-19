@@ -80,6 +80,12 @@
                                 <artifactId>spring-boot-configuration-processor</artifactId>
                                 <version>${spring-boot.version}</version>
                             </path>
+                            <!-- 引入 auto-service -->
+                            <path>
+                                <groupId>com.google.auto.service</groupId>
+                                <artifactId>auto-service</artifactId>
+                                <version>${auto-service.version}</version>
+                            </path>
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
