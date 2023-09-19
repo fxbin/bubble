@@ -1,11 +1,13 @@
 package cn.fxbin.bubble.web.handler;
 
-import cn.fxbin.bubble.core.dataobject.GlobalErrorCode;
-import cn.fxbin.bubble.core.exception.ServiceException;
-import cn.fxbin.bubble.core.dataobject.Result;
 import cn.fxbin.bubble.core.dataobject.ErrorCode;
+import cn.fxbin.bubble.core.dataobject.GlobalErrorCode;
+import cn.fxbin.bubble.core.dataobject.Result;
+import cn.fxbin.bubble.core.exception.ServiceException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.ObjectUtils;
@@ -18,10 +20,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 /**
  * DefaultGlobalExceptionHandler
@@ -43,7 +43,7 @@ public class DefaultGlobalExceptionHandler {
     @ExceptionHandler(value = ServiceException.class)
     public Result<String> exceptionHandler(ServiceException ex) {
         log.warn("[ServiceException]", ex);
-        return Result.failure((ErrorCode.valueOf(ex.getErrcode()).isError() ? GlobalErrorCode.INTERNAL_SERVER_ERROR.value() : ex.getErrcode()), ex.getMessage());
+        return Result.failure(Objects.requireNonNull(ErrorCode.valueOf(ex.getErrcode())).isError() ? ex.getErrcode() : GlobalErrorCode.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
     }
 
     /**
