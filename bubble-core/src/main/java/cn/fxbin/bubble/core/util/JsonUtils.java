@@ -40,6 +40,20 @@ public class JsonUtils extends JSONUtil {
         }
     }
 
+    /**
+     * json字节
+     *
+     * @param value jsonBean
+     * @return {@link byte[]}
+     */
+    public byte[] toJsonByte(Object value) {
+        try {
+            return JacksonHolder.INSTANCE.writeValueAsBytes(value);
+        } catch (JsonProcessingException e) {
+            throw new UtilException(e);
+        }
+    }
+
 
     /**
      * isJsonString 是否为json格式字符串
