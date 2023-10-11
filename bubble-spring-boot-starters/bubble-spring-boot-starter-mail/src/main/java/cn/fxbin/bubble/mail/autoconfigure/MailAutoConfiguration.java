@@ -3,6 +3,7 @@ package cn.fxbin.bubble.mail.autoconfigure;
 import cn.fxbin.bubble.core.util.CollectionUtils;
 import cn.fxbin.bubble.mail.MailProperties;
 import jakarta.annotation.Resource;
+import org.dromara.email.api.Blacklist;
 import org.dromara.email.api.MailClient;
 import org.dromara.email.comm.config.MailSmtpConfig;
 import org.dromara.email.core.factory.MailFactory;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,9 +46,11 @@ public class MailAutoConfiguration implements InitializingBean {
                 .fromAddress(properties.getFromAddress())
                 .isSSL(properties.getIsSsl())
                 .isAuth(properties.getIsAuth())
+                .maxRetries(properties.getMaxRetries())
+                .retryInterval(properties.getRetryInterval())
                 .build();
         MailFactory.put("default", mailSmtpConfig);
-        return MailFactory.createMailClient("default");
+        return MailFactory.createMailClient("default", () -> properties.getBlacklist());
     }
 
     /**

@@ -1,10 +1,12 @@
 package cn.fxbin.bubble.mail;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;
 import org.dromara.email.comm.config.MailSmtpConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
 import java.util.Map;
 
 import static cn.fxbin.bubble.mail.MailProperties.BUBBLE_MAIL_PREFIX;
@@ -64,6 +66,16 @@ public class MailProperties {
     private String isAuth = "true";
 
     /**
+     * 重试间隔（单位：秒），默认为5秒
+     */
+    private int retryInterval = 5;
+
+    /**
+     * 重试次数，默认为1次
+     */
+    private int maxRetries = 1;
+
+    /**
      * 多租户配置时需要配置此项，指定默认主租户
      */
     private String primary;
@@ -72,5 +84,10 @@ public class MailProperties {
      * 多租户配置
      */
     private Map<String, MailSmtpConfig> tenant = Maps.newHashMap();
+
+    /**
+     * 黑名单
+     */
+    private List<String> blacklist = Lists.newArrayList();
 
 }
