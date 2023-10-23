@@ -70,7 +70,7 @@
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <versions-maven-plugin.version>2.11.0</versions-maven-plugin.version>
-        <git-commit-id-plugin.version>5.0.1</git-commit-id-plugin.version>
+        <git-commit-id-plugin.version>7.0.0</git-commit-id-plugin.version>
     </properties>
 
     <modules>
