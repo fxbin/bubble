@@ -1,12 +1,20 @@
 package cn.fxbin.bubble.core.util;
 
+import cn.fxbin.bubble.core.dataobject.GlobalErrorCode;
+import cn.fxbin.bubble.core.exception.ServiceException;
 import cn.fxbin.bubble.core.exception.UtilException;
 import cn.fxbin.bubble.core.module.JacksonHolder;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
+import org.springframework.lang.NonNull;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * JsonUtils
@@ -54,6 +62,41 @@ public class JsonUtils extends JSONUtil {
         }
     }
 
+    /**
+     * 提取
+     *
+     * @param jsonStr   json str
+     * @param fieldName 字段名
+     * @param delim     delim
+     * @return {@link String}
+     */
+    public String extract(String jsonStr, @NonNull String fieldName, String delim) {
+        List<String> list = JsonUtils.extract(jsonStr, fieldName);
+        return StringUtils.join(list, delim);
+    }
+
+    /**
+     * 提取字段数据
+     *
+     * @param jsonStr   json str
+     * @param fieldName 字段名
+     * @return {@link List}<{@link String}>
+     */
+    public List<String> extract(String jsonStr, @NonNull String fieldName) {
+
+        if (StringUtils.isNotBlank(jsonStr) && JsonUtils.isJsonString(jsonStr)) {
+            List<Map<String, Object>> mapList;
+            try {
+                mapList = JsonUtils.parse(jsonStr, new TypeReference<>() {
+                });
+            } catch (Exception e) {
+                throw new ServiceException(GlobalErrorCode.INTERNAL_SERVER_ERROR);
+            }
+
+            return mapList.stream().map(m -> StringUtils.utf8Str(m.get(fieldName))).collect(Collectors.toList());
+        }
+        return Lists.newArrayList();
+    }
 
     /**
      * isJsonString 是否为json格式字符串
@@ -100,6 +143,21 @@ public class JsonUtils extends JSONUtil {
     public <T> T parse(String jsonString, Class<T> requiredType) {
         try {
             return JacksonHolder.INSTANCE.readValue(jsonString, requiredType);
+        } catch (IOException e) {
+            throw new UtilException(e);
+        }
+    }
+
+    /**
+     * parse
+     *
+     * @param content json content
+     * @param valueTypeRef TypeReference
+     * @return {@link T}
+     */
+    public <T> T parse(String content, TypeReference<T> valueTypeRef) {
+        try {
+            return JacksonHolder.INSTANCE.readValue(content, valueTypeRef);
         } catch (IOException e) {
             throw new UtilException(e);
         }
