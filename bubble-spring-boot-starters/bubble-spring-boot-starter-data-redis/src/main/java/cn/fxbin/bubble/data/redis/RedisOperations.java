@@ -62,11 +62,21 @@ public class RedisOperations {
      * @param keys 键 一个或多个
      */
     public void delete(Object... keys) {
+        this.delete(CollectionUtils.arrayToList(keys));
+    }
+
+
+    /**
+     * delete 删除多个key
+     *
+     * @param keys 键 一个或多个
+     */
+    public void delete(Collection<?>  keys) {
         if (ObjectUtils.isNotEmpty(keys)) {
-            if (keys.length == 1) {
-                redisTemplate.delete(keys[0]);
+            if (keys.size() == 1) {
+                redisTemplate.delete(keys.iterator().next());
             } else {
-                redisTemplate.delete(CollectionUtils.arrayToList(keys));
+                redisTemplate.delete(keys);
             }
         }
     }
