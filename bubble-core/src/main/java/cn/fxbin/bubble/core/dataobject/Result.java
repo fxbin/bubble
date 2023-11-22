@@ -229,6 +229,15 @@ public class Result<T> implements Serializable {
         return new Result<>(errorCode);
     }
 
+    /**
+     * failure
+     *
+     * @param exception 例外
+     * @return {@link Result}<{@link T}>
+     */
+    public static <T> Result<T> failure(ServiceException exception) {
+        return new Result<>(exception.getErrcode(), exception.getErrmsg());
+    }
 
     /**
      * throwOnFail 当 result 不成功时：直接抛出失败异常，返回传入的 result。
