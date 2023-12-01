@@ -11,7 +11,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 /**
- * SpringUtils
+ * SpringContextHolder
  *
  * @author fxbin
  * @version v1.0
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Lazy(false)
-public class SpringContextProvider implements ApplicationContextAware, DisposableBean {
+public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
 
     @Nullable
     private static ApplicationContext applicationContext;
@@ -32,7 +32,7 @@ public class SpringContextProvider implements ApplicationContextAware, Disposabl
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringContextProvider.applicationContext = applicationContext;
+        SpringContextHolder.applicationContext = applicationContext;
     }
 
 
