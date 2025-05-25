@@ -4,7 +4,7 @@ import cn.fxbin.bubble.openfeign.FeignProperties;
 import cn.fxbin.bubble.openfeign.OkHttp3ConnectionManager;
 import cn.fxbin.bubble.openfeign.codec.CustomizeFeignErrorDecoder;
 import cn.fxbin.bubble.openfeign.handler.CustomizeUrlBlockHandler;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
+import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.BlockExceptionHandler;
 import feign.Logger;
 import feign.Request;
 import feign.codec.Encoder;

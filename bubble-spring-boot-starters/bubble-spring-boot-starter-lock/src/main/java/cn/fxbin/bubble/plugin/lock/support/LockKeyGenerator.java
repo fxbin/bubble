@@ -1,7 +1,7 @@
 package cn.fxbin.bubble.plugin.lock.support;
 
 import cn.fxbin.bubble.plugin.lock.annotation.LockAction;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -24,7 +24,7 @@ public class LockKeyGenerator {
 
     private final ExpressionParser parser = new SpelExpressionParser();
 
-    private final LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
+    private final DefaultParameterNameDiscoverer discoverer = new DefaultParameterNameDiscoverer();
 
 
     /**
