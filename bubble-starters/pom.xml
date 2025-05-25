@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.fxbin.bubble</groupId>
+        <artifactId>bubble-parent</artifactId>
+        <version>2.0.0.BUILD-SNAPSHOT</version>
+        <relativePath>../bubble-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>bubble-starters</artifactId>
+    <packaging>pom</packaging>
+    <name>Bubble Starters</name>
+    <description>Bubble Starters</description>
+
+    <modules>
+        <!-- boot basic starter -->
+        <module>bubble-starter</module>
+
+        <!-- web、test -->
+        <module>bubble-starter-web</module>
+        <module>bubble-starter-test</module>
+        <!-- cloud -->
+        <module>bubble-starter-openfeign</module>
+        <!-- data -->
+        <module>bubble-starter-data-redis</module>
+        <module>bubble-starter-data-mybatis-plus</module>
+        <module>bubble-starter-data-elasticsearch</module>
+
+        <!-- plugins -->
+        <module>bubble-starter-lock</module>
+        <module>bubble-starter-excel</module>
+        <module>bubble-starter-token</module>
+        <module>bubble-starter-logging</module>
+        <module>bubble-starter-xxl-job</module>
+        <module>bubble-starter-dynamic-threadpool</module>
+        <module>bubble-starter-i18n</module>
+        <module>bubble-starter-mail</module>
+        <module>bubble-starter-dubbo</module>
+    </modules>
+
+
+</project>

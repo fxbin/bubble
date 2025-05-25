@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.fxbin.bubble</groupId>
+        <artifactId>bubble-starters</artifactId>
+        <version>2.0.0.BUILD-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>bubble-starter-i18n</artifactId>
+    <name>Bubble Starter I18n</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.fxbin.bubble</groupId>
+            <artifactId>bubble-starter</artifactId>
+        </dependency>
+        <!--
+         You can easily generate your own configuration metadata file from items annotated with
+         @ConfigurationProperties by using the spring-boot-configuration-processor jar.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-auto</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>
