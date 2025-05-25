@@ -3,18 +3,17 @@ package cn.fxbin.bubble.openfeign.handler;
 import cn.fxbin.bubble.core.dataobject.Result;
 import cn.fxbin.bubble.core.util.JsonUtils;
 import cn.fxbin.bubble.core.util.MimeTypeUtils;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
+import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
 /**
  * CustomUrlBlockHandler
@@ -43,7 +42,7 @@ public class CustomizeUrlBlockHandler implements BlockExceptionHandler {
      *          </p>
      */
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {
+    public void handle(HttpServletRequest request, HttpServletResponse response, String s, BlockException e) throws Exception {
         log.error("sentinel 降级 资源名称{}", e.getRule().getResource(), e);
 
         Result<String> result = Result.failure("Blocked by Sentinel (flow limiting)");
