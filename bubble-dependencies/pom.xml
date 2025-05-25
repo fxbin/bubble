@@ -137,12 +137,6 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-starter-dynamic-threadpool</artifactId>
-                <version>2.0.0.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-starter-i18n</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
