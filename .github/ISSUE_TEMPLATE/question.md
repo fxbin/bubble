@@ -11,8 +11,8 @@ assignees: fxbin
 
 <!-- Choose one of the following and delete all others. -->
 eg.
-* bubble-spring-boot-starter-data-redis
-* bubble-spring-boot-starter-web
+* bubble-starter-data-redis
+* bubble-starter-web
 
 **Description**
 A clear and concise details.

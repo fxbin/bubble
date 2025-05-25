@@ -62,94 +62,94 @@
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
-            <!-- bubble-spring-boot-starters -->
+            <!-- bubble-starters -->
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter</artifactId>
+                <artifactId>bubble-starter</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-web</artifactId>
+                <artifactId>bubble-starter-web</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-test</artifactId>
+                <artifactId>bubble-starter-test</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-logging</artifactId>
+                <artifactId>bubble-starter-logging</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-openfeign</artifactId>
+                <artifactId>bubble-starter-openfeign</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-data-redis</artifactId>
+                <artifactId>bubble-starter-data-redis</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-data-mybatis-plus</artifactId>
+                <artifactId>bubble-starter-data-mybatis-plus</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-data-elasticsearch</artifactId>
+                <artifactId>bubble-starter-data-elasticsearch</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-lock</artifactId>
+                <artifactId>bubble-starter-lock</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-excel</artifactId>
+                <artifactId>bubble-starter-excel</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-token</artifactId>
+                <artifactId>bubble-starter-token</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-xxl-job</artifactId>
+                <artifactId>bubble-starter-xxl-job</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-dynamic-threadpool</artifactId>
+                <artifactId>bubble-starter-dynamic-threadpool</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-i18n</artifactId>
+                <artifactId>bubble-starter-i18n</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-spring-boot-starter-mail</artifactId>
+                <artifactId>bubble-starter-mail</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
