@@ -28,6 +28,7 @@
         <module>bubble-starter-data-redis</module>
         <module>bubble-starter-data-mybatis-plus</module>
         <module>bubble-starter-data-elasticsearch</module>
+        <module>bubble-starter-data-doris</module>
 
         <!-- plugins -->
         <module>bubble-starter-lock</module>
