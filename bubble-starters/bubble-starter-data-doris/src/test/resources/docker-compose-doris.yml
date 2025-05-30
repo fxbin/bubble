@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  doris-fe:
+    image: apache/doris:fe-3.0.5
+    container_name: doris-fe
+    environment:
+      - FE_SERVERS=doris-fe:9010
+      - FE_ID=1
+      - DORIS_ROLE=fe
+    ports:
+      - "8030:8030"
+      - "9030:9030"
+      - "9010:9010"
+    volumes:
+      - fe_meta:/opt/apache-doris/fe/doris-meta
+    networks:
+      - doris-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8030/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  doris-be:
+    image: apache/doris:be-3.0.5
+    container_name: doris-be
+    depends_on:
+      doris-fe:
+        condition: service_healthy
+    environment:
+      - FE_SERVERS=doris-fe:9010
+      - BE_ADDR=doris-be:9050
+      - DORIS_ROLE=be
+    ports:
+      - "8040:8040"
+      - "9050:9050"
+      - "8060:8060"
+    volumes:
+      - be_storage:/opt/apache-doris/be/storage
+    networks:
+      - doris-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8040/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  doris-net:
+    driver: bridge
+
+volumes:
+  fe_meta:
+  be_storage:

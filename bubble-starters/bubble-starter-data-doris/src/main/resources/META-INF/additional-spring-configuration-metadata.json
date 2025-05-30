@@ -1,0 +1,163 @@
+{
+  "groups": [
+    {
+      "name": "bubble.data.doris",
+      "type": "cn.fxbin.bubble.data.doris.autoconfigure.DorisProperties",
+      "sourceType": "cn.fxbin.bubble.data.doris.autoconfigure.DorisProperties",
+      "description": "Configuration properties for Apache Doris integration."
+    },
+    {
+      "name": "bubble.data.doris.pool",
+      "type": "cn.fxbin.bubble.data.doris.autoconfigure.DorisProperties$Pool",
+      "sourceType": "cn.fxbin.bubble.data.doris.autoconfigure.DorisProperties",
+      "description": "Connection pool configuration for Doris."
+    },
+    {
+      "name": "bubble.data.doris.stream-load",
+      "type": "cn.fxbin.bubble.data.doris.autoconfigure.DorisProperties$StreamLoad",
+      "sourceType": "cn.fxbin.bubble.data.doris.autoconfigure.DorisProperties",
+      "description": "StreamLoad configuration for Doris."
+    }
+  ],
+  "properties": [
+    {
+      "name": "bubble.data.doris.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether to enable Doris integration.",
+      "defaultValue": true
+    },
+    {
+      "name": "bubble.data.doris.fe-host",
+      "type": "java.lang.String",
+      "description": "Doris FE host address.",
+      "defaultValue": "localhost"
+    },
+    {
+      "name": "bubble.data.doris.fe-http-port",
+      "type": "java.lang.Integer",
+      "description": "Doris FE HTTP port for StreamLoad.",
+      "defaultValue": 8030
+    },
+    {
+      "name": "bubble.data.doris.fe-query-port",
+      "type": "java.lang.Integer",
+      "description": "Doris FE query port for MySQL protocol.",
+      "defaultValue": 9030
+    },
+    {
+      "name": "bubble.data.doris.username",
+      "type": "java.lang.String",
+      "description": "Username for Doris authentication.",
+      "defaultValue": "root"
+    },
+    {
+      "name": "bubble.data.doris.password",
+      "type": "java.lang.String",
+      "description": "Password for Doris authentication."
+    },
+    {
+      "name": "bubble.data.doris.database",
+      "type": "java.lang.String",
+      "description": "Default database name."
+    },
+    {
+      "name": "bubble.data.doris.pool.max-pool-size",
+      "type": "java.lang.Integer",
+      "description": "Maximum number of connections in the pool.",
+      "defaultValue": 10
+    },
+    {
+      "name": "bubble.data.doris.pool.min-idle",
+      "type": "java.lang.Integer",
+      "description": "Minimum number of idle connections in the pool.",
+      "defaultValue": 1
+    },
+    {
+      "name": "bubble.data.doris.pool.max-lifetime",
+      "type": "java.lang.Long",
+      "description": "Maximum lifetime of a connection in milliseconds.",
+      "defaultValue": 1800000
+    },
+    {
+      "name": "bubble.data.doris.pool.connection-timeout",
+      "type": "java.lang.Long",
+      "description": "Connection timeout in milliseconds.",
+      "defaultValue": 30000
+    },
+    {
+      "name": "bubble.data.doris.pool.idle-timeout",
+      "type": "java.lang.Long",
+      "description": "Maximum amount of time that a connection is allowed to sit idle in the pool in milliseconds.",
+      "defaultValue": 600000
+    },
+    {
+      "name": "bubble.data.doris.stream-load.max-retries",
+      "type": "java.lang.Integer",
+      "description": "Maximum number of retries for StreamLoad operations.",
+      "defaultValue": 3
+    },
+    {
+      "name": "bubble.data.doris.stream-load.retry-interval-ms",
+      "type": "java.lang.Long",
+      "description": "Interval between retries in milliseconds.",
+      "defaultValue": 1000
+    },
+    {
+      "name": "bubble.data.doris.stream-load.timeout-ms",
+      "type": "java.lang.Long",
+      "description": "Timeout for StreamLoad operations in milliseconds.",
+      "defaultValue": 600000
+    },
+    {
+      "name": "bubble.data.doris.stream-load.max-batch-rows",
+      "type": "java.lang.Integer",
+      "description": "Maximum number of rows per batch for StreamLoad.",
+      "defaultValue": 100000
+    },
+    {
+      "name": "bubble.data.doris.stream-load.max-batch-size-bytes",
+      "type": "java.lang.Long",
+      "description": "Maximum batch size in bytes for StreamLoad.",
+      "defaultValue": 104857600
+    },
+    {
+      "name": "bubble.data.doris.stream-load.default-format",
+      "type": "java.lang.String",
+      "description": "Default format for StreamLoad (json or csv).",
+      "defaultValue": "json"
+    },
+    {
+      "name": "bubble.data.doris.stream-load.strip-outer-array",
+      "type": "java.lang.Boolean",
+      "description": "Whether to strip outer array for JSON format.",
+      "defaultValue": false
+    },
+    {
+      "name": "bubble.data.doris.stream-load.column-separator",
+      "type": "java.lang.String",
+      "description": "Column separator for CSV format.",
+      "defaultValue": ","
+    },
+    {
+      "name": "bubble.data.doris.stream-load.line-delimiter",
+      "type": "java.lang.String",
+      "description": "Line delimiter for CSV format.",
+      "defaultValue": "\\n"
+    }
+  ],
+  "hints": [
+    {
+      "name": "bubble.data.doris.stream-load.default-format",
+      "values": [
+        {
+          "value": "json",
+          "description": "JSON format for StreamLoad data."
+        },
+        {
+          "value": "csv",
+          "description": "CSV format for StreamLoad data."
+        }
+      ]
+    }
+  ]
+}
