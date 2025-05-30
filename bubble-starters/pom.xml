@@ -32,7 +32,6 @@
         <!-- plugins -->
         <module>bubble-starter-lock</module>
         <module>bubble-starter-excel</module>
-        <module>bubble-starter-token</module>
         <module>bubble-starter-logging</module>
         <module>bubble-starter-xxl-job</module>
         <module>bubble-starter-i18n</module>

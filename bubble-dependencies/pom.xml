@@ -27,6 +27,7 @@
         <swagger.version>2.2.29</swagger.version>
         <lombok.version>1.18.30</lombok.version>
         <mica-auto.version>3.1.4</mica-auto.version>
+        <testcontainers.version>1.21.0</testcontainers.version>
 
         <hutool.version>5.8.37</hutool.version>
         <guava.version>32.1.2-jre</guava.version>
@@ -126,12 +127,6 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-starter-token</artifactId>
-                <version>2.0.0.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-starter-xxl-job</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
@@ -198,6 +193,14 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-dependencies</artifactId>
                 <version>${spring-boot-admin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
