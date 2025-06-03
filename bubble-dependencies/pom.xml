@@ -52,7 +52,7 @@
         <mica-auto.version>2.3.2</mica-auto.version>
         <easy-trans.version>2.2.6</easy-trans.version>
         <dubbo.version>3.2.7</dubbo.version>
-        <sms4j.version>3.3.4</sms4j.version>
+        <sms4j.version>3.3.5</sms4j.version>
     </properties>
 
     <dependencyManagement>
