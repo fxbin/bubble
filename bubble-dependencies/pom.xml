@@ -53,6 +53,7 @@
         <easy-trans.version>2.2.6</easy-trans.version>
         <dubbo.version>3.2.7</dubbo.version>
         <sms4j.version>3.3.4</sms4j.version>
+        <sa-token.version>1.43.0</sa-token.version>
     </properties>
 
     <dependencyManagement>
@@ -140,6 +141,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-starter-mail</artifactId>
+                <version>2.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-starter-satoken</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
@@ -460,6 +467,15 @@
                 <groupId>org.dromara.sms4j</groupId>
                 <artifactId>sms4j-Email-core</artifactId>
                 <version>${sms4j.version}</version>
+            </dependency>
+
+            <!-- sa-token -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-bom</artifactId>
+                <version>${sa-token.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
         </dependencies>
