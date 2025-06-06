@@ -42,6 +42,16 @@ import java.util.List;
 @Import({SaTokenExceptionHandler.class})
 public class SaTokenAutoConfiguration {
 
+    private final List<String> DEFAULT_EXCLUDE_URLS = Lists.newArrayList(
+            "/doc.html",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/favicon.ico",
+            "/v3/api-docs/**",
+            "/v3/api-docs/default",
+            "/v3/api-docs/swagger-config"
+    );
+
     /**
      * 注册 Sa-Token 全局过滤器
      */
@@ -80,16 +90,6 @@ public class SaTokenAutoConfiguration {
         log.info("Sa-Token 集成 JWT 模式：stateless");
         return new StpLogicJwtForStateless();
     }
-
-    private final List<String> DEFAULT_EXCLUDE_URLS = Lists.newArrayList(
-            "/doc.html",
-            "/swagger-ui/**",
-            "/webjars/**",
-            "/favicon.ico",
-            "/v3/api-docs/**",
-            "/v3/api-docs/default",
-            "/v3/api-docs/swagger-config"
-    );
 
     /**
      * 注册 Sa-Token 全局Servlet过滤器
