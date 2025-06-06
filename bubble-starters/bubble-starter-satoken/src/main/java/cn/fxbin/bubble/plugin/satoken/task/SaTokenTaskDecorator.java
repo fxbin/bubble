@@ -7,6 +7,7 @@ import cn.dev33.satoken.context.model.SaRequest;
 import cn.dev33.satoken.context.model.SaResponse;
 import cn.dev33.satoken.context.model.SaStorage;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.fxbin.bubble.core.exception.ServiceException;
 import cn.fxbin.bubble.plugin.satoken.context.SaTokenContextForTtl;
 import cn.fxbin.bubble.plugin.satoken.context.SaTokenContextForTtlStaff;
 import cn.fxbin.bubble.plugin.satoken.model.SaRequestForTtl;
@@ -130,7 +131,7 @@ public class SaTokenTaskDecorator implements TaskDecorator {
 
         } catch (Exception e) {
             log.error("{}: {}", CONTEXT_PROPAGATION_ERROR, e.getMessage(), e);
-            throw new RuntimeException(CONTEXT_PROPAGATION_ERROR, e);
+            throw new ServiceException(CONTEXT_PROPAGATION_ERROR, e);
         }
     }
 
@@ -141,7 +142,7 @@ public class SaTokenTaskDecorator implements TaskDecorator {
         try {
             SaTokenContextForTtlStaff.clearModelBox();
             // 恢复默认上下文（如果需要）
-            // SaManager.setSaTokenContext(defaultContext);
+//             SaManager.setSaTokenContext(defaultContext);
         } catch (Exception e) {
             log.warn("Sa-Token上下文清理时发生异常: {}", e.getMessage(), e);
         }
