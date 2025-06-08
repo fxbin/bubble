@@ -89,7 +89,6 @@ public class RunTimeUtils extends RuntimeUtil {
     /**
      * parseCmds
      *
-     * @author fxbin
      * @since 2020/10/28 12:00
      * @param command (cmd|shell)命令
      * @return java.lang.String[]
@@ -101,7 +100,6 @@ public class RunTimeUtils extends RuntimeUtil {
     /**
      * getOptionValue
      *
-     * @author fxbin
      * @since 2020/10/28 13:43
      * @param option command option
      * @param command (cmd|shell)命令
@@ -122,7 +120,6 @@ public class RunTimeUtils extends RuntimeUtil {
     /**
      * exec
      *
-     * @author fxbin
      * @since 2020/10/28 13:48
      * @param timeout 超时时间(秒)
      * @param cmds 命令列表，每个元素代表一条命令

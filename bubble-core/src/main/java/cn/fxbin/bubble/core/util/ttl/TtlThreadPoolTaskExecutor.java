@@ -4,9 +4,9 @@ import com.alibaba.ttl.TtlCallable;
 import com.alibaba.ttl.TtlRunnable;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
@@ -44,17 +44,10 @@ public class TtlThreadPoolTaskExecutor extends ThreadPoolTaskExecutor {
 
     @NonNull
     @Override
-    public ListenableFuture<?> submitListenable(@NonNull Runnable task) {
-        TtlRunnable ttlRunnable = TtlRunnable.get(task);
-        assert ttlRunnable != null;
-        return super.submitListenable(ttlRunnable);
-    }
-
-    @NonNull
-    @Override
-    public <T> ListenableFuture<T> submitListenable(@NonNull Callable<T> task) {
+    public <T> CompletableFuture<T> submitCompletable(@NonNull Callable<T> task) {
         TtlCallable<T> ttlCallable = TtlCallable.get(task);
         assert ttlCallable != null;
-        return super.submitListenable(ttlCallable);
+        return super.submitCompletable(task);
     }
+
 }

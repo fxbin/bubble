@@ -52,7 +52,7 @@ public class LambdaUtils {
      *
      * @since 2021/9/29 09:52
      * @param func 函数（无参方法）
-     * @return java.lang.Class<?>
+     * @return {@link java.lang.Class<?>}
      */
     public static <T> Class<?> loadClass(SerialFunction<T, ?> func) {
         return CLASS_CACHE.computeIfAbsent(func.getClass(),

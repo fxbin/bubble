@@ -233,7 +233,7 @@ public class Result<T> implements Serializable {
      * failure
      *
      * @param exception 例外
-     * @return {@link Result}<{@link T}>
+     * @return {@link Result<T>}
      */
     public static <T> Result<T> failure(ServiceException exception) {
         return new Result<>(exception.getErrcode(), exception.getErrmsg());

@@ -24,7 +24,7 @@ public class TtlMap {
      * getAll threadLocal中的全部值
      *
      * @since 2020/3/20 18:19
-     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @return {@link java.util.Map<java.lang.String,java.lang.Object>}
      */
     public Map<String, Object> getAll() {
         return localCache();
