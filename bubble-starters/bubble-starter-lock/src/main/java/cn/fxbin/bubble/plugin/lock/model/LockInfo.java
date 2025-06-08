@@ -40,16 +40,19 @@ public class LockInfo implements Serializable {
     /**
      * 锁类型
      */
+    @Builder.Default
     private LockType lockType = LockType.Default;
 
     /**
      * 失效时间
      */
+    @Builder.Default
     private Long leaseTime = 30 * 1000L;
 
     /**
      * 超时时间
      */
+    @Builder.Default
     private Long waitTime = 3000L;
 
     /**
@@ -60,6 +63,7 @@ public class LockInfo implements Serializable {
     /**
      * 时间单位
      */
+    @Builder.Default
     private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 
     /**

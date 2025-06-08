@@ -1,2 +1,3 @@
-cn.fxbin.bubble.data.redis.autoconfigure.RedisTemplateAutoConfiguration
+cn.fxbin.bubble.data.redis.autoconfigure.BubbleRedisCacheAutoConfiguration
+cn.fxbin.bubble.data.redis.autoconfigure.RedissonAutoConfiguration
 cn.fxbin.bubble.data.redis.autoconfigure.SessionAutoConfiguration

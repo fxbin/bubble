@@ -22,7 +22,14 @@
 - 提供`RStreamOperations`工具类
 - 支持消费者组和消费者名称自动配置
 
-### 4. Session支持
+### 4. Redisson集成
+- 自动配置Redisson客户端
+- 提供`RedissonOperations`工具类，封装常用分布式数据结构操作
+- 支持分布式Map、Set、List、Queue等数据结构
+- 支持布隆过滤器、限流器、发布订阅等高级特性
+- 注意：分布式锁功能请使用 `bubble-starter-lock` 模块
+
+### 5. Session支持
 - 集成Spring Session Data Redis
 - 自动配置Session序列化器
 - 支持云Redis服务
@@ -36,6 +43,20 @@
     <groupId>cn.fxbin.bubble</groupId>
     <artifactId>bubble-starter-data-redis</artifactId>
     <version>2.0.0.BUILD-SNAPSHOT</version>
+</dependency>
+```
+
+**如果要使用Redisson功能，需要额外添加以下依赖：**
+
+```xml
+<dependency>
+    <groupId>org.redisson</groupId>
+    <artifactId>redisson</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.redisson</groupId>
+    <artifactId>redisson-spring-data-35</artifactId>
 </dependency>
 ```
 
@@ -82,6 +103,26 @@ bubble:
         consumer-name: consumer-1
         poll-batch-size: 10
         poll-timeout: 1000ms
+```
+
+### 5. 配置Redisson（可选）
+
+```yaml
+bubble:
+  data:
+    redis:
+      redisson:
+        enabled: true
+        # 可选：指定Redisson配置文件路径
+        config-location: classpath:redisson.yaml
+        # 连接池配置
+        connection-pool-size: 64
+        connection-minimum-idle-size: 10
+        idle-connection-timeout: 10000
+        connect-timeout: 10000
+        timeout: 3000
+        retry-attempts: 3
+        retry-interval: 1500
 ```
 
 ## 使用示例
@@ -149,6 +190,59 @@ public class MessageProducer {
     }
 }
 ```
+
+### 4. 使用Redisson分布式功能
+
+```java
+@Service
+public class DistributedService {
+    
+    @Autowired
+    private RedissonOperations redissonOperations;
+    
+    // 分布式Map
+    public void useDistributedMap() {
+        RMap<String, Object> map = redissonOperations.getMap("my-map");
+        map.put("key1", "value1");
+        Object value = map.get("key1");
+    }
+    
+    // 分布式队列
+    public void useDistributedQueue() {
+        RQueue<String> queue = redissonOperations.getQueue("my-queue");
+        queue.offer("message1");
+        String message = queue.poll();
+    }
+    
+    // 布隆过滤器
+    public void useBloomFilter() {
+        RBloomFilter<String> bloomFilter = redissonOperations.getBloomFilter("my-filter");
+        bloomFilter.tryInit(1000000, 0.01); // 预期元素数量和误判率
+        bloomFilter.add("element1");
+        boolean contains = bloomFilter.contains("element1");
+    }
+    
+    // 限流器
+    public void useRateLimiter() {
+        RRateLimiter rateLimiter = redissonOperations.getRateLimiter("my-limiter");
+        rateLimiter.trySetRate(RateType.OVERALL, 10, 1, RateIntervalUnit.SECONDS);
+        boolean acquired = rateLimiter.tryAcquire();
+    }
+    
+    // 发布订阅
+    public void usePubSub() {
+        RTopic topic = redissonOperations.getTopic("my-topic");
+        topic.publish("Hello Redisson!");
+        
+        // 订阅消息
+        topic.addListener(String.class, (channel, msg) -> {
+            System.out.println("Received: " + msg);
+        });
+    }
+}
+```
+
+**注意**: 如需使用分布式锁功能，请添加 `bubble-starter-lock` 依赖，该模块提供了完整的分布式锁解决方案。
 
 ## 配置说明
 

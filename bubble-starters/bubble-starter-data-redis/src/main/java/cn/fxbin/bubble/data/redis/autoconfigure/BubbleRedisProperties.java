@@ -27,6 +27,11 @@ public class BubbleRedisProperties {
      */
     private Stream stream = new Stream();
 
+    /**
+     * redisson
+     */
+    private Redisson redisson = new Redisson();
+
 
     @Data
     public static class Stream {
@@ -56,5 +61,75 @@ public class BubbleRedisProperties {
          * poll 超时时间
          */
         Duration pollTimeout;
+    }
+
+    @Data
+    public static class Redisson {
+        public static final String PREFIX = BubbleRedisProperties.PREFIX + ".redisson";
+
+        /**
+         * 是否启用 Redisson
+         */
+        boolean enabled = false;
+
+        /**
+         * Redisson 配置文件路径
+         */
+        String configLocation;
+
+        /**
+         * 连接池大小
+         */
+        Integer connectionPoolSize = 64;
+
+        /**
+         * 最小空闲连接数
+         */
+        Integer connectionMinimumIdleSize = 10;
+
+        /**
+         * 连接空闲超时时间（毫秒）
+         */
+        Integer idleConnectionTimeout = 10000;
+
+        /**
+         * 连接超时时间（毫秒）
+         */
+        Integer connectTimeout = 10000;
+
+        /**
+         * 命令等待超时时间（毫秒）
+         */
+        Integer timeout = 3000;
+
+        /**
+         * 命令失败重试次数
+         */
+        Integer retryAttempts = 3;
+
+        /**
+         * 命令重试发送时间间隔（毫秒）
+         */
+        Integer retryInterval = 1500;
+
+        /**
+         * 单个连接最大订阅数量
+         */
+        Integer subscriptionsPerConnection = 5;
+
+        /**
+         * 客户端名称
+         */
+        String clientName;
+
+        /**
+         * 线程池数量，默认值 = 当前处理核数量 * 2
+         */
+        Integer threads;
+
+        /**
+         * Netty线程池数量，默认值 = 当前处理核数量 * 2
+         */
+        Integer nettyThreads;
     }
 }
