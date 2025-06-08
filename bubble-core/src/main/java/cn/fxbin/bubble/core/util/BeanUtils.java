@@ -3,6 +3,7 @@ package cn.fxbin.bubble.core.util;
 import cn.fxbin.bubble.core.exception.UtilException;
 import cn.fxbin.bubble.core.util.time.DateUtils;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.cglib.beans.BeanCopier;
@@ -11,18 +12,26 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * BeanUtils
+ * BeanUtils - 优化版本
+ * 提供高性能的Bean操作工具，包含BeanCopier缓存优化
  *
  * @author fxbin
  * @version v1.0
  * @since 2020/3/30 13:51
  */
+@Slf4j
 @SuppressWarnings({"rawtypes", "unchecked"})
 @UtilityClass
 public class BeanUtils extends org.springframework.beans.BeanUtils {
+
+    /**
+     * BeanCopier缓存，提升性能
+     */
+    private final Map<String, BeanCopier> BEAN_COPIER_CACHE = new ConcurrentHashMap<>();
 
     /**
      * initialInstance
@@ -58,7 +67,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      *
      * @since 2020/3/30 14:42
      * @param object java.lang.Object
-     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @return {@link java.util.Map<java.lang.String,java.lang.Object>}
      */
     public Map<String, Object> object2Map(Object object) {
         return object2Map(object, false);
@@ -70,7 +79,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      * @since 2020/5/28 10:36
      * @param object java.lang.Object
      * @param timestampDefault 日期类型是否默认默认转时间戳
-     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @return {@link java.util.Map<java.lang.String,java.lang.Object>}
      */
     public Map<String, Object> object2Map(Object object, boolean timestampDefault) {
         Assert.notNull(object, "object can't be null");
@@ -96,7 +105,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      *
      * @since 2022/8/8 17:18
      * @param objectList java.lang.Object list
-     * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @return {@link java.util.List<java.util.Map<java.lang.String,java.lang.Object>>}
      */
     public <T> List<Map<String, Object>> object2Map(List<T> objectList) {
         return object2Map(objectList, false);
@@ -108,7 +117,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      * @since 2020/5/8 17:01
      * @param objectList  java.lang.Object list
      * @param timestampDefault 日期类型是否默认默认转时间戳
-     * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @return {@link java.util.List<java.util.Map<java.lang.String,java.lang.Object>>}
      */
     public <T> List<Map<String, Object>> object2Map(List<T> objectList, boolean timestampDefault) {
         List list = new ArrayList<>();
@@ -140,15 +149,36 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
 
 
     /**
-     * copy
+     * copy - 优化版本，使用缓存提升性能
      *
      * @since 2020/5/7 18:22
      * @param source source object
      * @param target target object
      */
     public void copy(Object source, Object target) {
-        BeanCopier copier = BeanCopier.create(source.getClass(), target.getClass(), false);
-        copier.copy(source, target, null);
+        Assert.notNull(source, "source object cannot be null");
+        Assert.notNull(target, "target object cannot be null");
+        
+        Class<?> sourceClass = source.getClass();
+        Class<?> targetClass = target.getClass();
+        
+        String key = generateCopierKey(sourceClass, targetClass);
+        
+        try {
+            BeanCopier copier = BEAN_COPIER_CACHE.computeIfAbsent(key, 
+                k -> BeanCopier.create(sourceClass, targetClass, false));
+            copier.copy(source, target, null);
+        } catch (Exception e) {
+            log.error("Failed to copy properties from {} to {}", sourceClass.getSimpleName(), targetClass.getSimpleName(), e);
+            throw new UtilException("Bean copy failed: " + e.getMessage(), e);
+        }
+    }
+    
+    /**
+     * 生成BeanCopier缓存key
+     */
+    private String generateCopierKey(Class<?> sourceClass, Class<?> targetClass) {
+        return sourceClass.getName() + "_" + targetClass.getName();
     }
 
 

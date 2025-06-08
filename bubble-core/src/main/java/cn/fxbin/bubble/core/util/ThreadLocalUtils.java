@@ -1,29 +1,35 @@
 package cn.fxbin.bubble.core.util;
 
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * ThreadLocalUtils
+ * ThreadLocalUtils - 优化版本
+ * 提供线程安全的本地缓存工具，支持内存泄漏防护
  *
  * @author fxbin
  * @version v1.0
  * @since 2020/3/20 18:18
  */
+@Slf4j
 @SuppressWarnings("unchecked")
 @UtilityClass
 public class ThreadLocalUtils {
 
     private final ThreadLocal<Map<String, Object>> LOCAL_CACHE = ThreadLocal.withInitial(HashMap::new);
+    
+    // 最大缓存大小，防止内存泄漏
+    private final int MAX_CACHE_SIZE = 100;
 
     /**
      * getAll threadLocal中的全部值
      *
      * @since 2020/3/20 18:19
-     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @return {@link java.util.Map<java.lang.String,java.lang.Object>}
      */
     public Map<String, Object> getAll() {
         return localCache();
@@ -40,7 +46,20 @@ public class ThreadLocalUtils {
      * @see Map#put(Object, Object)
      */
     public <T> T put(String key, T value) {
-        localCache().put(key, value);
+        if (key == null) {
+            log.warn("ThreadLocal key cannot be null");
+            return value;
+        }
+        
+        Map<String, Object> cache = localCache();
+        
+        // 检查缓存大小，防止内存泄漏
+        if (cache.size() >= MAX_CACHE_SIZE && !cache.containsKey(key)) {
+            log.warn("ThreadLocal cache size exceeded maximum limit: {}, clearing cache", MAX_CACHE_SIZE);
+            cache.clear();
+        }
+        
+        cache.put(key, value);
         return value;
     }
 

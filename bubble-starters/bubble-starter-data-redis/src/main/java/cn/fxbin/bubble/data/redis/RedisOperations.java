@@ -35,7 +35,7 @@ public class RedisOperations {
      *
      * @since 2021/8/19 16:31
      * @param pattern  must not be {@literal null}.
-     * @return java.util.Set<java.lang.String>
+     * @return {@link java.util.Set<java.lang.String>}
      */
     public Set<String> keys(String pattern) {
         return redisTemplate.keys(pattern);
@@ -44,7 +44,6 @@ public class RedisOperations {
     /**
      * delete 删除键
      *
-     * @author fxbin
      * @since 2019/11/21 16:49
      * @param key 键
      * @return boolean 删除成功/失败
@@ -57,7 +56,6 @@ public class RedisOperations {
     /**
      * delete 删除多个key
      *
-     * @author fxbin
      * @since 2019/11/21 16:50
      * @param keys 键 一个或多个
      */
@@ -85,7 +83,6 @@ public class RedisOperations {
     /**
      * expire 指定缓存失效时间
      *
-     * @author fxbin
      * @since 2019/11/21 17:21
      * @param key 键
      * @param time 时间(秒)
@@ -108,7 +105,6 @@ public class RedisOperations {
     /**
      * expireAt 指定缓存失效时间
      *
-     * @author fxbin
      * @since 2019/11/21 17:22
      * @param key 键
      * @param date 时间
@@ -122,7 +118,6 @@ public class RedisOperations {
     /**
      * getExpire 根据key值获取过期时间
      *
-     * @author fxbin
      * @since 2019/11/21 17:24
      * @param key 键
      * @return long 时间(秒) 返回 0 代表永久有效
@@ -135,7 +130,6 @@ public class RedisOperations {
     /**
      * hasKey 判断key是否存在
      *
-     * @author fxbin
      * @since 2019/11/21 17:24
      * @param key 键
      * @return boolean 存在/不存在
@@ -148,7 +142,6 @@ public class RedisOperations {
     /**
      * get 获取value值
      *
-     * @author fxbin
      * @since 2019/11/21 17:25
      * @param key 键
      * @return java.lang.Object 值
@@ -162,7 +155,7 @@ public class RedisOperations {
      *
      * @since 2021/8/19 16:36
      * @param keys must not be {@literal null}.
-     * @return java.util.List<java.lang.String>
+     * @return {@link java.util.List<java.lang.String>}
      */
     public <V> List<V> multiGet(Collection<String> keys) {
         return CollectionUtils.isNotEmpty(keys) ? redisTemplate.opsForValue().multiGet(keys) : Lists.newArrayList();
@@ -171,7 +164,6 @@ public class RedisOperations {
     /**
      * set 设置值
      *
-     * @author fxbin
      * @since 2019/11/21 17:26
      * @param key 键
      * @param value 值
@@ -192,7 +184,6 @@ public class RedisOperations {
     /**
      * set 设置值 并设置过期时间
      *
-     * @author fxbin
      * @since 2019/11/21 17:26
      * @param key 键
      * @param value 值
@@ -207,7 +198,6 @@ public class RedisOperations {
     /**
      * set 设置值 并设置过期时间
      *
-     * @author fxbin
      * @since 2019/11/21 17:29
      * @param key 键
      * @param value 值
@@ -283,7 +273,6 @@ public class RedisOperations {
     /**
      * incr 递增(1)
      *
-     * @author fxbin
      * @since 2019/11/21 17:32
      * @param key 键
      * @return long 递增之后的返回值 long
@@ -296,7 +285,6 @@ public class RedisOperations {
     /**
      * incr
      *
-     * @author fxbin
      * @since 2019/11/21 17:33
      * @param key the key
      * @param delta the increment type: long
@@ -313,7 +301,6 @@ public class RedisOperations {
     /**
      * decr
      *
-     * @author fxbin
      * @since 2019/11/21 17:35
      * @param key 键
      * @return long 递减之后的返回值 long
@@ -326,7 +313,6 @@ public class RedisOperations {
     /**
      * decr 递减
      *
-     * @author fxbin
      * @since 2019/11/21 17:35
      * @param key the key
      * @param delta the decrement type: long
@@ -356,7 +342,6 @@ public class RedisOperations {
     /**
      * hset
      *
-     * @author fxbin
      * @since 2019/11/21 17:44
      * @param key 键
      * @param item 项
@@ -378,7 +363,6 @@ public class RedisOperations {
     /**
      * hset 向一张hash表中放入数据，如果不存在将创建并设置过期时间
      *
-     * @author fxbin
      * @since 2019/11/21 17:44
      * @param key 键
      * @param item 项
@@ -404,7 +388,6 @@ public class RedisOperations {
     /**
      * hdel
      *
-     * @author fxbin
      * @since 2019/11/22 11:37
      * @param key 键
      * @param items 项, 可以是多个, 不为null
@@ -417,7 +400,6 @@ public class RedisOperations {
     /**
      * hmget 获取hashKey 对应的所有键值
      *
-     * @author fxbin
      * @since 2019/11/26 13:35
      * @param key 键
      * @return java.util.Map
@@ -430,7 +412,6 @@ public class RedisOperations {
     /**
      * hmset HashSet 添加一个Map类型值
      *
-     * @author fxbin
      * @since 2019/11/26 13:36
      * @param key 键
      * @param map map 值
@@ -451,7 +432,6 @@ public class RedisOperations {
     /**
      * hmset HashSet 并设置时间
      *
-     * @author fxbin
      * @since 2019/11/26 14:14
      * @param key 键
      * @param map 对应多个键值
@@ -477,7 +457,6 @@ public class RedisOperations {
     /**
      * hHasKey 判断 hash 表中是否有该项的值
      *
-     * @author fxbin
      * @since 2019/11/26 14:13
      * @param key 键
      * @param item 项
@@ -491,7 +470,6 @@ public class RedisOperations {
     /**
      * hincr 递增, 如果不存在, 就会创建一个 并把新增后的值返回
      *
-     * @author fxbin
      * @since 2019/11/26 14:13
      * @param key 键
      * @param item 项
@@ -506,7 +484,6 @@ public class RedisOperations {
     /**
      * hdecr hash 递减
      *
-     * @author fxbin
      * @since 2019/11/26 14:12
      * @param key 键
      * @param item 项
@@ -521,7 +498,6 @@ public class RedisOperations {
     /**
      * sGet 根据 key 获取Set中的值
      *
-     * @author fxbin
      * @since 2019/11/26 14:11
      * @param key 键
      * @return java.util.Set
@@ -541,7 +517,6 @@ public class RedisOperations {
     /**
      * sHasKey 根据value从一个set中查询，是否存在
      *
-     * @author fxbin
      * @since 2019/11/26 14:11
      * @param key 键
      * @param value 值
@@ -562,7 +537,6 @@ public class RedisOperations {
     /**
      * sSet 设置一个set
      *
-     * @author fxbin
      * @since 2019/11/26 14:11
      * @param key 键
      * @param values 值(可以多个)
@@ -583,7 +557,6 @@ public class RedisOperations {
     /**
      * sSetAndTime 设置set, 并设置过期时间
      *
-     * @author fxbin
      * @since 2019/11/26 14:10
      * @param key 键
      * @param time 时间(秒)
@@ -608,7 +581,6 @@ public class RedisOperations {
     /**
      * sGetSetSize 获取 Set 长度
      *
-     * @author fxbin
      * @since 2019/11/26 14:10
      * @param key 键
      * @return long
@@ -628,7 +600,6 @@ public class RedisOperations {
     /**
      * setRemove 移除指定key 的缓存
      *
-     * @author fxbin
      * @since 2019/11/26 14:10
      * @param key 键
      * @param values 值(可多个)
@@ -649,7 +620,6 @@ public class RedisOperations {
     /**
      * lGet 获取 list
      *
-     * @author fxbin
      * @since 2019/11/26 14:09
      * @param key key
      * @param start 开始
@@ -671,7 +641,6 @@ public class RedisOperations {
     /**
      * lGetListSize 获取list长度
      *
-     * @author fxbin
      * @since 2019/11/26 14:09
      * @param key 键
      * @return long
@@ -690,7 +659,6 @@ public class RedisOperations {
     /**
      * lGetIndex 通过索引，获取list值
      *
-     * @author fxbin
      * @since 2019/11/26 14:09
      * @param key 键
      * @param index 索引值, index &gt;%3D 0, 0 表头, 1 第二个元素, ...; index &lt;%3D 0, -1 表尾, -2 倒数第二个元素, ...
@@ -711,7 +679,6 @@ public class RedisOperations {
     /**
      * lPush 将list存入
      *
-     * @author fxbin
      * @since 2019/11/26 14:08
      * @param key 键
      * @param value 值
@@ -732,7 +699,6 @@ public class RedisOperations {
     /**
      * lPush 将list存入，并设置过期时间
      *
-     * @author fxbin
      * @since 2019/11/26 14:08
      * @param key 键
      * @param value 值
@@ -757,7 +723,6 @@ public class RedisOperations {
     /**
      * lPushAll 将list 存入
      *
-     * @author fxbin
      * @since 2019/11/26 14:07
      * @param key 键
      * @param value 值
@@ -778,7 +743,6 @@ public class RedisOperations {
     /**
      * lPushAll 将list存入, 并设置过期时间
      *
-     * @author fxbin
      * @since 2019/11/26 14:07
      * @param key 键
      * @param value 值
@@ -803,7 +767,6 @@ public class RedisOperations {
     /**
      * lUpdateIndex 根据索引修改list中的某条数据
      *
-     * @author fxbin
      * @since 2019/11/26 13:38
      * @param key 键
      * @param index 索引
@@ -825,7 +788,6 @@ public class RedisOperations {
     /**
      * lRemove 移除N个值为value
      *
-     * @author fxbin
      * @since 2019/11/26 13:38
      * @param key 键
      * @param count 移除数量

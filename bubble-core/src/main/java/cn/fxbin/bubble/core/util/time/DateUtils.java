@@ -13,10 +13,12 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 /**
- * DateUtils
+ * DateUtils - 优化版本
+ * 提供高性能的日期时间工具，包含DateTimeFormatter缓存优化
  *
  * @author fxbin
  * @version v1.0
@@ -25,6 +27,21 @@ import java.util.regex.Pattern;
 @Slf4j
 @UtilityClass
 public class DateUtils {
+
+    /**
+     * DateTimeFormatter缓存，提升性能
+     */
+    private final Map<String, DateTimeFormatter> FORMATTER_CACHE = new ConcurrentHashMap<>();
+    
+    /**
+     * 获取缓存的DateTimeFormatter
+     * 
+     * @param pattern 日期格式模式
+     * @return DateTimeFormatter
+     */
+    private DateTimeFormatter getCachedFormatter(String pattern) {
+        return FORMATTER_CACHE.computeIfAbsent(pattern, DateTimeFormatter::ofPattern);
+    }
 
     // --------- norm date pattern
 
@@ -265,7 +282,7 @@ public class DateUtils {
     }
 
     /**
-     * format
+     * format - 优化版本，使用缓存的DateTimeFormatter
      *
      * @since 2020/4/21 17:55
      * @param date java.util.Date
@@ -273,12 +290,12 @@ public class DateUtils {
      * @return java.lang.String
      */
     public String format(@NonNull Date date, @NonNull String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = getCachedFormatter(pattern);
         return toLocalDateTime(date).format(formatter);
     }
 
     /**
-     * format
+     * format - 优化版本，使用缓存的DateTimeFormatter
      *
      * @since 2020/4/21 17:54
      * @param localDate java.time.LocalDate
@@ -286,12 +303,12 @@ public class DateUtils {
      * @return java.lang.String
      */
     public String format(@NonNull LocalDate localDate, @NonNull String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = getCachedFormatter(pattern);
         return toLocalDateTime(localDate).format(formatter);
     }
 
     /**
-     * format
+     * format - 优化版本，使用缓存的DateTimeFormatter
      *
      * @since 2020/4/21 17:54
      * @param localTime java.time.LocalTime
@@ -299,12 +316,12 @@ public class DateUtils {
      * @return java.lang.String
      */
     public String format(@NonNull LocalTime localTime, @NonNull String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = getCachedFormatter(pattern);
         return toLocalDateTime(localTime).format(formatter);
     }
 
     /**
-     * format
+     * format - 优化版本，使用缓存的DateTimeFormatter
      *
      * @since 2020/3/23 11:28
      * @param localDateTime java.time.LocalDateTime
@@ -312,7 +329,7 @@ public class DateUtils {
      * @return java.lang.String
      */
     public String format(@NonNull LocalDateTime localDateTime, @NonNull String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = getCachedFormatter(pattern);
         return localDateTime.format(formatter);
     }
 
@@ -350,7 +367,7 @@ public class DateUtils {
     }
 
     /**
-     * parseDate
+     * parseDate - 优化版本，使用缓存的DateTimeFormatter
      *
      * @since 2020/4/21 18:09
      * @param dateText date text, not null
@@ -358,7 +375,7 @@ public class DateUtils {
      * @return java.util.Date
      */
     public Date parseDate(@NonNull String dateText, @NonNull String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = getCachedFormatter(pattern);
         return parseDate(dateText, formatter);
     }
 
@@ -375,7 +392,7 @@ public class DateUtils {
     }
 
     /**
-     * parseLocalDate
+     * parseLocalDate - 优化版本，使用缓存的DateTimeFormatter
      *
      * @since 2020/4/21 18:22
      * @param dateText date text, not null
@@ -383,7 +400,7 @@ public class DateUtils {
      * @return java.time.LocalDate
      */
     public LocalDate parseLocalDate(@NonNull String dateText, @NonNull String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = getCachedFormatter(pattern);
         return parseLocalDate(dateText, formatter);
     }
 
@@ -400,7 +417,7 @@ public class DateUtils {
     }
 
     /**
-     * parseLocalDateTime
+     * parseLocalDateTime - 优化版本，使用缓存的DateTimeFormatter
      *
      * @since 2020/4/21 18:05
      * @param dateText date text, not null
@@ -408,7 +425,7 @@ public class DateUtils {
      * @return java.time.LocalDateTime
      */
     public LocalDateTime parseLocalDateTime(@NonNull String dateText, @NonNull String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = getCachedFormatter(pattern);
         return LocalDateTime.parse(dateText, formatter);
     }
 
@@ -425,7 +442,7 @@ public class DateUtils {
     }
 
     /**
-     * parseZonedDateTime
+     * parseZonedDateTime - 优化版本，使用缓存的DateTimeFormatter
      *
      * @since 2020/4/21 18:04
      * @param dateText date text, not null
@@ -433,7 +450,7 @@ public class DateUtils {
      * @return java.time.ZonedDateTime
      */
     public ZonedDateTime parseZonedDateTime(@NonNull String dateText, @NonNull String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = getCachedFormatter(pattern);
         return parseZonedDateTime(dateText, formatter);
     }
 

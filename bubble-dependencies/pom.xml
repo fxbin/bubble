@@ -17,17 +17,15 @@
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
         <spring-boot.version>3.5.0</spring-boot.version>
         <spring-ai.version>1.0.0</spring-ai.version>
-
         <spring-modulith.version>1.4.0</spring-modulith.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
         <spring-boot-admin.version>3.5.0</spring-boot-admin.version>
 
         <!-- Other Dependency Versions -->
         <springdoc.version>2.8.8</springdoc.version>
         <swagger.version>2.2.29</swagger.version>
         <lombok.version>1.18.38</lombok.version>
-        <mica-auto.version>3.1.4</mica-auto.version>
         <testcontainers.version>1.21.0</testcontainers.version>
 
         <hutool.version>5.8.38</hutool.version>
@@ -39,7 +37,7 @@
         <elasticsearch.version>7.13.4</elasticsearch.version>
         <transmittable-thread-local.version>2.12.6</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
-        <redisson.version>3.48.0</redisson.version>
+        <redisson.version>3.49.0</redisson.version>
         <curator.version>5.4.0</curator.version>
         <aliyun-log.version>0.6.74</aliyun-log.version>
         <aliyun-log-producer.version>0.3.10</aliyun-log-producer.version>
@@ -345,7 +343,7 @@
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
-                <artifactId>redisson-spring-data-23</artifactId>
+                <artifactId>redisson-spring-data-35</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
 

@@ -102,6 +102,7 @@ public class RedisStreamAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public RStreamOperations streamOperations(@Qualifier("bfRedisTemplate") RedisTemplate dmRedisTemplate) {
         return new RStreamOperations(dmRedisTemplate);
     }
