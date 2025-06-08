@@ -2,12 +2,13 @@ package cn.fxbin.bubble.data.redis.autoconfigure;
 
 import cn.fxbin.bubble.core.constant.CharPool;
 import cn.fxbin.bubble.core.constant.StringPool;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
-import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
+import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -38,29 +39,24 @@ import java.util.Objects;
 @Configuration(
         proxyBeanMethods = false
 )
-@RequiredArgsConstructor
-@AutoConfigureBefore(CacheAutoConfiguration.class)
+@ConditionalOnClass({CacheManager.class, RedisConnectionFactory.class})
+@AutoConfigureAfter({RedisTemplateAutoConfiguration.class, CacheAutoConfiguration.class})
 @EnableConfigurationProperties(CacheProperties.class)
 public class BubbleRedisCacheAutoConfiguration {
 
-
-    /**
-     * 序列化方式
-     */
-    private final RedisSerializer<Object> redisSerializer;
-    private final CacheProperties cacheProperties;
-    private final CacheManagerCustomizers customizerInvoker;
-    @Nullable
-    private final RedisCacheConfiguration redisCacheConfiguration;
-
     @Primary
     @Bean("cacheResolver")
-    public CacheManager redisCacheManager(ObjectProvider<RedisConnectionFactory> connectionFactoryObjectProvider) {
-        RedisConnectionFactory connectionFactory = connectionFactoryObjectProvider.getIfAvailable();
+    @ConditionalOnMissingBean(CacheManager.class)
+    public CacheManager redisCacheManager(RedisConnectionFactory connectionFactory,
+                                          RedisSerializer<Object> redisSerializer,
+                                          CacheProperties cacheProperties,
+                                          ObjectProvider<CacheManagerCustomizer<RedisCacheManager>> customizers,
+                                          @Nullable ObjectProvider<RedisCacheConfiguration> redisCacheConfigurationProvider) {
         Objects.requireNonNull(connectionFactory, "Bean RedisConnectionFactory is null.");
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
-        RedisCacheConfiguration cacheConfiguration = this.determineConfiguration();
-        List<String> cacheNames = this.cacheProperties.getCacheNames();
+        RedisCacheConfiguration cacheConfiguration = this.determineConfiguration(
+                redisSerializer, cacheProperties, redisCacheConfigurationProvider.getIfAvailable());
+        List<String> cacheNames = cacheProperties.getCacheNames();
         Map<String, RedisCacheConfiguration> initialCaches = new LinkedHashMap<>();
         if (!cacheNames.isEmpty()) {
             Map<String, RedisCacheConfiguration> cacheConfigMap = new LinkedHashMap<>(cacheNames.size());
@@ -73,37 +69,58 @@ public class BubbleRedisCacheAutoConfiguration {
                 redisCacheWriter, cacheConfiguration, allowInFlightCacheCreation, initialCaches
         );
         cacheManager.setTransactionAware(enableTransactions);
-        return this.customizerInvoker.customize(cacheManager);
+        
+        // 应用所有的 CacheManagerCustomizer
+        customizers.orderedStream().forEach(customizer -> customizer.customize(cacheManager));
+        
+        return cacheManager;
     }
 
     /**
      * 选择配置
      *
+     * @param redisSerializer Redis序列化器
+     * @param cacheProperties 缓存属性
+     * @param redisCacheConfiguration 自定义Redis缓存配置
      * @return {@link RedisCacheConfiguration}
      */
-    private RedisCacheConfiguration determineConfiguration() {
-        if (this.redisCacheConfiguration != null) {
-            return this.redisCacheConfiguration;
-        } else {
-            CacheProperties.Redis redisProperties = this.cacheProperties.getRedis();
-            RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
-            // 设置默认缓存名分割符号为 “:”，如果已经带 “:” 则不设置。
-            config = config.computePrefixWith(name -> name.endsWith(StringPool.COLON) ? name : name + CharPool.COLON);
-            config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer));
-            if (redisProperties.getTimeToLive() != null) {
-                config = config.entryTtl(redisProperties.getTimeToLive());
-            }
-            if (redisProperties.getKeyPrefix() != null) {
-                config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
-            }
-            if (!redisProperties.isCacheNullValues()) {
-                config = config.disableCachingNullValues();
-            }
-            if (!redisProperties.isUseKeyPrefix()) {
-                config = config.disableKeyPrefix();
-            }
-            return config;
+    private RedisCacheConfiguration determineConfiguration(RedisSerializer<Object> redisSerializer,
+                                                           CacheProperties cacheProperties,
+                                                           @Nullable RedisCacheConfiguration redisCacheConfiguration) {
+        if (redisCacheConfiguration != null) {
+            return redisCacheConfiguration;
         }
+        
+        CacheProperties.Redis redisProperties = cacheProperties.getRedis();
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+        
+        // 设置默认缓存名分割符号为 ":"，如果已经带 ":" 则不设置。
+        config = config.computePrefixWith(name -> name.endsWith(StringPool.COLON) ? name : name + CharPool.COLON);
+        
+        // 设置序列化方式
+        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer));
+        
+        // 配置TTL
+        if (redisProperties.getTimeToLive() != null) {
+            config = config.entryTtl(redisProperties.getTimeToLive());
+        }
+        
+        // 配置key前缀
+        if (redisProperties.getKeyPrefix() != null) {
+            config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
+        }
+        
+        // 配置是否缓存null值
+        if (!redisProperties.isCacheNullValues()) {
+            config = config.disableCachingNullValues();
+        }
+        
+        // 配置是否使用key前缀
+        if (!redisProperties.isUseKeyPrefix()) {
+            config = config.disableKeyPrefix();
+        }
+        
+        return config;
     }
 
 }
