@@ -55,7 +55,8 @@
         <dubbo-extensions.version>3.3.1</dubbo-extensions.version>
         <sms4j.version>3.3.5</sms4j.version>
         <sa-token.version>1.44.0</sa-token.version>
-
+        <disruptor.version>3.4.2</disruptor.version>
+        <sofastack.version>4.4.1</sofastack.version>
     </properties>
 
     <dependencyManagement>
@@ -497,6 +498,20 @@
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-bom</artifactId>
                 <version>${sa-token.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alipay.sofa</groupId>
+                <artifactId>sofaboot-dependencies</artifactId>
+                <version>${sofastack.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
