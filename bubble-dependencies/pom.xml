@@ -27,7 +27,7 @@
         <springdoc.version>2.8.8</springdoc.version>
         <swagger.version>2.2.29</swagger.version>
         <lombok.version>1.18.38</lombok.version>
-        <testcontainers.version>1.21.1</testcontainers.version>
+        <testcontainers.version>1.21.3</testcontainers.version>
 
         <hutool.version>5.8.38</hutool.version>
         <guava.version>32.1.2-jre</guava.version>
