@@ -51,7 +51,8 @@
         <mica.version>3.1.3</mica.version>
         <mica-auto.version>3.1.4</mica-auto.version>
         <easy-trans.version>3.0.6</easy-trans.version>
-        <dubbo.version>3.2.7</dubbo.version>
+        <dubbo.version>3.3.5</dubbo.version>
+        <dubbo-extensions.version>3.3.1</dubbo-extensions.version>
         <sms4j.version>3.3.5</sms4j.version>
         <sa-token.version>1.44.0</sa-token.version>
 
@@ -465,6 +466,18 @@
                 <version>${dubbo.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- Dubbo Extensions -->
+            <dependency>
+                <groupId>org.apache.dubbo.extensions</groupId>
+                <artifactId>dubbo-registry-redis</artifactId>
+                <version>${dubbo-extensions.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo.extensions</groupId>
+                <artifactId>dubbo-metadata-report-redis</artifactId>
+                <version>${dubbo-extensions.version}</version>
             </dependency>
 
             <!-- sms4j https://wind.kim/ -->
