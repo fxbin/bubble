@@ -1,0 +1,127 @@
+# Bubble日志模块配置示例
+# 展示所有可用的配置选项及其默认值
+
+bubble:
+  logging:
+    # 是否启用日志功能（默认：true）
+    enabled: true
+    
+    # Web层日志配置
+    web:
+      # 是否启用Web层日志（默认：true）
+      enabled: true
+      
+      # 需要忽略的URL路径列表
+      # 支持Ant风格的路径匹配模式
+      ignore-urls:
+        - "/health"
+        - "/actuator/**"
+        - "/*.css"
+        - "/*.js"
+        - "/favicon.ico"
+      
+      # 需要过滤的敏感请求头列表
+      # 这些请求头的值在日志中将被脱敏处理为[FILTERED]
+      sensitive-headers:
+        - "authorization"
+        - "cookie"
+        - "x-auth-token"
+        - "x-api-key"
+        - "authentication"
+        - "proxy-authorization"
+      
+      # 是否记录请求体内容（默认：true）
+      log-request-body: true
+      
+      # 是否记录响应体内容（默认：true）
+      log-response-body: true
+      
+      # 请求体内容最大记录长度（字符数）
+      # 超过此长度的内容将被截断（默认：1000）
+      max-request-body-length: 1000
+      
+      # 响应体内容最大记录长度（字符数）
+      # 超过此长度的内容将被截断（默认：1000）
+      max-response-body-length: 1000
+    
+    # Service层日志配置
+    service:
+      # 是否启用Service层日志（默认：false）
+      enabled: true
+      
+      # 是否记录方法参数（默认：true）
+      log-parameters: true
+      
+      # 是否记录方法返回值（默认：true）
+      log-return-value: true
+      
+      # 方法参数最大记录长度（字符数）
+      # 超过此长度的内容将被截断（默认：500）
+      max-parameter-length: 500
+      
+      # 方法返回值最大记录长度（字符数）
+      # 超过此长度的内容将被截断（默认：500）
+      max-return-value-length: 500
+      
+      # 慢方法执行时间阈值（毫秒）
+      # 超过此阈值的方法执行将被标记为慢方法并使用WARN级别记录（默认：1000ms）
+      slow-method-threshold: 1000
+
+# 生产环境推荐配置
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+      
+bubble:
+  logging:
+    enabled: true
+    web:
+      enabled: true
+      # 生产环境建议关闭请求体和响应体记录以提升性能
+      log-request-body: false
+      log-response-body: false
+      # 增加更多敏感头
+      sensitive-headers:
+        - "authorization"
+        - "cookie"
+        - "x-auth-token"
+        - "x-api-key"
+        - "authentication"
+        - "proxy-authorization"
+        - "x-forwarded-for"
+        - "x-real-ip"
+    service:
+      enabled: true
+      # 生产环境可以关闭参数记录以减少日志量
+      log-parameters: false
+      log-return-value: false
+      # 降低慢方法阈值以便更好地监控性能
+      slow-method-threshold: 500
+
+# 开发环境推荐配置
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+      
+bubble:
+  logging:
+    enabled: true
+    web:
+      enabled: true
+      # 开发环境记录完整信息便于调试
+      log-request-body: true
+      log-response-body: true
+      max-request-body-length: 2000
+      max-response-body-length: 2000
+    service:
+      enabled: true
+      log-parameters: true
+      log-return-value: true
+      max-parameter-length: 1000
+      max-return-value-length: 1000
+      # 开发环境设置较低的慢方法阈值便于性能调优
+      slow-method-threshold: 200

@@ -99,9 +99,9 @@ public class LoggingProperties {
     public static class Service {
         /**
          * 是否启用Service层日志
-         * 默认值：true
+         * 默认值：false
          */
-        private boolean enabled = true;
+        private boolean enabled = false;
 
         /**
          * 是否记录方法参数

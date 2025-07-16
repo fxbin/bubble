@@ -15,8 +15,9 @@
     <dependencies>
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
-            <artifactId>bubble-starter</artifactId>
+            <artifactId>bubble-core</artifactId>
         </dependency>
+
         <!--
           You can easily generate your own configuration metadata file from items annotated with
           @ConfigurationProperties by using the spring-boot-configuration-processor jar.
@@ -24,7 +25,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -63,13 +63,17 @@
         <dependency>
             <groupId>com.alipay.sofa</groupId>
             <artifactId>tracer-sofa-boot-starter</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- SOFATracer Web 支持 -->
         <dependency>
             <groupId>com.alipay.sofa</groupId>
             <artifactId>sofa-tracer-springmvc-plugin</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
             <optional>true</optional>
         </dependency>
 

@@ -118,11 +118,12 @@ public abstract class AbstractLogAspect implements InitializingBean {
                 SysLogRecord logRecord = buildLogRecord(joinPoint, startTime, endTime, 
                     startNs, endNs, costTime, result, exception);
                 
-                // 输出日志
+                // 格式化并输出日志
+                String formattedLog = formatLogRecord(logRecord);
                 if (exception != null) {
-                    log.error("Method execution failed: {}", JsonUtils.toJson(logRecord));
+                    log.error("Method execution failed: \n{}", formattedLog);
                 } else {
-                    log.info("Method execution completed: {}", JsonUtils.toJson(logRecord));
+                    log.info("Method execution completed: \n{}", formattedLog);
                 }
             } catch (Exception e) {
                 log.error("Error occurred while logging method execution", e);
@@ -364,6 +365,20 @@ public abstract class AbstractLogAspect implements InitializingBean {
      * @param throwable 异常对象
      * @return 异常堆栈的字符串表示
      */
+    /**
+     * 格式化日志记录
+     * 
+     * <p>
+     * 将SysLogRecord对象转换为易于阅读的字符串格式。
+     * </p>
+     * 
+     * @param logRecord 日志记录对象
+     * @return 格式化后的日志字符串
+     */
+    protected String formatLogRecord(SysLogRecord logRecord) {
+        return JsonUtils.toJson(logRecord);
+    }
+
     protected String getExceptionStack(Throwable throwable) {
         if (throwable == null) {
             return null;

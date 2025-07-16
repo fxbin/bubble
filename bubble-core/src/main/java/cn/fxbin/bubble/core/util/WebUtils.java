@@ -1,6 +1,8 @@
 package cn.fxbin.bubble.core.util;
 
 import cn.fxbin.bubble.core.constant.StringPool;
+import cn.hutool.core.io.IORuntimeException;
+import cn.hutool.core.io.IoUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,6 +13,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -150,6 +154,20 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
             headers.put(headerName, headerValue);
         }
         return headers;
+    }
+
+    /**
+     * getRequestBody
+     *
+     * @param request http request instance
+     * @return {@link String}
+     */
+    public static String getRequestBody(HttpServletRequest request) {
+        try (final BufferedReader reader = request.getReader()) {
+            return IoUtil.read(reader);
+        } catch (IOException e) {
+            throw new IORuntimeException(e);
+        }
     }
 
 

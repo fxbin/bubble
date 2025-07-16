@@ -5,13 +5,14 @@ import cn.fxbin.bubble.plugin.logging.autoconfigure.LoggingProperties;
 import cn.fxbin.bubble.plugin.logging.model.SysLogRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * LogServiceAspect
@@ -51,9 +52,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect
 @Order(2)
-@Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "bubble.logging.service.enabled", havingValue = "true", matchIfMissing = true)
 public class LogServiceAspect extends AbstractLogAspect {
 
     /**
@@ -119,9 +118,11 @@ public class LogServiceAspect extends AbstractLogAspect {
                 SysLogRecord logRecord = buildServiceLogRecord(joinPoint, 
                     startTime, endTime, startNs, endNs, costTime, result, exception);
                 
-                // 输出日志
+                // 输出日志（根据执行情况和性能选择日志级别）
                 if (exception != null) {
                     log.error("Service method execution failed: {}", JsonUtils.toJson(logRecord));
+                } else if (isSlowMethod(costTime)) {
+                    log.warn("Slow service method execution detected: {}", JsonUtils.toJson(logRecord));
                 } else {
                     log.info("Service method execution completed: {}", JsonUtils.toJson(logRecord));
                 }
@@ -140,6 +141,8 @@ public class LogServiceAspect extends AbstractLogAspect {
      * - 服务层特有的事件命名
      * - 优化的参数和返回值处理
      * - 增强的异常信息记录
+     * - 根据配置控制参数和返回值记录
+     * - 慢方法检测和标识
      * </p>
      * 
      * @param joinPoint 连接点信息
@@ -156,13 +159,39 @@ public class LogServiceAspect extends AbstractLogAspect {
             long startTime, long endTime, long startNs, long endNs, 
             long costTime, Object result, Throwable exception) {
         
+        // 处理方法参数（根据配置决定是否记录）
+        Object requestBody = null;
+        if (shouldLogParameters()) {
+            Object processedArgs = processParameters(joinPoint.getArgs());
+            if (processedArgs != null) {
+                String argsJson = JsonUtils.toJson(processedArgs);
+                requestBody = truncateContent(argsJson, getMaxParameterLength());
+            }
+        }
+        
+        // 处理返回值（根据配置决定是否记录）
+        Object responseBody = null;
+        if (shouldLogReturnValue()) {
+            Object processedResult = processResult(result);
+            if (processedResult != null) {
+                String resultJson = JsonUtils.toJson(processedResult);
+                responseBody = truncateContent(resultJson, getMaxReturnValueLength());
+            }
+        }
+        
+        // 构建事件名称，如果是慢方法则添加标识
+        String eventName = getServiceEventName(joinPoint);
+        if (isSlowMethod(costTime)) {
+            eventName = "[SLOW] " + eventName;
+        }
+        
         return SysLogRecord.builder()
                 .serviceName(getServiceName())
                 .traceId(getTraceId())
                 .spanId(getSpanId())
-                .eventName(getServiceEventName(joinPoint))
-                .requestBody(processParameters(joinPoint.getArgs()))
-                .responseBody(processResult(result))
+                .eventName(eventName)
+                .requestBody(requestBody)
+                .responseBody(responseBody)
                 .costTime(costTime)
                 .startNs(startNs)
                 .endNs(endNs)
@@ -189,17 +218,96 @@ public class LogServiceAspect extends AbstractLogAspect {
         String serviceType = "SERVICE";
         Class<?> targetClass = joinPoint.getTarget().getClass();
         
-        if (targetClass.isAnnotationPresent(org.apache.dubbo.config.annotation.DubboService.class)) {
+        if (targetClass.isAnnotationPresent(DubboService.class)) {
             serviceType = "DUBBO_SERVICE";
-        } else if (targetClass.isAnnotationPresent(org.springframework.stereotype.Service.class)) {
+        } else if (targetClass.isAnnotationPresent(Service.class)) {
             serviceType = "SPRING_SERVICE";
-        } else if (targetClass.isAnnotationPresent(org.springframework.stereotype.Component.class)) {
+        } else if (targetClass.isAnnotationPresent(Component.class)) {
             serviceType = "COMPONENT";
         }
         
         return String.format("[%s] %s.%s", serviceType, className, methodName);
     }
 
+    /**
+     * 检查是否应该记录方法参数
+     * 
+     * @return true表示应该记录方法参数
+     */
+    protected boolean shouldLogParameters() {
+        return loggingProperties.getService() != null && 
+               loggingProperties.getService().isLogParameters();
+    }
+    
+    /**
+     * 检查是否应该记录方法返回值
+     * 
+     * @return true表示应该记录方法返回值
+     */
+    protected boolean shouldLogReturnValue() {
+        return loggingProperties.getService() != null && 
+               loggingProperties.getService().isLogReturnValue();
+    }
+    
+    /**
+     * 获取方法参数最大长度配置
+     * 
+     * @return 方法参数最大长度
+     */
+    protected int getMaxParameterLength() {
+        return loggingProperties.getService() != null ? 
+               loggingProperties.getService().getMaxParameterLength() : 500;
+    }
+    
+    /**
+     * 获取方法返回值最大长度配置
+     * 
+     * @return 方法返回值最大长度
+     */
+    protected int getMaxReturnValueLength() {
+        return loggingProperties.getService() != null ? 
+               loggingProperties.getService().getMaxReturnValueLength() : 500;
+    }
+    
+    /**
+     * 获取慢方法执行时间阈值
+     * 
+     * @return 慢方法阈值（毫秒）
+     */
+    protected long getSlowMethodThreshold() {
+        return loggingProperties.getService() != null ? 
+               loggingProperties.getService().getSlowMethodThreshold() : 1000L;
+    }
+    
+    /**
+     * 判断是否为慢方法
+     * 
+     * @param costTime 方法执行耗时（毫秒）
+     * @return true表示是慢方法
+     */
+    protected boolean isSlowMethod(long costTime) {
+        return costTime >= getSlowMethodThreshold();
+    }
+    
+    /**
+     * 截断内容到指定长度
+     * 
+     * <p>
+     * 如果内容长度超过指定的最大长度，则截断并添加省略号标识。
+     * 用于控制日志内容的大小，避免过大的日志影响性能。
+     * </p>
+     * 
+     * @param content 原始内容
+     * @param maxLength 最大长度
+     * @return 截断后的内容
+     */
+    protected String truncateContent(String content, int maxLength) {
+        if (content == null || content.length() <= maxLength) {
+            return content;
+        }
+        return content.substring(0, maxLength) + "...[TRUNCATED]";
+    }
+    
     /**
      * 初始化忽略列表
      * 
