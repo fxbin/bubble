@@ -2,25 +2,23 @@ package cn.fxbin.bubble.plugin.logging.aspect;
 
 import cn.fxbin.bubble.core.util.JsonUtils;
 import cn.fxbin.bubble.core.util.StringUtils;
+import cn.fxbin.bubble.core.util.WebUtils;
+import cn.fxbin.bubble.plugin.logging.autoconfigure.LoggingProperties;
 import cn.fxbin.bubble.plugin.logging.model.SysLogRecord;
-import cn.fxbin.bubble.plugin.logging.properties.LoggingProperties;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -62,10 +60,8 @@ import java.util.*;
 @Slf4j
 @Aspect
 @Order(1)
-@Component
 @RequiredArgsConstructor
 @ConditionalOnWebApplication
-@ConditionalOnProperty(name = "bubble.logging.web.enabled", havingValue = "true", matchIfMissing = true)
 public class LogWebAspect extends AbstractLogAspect {
 
     /**
@@ -146,11 +142,12 @@ public class LogWebAspect extends AbstractLogAspect {
                 SysLogRecord logRecord = buildWebLogRecord(joinPoint, request, response, 
                     startTime, endTime, startNs, endNs, costTime, result, exception);
                 
-                // 输出日志
+                // 输出格式化的日志
+                String formattedLog = formatLogRecord(logRecord);
                 if (exception != null) {
-                    log.error("Web request failed: {}", JsonUtils.toJson(logRecord));
+                    log.error("Web request failed:\n{}", formattedLog);
                 } else {
-                    log.info("Web request completed: {}", JsonUtils.toJson(logRecord));
+                    log.info("Web request completed:\n{}", formattedLog);
                 }
             } catch (Exception e) {
                 log.error("Error occurred while logging web request", e);
@@ -168,6 +165,7 @@ public class LogWebAspect extends AbstractLogAspect {
      * - 客户端IP地址
      * - HTTP响应状态码
      * - 用户代理信息
+     * - 根据配置控制响应体记录
      * </p>
      * 
      * @param joinPoint 连接点信息
@@ -186,17 +184,27 @@ public class LogWebAspect extends AbstractLogAspect {
             HttpServletResponse response, long startTime, long endTime, long startNs, long endNs, 
             long costTime, Object result, Throwable exception) {
         
+        // 处理响应体（根据配置决定是否记录）
+        Object responseBody = null;
+        if (shouldLogResponseBody()) {
+            Object processedResult = processResult(result);
+            if (processedResult != null) {
+                String resultJson = JsonUtils.toJson(processedResult);
+                responseBody = truncateContent(resultJson, getMaxResponseBodyLength());
+            }
+        }
+        
         return SysLogRecord.builder()
                 .serviceName(getServiceName())
                 .traceId(getTraceId())
                 .spanId(getSpanId())
                 .eventName(getWebEventName(request, joinPoint))
                 .requestBody(buildRequestInfo(request, joinPoint.getArgs()))
-                .responseBody(processResult(result))
+                .responseBody(responseBody)
                 .requestHeaders(getFilteredHeaders(request))
                 .responseHeaders(getResponseHeaders(response))
-                .ip(getClientIpAddress(request))
-                .httpStatus(response != null ? response.getStatus() : null)
+                .requestIp(getClientIpAddress(request))
+                .status(response != null ? response.getStatus() : null)
                 .costTime(costTime)
                 .startNs(startNs)
                 .endNs(endNs)
@@ -229,6 +237,7 @@ public class LogWebAspect extends AbstractLogAspect {
      * <p>
      * 整合HTTP请求的各种信息，包括URL参数、请求体、方法参数等。
      * 提供完整的请求上下文信息用于日志记录和问题排查。
+     * 根据配置控制是否记录请求体内容。
      * </p>
      * 
      * @param request HTTP请求对象
@@ -263,6 +272,14 @@ public class LogWebAspect extends AbstractLogAspect {
             requestInfo.put("parameters", params);
         }
         
+        // 请求体内容（根据配置决定是否记录）
+        if (shouldLogRequestBody()) {
+            String requestBody = getRequestBody(request);
+            if (StringUtils.isNotBlank(requestBody)) {
+                requestInfo.put("requestBody", truncateContent(requestBody, getMaxRequestBodyLength()));
+            }
+        }
+        
         // 方法参数（过滤HTTP相关对象）
         Object processedArgs = processParameters(args);
         if (processedArgs != null) {
@@ -278,6 +295,7 @@ public class LogWebAspect extends AbstractLogAspect {
      * <p>
      * 提取HTTP请求头信息，过滤掉敏感信息（如Authorization、Cookie等）。
      * 保留对调试和问题排查有用的头信息。
+     * 使用配置中的敏感头列表进行动态过滤。
      * </p>
      * 
      * @param request HTTP请求对象
@@ -286,11 +304,21 @@ public class LogWebAspect extends AbstractLogAspect {
     protected Map<String, Object> getFilteredHeaders(HttpServletRequest request) {
         Map<String, Object> headers = new HashMap<>();
         
-        // 敏感头信息列表（小写）
-        Set<String> sensitiveHeaders = Set.of(
-            "authorization", "cookie", "x-auth-token", "x-api-key", 
-            "authentication", "proxy-authorization"
-        );
+        // 从配置获取敏感头信息列表，转换为小写用于匹配
+        Set<String> sensitiveHeaders = new HashSet<>();
+        if (loggingProperties.getWeb() != null && 
+            loggingProperties.getWeb().getSensitiveHeaders() != null) {
+            loggingProperties.getWeb().getSensitiveHeaders().forEach(header -> 
+                sensitiveHeaders.add(header.toLowerCase()));
+        }
+        
+        // 添加默认的敏感头（如果配置为空）
+        if (sensitiveHeaders.isEmpty()) {
+            sensitiveHeaders.addAll(Set.of(
+                "authorization", "cookie", "x-auth-token", "x-api-key", 
+                "authentication", "proxy-authorization"
+            ));
+        }
         
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -348,7 +376,7 @@ public class LogWebAspect extends AbstractLogAspect {
      */
     protected String getClientIpAddress(HttpServletRequest request) {
         try {
-            return ServletUtil.getClientIP(request);
+            return WebUtils.getIpAddr(request);
         } catch (Exception e) {
             log.debug("Failed to get client IP address", e);
             return request.getRemoteAddr();
@@ -402,6 +430,145 @@ public class LogWebAspect extends AbstractLogAspect {
         return false;
     }
 
+    /**
+     * 检查是否应该记录请求体
+     * 
+     * @return true表示应该记录请求体
+     */
+    protected boolean shouldLogRequestBody() {
+        return loggingProperties.getWeb() != null && 
+               loggingProperties.getWeb().isLogRequestBody();
+    }
+    
+    /**
+     * 检查是否应该记录响应体
+     * 
+     * @return true表示应该记录响应体
+     */
+    protected boolean shouldLogResponseBody() {
+        return loggingProperties.getWeb() != null && 
+               loggingProperties.getWeb().isLogResponseBody();
+    }
+    
+    /**
+     * 获取请求体最大长度配置
+     * 
+     * @return 请求体最大长度
+     */
+    protected int getMaxRequestBodyLength() {
+        return loggingProperties.getWeb() != null ? 
+               loggingProperties.getWeb().getMaxRequestBodyLength() : 1000;
+    }
+    
+    /**
+     * 获取响应体最大长度配置
+     * 
+     * @return 响应体最大长度
+     */
+    protected int getMaxResponseBodyLength() {
+        return loggingProperties.getWeb() != null ? 
+               loggingProperties.getWeb().getMaxResponseBodyLength() : 1000;
+    }
+    
+    /**
+     * 获取请求体内容
+     * 
+     * <p>
+     * 从HTTP请求中读取请求体内容。
+     * 注意：由于InputStream只能读取一次，这里使用ServletUtil工具类来安全读取。
+     * </p>
+     * 
+     * @param request HTTP请求对象
+     * @return 请求体内容字符串
+     */
+    protected String getRequestBody(HttpServletRequest request) {
+        try {
+            // 检查请求方法是否支持请求体
+            String method = request.getMethod();
+            if (!"POST".equalsIgnoreCase(method) && !"PUT".equalsIgnoreCase(method) && 
+                !"PATCH".equalsIgnoreCase(method) && !"DELETE".equalsIgnoreCase(method)) {
+                return "";
+            }
+            
+            // 检查Content-Type
+            String contentType = request.getContentType();
+            if (contentType != null && contentType.toLowerCase().contains("multipart/form-data")) {
+                return "[MULTIPART_DATA]";
+            }
+            
+            // 使用hutool的ServletUtil读取请求体
+            return WebUtils.getRequestBody(request);
+        } catch (Exception e) {
+            log.warn("获取请求体失败: {}", e.getMessage());
+            return "[FAILED_TO_READ]";
+        }
+    }
+    
+    /**
+     * 格式化Web层日志记录
+     *
+     * <p>
+     * 重写父类方法，提供更适合Web请求的可读格式。
+     * </p>
+     *
+     * @param logRecord 日志记录对象
+     * @return 格式化后的日志字符串
+     */
+    @Override
+    protected String formatLogRecord(SysLogRecord logRecord) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n======================================== Web Log Start ========================================\n");
+        sb.append("| Service: ").append(logRecord.getServiceName()).append("\n");
+        sb.append("| TraceID: ").append(logRecord.getTraceId()).append("\n");
+        sb.append("| SpanID: ").append(logRecord.getSpanId()).append("\n");
+        sb.append("| Event: ").append(logRecord.getEventName()).append("\n");
+        sb.append("| Client IP: ").append(logRecord.getRequestIp()).append("\n");
+        sb.append("| Status: ").append(logRecord.getStatus()).append("\n");
+        sb.append("| Cost: ").append(logRecord.getCostTime()).append(" ms\n");
+        sb.append("|----------------------------------------- Request ------------------------------------------\n");
+        Object requestBodyObj = logRecord.getRequestBody();
+        if (requestBodyObj instanceof Map) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> requestInfoMap = (Map<String, Object>) requestBodyObj;
+            String simplifiedRequestInfo = String.format("%s %s", requestInfoMap.get("method"), requestInfoMap.get("uri"));
+            sb.append("| Request: ").append(simplifiedRequestInfo).append("\n");
+            sb.append("| Request Details: ").append(JsonUtils.toJson(requestBodyObj)).append("\n");
+        } else {
+            sb.append("| Request Info: ").append(JsonUtils.toJson(requestBodyObj)).append("\n");
+        }
+        sb.append("| Request Headers: ").append(JsonUtils.toJson(logRecord.getRequestHeaders())).append("\n");
+        sb.append("|----------------------------------------- Response -----------------------------------------\n");
+        sb.append("| Response Body: ").append(JsonUtils.toJson(logRecord.getResponseBody())).append("\n");
+        sb.append("| Response Headers: ").append(JsonUtils.toJson(logRecord.getResponseHeaders())).append("\n");
+
+        if (logRecord.getExceptionStack() != null) {
+            sb.append("|----------------------------------------- Exception ----------------------------------------\n");
+            sb.append("| Exception: ").append(logRecord.getExceptionStack()).append("\n");
+        }
+
+        sb.append("========================================= Web Log End =========================================\n");
+        return sb.toString();
+    }
+
+    /**
+     * 截断内容到指定长度
+     *
+     * <p>
+     * 如果内容长度超过指定的最大长度，则截断并添加省略号标识。
+     * 用于控制日志内容的大小，避免过大的日志影响性能。
+     * </p>
+     *
+     * @param content 原始内容
+     * @param maxLength 最大长度
+     * @return 截断后的内容
+     */
+    protected String truncateContent(String content, int maxLength) {
+        if (content == null || content.length() <= maxLength) {
+            return content;
+        }
+        return content.substring(0, maxLength) + "...[TRUNCATED]";
+    }
+    
     /**
      * 初始化忽略列表
      * 

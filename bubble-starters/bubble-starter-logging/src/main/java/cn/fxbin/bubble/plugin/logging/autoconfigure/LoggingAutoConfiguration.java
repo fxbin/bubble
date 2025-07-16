@@ -2,15 +2,10 @@ package cn.fxbin.bubble.plugin.logging.autoconfigure;
 
 import cn.fxbin.bubble.plugin.logging.aspect.LogServiceAspect;
 import cn.fxbin.bubble.plugin.logging.aspect.LogWebAspect;
-import cn.fxbin.bubble.plugin.logging.properties.LoggingProperties;
 import cn.fxbin.bubble.plugin.logging.util.LogFactory;
-import cn.fxbin.bubble.plugin.logging.util.TracerUtils;
-import com.alipay.common.tracer.core.configuration.SofaTracerConfiguration;
-import com.alipay.common.tracer.core.reporter.digest.manager.SofaTracerDigestReporterAsyncManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -106,7 +101,7 @@ public class LoggingAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "bubble.logging.service.enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(name = "bubble.logging.service.enabled", havingValue = "true")
     public LogServiceAspect logServiceAspect() {
         log.info("Creating LogServiceAspect with configuration: {}", loggingProperties.getService());
         return new LogServiceAspect(loggingProperties);
@@ -127,24 +122,6 @@ public class LoggingAutoConfiguration {
     public LogFactory logFactory() {
         log.info("Creating LogFactory for logging system initialization");
         return new LogFactory();
-    }
-
-    /**
-     * 创建TracerUtils Bean
-     * 
-     * <p>
-     * 提供TracerUtils的实例，用于获取SOFATracer的分布式追踪信息。
-     * 只有在SOFATracer相关类存在且当前上下文中不存在TracerUtils类型的Bean时才会创建。
-     * </p>
-     * 
-     * @return TracerUtils实例
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnClass({SofaTracerConfiguration.class, SofaTracerDigestReporterAsyncManager.class})
-    public TracerUtils tracerUtils() {
-        log.info("Creating TracerUtils for SOFATracer integration");
-        return new TracerUtils();
     }
 
 }
