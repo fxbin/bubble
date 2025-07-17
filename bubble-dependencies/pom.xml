@@ -197,15 +197,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- SOFABoot POM -->
-            <dependency>
-                <groupId>com.alipay.sofa</groupId>
-                <artifactId>sofaboot-dependencies</artifactId>
-                <version>${sofastack.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
             <!-- Spring Modulith POM -->
             <dependency>
                 <groupId>org.springframework.modulith</groupId>
@@ -500,6 +491,15 @@
                 <groupId>com.lmax</groupId>
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
+            </dependency>
+
+            <!-- SOFABoot POM -->
+            <dependency>
+                <groupId>com.alipay.sofa</groupId>
+                <artifactId>sofaboot-dependencies</artifactId>
+                <version>${sofastack.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- sofa-tracer -->
