@@ -15,19 +15,19 @@
 
     <properties>
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
-        <spring-boot.version>3.5.0</spring-boot.version>
+        <spring-boot.version>3.5.3</spring-boot.version>
         <spring-ai.version>1.0.0</spring-ai.version>
         <spring-ai-alibaba.version>1.0.0.2</spring-ai-alibaba.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
-        <spring-modulith.version>1.4.0</spring-modulith.version>
-        <spring-boot-admin.version>3.5.0</spring-boot-admin.version>
+        <spring-modulith.version>1.4.1</spring-modulith.version>
+        <spring-boot-admin.version>3.5.1</spring-boot-admin.version>
 
         <!-- Other Dependency Versions -->
-        <springdoc.version>2.8.8</springdoc.version>
+        <springdoc.version>2.8.9</springdoc.version>
         <swagger.version>2.2.29</swagger.version>
         <lombok.version>1.18.38</lombok.version>
-        <testcontainers.version>1.21.1</testcontainers.version>
+        <testcontainers.version>1.21.3</testcontainers.version>
 
         <hutool.version>5.8.39</hutool.version>
         <guava.version>32.1.2-jre</guava.version>
@@ -38,10 +38,8 @@
         <elasticsearch.version>7.13.4</elasticsearch.version>
         <transmittable-thread-local.version>2.12.6</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
-        <redisson.version>3.49.0</redisson.version>
+        <redisson.version>3.50.0</redisson.version>
         <curator.version>5.4.0</curator.version>
-        <aliyun-log.version>0.6.74</aliyun-log.version>
-        <aliyun-log-producer.version>0.3.10</aliyun-log-producer.version>
         <protobuf-java.version>3.25.5</protobuf-java.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <xxl.job.version>3.1.0</xxl.job.version>
@@ -368,19 +366,6 @@
                 <version>${redisson.version}</version>
             </dependency>
 
-            <!-- aliyun-log -->
-            <dependency>
-                <groupId>com.aliyun.openservices</groupId>
-                <artifactId>aliyun-log</artifactId>
-                <version>${aliyun-log.version}</version>
-            </dependency>
-            <!-- aliyun-log-producer -->
-            <dependency>
-                <groupId>com.aliyun.openservices</groupId>
-                <artifactId>aliyun-log-producer</artifactId>
-                <version>${aliyun-log-producer.version}</version>
-            </dependency>
-
             <!-- protobuf-java -->
             <dependency>
                 <groupId>com.google.protobuf</groupId>
@@ -515,14 +500,6 @@
                 <groupId>com.lmax</groupId>
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alipay.sofa</groupId>
-                <artifactId>sofaboot-dependencies</artifactId>
-                <version>${sofastack.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
 
             <!-- sofa-tracer -->
