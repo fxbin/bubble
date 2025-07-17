@@ -36,8 +36,11 @@
         <module>bubble-starter-xxl-job</module>
         <module>bubble-starter-i18n</module>
         <module>bubble-starter-mail</module>
-        <module>bubble-starter-dubbo</module>
         <module>bubble-starter-satoken</module>
+
+        <!-- dubbo -->
+        <module>bubble-starter-dubbo</module>
+        <module>bubble-starter-dubbo-registry-redis</module>
     </modules>
 
 
