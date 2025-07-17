@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+参见： org.springframework.boot.logging.log4j2
+
+https://logging.apache.org/log4j/2.x/manual/configuration.html#Properties
+
+-->
+<Configuration status="WARN" monitorInterval="1">
+    <Properties>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd HH:mm:ss.SSS</Property>
+        <Property name="APP_NAME">${sys:spring.application.name:-app}</Property>
+
+        <!-- 控制台的日志格式 -->
+        <Property name="CONSOLE_LOG_PATTERN">%clr{%d{${sys:LOG_DATEFORMAT_PATTERN}}}{faint} %clr{${sys:LOG_LEVEL_PATTERN}} %clr{%pid}{magenta} %clr{---}{faint} %clr{[%15.15t]} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+        <!-- 日志文件的日志格式 -->
+        <Property name="FILE_LOG_PATTERN">%d{${sys:LOG_DATEFORMAT_PATTERN}} ${sys:LOG_LEVEL_PATTERN} %pid --- [%t] %-40.40c{1.} : %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
+        </Console>
+
+        <!-- 日志文件的 Appender
+            参考文档： https://logging.apache.org/log4j/2.x/manual/appenders.html
+         -->
+        <RollingRandomAccessFile name="File" fileName="${sys:LOG_PATH}/${sys:LOG_FILE}" filePattern="${sys:LOG_PATH}/${sys:APP_NAME}-%d{yyyy-MM-dd-HH}-%i.gz">
+            <PatternLayout>
+                <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <!--日志文件大于500 MB滚动一次-->
+                <SizeBasedTriggeringPolicy size="500 MB" />
+                <!--根据当前filePattern配置，
+                    interval 日志文件默认每小时滚动一次，
+                    modulate 是否调整时间间隔，使得下次滚动发生在间隔边界上，ex: 当前时间 3 点，滚动间隔时间 4 小时，那么第一次翻滚发生在 4 点，依次 8 点，12 点 ...
+                 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <!--保存日志文件的最大个数，默认是7，大于此值会删除旧的日志文件，与日志文件格式策略组合，
+                ex: 文件格式： yyyy-MM-dd  标识每天最多保留3个文件
+            -->
+            <DefaultRolloverStrategy max="3">
+                <!--
+                    文件清理配置
+                    参见如下类：
+                    org.apache.logging.log4j.core.appender.rolling.action.DeleteAction
+                    org.apache.logging.log4j.core.appender.rolling.action.IfFileName
+                    org.apache.logging.log4j.core.appender.rolling.action.IfLastModified
+                -->
+                <Delete basePath="${sys:LOG_PATH}" maxDepth="1">
+                    <IfFileName glob="${sys:APP_NAME}-*.gz">
+                        <IfLastModified age="1H">
+                            <IfAny>
+                                <!--
+                                   匹配1小时或更久之前的文件，但是
+                                    保留最近的3个文件，其余的清理
+                                -->
+                                <IfAccumulatedFileCount exceeds="3" />
+                            </IfAny>
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <AsyncLogger name="org.apache.catalina.startup.DigesterFactory" level="error" />
+        <AsyncLogger name="org.apache.catalina.util.LifecycleBase" level="error" />
+        <AsyncLogger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
+        <AsyncLogger name="org.apache.sshd.common.util.SecurityUtils" level="warn"/>
+        <AsyncLogger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn" />
+        <AsyncLogger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error" />
+        <AsyncLogger name="org.hibernate.validator.internal.util.Version" level="warn" />
+        <AsyncLogger name="org.springframework.boot.actuate.endpoint.jmx" level="warn"/>
+
+        <!-- 减少部分debug日志 -->
+        <AsyncLogger name="org.springframework.context" level="WARN"/>
+        <AsyncLogger name="org.springframework.beans" level="WARN"/>
+        <AsyncLogger name="springfox.bean.validators" level="ERROR"/>
+        <AsyncLogger name="springfox.documentation" level="ERROR" />
+
+        <!-- 基础组件 -->
+        <AsyncLogger name="RocketmqClient" level="WARN"/>
+        <AsyncLogger name="org.apache.rocketmq.client" level="WARN"/>
+        <AsyncLogger name="com.alibaba.nacos" level="WARN"/>
+        <AsyncLogger name="org.reflections" level="ERROR"/>
+
+        <!-- 设置多数据源组件为 DEBUG -->
+        <AsyncLogger name="com.baomidou.dynamic.datasource" level="DEBUG"/>
+
+        <!-- Bubble框架相关日志 -->
+        <AsyncLogger name="cn.fxbin.bubble" level="DEBUG"/>
+
+        <!-- 设置 Appender ，同时 ROOT 的日志级别为 INFO -->
+        <AsyncRoot level="info">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="File" />
+        </AsyncRoot>
+    </Loggers>
+</Configuration>
