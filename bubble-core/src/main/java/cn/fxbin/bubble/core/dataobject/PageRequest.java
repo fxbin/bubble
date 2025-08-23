@@ -3,9 +3,7 @@ package cn.fxbin.bubble.core.dataobject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import java.io.Serializable;
@@ -22,6 +20,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor(staticName = "of")
 @Schema(description = "分页参数")
 public class PageRequest implements Serializable {
 
@@ -63,5 +63,8 @@ public class PageRequest implements Serializable {
         return (pageNo - 1) * pageSize;
     }
 
+    public static PageRequest of(final Integer pageNo, final Integer pageSize) {
+        return new PageRequest(pageNo, pageSize, List.of());
+    }
 
 }
