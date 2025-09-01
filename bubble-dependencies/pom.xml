@@ -15,9 +15,9 @@
 
     <properties>
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
-        <spring-boot.version>3.5.3</spring-boot.version>
-        <spring-ai.version>1.0.0</spring-ai.version>
-        <spring-ai-alibaba.version>1.0.0.2</spring-ai-alibaba.version>
+        <spring-boot.version>3.5.4</spring-boot.version>
+        <spring-ai.version>1.0.1</spring-ai.version>
+        <spring-ai-alibaba.version>1.0.0.3</spring-ai-alibaba.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
         <spring-modulith.version>1.4.1</spring-modulith.version>
@@ -55,6 +55,7 @@
         <sa-token.version>1.44.0</sa-token.version>
         <disruptor.version>3.4.2</disruptor.version>
         <sofastack.version>4.4.1</sofastack.version>
+        <forest.version>1.7.1</forest.version>
     </properties>
 
     <dependencyManagement>
@@ -148,6 +149,30 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-starter-satoken</artifactId>
+                <version>2.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-ai</artifactId>
+                <version>2.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-ai-starters</artifactId>
+                <version>2.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-ai-starter</artifactId>
+                <version>2.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-ai-starter-lightrag</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
@@ -492,6 +517,12 @@
                 <groupId>com.alipay.sofa</groupId>
                 <artifactId>sofa-tracer-spring-boot-starter</artifactId>
                 <version>${sofastack.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring-boot3-starter</artifactId>
+                <version>${forest.version}</version>
             </dependency>
 
         </dependencies>
