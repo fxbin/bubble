@@ -78,6 +78,7 @@
         <module>bubble-parent</module>
         <module>bubble-core</module>
         <module>bubble-starters</module>
+        <module>bubble-ai</module>
     </modules>
 
     <profiles>
