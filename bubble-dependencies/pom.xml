@@ -38,7 +38,7 @@
         <elasticsearch.version>7.13.4</elasticsearch.version>
         <transmittable-thread-local.version>2.12.6</transmittable-thread-local.version>
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
-        <redisson.version>3.50.0</redisson.version>
+        <redisson.version>3.51.0</redisson.version>
         <curator.version>5.4.0</curator.version>
         <protobuf-java.version>4.32.1</protobuf-java.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
