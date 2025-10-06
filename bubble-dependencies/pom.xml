@@ -43,7 +43,7 @@
         <protobuf-java.version>4.32.1</protobuf-java.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <xxl.job.version>3.1.0</xxl.job.version>
-        <jjwt.version>0.11.5</jjwt.version>
+        <jjwt.version>0.13.0</jjwt.version>
         <fastjson.version>2.0.15</fastjson.version>
         <lombok.version>1.18.38</lombok.version>
         <mica.version>3.1.3</mica.version>
