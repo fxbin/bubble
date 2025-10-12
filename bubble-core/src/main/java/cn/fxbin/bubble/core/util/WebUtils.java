@@ -40,13 +40,24 @@ import java.util.regex.Pattern;
 @UtilityClass
 public class WebUtils extends org.springframework.web.util.WebUtils {
 
+    /**
+     * HTTP URL 匹配规则
+     */
     private final String HTTP_RULE = "^http(s)?://.*";
 
+    /**
+     * HTTP URL 匹配规则
+     */
     private final Pattern PATTERN = Pattern.compile(HTTP_RULE);
     
-    // IP地址缓存，提升性能
+     /**
+     * IP地址缓存，提升性能
+     */
     private final Map<String, String> IP_CACHE = new ConcurrentHashMap<>();
 
+    /**
+     * IP地址头名称列表
+     */
     private final String[] IP_HEADER_NAMES = new String[]{
             "x-forwarded-for",
             "Proxy-Client-IP",
@@ -55,8 +66,28 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
             "HTTP_X_FORWARDED_FOR"
     };
 
+
+    /**
+     * IP地址匹配规则
+     */
     private final Predicate<String> IP_PREDICATE = (ip) ->
             StringUtils.isBlank(ip) || StringPool.UNKNOWN.equalsIgnoreCase(ip);
+
+
+    /**
+     * 请求体缓存属性键
+     */
+    private static final String REQUEST_BODY_CACHE_KEY = "BUBBLE_REQUEST_BODY_CACHE";
+
+    /**
+     * 请求体读取状态属性键
+     */
+    private static final String REQUEST_BODY_READ_STATUS_KEY = "BUBBLE_REQUEST_BODY_READ_STATUS";
+
+    /**
+     * 最大请求体缓存大小（1MB）
+     */
+    private static final int MAX_REQUEST_BODY_SIZE = 1024 * 1024;
 
 
     /**
@@ -156,18 +187,149 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return headers;
     }
 
+
+
     /**
-     * getRequestBody
-     *
-     * @param request http request instance
-     * @return {@link String}
+     * 获取请求体内容
+     * 
+     * <p>
+     * 智能获取HTTP请求体内容，支持重复读取。
+     * 采用Request Attributes缓存机制，避免重复读取导致的异常。
+     * </p>
+     * 
+     * <h4>特性：</h4>
+     * <ul>
+     *   <li>智能检测：自动检测流是否已被读取</li>
+     *   <li>缓存机制：使用Request Attributes进行轻量级缓存</li>
+     *   <li>安全读取：避免重复读取导致的IOException</li>
+     *   <li>大小限制：支持最大1MB的请求体缓存</li>
+     *   <li>优雅降级：读取失败时返回空字符串而非抛出异常</li>
+     * </ul>
+     * 
+     * @param request HTTP请求对象
+     * @return 请求体内容字符串，读取失败时返回空字符串
      */
     public static String getRequestBody(HttpServletRequest request) {
-        try (final BufferedReader reader = request.getReader()) {
-            return IoUtil.read(reader);
-        } catch (IOException e) {
-            throw new IORuntimeException(e);
+        if (request == null) {
+            log.debug("HTTP请求对象为null，返回空字符串");
+            return StringPool.EMPTY;
         }
+        
+        // 1. 检查是否已缓存
+        String cachedBody = getCachedRequestBody(request);
+        if (cachedBody != null) {
+            log.debug("从缓存中获取请求体，长度: {}", cachedBody.length());
+            return cachedBody;
+        }
+        
+        // 2. 检查是否已经尝试过读取
+        if (isRequestBodyAlreadyRead(request)) {
+            log.debug("请求体已被读取过，返回空字符串");
+            return StringPool.EMPTY;
+        }
+        
+        // 3. 尝试读取请求体
+        String requestBody = readRequestBodySafely(request);
+        
+        // 4. 缓存读取结果
+        cacheRequestBody(request, requestBody);
+        markRequestBodyAsRead(request);
+        
+        return requestBody;
+    }
+    
+    /**
+     * 从缓存中获取请求体内容
+     * 
+     * @param request HTTP请求对象
+     * @return 缓存的请求体内容，未缓存时返回null
+     */
+    private static String getCachedRequestBody(HttpServletRequest request) {
+        Object cached = request.getAttribute(REQUEST_BODY_CACHE_KEY);
+        return cached instanceof String ? (String) cached : null;
+    }
+    
+    /**
+     * 检查请求体是否已被读取过
+     * 
+     * @param request HTTP请求对象
+     * @return true表示已读取过，false表示未读取
+     */
+    private static boolean isRequestBodyAlreadyRead(HttpServletRequest request) {
+        Object readStatus = request.getAttribute(REQUEST_BODY_READ_STATUS_KEY);
+        return Boolean.TRUE.equals(readStatus);
+    }
+    
+    /**
+     * 安全地读取请求体内容
+     * 
+     * <p>
+     * 使用try-with-resources确保资源正确关闭，
+     * 并处理各种可能的异常情况。
+     * </p>
+     * 
+     * @param request HTTP请求对象
+     * @return 请求体内容，读取失败时返回空字符串
+     */
+    private static String readRequestBodySafely(HttpServletRequest request) {
+        try {
+            // 检查Content-Length，避免读取过大的请求体
+            int contentLength = request.getContentLength();
+            if (contentLength > MAX_REQUEST_BODY_SIZE) {
+                log.warn("请求体大小超过限制: {} > {}, 跳过读取", contentLength, MAX_REQUEST_BODY_SIZE);
+                return "[REQUEST_BODY_TOO_LARGE]";
+            }
+            
+            // 检查Content-Type，跳过不适合缓存的类型
+            String contentType = request.getContentType();
+            if (contentType != null && contentType.toLowerCase().contains("multipart/form-data")) {
+                log.debug("跳过multipart/form-data类型的请求体读取");
+                return "[MULTIPART_DATA]";
+            }
+            
+            // 尝试读取请求体
+            try (final BufferedReader reader = request.getReader()) {
+                String body = IoUtil.read(reader);
+                log.debug("成功读取请求体，长度: {}", body != null ? body.length() : 0);
+                return body != null ? body : StringPool.EMPTY;
+            }
+            
+        } catch (IllegalStateException e) {
+            // getReader()在getInputStream()已被调用后会抛出此异常
+            log.debug("请求体流已被其他组件读取: {}", e.getMessage());
+            return StringPool.EMPTY;
+        } catch (IOException e) {
+            // 网络异常或流读取异常
+            log.warn("读取请求体时发生IO异常: {}", e.getMessage());
+            return StringPool.EMPTY;
+        } catch (Exception e) {
+            // 其他未预期的异常
+            log.warn("读取请求体时发生未知异常: {}", e.getMessage(), e);
+            return StringPool.EMPTY;
+        }
+    }
+    
+    /**
+     * 缓存请求体内容到Request Attributes
+     * 
+     * @param request HTTP请求对象
+     * @param requestBody 请求体内容
+     */
+    private static void cacheRequestBody(HttpServletRequest request, String requestBody) {
+        if (requestBody != null) {
+            request.setAttribute(REQUEST_BODY_CACHE_KEY, requestBody);
+            log.debug("已缓存请求体到Request Attributes，长度: {}", requestBody.length());
+        }
+    }
+    
+    /**
+     * 标记请求体为已读取状态
+     * 
+     * @param request HTTP请求对象
+     */
+    private static void markRequestBodyAsRead(HttpServletRequest request) {
+        request.setAttribute(REQUEST_BODY_READ_STATUS_KEY, Boolean.TRUE);
+        log.debug("已标记请求体为已读取状态");
     }
 
 

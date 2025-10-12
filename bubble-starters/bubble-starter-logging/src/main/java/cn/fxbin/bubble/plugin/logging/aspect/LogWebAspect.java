@@ -475,7 +475,7 @@ public class LogWebAspect extends AbstractLogAspect {
      * 
      * <p>
      * 从HTTP请求中读取请求体内容。
-     * 注意：由于InputStream只能读取一次，这里使用ServletUtil工具类来安全读取。
+     * 注意：InputStream只能读取一次
      * </p>
      * 
      * @param request HTTP请求对象
@@ -496,7 +496,6 @@ public class LogWebAspect extends AbstractLogAspect {
                 return "[MULTIPART_DATA]";
             }
             
-            // 使用hutool的ServletUtil读取请求体
             return WebUtils.getRequestBody(request);
         } catch (Exception e) {
             log.warn("获取请求体失败: {}", e.getMessage());
