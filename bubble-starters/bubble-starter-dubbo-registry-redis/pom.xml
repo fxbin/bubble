@@ -10,6 +10,8 @@
     </parent>
 
     <artifactId>bubble-starter-dubbo-registry-redis</artifactId>
+    <name>Bubble Starter Dubbo Registry Redis</name>
+    <description>Bubble Starter Dubbo Registry Redis</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
