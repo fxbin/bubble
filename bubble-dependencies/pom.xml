@@ -29,7 +29,7 @@
         <lombok.version>1.18.42</lombok.version>
         <testcontainers.version>1.21.3</testcontainers.version>
 
-        <hutool.version>5.8.40</hutool.version>
+        <hutool.version>5.8.41</hutool.version>
         <guava.version>33.5.0-jre</guava.version>
         <auto-service.version>1.1.1</auto-service.version>
         <mybatis-plus.version>3.5.14</mybatis-plus.version>
