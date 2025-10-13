@@ -55,7 +55,7 @@
         <sa-token.version>1.44.0</sa-token.version>
         <disruptor.version>3.4.2</disruptor.version>
         <sofastack.version>4.5.0</sofastack.version>
-        <forest.version>1.7.6</forest.version>
+        <forest.version>1.8.0</forest.version>
     </properties>
 
     <dependencyManagement>
