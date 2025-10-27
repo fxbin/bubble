@@ -47,6 +47,18 @@ public class PageUtils extends PageUtil {
      * 构建页面结果
      *
      * @param request 请求
+     * @return {@link PageResult}<{@link T}>
+     */
+    public <T> PageResult<T> buildPageResult(PageRequest request) {
+        return new PageResult<T>()
+                .compute(request.getPageSize(), request.getPageNo(), 0L)
+                .setList(List.of());
+    }
+
+    /**
+     * 构建页面结果
+     *
+     * @param request 请求
      * @param list    列表
      * @param total   总计
      * @return {@link PageResult}<{@link T}>
