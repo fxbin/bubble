@@ -41,7 +41,7 @@
         <redisson.version>3.51.0</redisson.version>
         <curator.version>5.4.0</curator.version>
         <protobuf-java.version>4.32.1</protobuf-java.version>
-        <mapstruct.version>1.5.2.Final</mapstruct.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <xxl.job.version>3.1.0</xxl.job.version>
         <jjwt.version>0.13.0</jjwt.version>
         <fastjson.version>2.0.15</fastjson.version>
