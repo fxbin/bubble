@@ -43,7 +43,7 @@
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <xxl.job.version>3.1.0</xxl.job.version>
         <jjwt.version>0.13.0</jjwt.version>
-        <fastjson.version>2.0.15</fastjson.version>
+        <fastjson.version>2.0.60</fastjson.version>
         <lombok.version>1.18.42</lombok.version>
         <mica.version>3.5.6</mica.version>
         <mica-auto.version>3.1.5</mica-auto.version>
