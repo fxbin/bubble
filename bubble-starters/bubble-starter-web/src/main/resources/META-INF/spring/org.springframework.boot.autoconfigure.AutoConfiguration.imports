@@ -1,3 +1,2 @@
 cn.fxbin.bubble.web.autoconfigure.GlobalHandlerAutoConfiguration
-cn.fxbin.bubble.web.autoconfigure.RestTemplateAutoConfiguration
 cn.fxbin.bubble.web.autoconfigure.CustomizeJacksonAutoConfiguration

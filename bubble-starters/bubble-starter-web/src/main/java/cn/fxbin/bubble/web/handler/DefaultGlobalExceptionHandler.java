@@ -43,7 +43,12 @@ public class DefaultGlobalExceptionHandler {
     @ExceptionHandler(value = ServiceException.class)
     public Result<String> exceptionHandler(ServiceException ex) {
         log.warn("[ServiceException]", ex);
-        return Result.failure(Objects.requireNonNull(ErrorCode.valueOf(ex.getErrcode())).isError() ? ex.getErrcode() : GlobalErrorCode.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+        ErrorCode errorCode = ErrorCode.valueOf(ex.getErrcode());
+        if (errorCode == null) {
+            // 如果找不到对应的 ErrorCode，直接使用 ServiceException 中的错误码和错误信息
+            return Result.failure(ex.getErrcode(), ex.getMessage());
+        }
+        return Result.failure(errorCode.isError() ? ex.getErrcode() : GlobalErrorCode.INTERNAL_SERVER_ERROR.value(), errorCode.reasonPhrase());
     }
 
     /**

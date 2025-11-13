@@ -1,5 +1,7 @@
 package cn.fxbin.bubble.plugin.satoken.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +26,7 @@ public class Tokens implements Serializable {
     /**
      * 访问令牌
      */
+    @JsonProperty("token")
     private String accessToken;
 
     /**
