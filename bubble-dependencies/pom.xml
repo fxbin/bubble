@@ -39,7 +39,7 @@
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
         <redisson.version>3.52.0</redisson.version>
         <curator.version>5.4.0</curator.version>
-        <protobuf-java.version>4.32.1</protobuf-java.version>
+        <protobuf-java.version>4.33.1</protobuf-java.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <xxl.job.version>3.1.0</xxl.job.version>
         <jjwt.version>0.13.0</jjwt.version>
