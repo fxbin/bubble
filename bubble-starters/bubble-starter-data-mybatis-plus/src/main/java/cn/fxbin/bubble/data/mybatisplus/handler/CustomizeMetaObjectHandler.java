@@ -21,13 +21,23 @@ public class CustomizeMetaObjectHandler implements com.baomidou.mybatisplus.core
 
     @Override
     public void insertFill(MetaObject metaObject) {
+        // 数据库字段 createTime, updateTime 自动填充
         this.strictInsertFill(metaObject, "createTime", DateUtils::localDateTime, LocalDateTime.class);
         this.strictInsertFill(metaObject, "updateTime", DateUtils::localDateTime, LocalDateTime.class);
+
+        // 数据库字段 createdAt, updatedAt 自动填充
+        this.strictInsertFill(metaObject, "createdAt", DateUtils::localDateTime, LocalDateTime.class);
+        this.strictInsertFill(metaObject, "updatedAt", DateUtils::localDateTime, LocalDateTime.class);
 
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
+
+        // 数据库字段 updateTime 自动填充
         this.strictUpdateFill(metaObject, "updateTime", DateUtils::localDateTime, LocalDateTime.class);
+
+        // 数据库字段 updatedAt 自动填充
+        this.strictUpdateFill(metaObject, "updatedAt", DateUtils::localDateTime, LocalDateTime.class);
     }
 }
