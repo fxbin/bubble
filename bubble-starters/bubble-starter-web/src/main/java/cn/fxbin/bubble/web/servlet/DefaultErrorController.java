@@ -46,7 +46,33 @@ public class DefaultErrorController extends BasicErrorController {
         String errmsg = String.format("path %s %s", path, error);
 
         Result<Object> bodyResult = Result.failure(errmsg);
+        bodyResult.setTimestamp(System.currentTimeMillis());
+        String traceId = resolveTraceId(request);
+        if (traceId != null && !traceId.isEmpty()) {
+            bodyResult.setTraceId(traceId);
+        }
         return new ResponseEntity<>(BeanUtils.object2Map(bodyResult), status);
+    }
+
+    private String resolveTraceId(HttpServletRequest request) {
+        try {
+            Class<?> tracerUtils = Class.forName("cn.fxbin.bubble.plugin.logging.util.TracerUtils");
+            Object traceId = tracerUtils.getMethod("getTraceId").invoke(null);
+            if (traceId instanceof String s && s != null && !s.isEmpty() && !"N/A".equals(s)) {
+                return s;
+            }
+        } catch (Throwable ignored) {}
+
+        String mdcId = org.slf4j.MDC.get("traceId");
+        if (mdcId != null && !mdcId.isEmpty()) {
+            return mdcId;
+        }
+
+        String headerId = request.getHeader("X-Trace-Id");
+        if (headerId != null && !headerId.isEmpty()) {
+            return headerId;
+        }
+        return null;
     }
 
 }

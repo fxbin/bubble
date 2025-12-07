@@ -84,8 +84,15 @@ public class PageResult<T> implements Serializable {
 
     @SuppressWarnings("unchecked")
     public <R> PageResult<R> convert(Function<? super T, ? extends R> mapper) {
-        List<R> collect = this.getList().stream().map(mapper).collect(toList());
-        return ((PageResult<R>)this).setList(collect);
+        List<T> src = this.getList() != null ? this.getList() : List.of();
+        List<R> mapped = src.stream().map(mapper).collect(toList());
+        PageResult<R> r = new PageResult<>();
+        r.setList(mapped);
+        r.setTotal(this.getTotal());
+        r.setTotalPage(this.getTotalPage());
+        r.setPageNo(this.getPageNo());
+        r.setPageSize(this.getPageSize());
+        return r;
     }
 
 }
