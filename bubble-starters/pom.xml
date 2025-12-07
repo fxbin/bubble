@@ -22,8 +22,6 @@
         <!-- web、test -->
         <module>bubble-starter-web</module>
         <module>bubble-starter-test</module>
-        <!-- cloud -->
-        <module>bubble-starter-openfeign</module>
         <!-- data -->
         <module>bubble-starter-data-redis</module>
         <module>bubble-starter-data-mybatis-plus</module>
