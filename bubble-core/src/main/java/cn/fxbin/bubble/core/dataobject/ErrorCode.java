@@ -3,6 +3,8 @@ package cn.fxbin.bubble.core.dataobject;
 
 import java.io.Serializable;
 import java.util.ServiceLoader;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 错误代码
@@ -125,22 +127,31 @@ public sealed interface ErrorCode extends Serializable permits GlobalErrorCode, 
      * @return {@link ErrorCode}
      */
     static ErrorCode valueOf(int code) {
+        ErrorCode cached = CacheHolder.CACHE.get(code);
+        if (cached != null) {
+            return cached;
+        }
+
         GlobalErrorCode errorCode = GlobalErrorCode.resolve(code);
         if (errorCode != null) {
+            CacheHolder.CACHE.put(code, errorCode);
             return errorCode;
         }
 
-        // BizErrorCode 实现类的一种可行的示例：
-        //
         ServiceLoader<BizErrorCode> errCodeLoader = ServiceLoader.load(BizErrorCode.class);
         for (BizErrorCode codeLoader : errCodeLoader) {
             BizErrorCode bizErrorCode = codeLoader.resolve(code);
-            if (bizErrorCode.value() == code) {
+            if (bizErrorCode != null && bizErrorCode.value() == code) {
+                CacheHolder.CACHE.put(code, bizErrorCode);
                 return bizErrorCode;
             }
         }
 
         return null;
+    }
+
+    final class CacheHolder {
+        static final Map<Integer, ErrorCode> CACHE = new ConcurrentHashMap<>();
     }
 
 }
