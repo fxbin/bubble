@@ -93,12 +93,6 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-starter-openfeign</artifactId>
-                <version>2.0.0.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-starter-data-redis</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>

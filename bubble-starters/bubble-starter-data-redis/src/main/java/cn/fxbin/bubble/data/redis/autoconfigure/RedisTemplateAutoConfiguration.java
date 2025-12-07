@@ -64,7 +64,7 @@ public class RedisTemplateAutoConfiguration {
 
         // 设置值序列化
         template.setValueSerializer(redisSerializer);
-        template.setHashValueSerializer(redisSerializer);
+        template.setHashValueSerializer(new StringRedisSerializer());
 
         // 初始化RedisTemplate
         template.afterPropertiesSet();
@@ -89,7 +89,7 @@ public class RedisTemplateAutoConfiguration {
 
         // 设置值序列化
         template.setValueSerializer(redisSerializer);
-        template.setHashValueSerializer(redisSerializer);
+        template.setHashValueSerializer(new StringRedisSerializer());
 
         // 初始化RedisTemplate
         template.afterPropertiesSet();

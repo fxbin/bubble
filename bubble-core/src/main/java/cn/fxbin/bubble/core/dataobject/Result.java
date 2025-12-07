@@ -36,6 +36,12 @@ public class Result<T> implements Serializable {
     @Schema(description = "响应数据")
     private T data;
 
+    @Schema(description = "时间戳")
+    private Long timestamp;
+
+    @Schema(description = "链路追踪ID")
+    private String traceId;
+
     public Result() {
     }
 
@@ -57,6 +63,14 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
+    public Result(int errcode, String errmsg, T data, Long timestamp, String traceId) {
+        this.errcode = errcode;
+        this.errmsg = errmsg;
+        this.data = data;
+        this.timestamp = timestamp;
+        this.traceId = traceId;
+    }
+
 
     /**
      * isSuccess 判断返回是否为成功
@@ -67,8 +81,8 @@ public class Result<T> implements Serializable {
      */
     public static boolean isSuccess(@Nullable Result<?> result) {
         return Optional.ofNullable(result)
-                .map(r -> r.errcode)
-                .map(code -> GlobalErrorCode.OK.value() == code)
+                .map(r -> ErrorCode.valueOf(r.errcode))
+                .map(ErrorCode::is2xxSuccessful)
                 .orElse(Boolean.FALSE);
     }
 
@@ -120,7 +134,7 @@ public class Result<T> implements Serializable {
     @Nullable
     public static <T> T getData(@Nullable Result<T> result) {
         return Optional.ofNullable(result)
-                .filter(r -> r.errcode == GlobalErrorCode.OK.value())
+                .filter(Result::isSuccess)
                 .map(r -> r.data)
                 .orElse(null);
     }

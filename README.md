@@ -121,8 +121,9 @@ bubble/
 
 ### 📚 文档
 
+- [文档门户](docs/index.md)
 - [快速开始指南](docs/quick-start.md)
-- [模块使用说明](docs/modules.md)
+- [模块使用说明](docs/starter-modules.md)
 - [最佳实践](docs/best-practices.md)
 - [API 文档](docs/api.md)
 
