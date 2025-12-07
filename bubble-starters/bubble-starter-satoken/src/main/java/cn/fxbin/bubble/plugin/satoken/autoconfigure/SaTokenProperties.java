@@ -28,6 +28,11 @@ public class SaTokenProperties {
     private boolean enabled = true;
 
     /**
+     * 跨域配置
+     */
+    private CorsConfig cors = new CorsConfig();
+
+    /**
      * JWT 配置
      */
     private JwtConfig jwt = new JwtConfig();
@@ -36,6 +41,12 @@ public class SaTokenProperties {
      * 认证相关配置
      */
     private Auth auth = new Auth();
+
+    @Data
+    public static class CorsConfig {
+
+        private boolean enabled = false;
+    }
 
 
     /**

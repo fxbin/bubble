@@ -3,9 +3,11 @@ package cn.fxbin.bubble.plugin.satoken.autoconfigure;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.filter.SaServletFilter;
+import cn.dev33.satoken.fun.strategy.SaCorsHandleFunction;
 import cn.dev33.satoken.jwt.StpLogicJwtForMixin;
 import cn.dev33.satoken.jwt.StpLogicJwtForSimple;
 import cn.dev33.satoken.jwt.StpLogicJwtForStateless;
+import cn.dev33.satoken.router.SaHttpMethod;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
@@ -24,11 +26,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
 /**
  * SaTokenAutoConfiguration
+ * 《Sa-Token 跨域问题》
+ * <a href="https://juejin.cn/post/7491603065944129590">使用 Sa-Token CORS 策略处理跨域问题</a>
  *
  * @author fxbin
  * @version v1.0
@@ -40,7 +45,7 @@ import java.util.List;
 @ConditionalOnProperty(prefix = SaTokenProperties.BUBBLE_SATOKEN_PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(SaTokenProperties.class)
 @Import({SaTokenExceptionHandler.class})
-public class SaTokenAutoConfiguration {
+public class SaTokenAutoConfiguration implements WebMvcConfigurer {
 
     private final List<String> DEFAULT_EXCLUDE_URLS = Lists.newArrayList(
             "/doc.html",
@@ -92,6 +97,30 @@ public class SaTokenAutoConfiguration {
     }
 
     /**
+     * CORS 跨域处理策略
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = SaTokenProperties.BUBBLE_SATOKEN_PREFIX + ".cors", name = "enabled", havingValue = "true")
+    public SaCorsHandleFunction corsHandle() {
+        return (req, res, sto) -> {
+            res
+                    // 允许指定域访问跨域资源
+                    .setHeader("Access-Control-Allow-Origin", "*")
+                    // 允许所有请求方式； RESTful 规范 GET - 获取资源, POST - 创建资源, PUT - 更新/替换资源, DELETE - 删除资源, PATCH - 部分更新资源
+                    .setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
+                    // 有效时间
+                    .setHeader("Access-Control-Max-Age", "3600")
+                    // 允许的header参数
+                    .setHeader("Access-Control-Allow-Headers", "*");
+
+            // 如果是预检请求，则立即返回到前端
+            SaRouter.match(SaHttpMethod.OPTIONS)
+                    .free(r -> log.info("--------OPTIONS预检请求: {}，不做处理--------", req.getRequestPath()))
+                    .back();
+        };
+    }
+
+    /**
      * 注册 Sa-Token 全局Servlet过滤器
      * <p>
      * 此过滤器负责处理认证、授权、以及全局异常。
@@ -130,11 +159,25 @@ public class SaTokenAutoConfiguration {
                     if (e instanceof SaTokenException) {
                         return JsonUtils.toJson(SaTokenExceptionHandler.handleEx((Exception) e));
                     }
+                    if (e instanceof ServiceException) {
+                        return JsonUtils.toJson(Result.failure(((ServiceException) e).getErrcode(), e.getMessage()));
+                    }
                     return JsonUtils.toJson(Result.failure(e.getMessage()));
                 })
 
                 // 前置函数：在每次认证函数之前执行
                 .setBeforeAuth(r -> {
+
+
+
+//                    // 获得客户端domain
+//                    SaRequest request = SaHolder.getRequest();
+//                    String origin = request.getHeader("Origin");
+//                    if (origin == null) {
+//                        origin = request.getHeader("Referer");
+//                    }
+
+
                     // ---------- 设置一些安全响应头 ----------
                     SaHolder.getResponse()
                             // 服务器名称
@@ -146,16 +189,22 @@ public class SaTokenAutoConfiguration {
                             // 禁用浏览器内容嗅探
                             .setHeader("X-Content-Type-Options", "nosniff");
 
-// === 注释 ===
-//                            // 跨域部分配置
+
+                              // 目前新版浏览器对此方案限制越来越严格，非必要不选择此方案
+//                            // ---------- 设置跨域响应头 ----------
 //                            // 允许指定域访问跨域资源
-//                            .setHeader("Access-Control-Allow-Origin", "*")
+//                            .setHeader("Access-Control-Allow-Origin", origin)
 //                            // 允许所有请求方式
 //                            .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE")
 //                            // 有效时间
 //                            .setHeader("Access-Control-Max-Age", "3600")
 //                            // 允许的header参数
 //                            .setHeader("Access-Control-Allow-Headers", "*");
+
+//                    // 如果是预检请求，则立即返回到前端
+//                    SaRouter.match(SaHttpMethod.OPTIONS)
+//                            .free(sr -> System.out.println("--------OPTIONS预检请求，不做处理"))
+//                            .back();
                 });
     }
 
