@@ -20,14 +20,14 @@
         <spring-ai-alibaba.version>1.0.0.4</spring-ai-alibaba.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
-        <spring-modulith.version>1.4.3</spring-modulith.version>
+        <spring-modulith.version>1.4.4</spring-modulith.version>
         <spring-boot-admin.version>3.5.6</spring-boot-admin.version>
 
         <!-- Other Dependency Versions -->
         <springdoc.version>2.8.14</springdoc.version>
         <swagger.version>2.2.40</swagger.version>
         <lombok.version>1.18.42</lombok.version>
-        <testcontainers.version>2.0.1</testcontainers.version>
+        <testcontainers.version>2.0.2</testcontainers.version>
         <hutool.version>5.8.41</hutool.version>
         <guava.version>33.5.0-jre</guava.version>
         <auto-service.version>1.1.1</auto-service.version>
@@ -39,13 +39,13 @@
         <logback-mdc-ttl.version>1.0.2</logback-mdc-ttl.version>
         <redisson.version>3.52.0</redisson.version>
         <curator.version>5.4.0</curator.version>
-        <protobuf-java.version>4.32.1</protobuf-java.version>
+        <protobuf-java.version>4.33.1</protobuf-java.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <xxl.job.version>3.1.0</xxl.job.version>
         <jjwt.version>0.13.0</jjwt.version>
         <fastjson.version>2.0.60</fastjson.version>
         <lombok.version>1.18.42</lombok.version>
-        <mica.version>3.5.6</mica.version>
+        <mica.version>3.5.7</mica.version>
         <mica-auto.version>3.1.5</mica-auto.version>
         <easy-trans.version>3.0.6</easy-trans.version>
         <dubbo.version>3.3.5</dubbo.version>
