@@ -16,7 +16,7 @@
     <properties>
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
         <spring-boot.version>3.5.7</spring-boot.version>
-        <spring-ai.version>1.0.3</spring-ai.version>
+        <spring-ai.version>1.1.1</spring-ai.version>
         <spring-ai-alibaba.version>1.0.0.4</spring-ai-alibaba.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
