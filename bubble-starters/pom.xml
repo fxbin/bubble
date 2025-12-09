@@ -24,6 +24,7 @@
         <module>bubble-starter-test</module>
         <!-- data -->
         <module>bubble-starter-data-redis</module>
+        <module>bubble-starter-data-duckdb</module>
         <module>bubble-starter-data-mybatis-plus</module>
         <module>bubble-starter-data-elasticsearch</module>
 

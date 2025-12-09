@@ -55,6 +55,7 @@
         <disruptor.version>3.4.2</disruptor.version>
         <sofastack.version>4.5.0</sofastack.version>
         <forest.version>1.8.0</forest.version>
+        <duckdb.version>1.4.2.0</duckdb.version>
     </properties>
 
     <dependencyManagement>
@@ -106,6 +107,12 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-starter-data-elasticsearch</artifactId>
+                <version>2.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-starter-data-duckdb</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
@@ -517,6 +524,15 @@
                 <artifactId>forest-spring-boot3-starter</artifactId>
                 <version>${forest.version}</version>
             </dependency>
+
+
+            <!-- duckdb -->
+            <dependency>
+                <groupId>org.duckdb</groupId>
+                <artifactId>duckdb_jdbc</artifactId>
+                <version>${duckdb.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
