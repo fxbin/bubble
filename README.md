@@ -2,10 +2,10 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/63f51f8ee55f42bd8284c1c04e2b6f7d)](https://app.codacy.com/manual/fxbin/bubble?utm_source=github.com&utm_medium=referral&utm_content=fxbin/bubble&utm_campaign=Badge_Grade_Settings)
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://openjdk.java.net/projects/jdk/17/)
-[![Spring Boot](https://img.shields.io/badge/SpringBoot-3.5.0-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
+[![Spring Boot](https://img.shields.io/badge/SpringBoot-3.5.7-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/SpringCloud-2025.0.0-brightgreen.svg)](https://github.com/spring-cloud)
 [![Spring Cloud Alibaba](https://img.shields.io/badge/SpringCloudAlibaba-2023.0.3.3-brightgreen.svg)](https://github.com/alibaba/spring-cloud-alibaba)
-[![Spring AI](https://img.shields.io/badge/SpringAI-1.0.0-blue.svg)](https://spring.io/projects/spring-ai)
+[![Spring AI](https://img.shields.io/badge/SpringAI-1.0.3-blue.svg)](https://spring.io/projects/spring-ai)
 [![Version](https://img.shields.io/badge/Version-2.0.0.BUILD--SNAPSHOT-red.svg)](https://github.com/fxbin/bubble)
 
 [![Star](https://img.shields.io/github/stars/fxbin/bubble.svg?label=Stars&style=social)](https://github.com/fxbin/bubble/stargazers)
@@ -18,8 +18,8 @@
 
 ### 🚀 核心特性
 
-- **现代化技术栈**: 基于 Spring Boot 3.5.0、Spring Cloud 2025.0.0、Java 17
-- **AI 集成**: 内置 Spring AI 1.0.0 支持，轻松构建智能化应用
+- **现代化技术栈**: 基于 Spring Boot 3.5.7、Spring Cloud 2025.0.0、Java 17
+- **AI 集成**: 内置 Spring AI 1.0.3 支持，轻松构建智能化应用
 - **模块化架构**: 采用 Spring Modulith 实现模块化单体架构
 - **云原生支持**: 完整的微服务治理能力，支持容器化部署
 - **开箱即用**: 提供丰富的 Starter 模块，快速集成常用功能
@@ -30,25 +30,30 @@
 
 ```
 bubble/
-├── bubble-core/                    # 核心工具库
-├── bubble-dependencies/             # 依赖管理 BOM
-├── bubble-parent/                   # 父级 POM
-└── bubble-starters/                 # Starter 模块集合
-    ├── bubble-starter/              # 基础 Starter
-    ├── bubble-starter-web/          # Web 开发 Starter
-    ├── bubble-starter-data-redis/   # Redis 集成 Starter
+├── bubble-core/                        # 核心工具库
+├── bubble-dependencies/                # 依赖管理 BOM
+├── bubble-parent/                      # 父级 POM
+├── bubble-ai/                          # AI 能力聚合模块
+│   └── bubble-ai-starters/
+│       ├── bubble-ai-starter/          # AI 基础 Starter
+│       └── bubble-ai-starter-lightrag/ # LightRAG 集成 Starter
+└── bubble-starters/                    # Starter 模块集合
+    ├── bubble-starter/                 # 基础 Starter
+    ├── bubble-starter-web/             # Web 开发 Starter
+    ├── bubble-starter-data-redis/      # Redis 集成 Starter
     ├── bubble-starter-data-mybatis-plus/ # MyBatis Plus Starter
     ├── bubble-starter-data-elasticsearch/ # Elasticsearch Starter
-    ├── bubble-starter-dubbo/        # Dubbo 微服务 Starter
-    ├── bubble-starter-openfeign/    # OpenFeign 客户端 Starter
-    ├── bubble-starter-satoken/      # Sa-Token 权限认证 Starter
-    ├── bubble-starter-logging/      # 日志增强 Starter
-    ├── bubble-starter-lock/         # 分布式锁 Starter
-    ├── bubble-starter-mail/         # 邮件发送 Starter
-    ├── bubble-starter-excel/        # Excel 处理 Starter
-    ├── bubble-starter-i18n/         # 国际化 Starter
-    ├── bubble-starter-xxl-job/      # XXL-Job 任务调度 Starter
-    └── bubble-starter-test/         # 测试增强 Starter
+    ├── bubble-starter-data-duckdb/     # DuckDB 集成 Starter
+    ├── bubble-starter-dubbo/           # Dubbo 微服务 Starter
+    ├── bubble-starter-dubbo-registry-redis/ # Dubbo Redis 注册中心
+    ├── bubble-starter-satoken/         # Sa-Token 权限认证 Starter
+    ├── bubble-starter-logging/         # 日志增强 Starter
+    ├── bubble-starter-lock/            # 分布式锁 Starter
+    ├── bubble-starter-mail/            # 邮件发送 Starter
+    ├── bubble-starter-excel/           # Excel 处理 Starter
+    ├── bubble-starter-i18n/            # 国际化 Starter
+    ├── bubble-starter-xxl-job/         # XXL-Job 任务调度 Starter
+    └── bubble-starter-test/            # 测试增强 Starter
 ```
 
 ### 🛠️ 技术栈
@@ -56,19 +61,19 @@ bubble/
 | 技术 | 版本 | 说明 |
 |------|------|------|
 | Java | 17+ | 基础运行环境 |
-| Spring Boot | 3.5.0 | 应用框架 |
+| Spring Boot | 3.5.7 | 应用框架 |
 | Spring Cloud | 2025.0.0 | 微服务框架 |
 | Spring Cloud Alibaba | 2023.0.3.3 | 阿里云微服务套件 |
-| Spring AI | 1.0.0 | AI 集成框架 |
-| Spring Modulith | 1.0.0 | 模块化架构 |
-| MyBatis Plus | 3.5.3.2 | ORM 框架 |
+| Spring AI | 1.0.3 | AI 集成框架 |
+| Spring Modulith | 1.4.4 | 模块化架构 |
+| MyBatis Plus | 3.5.14 | ORM 框架 |
 | Redis | - | 缓存中间件 |
 | Elasticsearch | 7.13.4 | 搜索引擎 |
-| Dubbo | 3.2.7 | RPC 框架 |
-| Sa-Token | 1.43.0 | 权限认证框架 |
-| XXL-Job | 2.4.2 | 分布式任务调度 |
-| Hutool | 5.8.38 | Java 工具库 |
-| Lombok | 1.18.38 | 代码简化工具 |
+| Dubbo | 3.3.5 | RPC 框架 |
+| Sa-Token | 1.44.0 | 权限认证框架 |
+| XXL-Job | 3.1.0 | 分布式任务调度 |
+| Hutool | 5.8.41 | Java 工具库 |
+| Lombok | 1.18.42 | 代码简化工具 |
 
 ### 🎯 快速开始
 
