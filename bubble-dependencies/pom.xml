@@ -53,7 +53,7 @@
         <sms4j.version>3.3.5</sms4j.version>
         <sa-token.version>1.44.0</sa-token.version>
         <disruptor.version>3.4.2</disruptor.version>
-        <sofastack.version>4.5.0</sofastack.version>
+        <sofastack.version>4.6.0</sofastack.version>
         <forest.version>1.8.0</forest.version>
         <duckdb.version>1.4.2.0</duckdb.version>
     </properties>
