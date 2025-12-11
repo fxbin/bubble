@@ -55,7 +55,7 @@
         <disruptor.version>3.4.2</disruptor.version>
         <sofastack.version>4.5.0</sofastack.version>
         <forest.version>1.8.0</forest.version>
-        <duckdb.version>1.4.2.0</duckdb.version>
+        <duckdb.version>1.4.3.0</duckdb.version>
     </properties>
 
     <dependencyManagement>
