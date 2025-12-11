@@ -1,7 +1,5 @@
 package cn.fxbin.bubble.core.util;
 
-import cn.fxbin.bubble.core.dataobject.GlobalErrorCode;
-import cn.fxbin.bubble.core.exception.ServiceException;
 import cn.fxbin.bubble.core.exception.UtilException;
 import cn.fxbin.bubble.core.module.JacksonHolder;
 import cn.hutool.json.JSONUtil;
@@ -28,7 +26,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @UtilityClass
 public class JsonUtils extends JSONUtil {
-
 
     /**
      * toJson 将对象序列化成json字符串
@@ -57,7 +54,7 @@ public class JsonUtils extends JSONUtil {
      * toJsonByte 将对象序列化成json字节数组
      *
      * @param value jsonBean
-     * @return {@link byte[]}
+     * @return byte []
      * @throws UtilException 序列化失败时抛出
      */
     public byte[] toJsonByte(Object value) {
@@ -97,7 +94,7 @@ public class JsonUtils extends JSONUtil {
                 mapList = JsonUtils.parse(jsonStr, new TypeReference<>() {
                 });
             } catch (Exception e) {
-                throw new ServiceException(GlobalErrorCode.INTERNAL_SERVER_ERROR);
+                throw new UtilException("JSON 提取字段数据失败，字段名: " + fieldName, e);
             }
 
             return mapList.stream().map(m -> StringUtils.utf8Str(m.get(fieldName))).collect(Collectors.toList());
@@ -121,7 +118,6 @@ public class JsonUtils extends JSONUtil {
         }
     }
 
-
     /**
      * isJsonSerialize 是否可以json序列化
      *
@@ -138,13 +134,13 @@ public class JsonUtils extends JSONUtil {
         }
     }
 
-
     /**
      * parse 将json反序列化成对象
      *
      * @since 2020/3/20 17:33
-     * @param jsonString json 字符串
-     * @param requiredType type the bean must match; can be an interface or superclass
+     * @param jsonString   json 字符串
+     * @param requiredType type the bean must match; can be an interface or
+     *                     superclass
      * @return T
      * @throws UtilException 反序列化失败时抛出
      */
@@ -155,9 +151,11 @@ public class JsonUtils extends JSONUtil {
             }
             return JacksonHolder.INSTANCE.readValue(jsonString, requiredType);
         } catch (IOException e) {
-            log.error("JSON 反序列化失败，目标类型: {}, JSON内容: {}", requiredType.getSimpleName(), 
-                     StringUtils.isNotBlank(jsonString) && jsonString.length() > 200 ? 
-                     jsonString.substring(0, 200) + "..." : jsonString, e);
+            log.error("JSON 反序列化失败，目标类型: {}, JSON内容: {}", requiredType.getSimpleName(),
+                    StringUtils.isNotBlank(jsonString) && jsonString.length() > 200
+                            ? jsonString.substring(0, 200) + "..."
+                            : jsonString,
+                    e);
             throw new UtilException("JSON 反序列化失败", e);
         }
     }
@@ -165,7 +163,7 @@ public class JsonUtils extends JSONUtil {
     /**
      * parse 将json反序列化成对象（支持泛型）
      *
-     * @param content json content
+     * @param content      json content
      * @param valueTypeRef TypeReference
      * @return {@link T}
      * @throws UtilException 反序列化失败时抛出
@@ -177,9 +175,10 @@ public class JsonUtils extends JSONUtil {
             }
             return JacksonHolder.INSTANCE.readValue(content, valueTypeRef);
         } catch (IOException e) {
-            log.error("JSON 反序列化失败，目标类型: {}, JSON内容: {}", valueTypeRef.getType().getTypeName(), 
-                     StringUtils.isNotBlank(content) && content.length() > 200 ? 
-                     content.substring(0, 200) + "..." : content, e);
+            log.error("JSON 反序列化失败，目标类型: {}, JSON内容: {}", valueTypeRef.getType().getTypeName(),
+                    StringUtils.isNotBlank(content) && content.length() > 200 ? content.substring(0, 200) + "..."
+                            : content,
+                    e);
             throw new UtilException("JSON 反序列化失败", e);
         }
     }
