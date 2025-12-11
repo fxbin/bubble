@@ -30,7 +30,6 @@ public class EqualFieldValidator implements ConstraintValidator<EqualField, Obje
     /**
      * isValid
      *
-     * @author fxbin
      * @since 2020/11/15 12:48
      * @param object 传入值对象
      * @param context 上下文
