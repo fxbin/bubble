@@ -55,6 +55,7 @@
         <disruptor.version>3.4.2</disruptor.version>
         <sofastack.version>4.5.0</sofastack.version>
         <forest.version>1.8.0</forest.version>
+        <java-diff-utils.version>4.15</java-diff-utils.version>
     </properties>
 
     <dependencyManagement>
@@ -516,6 +517,13 @@
                 <groupId>com.dtflys.forest</groupId>
                 <artifactId>forest-spring-boot3-starter</artifactId>
                 <version>${forest.version}</version>
+            </dependency>
+            
+            <!-- java-diff-utils -->
+            <dependency>
+                <groupId>io.github.java-diff-utils</groupId>
+                <artifactId>java-diff-utils</artifactId>
+                <version>${java-diff-utils.version}</version>
             </dependency>
 
         </dependencies>
