@@ -56,6 +56,7 @@
         <sofastack.version>4.5.0</sofastack.version>
         <forest.version>1.8.0</forest.version>
         <java-diff-utils.version>4.15</java-diff-utils.version>
+        <liteflow.version>2.15.2</liteflow.version>
     </properties>
 
     <dependencyManagement>
@@ -518,7 +519,18 @@
                 <artifactId>forest-spring-boot3-starter</artifactId>
                 <version>${forest.version}</version>
             </dependency>
+<<<<<<< HEAD
             
+=======
+
+            <!-- duckdb -->
+            <dependency>
+                <groupId>org.duckdb</groupId>
+                <artifactId>duckdb_jdbc</artifactId>
+                <version>${duckdb.version}</version>
+            </dependency>
+
+>>>>>>> df135a0 (feat(bubble-dependencies): 引入liteflow规则引擎依赖)
             <!-- java-diff-utils -->
             <dependency>
                 <groupId>io.github.java-diff-utils</groupId>
@@ -526,6 +538,17 @@
                 <version>${java-diff-utils.version}</version>
             </dependency>
 
+            <!-- liteflow -->
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-spring-boot-starter</artifactId>
+                <version>${liteflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yomahub</groupId>
+                <artifactId>liteflow-el-builder</artifactId>
+                <version>${liteflow.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
