@@ -53,7 +53,7 @@
         <sms4j.version>3.3.5</sms4j.version>
         <sa-token.version>1.44.0</sa-token.version>
         <disruptor.version>3.4.2</disruptor.version>
-        <sofastack.version>4.5.0</sofastack.version>
+        <sofastack.version>4.6.0</sofastack.version>
         <forest.version>1.8.0</forest.version>
         <java-diff-utils.version>4.15</java-diff-utils.version>
         <liteflow.version>2.15.2</liteflow.version>
