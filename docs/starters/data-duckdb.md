@@ -6,7 +6,7 @@
 
 ## 功能特性
 
-- **零配置启动**：默认使用内存模式，无需繁琐配置即可使用。
+- **开箱即用**：提供 `DataSource`（命名为 `duckDbDataSource`）、`DuckDbTemplate`、`DuckDbIngester`、`DuckDbManager` 与统一入口 `DuckDbOperations`。
 - **统一操作入口**：通过 `DuckDbOperations` 门面类，统一暴露 `DuckDbTemplate` (JDBC操作)、`DuckDbManager` (多实例管理) 和 `DuckDbIngester` (高性能导入)。
 - **Parquet 支持**：内置 Parquet 文件的导入与导出功能。
 - **多实例管理**：支持动态连接多个 DuckDB 数据库文件。
@@ -25,18 +25,37 @@
 
 ### 2. 配置 (可选)
 
-默认情况下，模块使用内存数据库 (`:memory:`)。如果需要持久化到文件，可以在 `application.yml` 中配置：
+自动配置开关与属性前缀为 `dm.data.duckdb`（参考：`bubble-starters/bubble-starter-data-duckdb/src/main/java/cn/fxbin/bubble/data/duckdb/autoconfigure/DuckDbProperties.java:19`）。
+
+默认行为：
+
+- 默认启用：`dm.data.duckdb.enabled=true`（参考：`DuckDbProperties.java:25`）
+- 默认模式：`FILE`（参考：`DuckDbProperties.java:30`）
+- 默认文件：`duckdb_store.db`（参考：`DuckDbProperties.java:36`）
+- 默认内存限制：`2GB`（参考：`DuckDbProperties.java:107`）
+- 默认线程数：`Runtime.getRuntime().availableProcessors()`（参考：`DuckDbProperties.java:113`）
+
+示例（文件模式，推荐用于本地落盘/分析任务）：
 
 ```yaml
-bubble:
+dm:
   data:
     duckdb:
-      # 默认连接的数据库文件路径，不填默认为 :memory:
-      url: /path/to/my_db.duckdb
-      # 是否只读
+      enabled: true
+      mode: FILE
+      file-path: ./duckdb_store.db
       read-only: false
-      # 连接池配置
-      maximum-pool-size: 10
+      maximum-pool-size: 2
+      memory-limit: 2GB
+      threads: 4
+
+      # 可选：扩展（需要时开启，避免测试/离线环境触发安装）
+      # extensions:
+      #   - json
+      # auto-install-extensions: true
+      # allow-unsigned-extensions: false
+      # custom-extension-repository: https://your-mirror/
+      # local-extension-directory: /path/to/extensions/
 ```
 
 ### 3. 使用 DuckDbOperations
@@ -75,6 +94,8 @@ public class DataService {
 }
 ```
 
+注意：`exportParquet` / `importParquet` 使用了 `read_parquet` 与 `COPY ... (FORMAT PARQUET)`（参考：`bubble-starters/bubble-starter-data-duckdb/src/main/java/cn/fxbin/bubble/data/duckdb/core/DuckDbTemplate.java:68`、`DuckDbTemplate.java:86`）。若运行环境缺少对应能力，需要通过 `dm.data.duckdb.extensions` 配置加载扩展。
+
 ## 高级特性
 
 ### 动态多数据源
@@ -92,6 +113,8 @@ otherDb.execute("CREATE TABLE test (id INTEGER)");
 duckDbOperations.close("/path/to/other.db");
 ```
 
+动态连接的缓存键包含读写模式（参考：`bubble-starters/bubble-starter-data-duckdb/src/main/java/cn/fxbin/bubble/data/duckdb/core/DuckDbManager.java:72`）。
+
 ### 高性能数据摄入 (Ingestion)
 
 对于海量数据写入，推荐使用 `ingest` 方法：
@@ -107,4 +130,8 @@ duckDbOperations.append("users", rows);
 
 ## 异常处理
 
-模块抛出的异常统一封装为 `DataAccessException` (Spring JDBC) 或 `ServiceException` (Bubble 框架)，便于统一捕获处理。
+异常行为以代码为准：
+
+- `DuckDbTemplate` 对非法表名会抛 `IllegalArgumentException`（参考：`DuckDbTemplate.java:91`）
+- `DuckDbConnectionFactory` 在 FILE 模式缺少 `filePath` 会抛 `IllegalArgumentException`（参考：`DuckDbConnectionFactory.java:47`）
+- `DuckDbIngester` 将 `SQLException` 统一包装为 `RuntimeException` 抛出（参考：`DuckDbIngester.java:128`）

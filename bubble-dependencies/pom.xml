@@ -57,6 +57,7 @@
         <forest.version>1.8.0</forest.version>
         <java-diff-utils.version>4.15</java-diff-utils.version>
         <liteflow.version>2.15.2</liteflow.version>
+        <duckdb.version>1.4.2.0</duckdb.version>
     </properties>
 
     <dependencyManagement>
@@ -113,6 +114,12 @@
 
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-starter-data-duckdb</artifactId>
+                <version>2.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-starter-lock</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
@@ -120,12 +127,6 @@
             <dependency>
                 <groupId>cn.fxbin.bubble</groupId>
                 <artifactId>bubble-starter-excel</artifactId>
-                <version>2.0.0.BUILD-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.fxbin.bubble</groupId>
-                <artifactId>bubble-starter-flow</artifactId>
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
@@ -525,9 +526,6 @@
                 <artifactId>forest-spring-boot3-starter</artifactId>
                 <version>${forest.version}</version>
             </dependency>
-<<<<<<< HEAD
-            
-=======
 
             <!-- duckdb -->
             <dependency>
@@ -536,7 +534,6 @@
                 <version>${duckdb.version}</version>
             </dependency>
 
->>>>>>> df135a0 (feat(bubble-dependencies): 引入liteflow规则引擎依赖)
             <!-- java-diff-utils -->
             <dependency>
                 <groupId>io.github.java-diff-utils</groupId>
