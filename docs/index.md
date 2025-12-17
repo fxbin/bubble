@@ -50,9 +50,9 @@ flowchart TB
     subgraph starters
       E1[bubble-starter-web]
       E2[bubble-starter-data-redis]
-      E3[bubble-starter-data-mybatis-plus]
-      E4[bubble-starter-data-elasticsearch]
-      E5[bubble-starter-openfeign]
+      E3[bubble-starter-data-duckdb]
+      E4[bubble-starter-data-mybatis-plus]
+      E5[bubble-starter-data-elasticsearch]
       E6[bubble-starter-dubbo]
       E7[bubble-starter-satoken]
       E8[bubble-starter-logging]
