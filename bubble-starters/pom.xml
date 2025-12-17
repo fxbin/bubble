@@ -35,6 +35,7 @@
         <module>bubble-starter-i18n</module>
         <module>bubble-starter-mail</module>
         <module>bubble-starter-satoken</module>
+        <module>bubble-starter-flow</module>
 
         <!-- dubbo -->
         <module>bubble-starter-dubbo</module>
