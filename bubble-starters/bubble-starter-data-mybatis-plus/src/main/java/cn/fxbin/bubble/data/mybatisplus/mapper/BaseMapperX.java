@@ -12,8 +12,10 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * BaseMapperX
@@ -68,6 +70,15 @@ public interface BaseMapperX<T> extends BaseMapper<T> {
         Db.saveBatch(entities, size);
     }
 
+    /**
+     * 根据 id 查询
+     *
+     * @param id id
+     * @return {@link Optional}<{@link T}>
+     */
+    default Optional<T> findById(Serializable id) {
+        return Optional.ofNullable(this.selectById(id));
+    }
 
     /**
      * 分页查询
