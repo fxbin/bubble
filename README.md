@@ -1,12 +1,14 @@
 # bubble 🎉🎉🎉
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/63f51f8ee55f42bd8284c1c04e2b6f7d)](https://app.codacy.com/manual/fxbin/bubble?utm_source=github.com&utm_medium=referral&utm_content=fxbin/bubble&utm_campaign=Badge_Grade_Settings)
-[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://openjdk.java.net/projects/jdk/17/)
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/projects/jdk/21/)
 [![Spring Boot](https://img.shields.io/badge/SpringBoot-3.5.7-brightgreen.svg)](https://github.com/spring-projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/SpringCloud-2025.0.0-brightgreen.svg)](https://github.com/spring-cloud)
 [![Spring Cloud Alibaba](https://img.shields.io/badge/SpringCloudAlibaba-2023.0.3.3-brightgreen.svg)](https://github.com/alibaba/spring-cloud-alibaba)
 [![Spring AI](https://img.shields.io/badge/SpringAI-1.0.3-blue.svg)](https://spring.io/projects/spring-ai)
 [![Version](https://img.shields.io/badge/Version-2.0.0.BUILD--SNAPSHOT-red.svg)](https://github.com/fxbin/bubble)
+[![zread](https://img.shields.io/badge/Ask_Zread-_.svg?style=flat-square&color=00b0aa&labelColor=000000&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuOTYxNTYgMS42MDAxSDIuMjQxNTZDMS44ODgxIDEuNjAwMSAxLjYwMTU2IDEuODg2NjQgMS42MDE1NiAyLjI0MDFWNC45NjAxQzEuNjAxNTYgNS4zMTM1NiAxLjg4ODEgNS42MDAxIDIuMjQxNTYgNS42MDAxSDQuOTYxNTZDNS4zMTUwMiA1LjYwMDEgNS42MDE1NiA1LjMxMzU2IDUuNjAxNTYgNC45NjAxVjIuMjQwMUM1LjYwMTU2IDEuODg2NjQgNS4zMTUwMiAxLjYwMDEgNC45NjE1NiAxLjYwMDFaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00Ljk2MTU2IDEwLjM5OTlIMi4yNDE1NkMxLjg4ODEgMTAuMzk5OSAxLjYwMTU2IDEwLjY4NjQgMS42MDE1NiAxMS4wMzk5VjEzLjc1OTlDMS42MDE1NiAxNC4xMTM0IDEuODg4MSAxNC4zOTk5IDIuMjQxNTYgMTQuMzk5OUg0Ljk2MTU2QzUuMzE1MDIgMTQuMzk5OSA1LjYwMTU2IDE0LjExMzQgNS42MDE1NiAxMy43NTk5VjExLjAzOTlDNS42MDE1NiAxMC42ODY0IDUuMzE1MDIgMTAuMzk5OSA0Ljk2MTU2IDEwLjM5OTlaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik0xMy43NTg0IDEuNjAwMUgxMS4wMzg0QzEwLjY4NSAxLjYwMDEgMTAuMzk4NCAxLjg4NjY0IDEwLjM5ODQgMi4yNDAxVjQuOTYwMUMxMC4zOTg0IDUuMzEzNTYgMTAuNjg1IDUuNjAwMSAxMS4wMzg0IDUuNjAwMUgxMy43NTg0QzE0LjExMTkgNS42MDAxIDE0LjM5ODQgNS4zMTM1NiAxNC4zOTg0IDQuOTYwMVYyLjI0MDFDMTQuMzk4NCAxLjg4NjY0IDE0LjExMTkgMS42MDAxIDEzLjc1ODQgMS42MDAxWiIgZmlsbD0iI2ZmZiIvPgo8cGF0aCBkPSJNNCAxMkwxMiA0TDQgMTJaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00IDEyTDEyIDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K&logoColor=ffffff)](https://zread.ai/fxbin/bubble)
+[![DeepWiki](https://img.shields.io/badge/DeepWiki-支持文档-blue?style=for-the-badge)]([您的DeepWiki链接地址](https://deepwiki.com/fxbin/bubble))
 
 [![Star](https://img.shields.io/github/stars/fxbin/bubble.svg?label=Stars&style=social)](https://github.com/fxbin/bubble/stargazers)
 [![Members](https://img.shields.io/github/forks/fxbin/bubble.svg?label=Fork&style=social)](https://github.com/fxbin/bubble/network/members)
@@ -18,7 +20,7 @@
 
 ### 🚀 核心特性
 
-- **现代化技术栈**: 基于 Spring Boot 3.5.7、Spring Cloud 2025.0.0、Java 17
+- **现代化技术栈**: 基于 Spring Boot 3.5.7、Spring Cloud 2025.0.0、Java 21
 - **AI 集成**: 内置 Spring AI 1.0.3 支持，轻松构建智能化应用
 - **模块化架构**: 采用 Spring Modulith 实现模块化单体架构
 - **云原生支持**: 完整的微服务治理能力，支持容器化部署
@@ -60,7 +62,7 @@ bubble/
 
 | 技术 | 版本 | 说明 |
 |------|------|------|
-| Java | 17+ | 基础运行环境 |
+| Java | 21+ | 基础运行环境 |
 | Spring Boot | 3.5.7 | 应用框架 |
 | Spring Cloud | 2025.0.0 | 微服务框架 |
 | Spring Cloud Alibaba | 2023.0.3.3 | 阿里云微服务套件 |
@@ -79,7 +81,7 @@ bubble/
 
 #### 1. 环境要求
 
-- JDK 17+
+- JDK 21+
 - Maven 3.6+
 - Redis 6.0+（可选）
 - MySQL 8.0+（可选）
