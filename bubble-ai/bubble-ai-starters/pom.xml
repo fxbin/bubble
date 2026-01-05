@@ -17,6 +17,7 @@
     <modules>
         <module>bubble-ai-starter</module>
         <module>bubble-ai-starter-lightrag</module>
+        <module>bubble-ai-starter-model</module>
     </modules>
 
 </project>

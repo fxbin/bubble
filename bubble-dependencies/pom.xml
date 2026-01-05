@@ -15,9 +15,11 @@
 
     <properties>
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
-        <spring-boot.version>3.5.7</spring-boot.version>
-        <spring-ai.version>1.0.3</spring-ai.version>
-        <spring-ai-alibaba.version>1.0.0.4</spring-ai-alibaba.version>
+        <spring-boot.version>3.5.8</spring-boot.version>
+        <spring-ai.version>1.1.2</spring-ai.version>
+        <spring-ai-alibaba-extensions.version>1.1.2.0</spring-ai-alibaba-extensions.version>
+        <spring-ai-alibaba.version>1.1.0.0</spring-ai-alibaba.version>
+
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
         <spring-modulith.version>1.4.4</spring-modulith.version>
@@ -178,6 +180,12 @@
                 <version>2.0.0.BUILD-SNAPSHOT</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.fxbin.bubble</groupId>
+                <artifactId>bubble-ai-starter-model</artifactId>
+                <version>2.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+
             <!-- Spring Boot POM -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -192,6 +200,15 @@
                 <groupId>org.springframework.ai</groupId>
                 <artifactId>spring-ai-bom</artifactId>
                 <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring AI Alibaba Extensions POM -->
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-extensions-bom</artifactId>
+                <version>${spring-ai-alibaba-extensions.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS ai_model_config (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    config_name TEXT NOT NULL UNIQUE,
+    platform TEXT NOT NULL,
+    api_key TEXT DEFAULT NULL,
+    base_url TEXT DEFAULT NULL,
+    model TEXT DEFAULT NULL,
+    description TEXT DEFAULT NULL,
+    temperature REAL DEFAULT 0.7,
+    top_k INTEGER DEFAULT NULL,
+    enabled INTEGER DEFAULT 1,
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);
