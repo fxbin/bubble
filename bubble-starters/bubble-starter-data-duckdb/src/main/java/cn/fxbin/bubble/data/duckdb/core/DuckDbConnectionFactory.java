@@ -120,8 +120,11 @@ public class DuckDbConnectionFactory {
             dataSource.addDataSourceProperty("threads", defaultProperties.getThreads());
         }
 
-        // 默认禁用插入顺序保留，以减少内存压力 (针对大数据量导入/查询)
-        dataSource.addDataSourceProperty("preserve_insertion_order", "false");
+        // 应用插入顺序保留配置（默认 false 以减少内存使用）
+        if (defaultProperties.getPreserveInsertionOrder() != null) {
+            dataSource.addDataSourceProperty("preserve_insertion_order",
+                    defaultProperties.getPreserveInsertionOrder().toString());
+        }
 
         // 2. 应用扩展相关配置
         if (defaultProperties.isAllowUnsignedExtensions()) {

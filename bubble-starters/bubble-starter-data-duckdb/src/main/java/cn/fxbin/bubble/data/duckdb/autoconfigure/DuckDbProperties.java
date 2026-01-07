@@ -112,6 +112,17 @@ public class DuckDbProperties {
      */
     private String threads = String.valueOf(Runtime.getRuntime().availableProcessors());
 
+    /**
+     * 是否保留插入顺序 (preserve_insertion_order)
+     * 默认为 false，以减少内存使用。
+     * 当设置为 true 时，DuckDB 会保持插入顺序，但会消耗更多内存。
+     * 对于大数据量导入/查询，建议设置为 false 以提升性能。
+     */
+    private Boolean preserveInsertionOrder = false;
+
+    /**
+     * 数据库模式枚举
+     */
     public enum Mode {
         /**
          * 内存数据库。进程退出时数据将丢失。
