@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Bean;
         BubbleAiMybatisAutoConfiguration.MYBATIS_BASE_MAPPER_X,
         BubbleAiMybatisAutoConfiguration.MYBATIS_MAPPER_SCANNER_CONFIGURER,
 })
-@ConditionalOnBean(type = BubbleAiMybatisAutoConfiguration.MYBATIS_SQL_SESSION_FACTORY)
 @ConditionalOnProperty(prefix = BubbleAiMybatisAutoConfiguration.MODEL_CONFIG_PROPERTY_PREFIX,
         name = BubbleAiMybatisAutoConfiguration.ENABLED_PROPERTY_NAME,
         havingValue = "true",
@@ -63,7 +62,7 @@ public class BubbleAiMybatisAutoConfiguration {
      * @author fxbin
      */
     @Bean
-    public static Object bubbleAiMapperScannerConfigurer() {
+    public Object bubbleAiMapperScannerConfigurer() {
         try {
             Class<?> mapperScannerConfigurerClass = Class.forName(MYBATIS_MAPPER_SCANNER_CONFIGURER);
             Object configurer = mapperScannerConfigurerClass.getDeclaredConstructor().newInstance();

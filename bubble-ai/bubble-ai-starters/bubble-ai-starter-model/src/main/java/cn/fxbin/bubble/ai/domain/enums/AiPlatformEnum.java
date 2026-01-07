@@ -45,7 +45,15 @@ public enum AiPlatformEnum {
     /**
      * SiliconFlow
      */
-    SILICONFLOW("siliconflow", "SiliconFlow");
+    SILICONFLOW("siliconflow", "SiliconFlow"),
+    /**
+     * Alibaba DashScope
+     */
+    DASHSCOPE("dashscope", "DashScope"),
+    /**
+     * Azure OpenAI
+     */
+    AZURE_OPENAI("azure_openai", "Azure OpenAI");
 
     @EnumValue
     private final String code;

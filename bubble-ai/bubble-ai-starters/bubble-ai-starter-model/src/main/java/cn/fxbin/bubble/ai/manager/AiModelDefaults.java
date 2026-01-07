@@ -25,6 +25,8 @@ public class AiModelDefaults {
         DEFAULT_MODELS.put(AiPlatformEnum.OLLAMA, "llama3.2");
         DEFAULT_MODELS.put(AiPlatformEnum.MINIMAX, "MiniMax-M2.1");
         DEFAULT_MODELS.put(AiPlatformEnum.SILICONFLOW, "deepseek-ai/DeepSeek-V3.2");
+        DEFAULT_MODELS.put(AiPlatformEnum.DASHSCOPE, "qwen-max");
+        DEFAULT_MODELS.put(AiPlatformEnum.AZURE_OPENAI, "gpt-5-mini");
     }
 
     /**

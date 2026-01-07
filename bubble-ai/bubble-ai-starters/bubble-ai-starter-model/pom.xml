@@ -39,6 +39,11 @@
 
         <dependency>
             <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-azure-openai</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-ollama</artifactId>
         </dependency>
 
@@ -57,14 +62,23 @@
             <artifactId>spring-ai-zhipuai</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba.cloud.ai</groupId>
+            <artifactId>spring-ai-alibaba-dashscope</artifactId>
+        </dependency>
+
+
+        <!-- Apache HttpClient 5 for RestClient timeout configuration -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+        </dependency>
 
         <!-- MyBatis Plus for DB Config Support -->
         <dependency>
             <groupId>cn.fxbin.bubble</groupId>
             <artifactId>bubble-starter-data-mybatis-plus</artifactId>
-            <optional>true</optional>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

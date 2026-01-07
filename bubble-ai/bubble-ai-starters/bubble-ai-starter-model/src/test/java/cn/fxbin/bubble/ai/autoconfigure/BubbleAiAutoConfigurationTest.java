@@ -31,14 +31,15 @@ class BubbleAiAutoConfigurationTest {
     @Test
     void shouldNotCreateAiModelConfigServiceWhenIServiceMissing() {
         new ApplicationContextRunner()
-                .withClassLoader(new FilteredClassLoader("com.baomidou.mybatisplus.extension.service.IService"))
                 .withConfiguration(AutoConfigurations.of(BubbleAiAutoConfiguration.class))
                 .run(context -> assertThat(context).doesNotHaveBean(AiModelConfigService.class));
     }
 
     @Test
     void shouldCreateAiModelConfigServiceWhenIServicePresent() {
-        contextRunner.run(context -> assertThat(context).hasSingleBean(AiModelConfigService.class));
+        contextRunner
+                .withPropertyValues("bubble.ai.model-config.enabled=true")
+                .run(context -> assertThat(context).hasSingleBean(AiModelConfigService.class));
     }
 
 }

@@ -8,11 +8,26 @@ import cn.fxbin.bubble.ai.token.TokenCountingChatModel;
 import cn.fxbin.bubble.ai.token.TokenUsageRecorder;
 import cn.fxbin.bubble.ai.util.SensitiveDataUtils;
 import cn.fxbin.bubble.core.util.StringUtils;
+import com.alibaba.cloud.ai.dashscope.api.DashScopeApi;
+import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
+import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatOptions;
+import com.azure.ai.openai.OpenAIClientBuilder;
+import com.azure.core.credential.KeyCredential;
 import io.micrometer.observation.ObservationRegistry;
+import io.netty.channel.ChannelOption;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.ai.anthropic.AnthropicChatModel;
 import org.springframework.ai.anthropic.AnthropicChatOptions;
 import org.springframework.ai.anthropic.api.AnthropicApi;
+import org.springframework.ai.azure.openai.AzureOpenAiChatModel;
+import org.springframework.ai.azure.openai.AzureOpenAiChatOptions;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatOptions;
@@ -34,13 +49,20 @@ import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
 import org.springframework.ai.zhipuai.ZhiPuAiChatOptions;
 import org.springframework.ai.zhipuai.api.ZhiPuAiApi;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.retry.support.RetryTemplate;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * AI 模型工厂实现
@@ -176,6 +198,8 @@ public class AiModelFactoryImpl implements AiModelFactory {
             case ZHIPU -> zhipuAiChatModelProvider.getIfAvailable();
             case MINIMAX -> minimaxChatModelProvider.getIfAvailable();
             case SILICONFLOW -> openAiChatModelProvider.getIfAvailable();
+            case DASHSCOPE -> null;
+            case AZURE_OPENAI -> null;
         };
     }
 
@@ -245,6 +269,8 @@ public class AiModelFactoryImpl implements AiModelFactory {
             case ZHIPU -> buildZhipuAiChatModel(apiKey, url, modelName, temperature, topK);
             case MINIMAX -> buildMinimaxChatModel(apiKey, url, modelName, temperature, topK);
             case SILICONFLOW -> buildSiliconFlowChatModel(apiKey, url, modelName, temperature, topK);
+            case DASHSCOPE -> buildDashScopeChatModel(apiKey, url, modelName, temperature, topK);
+            case AZURE_OPENAI -> buildAzureOpenAiChatModel(apiKey, url, modelName, temperature, topK);
             case GEMINI -> {
                 ChatModel injected = geminiChatModelProvider.getIfAvailable();
                 if (injected != null) {
@@ -274,6 +300,10 @@ public class AiModelFactoryImpl implements AiModelFactory {
         if (StringUtils.isNotBlank(baseUrl)) {
             apiBuilder.baseUrl(baseUrl);
         }
+        
+        RestClient.Builder restClientBuilder = createRestClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        
         OpenAiApi api = apiBuilder.build();
         OpenAiChatOptions options = OpenAiChatOptions.builder().model(model).temperature(temperature).topP(topP).build();
 
@@ -281,6 +311,91 @@ public class AiModelFactoryImpl implements AiModelFactory {
                 .openAiApi(api)
                 .defaultOptions(options)
                 .retryTemplate(retryTemplate);
+        if (toolCallingManager != null) {
+            builder.toolCallingManager(toolCallingManager);
+        }
+        if (observationRegistry != null) {
+            builder.observationRegistry(observationRegistry);
+        }
+        return builder.build();
+    }
+
+    /**
+     * 构建 DashScope ChatModel
+     *
+     * @param apiKey      API Key
+     * @param baseUrl     Base URL
+     * @param model       模型名称
+     * @param temperature 温度
+     * @param topK        Top K
+     * @return {@link DashScopeChatModel}
+     */
+    private DashScopeChatModel buildDashScopeChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
+        if (StringUtils.isBlank(apiKey)) {
+            throw new IllegalArgumentException("apiKey must not be blank");
+        }
+
+        DashScopeApi.Builder apiBuilder = DashScopeApi.builder().apiKey(apiKey);
+        if (StringUtils.isNotBlank(baseUrl)) {
+            apiBuilder.baseUrl(baseUrl);
+        }
+        
+        WebClient.Builder webClientBuilder = createWebClientBuilder();
+        applyMethodIfPresent(apiBuilder, "webClientBuilder", WebClient.Builder.class, webClientBuilder);
+        
+        DashScopeApi api = apiBuilder.build();
+        DashScopeChatOptions options = DashScopeChatOptions.builder().model(model).temperature(temperature).build();
+
+        DashScopeChatModel.Builder builder = DashScopeChatModel.builder()
+                .dashScopeApi(api)
+                .defaultOptions(options)
+                .retryTemplate(retryTemplate);
+        if (toolCallingManager != null) {
+            builder.toolCallingManager(toolCallingManager);
+        }
+        if (observationRegistry != null) {
+            builder.observationRegistry(observationRegistry);
+        }
+        return builder.build();
+    }
+
+    /**
+     * 构建 Azure OpenAI ChatModel
+     *
+     * @param apiKey      API Key
+     * @param baseUrl     Base URL
+     * @param model       模型名称
+     * @param temperature 温度
+     * @param topK        Top K
+     * @return {@link AzureOpenAiChatModel}
+     */
+    private AzureOpenAiChatModel buildAzureOpenAiChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
+        if (StringUtils.isBlank(apiKey)) {
+            throw new IllegalArgumentException("apiKey must not be blank");
+        }
+        if (StringUtils.isBlank(baseUrl)) {
+            throw new IllegalArgumentException("baseUrl must not be blank for Azure OpenAI");
+        }
+
+        BubbleAiProperties.HttpTimeout timeout = properties.getHttpTimeout();
+        
+        com.azure.core.http.HttpClient azureHttpClient = new com.azure.core.http.netty.NettyAsyncHttpClientBuilder()
+                .connectTimeout(java.time.Duration.ofMillis(timeout.getConnectTimeout()))
+                .responseTimeout(java.time.Duration.ofMillis(timeout.getReadTimeout()))
+                .build();
+
+        OpenAIClientBuilder clientBuilder = new OpenAIClientBuilder()
+                .credential(new KeyCredential(apiKey))
+                .endpoint(baseUrl)
+                .httpClient(azureHttpClient);
+
+        AzureOpenAiChatOptions.Builder optionsBuilder = AzureOpenAiChatOptions.builder().deploymentName(model).temperature(temperature);
+        applyTopKIfSupported(optionsBuilder, topK);
+        AzureOpenAiChatOptions options = optionsBuilder.build();
+
+        AzureOpenAiChatModel.Builder builder = AzureOpenAiChatModel.builder()
+                .openAIClientBuilder(clientBuilder)
+                .defaultOptions(options);
         if (toolCallingManager != null) {
             builder.toolCallingManager(toolCallingManager);
         }
@@ -303,7 +418,12 @@ public class AiModelFactoryImpl implements AiModelFactory {
         if (StringUtils.isBlank(baseUrl)) {
             baseUrl = AiModelConstants.Ollama.DEFAULT_BASE_URL;
         }
-        OllamaApi api = OllamaApi.builder().baseUrl(baseUrl).build();
+        OllamaApi.Builder apiBuilder = OllamaApi.builder().baseUrl(baseUrl);
+        
+        RestClient.Builder restClientBuilder = createRestClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        
+        OllamaApi api = apiBuilder.build();
         OllamaChatOptions.Builder optionsBuilder = OllamaChatOptions.builder().model(model).temperature(temperature);
         applyTopKIfSupported(optionsBuilder, topK);
         OllamaChatOptions options = optionsBuilder.build();
@@ -338,10 +458,14 @@ public class AiModelFactoryImpl implements AiModelFactory {
             baseUrl = "https://api.anthropic.com";
         }
 
-        AnthropicApi api = AnthropicApi.builder()
+        AnthropicApi.Builder apiBuilder = AnthropicApi.builder()
                 .apiKey(apiKey)
-                .baseUrl(baseUrl)
-                .build();
+                .baseUrl(baseUrl);
+        
+        RestClient.Builder restClientBuilder = createRestClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        
+        AnthropicApi api = apiBuilder.build();
         AnthropicChatOptions.Builder optionsBuilder = AnthropicChatOptions.builder().model(model).temperature(temperature);
         applyTopKIfSupported(optionsBuilder, topK);
         AnthropicChatOptions options = optionsBuilder.build();
@@ -377,7 +501,12 @@ public class AiModelFactoryImpl implements AiModelFactory {
             baseUrl = "https://api.deepseek.com";
         }
 
-        DeepSeekApi api = DeepSeekApi.builder().apiKey(apiKey).baseUrl(baseUrl).build();
+        DeepSeekApi.Builder apiBuilder = DeepSeekApi.builder().apiKey(apiKey).baseUrl(baseUrl);
+        
+        RestClient.Builder restClientBuilder = createRestClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        
+        DeepSeekApi api = apiBuilder.build();
         DeepSeekChatOptions.Builder optionsBuilder = DeepSeekChatOptions.builder().model(model).temperature(temperature);
         applyTopKIfSupported(optionsBuilder, topK);
         DeepSeekChatOptions options = optionsBuilder.build();
@@ -410,13 +539,17 @@ public class AiModelFactoryImpl implements AiModelFactory {
             throw new IllegalArgumentException("apiKey must not be blank");
         }
 
-        ZhiPuAiApi.Builder builder = ZhiPuAiApi.builder().apiKey(apiKey);
+        ZhiPuAiApi.Builder apiBuilder = ZhiPuAiApi.builder().apiKey(apiKey);
         if (StringUtils.isNotBlank(baseUrl)) {
-            builder.baseUrl(baseUrl);
+            apiBuilder.baseUrl(baseUrl);
         } else {
-            builder.baseUrl("https://open.bigmodel.cn/api/paas/");
+            apiBuilder.baseUrl("https://open.bigmodel.cn/api/paas/");
         }
-        ZhiPuAiApi api = builder.build();
+        
+        RestClient.Builder restClientBuilder = createRestClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        
+        ZhiPuAiApi api = apiBuilder.build();
         ZhiPuAiChatOptions.Builder optionsBuilder = ZhiPuAiChatOptions.builder().model(model).temperature(temperature);
         applyTopKIfSupported(optionsBuilder, topK);
         ZhiPuAiChatOptions options = optionsBuilder.build();
@@ -468,6 +601,10 @@ public class AiModelFactoryImpl implements AiModelFactory {
         }
 
         OpenAiApi.Builder apiBuilder = OpenAiApi.builder().apiKey(apiKey).baseUrl(baseUrl);
+        
+        RestClient.Builder restClientBuilder = createRestClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        
         OpenAiApi api = apiBuilder.build();
         OpenAiChatOptions.Builder optionsBuilder = OpenAiChatOptions.builder().model(model).temperature(temperature);
         applyTopKIfSupported(optionsBuilder, topK);
@@ -494,6 +631,58 @@ public class AiModelFactoryImpl implements AiModelFactory {
         applyMethodIfPresent(builder, "topK", int.class, topK);
         applyMethodIfPresent(builder, "top_k", Integer.class, topK);
         applyMethodIfPresent(builder, "top_k", int.class, topK);
+    }
+
+    /**
+     * 创建配置超时的 HttpClient (用于异步调用)
+     *
+     * @return {@link HttpClient}
+     */
+    private HttpClient createHttpClient() {
+        BubbleAiProperties.HttpTimeout timeout = properties.getHttpTimeout();
+        return HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeout.getConnectTimeout())
+                .doOnConnected(conn -> conn
+                        .addHandlerLast(new ReadTimeoutHandler(timeout.getReadTimeout() / 1000, TimeUnit.SECONDS))
+                        .addHandlerLast(new WriteTimeoutHandler(timeout.getWriteTimeout(), TimeUnit.SECONDS)))
+                .responseTimeout(Duration.ofMinutes(timeout.getResponseTimeout()));
+    }
+
+    /**
+     * 创建配置超时的 WebClient.Builder (用于异步调用)
+     *
+     * @return {@link WebClient.Builder}
+     */
+    private WebClient.Builder createWebClientBuilder() {
+        return WebClient.builder()
+                .clientConnector(new ReactorClientHttpConnector(createHttpClient()));
+    }
+
+    /**
+     * 创建配置超时的 RestClient.Builder (用于同步调用)
+     *
+     * @return {@link RestClient.Builder}
+     */
+    private RestClient.Builder createRestClientBuilder() {
+        BubbleAiProperties.HttpTimeout timeout = properties.getHttpTimeout();
+        
+        ConnectionConfig connectionConfig = ConnectionConfig.custom()
+                .setConnectTimeout(Timeout.ofMilliseconds(timeout.getConnectTimeout()))
+                .build();
+        
+        BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager();
+        connectionManager.setConnectionConfig(connectionConfig);
+
+        final CloseableHttpClient httpClient = HttpClientBuilder.create()
+                .setConnectionManager(connectionManager)
+                .build();
+
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        requestFactory.setConnectionRequestTimeout(timeout.getConnectionRequestTimeout());
+        requestFactory.setReadTimeout(timeout.getReadTimeout());
+
+        return RestClient.builder()
+                .requestFactory(requestFactory);
     }
 
     private static void applyMethodIfPresent(Object target, String methodName, Class<?> parameterType, Object value) {

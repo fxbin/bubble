@@ -28,6 +28,11 @@ public class BubbleAiProperties {
     private ModelConfig modelConfig = new ModelConfig();
 
     /**
+     * HTTP 客户端超时配置
+     */
+    private HttpTimeout httpTimeout = new HttpTimeout();
+
+    /**
      * 多模型配置提供商
      * <p>Key: 自定义提供商ID (如: deepseek-v3, gpt-4-turbo)</p>
      */
@@ -93,5 +98,38 @@ public class BubbleAiProperties {
          * Top K
          */
         private Integer topK;
+    }
+
+    @Data
+    public static class HttpTimeout {
+        /**
+         * 连接超时时间（毫秒）
+         * <p>默认: 30000 (30秒)</p>
+         */
+        private int connectTimeout = 30000;
+
+        /**
+         * 连接请求超时时间（毫秒）
+         * <p>默认: 30000 (30秒)</p>
+         */
+        private int connectionRequestTimeout = 30000;
+
+        /**
+         * 读取超时时间（毫秒）
+         * <p>默认: 300000 (5分钟)</p>
+         */
+        private int readTimeout = 300000;
+
+        /**
+         * 写入超时时间（秒）
+         * <p>默认: 30 (30秒)</p>
+         */
+        private int writeTimeout = 30;
+
+        /**
+         * 响应超时时间（分钟）
+         * <p>默认: 5 (5分钟)</p>
+         */
+        private int responseTimeout = 5;
     }
 }

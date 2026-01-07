@@ -9,9 +9,11 @@ import cn.fxbin.bubble.ai.service.AiModelConfigService;
 import cn.fxbin.bubble.ai.service.impl.AiModelConfigServiceImpl;
 import cn.fxbin.bubble.ai.token.DefaultTokenUsageRecorder;
 import cn.fxbin.bubble.ai.token.TokenUsageRecorder;
+import io.micrometer.observation.ObservationRegistry;
 import org.springframework.ai.anthropic.AnthropicChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
 import org.springframework.ai.minimax.MiniMaxChatModel;
+import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.tokenizer.JTokkitTokenCountEstimator;
@@ -21,10 +23,11 @@ import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.retry.support.RetryTemplate;
 
 /**
  * Bubble AI 自动配置
@@ -87,9 +90,9 @@ public class BubbleAiAutoConfiguration {
                                          ObjectProvider<DeepSeekChatModel> deepSeekChatModelProvider,
                                          ObjectProvider<ZhiPuAiChatModel> zhipuAiChatModelProvider,
                                          ObjectProvider<MiniMaxChatModel> minimaxChatModelProvider,
-                                         ObjectProvider<org.springframework.ai.model.tool.ToolCallingManager> toolCallingManagerProvider,
-                                         ObjectProvider<io.micrometer.observation.ObservationRegistry> observationRegistryProvider,
-                                         ObjectProvider<org.springframework.retry.support.RetryTemplate> retryTemplateProvider) {
+                                         ObjectProvider<ToolCallingManager> toolCallingManagerProvider,
+                                         ObjectProvider<ObservationRegistry> observationRegistryProvider,
+                                         ObjectProvider<RetryTemplate> retryTemplateProvider) {
         return new AiModelFactoryImpl(properties, tokenUsageRecorder, tokenCountEstimator,
                                       openAiChatModelProvider, 
                                       ollamaChatModelProvider, 
@@ -123,8 +126,7 @@ public class BubbleAiAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnClass(name = "com.baomidou.mybatisplus.extension.service.IService")
-    @ConditionalOnBean(AiModelConfigMapper.class)
+    @ConditionalOnBooleanProperty(prefix = "bubble.ai.model-config", name = "enabled", havingValue = true)
     public AiModelConfigService aiModelConfigService(AiModelFactory aiModelFactory, AiModelConfigMapper aiModelConfigMapper) {
         return new AiModelConfigServiceImpl(aiModelFactory, aiModelConfigMapper);
     }
