@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @TableName("ai_model_config")
 public class AiModelConfig implements Serializable {
 
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**

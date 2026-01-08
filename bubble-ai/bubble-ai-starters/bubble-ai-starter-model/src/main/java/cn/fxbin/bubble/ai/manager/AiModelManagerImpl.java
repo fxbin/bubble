@@ -62,7 +62,7 @@ public class AiModelManagerImpl implements AiModelManager {
                                 try {
                                     String modelName = AiModelDefaults.resolveModelName(c.getPlatform(), c.getModel());
                                     models.add(new AiModelInfo(
-                                            c.getConfigName(),
+                                            c.getId(),
                                             c.getConfigName(),
                                             modelName,
                                             c.getDescription(),

@@ -543,6 +543,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
         if (StringUtils.isNotBlank(baseUrl)) {
             apiBuilder.baseUrl(baseUrl);
         } else {
+
             apiBuilder.baseUrl("https://open.bigmodel.cn/api/paas/");
         }
         
@@ -554,7 +555,13 @@ public class AiModelFactoryImpl implements AiModelFactory {
         applyTopKIfSupported(optionsBuilder, topK);
         ZhiPuAiChatOptions options = optionsBuilder.build();
 
-        return new ZhiPuAiChatModel(api, options, toolCallingManager, retryTemplate, observationRegistry);
+        if (toolCallingManager != null && observationRegistry != null) {
+            return new ZhiPuAiChatModel(api, options, toolCallingManager, retryTemplate, observationRegistry);
+        } else if (observationRegistry != null) {
+            return new ZhiPuAiChatModel(api, options, retryTemplate, observationRegistry);
+        } else {
+            return new ZhiPuAiChatModel(api, options, retryTemplate);
+        }
     }
 
     /**
@@ -577,7 +584,11 @@ public class AiModelFactoryImpl implements AiModelFactory {
         applyTopKIfSupported(optionsBuilder, topK);
         MiniMaxChatOptions options = optionsBuilder.build();
 
-        return new MiniMaxChatModel(api, options, toolCallingManager, retryTemplate);
+        if (toolCallingManager != null) {
+            return new MiniMaxChatModel(api, options, toolCallingManager, retryTemplate);
+        } else {
+            return new MiniMaxChatModel(api, options);
+        }
     }
 
     /**

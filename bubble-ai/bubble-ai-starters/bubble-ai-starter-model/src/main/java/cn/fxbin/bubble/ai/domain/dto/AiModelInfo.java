@@ -12,7 +12,7 @@ package cn.fxbin.bubble.ai.domain.dto;
  * @author fxbin
  */
 public record AiModelInfo(
-        String id,
+        Object id,
         String name,
         String code,
         String description,
