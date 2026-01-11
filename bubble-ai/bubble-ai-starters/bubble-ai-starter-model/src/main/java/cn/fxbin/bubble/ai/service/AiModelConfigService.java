@@ -13,12 +13,12 @@ import org.springframework.ai.chat.model.ChatModel;
 public interface AiModelConfigService extends IService<AiModelConfig> {
 
     /**
-     * 根据配置名称获取 ChatModel
+     * 根据配置ID获取 ChatModel
      *
-     * @param configName 配置名称
+     * @param modelId 模型ID (对应数据库配置ID)
      * @return {@link ChatModel}
      */
-    ChatModel getChatModel(String configName);
+    ChatModel getChatModel(String modelId);
 
     /**
      * 校验配置名称是否唯一

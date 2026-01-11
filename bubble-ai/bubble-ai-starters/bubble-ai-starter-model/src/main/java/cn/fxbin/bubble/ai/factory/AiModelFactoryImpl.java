@@ -168,14 +168,14 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     @Override
-    public ChatModel getChatModel(String providerId) {
-        if (StringUtils.isEmpty(providerId)) {
-            throw new IllegalArgumentException("providerId must not be blank");
+    public ChatModel getChatModel(String modelId) {
+        if (StringUtils.isEmpty(modelId)) {
+            throw new IllegalArgumentException("modelId must not be blank");
         }
 
-        BubbleAiProperties.ProviderConfig config = properties.getProviders().get(providerId);
+        BubbleAiProperties.ProviderConfig config = properties.getProviders().get(modelId);
         if (config == null) {
-            throw new IllegalArgumentException("No provider config found for id: " + providerId);
+            throw new IllegalArgumentException("No provider config found for id: " + modelId);
         }
 
         return getOrCreateChatModel(

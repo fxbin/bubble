@@ -30,18 +30,18 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
 
 
     @Override
-    public ChatModel getChatModel(String configName) {
-        if (StrUtil.isBlank(configName)) {
-            throw new IllegalArgumentException("configName must not be blank");
+    public ChatModel getChatModel(String modelId) {
+        if (StrUtil.isBlank(modelId)) {
+            throw new IllegalArgumentException("modelId must not be blank");
         }
 
         AiModelConfig config = aiModelConfigMapper.selectOne(
                 Wrappers.lambdaQuery(AiModelConfig.class)
-                        .eq(AiModelConfig::getConfigName, configName)
+                        .eq(AiModelConfig::getId, modelId)
                         .eq(AiModelConfig::getEnabled, true)
         );
 
-        Assert.notNull(config, "AI Model Config not found or disabled: {}", configName);
+        Assert.notNull(config, "AI Model Config not found or disabled: {}", modelId);
 
         AiPlatformEnum platform = config.getPlatform();
         Assert.notNull(platform, "Unsupported platform: {}", config.getPlatform());
@@ -50,9 +50,9 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
         String resolvedModelName = AiModelDefaults.resolveModelName(platform, originalModelName);
 
         if (StrUtil.isBlank(originalModelName) || "-".equals(originalModelName)) {
-            log.info("AI Model Config [{}] 使用默认模型: platform={}, modelName={}", configName, platform, resolvedModelName);
+            log.info("AI Model Config [{}] 使用默认模型: platform={}, modelName={}", modelId, platform, resolvedModelName);
         } else {
-            log.info("AI Model Config [{}] 使用配置模型: platform={}, modelName={}", configName, platform, resolvedModelName);
+            log.info("AI Model Config [{}] 使用配置模型: platform={}, modelName={}", modelId, platform, resolvedModelName);
         }
 
         return aiModelFactory.getOrCreateChatModel(

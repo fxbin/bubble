@@ -37,9 +37,9 @@ public interface AiModelFactory {
     /**
      * 根据配置 ID 获取 ChatModel
      *
-     * @param providerId 配置 ID (bubble.ai.providers.{providerId})
+     * @param modelId 模型ID (对应配置文件Key或数据库配置ID)
      * @return ChatModel 实例
      * @throws IllegalArgumentException 如果找不到对应的配置
      */
-    ChatModel getChatModel(String providerId);
+    ChatModel getChatModel(String modelId);
 }
