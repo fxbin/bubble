@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 /**
  * AI 模型配置实体
+ * <p>用于存储和管理AI模型的配置信息，包括平台、API密钥、模型参数等</p>
  *
  * @author fxbin
  * @since 2024/05/28
@@ -57,14 +58,28 @@ public class AiModelConfig implements Serializable {
      */
     private Double temperature;
 
+    /**
+     * Top K
+     */
     private Integer topK;
+
+    /**
+     * Top P
+     */
+    private Double topP;
 
     /**
      * 是否启用
      */
     private Boolean enabled;
 
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 
 /**
  * AI 平台枚举
+ * <p>定义支持的AI平台类型</p>
  *
  * @author fxbin
  * @since 2024/05/28
@@ -55,10 +56,23 @@ public enum AiPlatformEnum {
      */
     AZURE_OPENAI("azure_openai", "Azure OpenAI");
 
+    /**
+     * 平台代码
+     */
     @EnumValue
     private final String code;
+    
+    /**
+     * 平台名称
+     */
     private final String name;
 
+    /**
+     * 根据代码获取平台枚举
+     *
+     * @param code 平台代码
+     * @return 平台枚举
+     */
     public static AiPlatformEnum getByCode(String code) {
         for (AiPlatformEnum value : values()) {
             if (value.getCode().equals(code)) {

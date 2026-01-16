@@ -11,15 +11,20 @@ import cn.fxbin.bubble.ai.token.DefaultTokenUsageRecorder;
 import cn.fxbin.bubble.ai.token.TokenUsageRecorder;
 import io.micrometer.observation.ObservationRegistry;
 import org.springframework.ai.anthropic.AnthropicChatModel;
+import org.springframework.ai.azure.openai.AzureOpenAiEmbeddingModel;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
 import org.springframework.ai.minimax.MiniMaxChatModel;
+import org.springframework.ai.minimax.MiniMaxEmbeddingModel;
 import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.ai.ollama.OllamaEmbeddingModel;
 import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.ai.tokenizer.JTokkitTokenCountEstimator;
 import org.springframework.ai.tokenizer.TokenCountEstimator;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
+import org.springframework.ai.zhipuai.ZhiPuAiEmbeddingModel;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -73,6 +78,11 @@ public class BubbleAiAutoConfiguration {
      * @param deepSeekChatModelProvider  DeepSeek ChatModel Provider
      * @param zhipuAiChatModelProvider   ZhipuAI ChatModel Provider
      * @param minimaxChatModelProvider   Minimax ChatModel Provider
+     * @param openAiEmbeddingModelProvider    OpenAI EmbeddingModel Provider
+     * @param ollamaEmbeddingModelProvider    Ollama EmbeddingModel Provider
+     * @param zhipuAiEmbeddingModelProvider   ZhipuAI EmbeddingModel Provider
+     * @param minimaxEmbeddingModelProvider   Minimax EmbeddingModel Provider
+     * @param azureOpenAiEmbeddingModelProvider Azure OpenAI EmbeddingModel Provider
      * @param toolCallingManagerProvider ToolCallingManager Provider
      * @param observationRegistryProvider ObservationRegistry Provider
      * @param retryTemplateProvider      RetryTemplate Provider
@@ -90,6 +100,11 @@ public class BubbleAiAutoConfiguration {
                                          ObjectProvider<DeepSeekChatModel> deepSeekChatModelProvider,
                                          ObjectProvider<ZhiPuAiChatModel> zhipuAiChatModelProvider,
                                          ObjectProvider<MiniMaxChatModel> minimaxChatModelProvider,
+                                         ObjectProvider<OpenAiEmbeddingModel> openAiEmbeddingModelProvider,
+                                         ObjectProvider<OllamaEmbeddingModel> ollamaEmbeddingModelProvider,
+                                         ObjectProvider<ZhiPuAiEmbeddingModel> zhipuAiEmbeddingModelProvider,
+                                         ObjectProvider<MiniMaxEmbeddingModel> minimaxEmbeddingModelProvider,
+                                         ObjectProvider<AzureOpenAiEmbeddingModel> azureOpenAiEmbeddingModelProvider,
                                          ObjectProvider<ToolCallingManager> toolCallingManagerProvider,
                                          ObjectProvider<ObservationRegistry> observationRegistryProvider,
                                          ObjectProvider<RetryTemplate> retryTemplateProvider) {
@@ -101,6 +116,11 @@ public class BubbleAiAutoConfiguration {
                                       deepSeekChatModelProvider,
                                       zhipuAiChatModelProvider,
                                       minimaxChatModelProvider,
+                                      openAiEmbeddingModelProvider,
+                                      ollamaEmbeddingModelProvider,
+                                      zhipuAiEmbeddingModelProvider,
+                                      minimaxEmbeddingModelProvider,
+                                      azureOpenAiEmbeddingModelProvider,
                                       toolCallingManagerProvider,
                                       observationRegistryProvider,
                                       retryTemplateProvider);
@@ -129,6 +149,20 @@ public class BubbleAiAutoConfiguration {
     @ConditionalOnBooleanProperty(prefix = "bubble.ai.model-config", name = "enabled", havingValue = true)
     public AiModelConfigService aiModelConfigService(AiModelFactory aiModelFactory, AiModelConfigMapper aiModelConfigMapper) {
         return new AiModelConfigServiceImpl(aiModelFactory, aiModelConfigMapper);
+    }
+
+    /**
+     * AI 模型缓存预热器
+     *
+     * @param properties    配置属性
+     * @param aiModelFactory AI 模型工厂
+     * @return {@link AiModelCacheWarmer}
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnBooleanProperty(prefix = "bubble.ai.cache", name = "preload-enabled", havingValue = true)
+    public AiModelCacheWarmer aiModelCacheWarmer(BubbleAiProperties properties, AiModelFactory aiModelFactory) {
+        return new AiModelCacheWarmer(properties, aiModelFactory);
     }
 
 }

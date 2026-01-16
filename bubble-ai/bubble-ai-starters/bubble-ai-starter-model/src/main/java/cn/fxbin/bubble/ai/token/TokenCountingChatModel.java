@@ -11,6 +11,12 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.tokenizer.TokenCountEstimator;
 import reactor.core.publisher.Flux;
 
+/**
+ * Token 计数 ChatModel 装饰器
+ * <p>装饰器模式，用于统计和记录Token使用情况</p>
+ *
+ * @author fxbin
+ */
 @Slf4j
 public class TokenCountingChatModel implements ChatModel {
 

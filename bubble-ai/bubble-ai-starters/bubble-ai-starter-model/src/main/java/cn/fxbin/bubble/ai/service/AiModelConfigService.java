@@ -6,6 +6,7 @@ import org.springframework.ai.chat.model.ChatModel;
 
 /**
  * AI 模型配置服务接口
+ * <p>提供AI模型配置的业务逻辑操作</p>
  *
  * @author fxbin
  * @since 2026/01/05 21:00
@@ -27,5 +28,26 @@ public interface AiModelConfigService extends IService<AiModelConfig> {
      * @param id         主键ID (排除自身)
      */
     void validateConfigNameUnique(String configName, Long id);
+
+    /**
+     * 创建 AI 模型配置
+     *
+     * @param aiModelConfig AI 模型配置
+     */
+    void createAiModel(AiModelConfig aiModelConfig);
+
+    /**
+     * 更新 AI 模型配置
+     *
+     * @param aiModelConfig AI 模型配置
+     */
+    void updateAiModel(AiModelConfig aiModelConfig);
+
+    /**
+     * 删除 AI 模型配置
+     *
+     * @param id 主键ID
+     */
+    void removeAiModel(Long id);
 
 }

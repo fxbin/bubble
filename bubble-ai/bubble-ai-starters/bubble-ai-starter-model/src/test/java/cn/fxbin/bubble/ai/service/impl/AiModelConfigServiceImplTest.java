@@ -49,7 +49,7 @@ class AiModelConfigServiceImplTest {
         config.setTopK(50);
 
         when(mapper.selectOne(any())).thenReturn(config);
-        when(aiModelFactory.getOrCreateChatModel(eq(AiPlatformEnum.OPENAI), eq("k"), eq("u"), eq("m"), eq(0.3), eq(50)))
+        when(aiModelFactory.getOrCreateChatModel(eq(AiPlatformEnum.OPENAI), eq("k"), eq("u"), eq("m"), eq(0.3), eq(50), eq(null)))
                 .thenReturn(chatModel);
 
         AiModelConfigServiceImpl service = new AiModelConfigServiceImpl(aiModelFactory, mapper);

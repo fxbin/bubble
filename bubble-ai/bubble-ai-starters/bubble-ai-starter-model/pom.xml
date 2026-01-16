@@ -67,6 +67,12 @@
             <artifactId>spring-ai-alibaba-dashscope</artifactId>
         </dependency>
 
+        <!-- AgentScope -->
+        <dependency>
+            <groupId>io.agentscope</groupId>
+            <artifactId>agentscope</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Apache HttpClient 5 for RestClient timeout configuration -->
         <dependency>

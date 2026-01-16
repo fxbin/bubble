@@ -4,7 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.metadata.Usage;
 
 /**
- * Default Token Usage Recorder (Log based)
+ * 默认 Token 使用记录器（基于日志）
+ * <p>将Token使用情况记录到日志中</p>
  *
  * @author fxbin
  */
@@ -15,14 +16,12 @@ public class DefaultTokenUsageRecorder implements TokenUsageRecorder {
     public void record(TokenUsageContext context) {
         if (context.usage() != null) {
             Usage usage = context.usage();
-            // Using toString() to avoid method name issues if getter names changed
-            // But trying standard getters first if possible, or just toString which is usually safe
-            log.info("Token Usage - Platform: {}, Model: {}, Details: {}",
+            log.info("Token 使用统计 - 平台: {}, 模型: {}, 详情: {}",
                     context.platform(),
                     context.model(),
                     usage.toString());
         } else {
-            log.warn("Token Usage - Platform: {}, Model: {}, Usage info is missing.", context.platform(), context.model());
+            log.warn("Token 使用统计 - 平台: {}, 模型: {}, 使用信息缺失。", context.platform(), context.model());
         }
     }
 }

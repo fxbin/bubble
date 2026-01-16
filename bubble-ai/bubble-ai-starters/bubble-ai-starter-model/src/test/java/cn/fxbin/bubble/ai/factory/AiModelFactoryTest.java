@@ -20,6 +20,11 @@ import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.tokenizer.TokenCountEstimator;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
+import org.springframework.ai.openai.OpenAiEmbeddingModel;
+import org.springframework.ai.ollama.OllamaEmbeddingModel;
+import org.springframework.ai.zhipuai.ZhiPuAiEmbeddingModel;
+import org.springframework.ai.minimax.MiniMaxEmbeddingModel;
+import org.springframework.ai.azure.openai.AzureOpenAiEmbeddingModel;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.retry.support.RetryTemplate;
 
@@ -43,6 +48,11 @@ class AiModelFactoryTest {
     @Mock private ObjectProvider<DeepSeekChatModel> deepSeekProvider;
     @Mock private ObjectProvider<ZhiPuAiChatModel> zhipuProvider;
     @Mock private ObjectProvider<MiniMaxChatModel> minimaxProvider;
+    @Mock private ObjectProvider<OpenAiEmbeddingModel> openAiEmbeddingProvider;
+    @Mock private ObjectProvider<OllamaEmbeddingModel> ollamaEmbeddingProvider;
+    @Mock private ObjectProvider<ZhiPuAiEmbeddingModel> zhipuEmbeddingProvider;
+    @Mock private ObjectProvider<MiniMaxEmbeddingModel> minimaxEmbeddingProvider;
+    @Mock private ObjectProvider<AzureOpenAiEmbeddingModel> azureOpenAiEmbeddingProvider;
     @Mock private ObjectProvider<ToolCallingManager> toolCallingManagerProvider;
     @Mock private ObjectProvider<ObservationRegistry> observationRegistryProvider;
     @Mock private ObjectProvider<RetryTemplate> retryTemplateProvider;
@@ -68,10 +78,24 @@ class AiModelFactoryTest {
                 deepSeekProvider,
                 zhipuProvider,
                 minimaxProvider,
+                openAiEmbeddingProvider,
+                ollamaEmbeddingProvider,
+                zhipuEmbeddingProvider,
+                minimaxEmbeddingProvider,
+                azureOpenAiEmbeddingProvider,
                 toolCallingManagerProvider,
                 observationRegistryProvider,
                 retryTemplateProvider
         );
+    }
+
+    @Test
+    void getOrCreateChatModel_DifferentTopP_ShouldReturnDifferentInstance() {
+        properties.getTokenCounting().setEnabled(false);
+        ChatModel a = factory.getOrCreateChatModel(AiPlatformEnum.OPENAI, "k", "https://example.com", "m1", 0.1, 10, 0.9);
+        ChatModel b = factory.getOrCreateChatModel(AiPlatformEnum.OPENAI, "k", "https://example.com", "m1", 0.1, 10, 0.8);
+
+        assertThat(a).isNotSameAs(b);
     }
 
     @Test

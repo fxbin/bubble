@@ -2,6 +2,7 @@ package cn.fxbin.bubble.ai.manager;
 
 import cn.fxbin.bubble.ai.domain.dto.AiModelInfo;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.embedding.EmbeddingModel;
 
 import java.util.List;
 
@@ -27,5 +28,13 @@ public interface AiModelManager {
      * @return ChatModel
      */
     ChatModel getChatModel(String modelId);
+
+    /**
+     * 根据 ID 获取 EmbeddingModel
+     *
+     * @param modelId 模型ID (对应配置文件Key)
+     * @return EmbeddingModel
+     */
+    EmbeddingModel getEmbeddingModel(String modelId);
 
 }

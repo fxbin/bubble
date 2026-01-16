@@ -33,10 +33,21 @@ public class BubbleAiProperties {
     private HttpTimeout httpTimeout = new HttpTimeout();
 
     /**
+     * 缓存配置
+     */
+    private Cache cache = new Cache();
+
+    /**
      * 多模型配置提供商
      * <p>Key: 自定义提供商ID (如: deepseek-v3, gpt-4-turbo)</p>
      */
     private Map<String, ProviderConfig> providers = new HashMap<>();
+
+    /**
+     * Embedding 模型配置提供商
+     * <p>Key: 自定义提供商ID (如: openai-embedding, ollama-embedding)</p>
+     */
+    private Map<String, EmbeddingProviderConfig> embeddingProviders = new HashMap<>();
 
     @Data
     public static class TokenCounting {
@@ -60,6 +71,15 @@ public class BubbleAiProperties {
          * <p>默认关闭，需显式开启</p>
          */
         private boolean enabled = false;
+    }
+
+    @Data
+    public static class Cache {
+        /**
+         * 是否启用缓存预热
+         * <p>默认关闭，需显式开启</p>
+         */
+        private boolean preloadEnabled = false;
     }
 
     @Data
@@ -98,6 +118,44 @@ public class BubbleAiProperties {
          * Top K
          */
         private Integer topK;
+
+        /**
+         * Top P
+         */
+        private Double topP;
+    }
+
+    @Data
+    public static class EmbeddingProviderConfig {
+        /**
+         * 平台类型
+         */
+        private AiPlatformEnum platform;
+
+        /**
+         * API Key
+         */
+        private String apiKey;
+
+        /**
+         * Base URL
+         */
+        private String baseUrl;
+
+        /**
+         * 模型名称
+         */
+        private String model;
+
+        /**
+         * 模型描述
+         */
+        private String description;
+
+        /**
+         * 维度
+         */
+        private Integer dimensions;
     }
 
     @Data

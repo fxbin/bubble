@@ -3,76 +3,59 @@ package cn.fxbin.bubble.ai.factory;
 import cn.fxbin.bubble.ai.autoconfigure.BubbleAiProperties;
 import cn.fxbin.bubble.ai.constants.AiModelConstants;
 import cn.fxbin.bubble.ai.domain.enums.AiPlatformEnum;
+import cn.fxbin.bubble.ai.factory.creator.*;
+import cn.fxbin.bubble.ai.factory.adapter.SpringAiAgentScopeAdapter;
 import cn.fxbin.bubble.ai.manager.AiModelDefaults;
 import cn.fxbin.bubble.ai.token.TokenCountingChatModel;
 import cn.fxbin.bubble.ai.token.TokenUsageRecorder;
 import cn.fxbin.bubble.ai.util.SensitiveDataUtils;
 import cn.fxbin.bubble.core.util.StringUtils;
-import com.alibaba.cloud.ai.dashscope.api.DashScopeApi;
-import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
-import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatOptions;
-import com.azure.ai.openai.OpenAIClientBuilder;
-import com.azure.core.credential.KeyCredential;
 import io.micrometer.observation.ObservationRegistry;
-import io.netty.channel.ChannelOption;
-import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.netty.handler.timeout.WriteTimeoutHandler;
+import io.agentscope.core.model.DashScopeChatModel;
+import io.agentscope.core.model.GeminiChatModel;
+import io.agentscope.core.model.GenerateOptions;
+import io.agentscope.core.model.Model;
+import io.agentscope.core.model.OpenAIChatModel;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.client5.http.config.ConnectionConfig;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
-import org.apache.hc.core5.util.Timeout;
 import org.springframework.ai.anthropic.AnthropicChatModel;
-import org.springframework.ai.anthropic.AnthropicChatOptions;
-import org.springframework.ai.anthropic.api.AnthropicApi;
-import org.springframework.ai.azure.openai.AzureOpenAiChatModel;
-import org.springframework.ai.azure.openai.AzureOpenAiChatOptions;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.azure.openai.AzureOpenAiEmbeddingModel;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
-import org.springframework.ai.deepseek.DeepSeekChatOptions;
-import org.springframework.ai.deepseek.api.DeepSeekApi;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.minimax.MiniMaxChatModel;
-import org.springframework.ai.minimax.MiniMaxChatOptions;
-import org.springframework.ai.minimax.api.MiniMaxApi;
+import org.springframework.ai.minimax.MiniMaxEmbeddingModel;
 import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.ollama.OllamaChatModel;
-import org.springframework.ai.ollama.api.OllamaApi;
-import org.springframework.ai.ollama.api.OllamaChatOptions;
+import org.springframework.ai.ollama.OllamaEmbeddingModel;
 import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.ai.retry.RetryUtils;
 import org.springframework.ai.tokenizer.TokenCountEstimator;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
-import org.springframework.ai.zhipuai.ZhiPuAiChatOptions;
-import org.springframework.ai.zhipuai.api.ZhiPuAiApi;
+import org.springframework.ai.zhipuai.ZhiPuAiEmbeddingModel;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.retry.support.RetryTemplate;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.time.Duration;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * AI 模型工厂实现
+ * <p>负责创建和管理AI模型实例，支持缓存、Token计数等功能</p>
  *
  * @author fxbin
  */
 @Slf4j
 public class AiModelFactoryImpl implements AiModelFactory {
 
-    private record CacheKey(String platform, String baseUrl, String apiKeyHash, String model, Double temperature, Integer topK) {
+    private record CacheKey(String platform, String baseUrl, String apiKeyHash, String model, Double temperature, Integer topK, Double topP) {
     }
 
     private final BubbleAiProperties properties;
@@ -88,12 +71,18 @@ public class AiModelFactoryImpl implements AiModelFactory {
     private final ObjectProvider<ZhiPuAiChatModel> zhipuAiChatModelProvider;
     private final ObjectProvider<MiniMaxChatModel> minimaxChatModelProvider;
 
-    private final ToolCallingManager toolCallingManager;
-    private final ObservationRegistry observationRegistry;
-    private final RetryTemplate retryTemplate;
+    // Spring AI Native Embedding Models Providers
+    private final ObjectProvider<OpenAiEmbeddingModel> openAiEmbeddingModelProvider;
+    private final ObjectProvider<OllamaEmbeddingModel> ollamaEmbeddingModelProvider;
+    private final ObjectProvider<ZhiPuAiEmbeddingModel> zhipuAiEmbeddingModelProvider;
+    private final ObjectProvider<MiniMaxEmbeddingModel> minimaxEmbeddingModelProvider;
+    private final ObjectProvider<AzureOpenAiEmbeddingModel> azureOpenAiEmbeddingModelProvider;
 
     private final ConcurrentMap<CacheKey, ChatModel> cache = new ConcurrentHashMap<>();
+    private final ConcurrentMap<CacheKey, EmbeddingModel> embeddingCache = new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, String> CACHE_KEY_CACHE = new ConcurrentHashMap<>();
+
+    private final Map<AiPlatformEnum, AiModelCreator> creators = new EnumMap<>(AiPlatformEnum.class);
 
     public AiModelFactoryImpl(BubbleAiProperties properties,
                               TokenUsageRecorder tokenUsageRecorder,
@@ -105,6 +94,11 @@ public class AiModelFactoryImpl implements AiModelFactory {
                               ObjectProvider<DeepSeekChatModel> deepSeekChatModelProvider,
                               ObjectProvider<ZhiPuAiChatModel> zhipuAiChatModelProvider,
                               ObjectProvider<MiniMaxChatModel> minimaxChatModelProvider,
+                              ObjectProvider<OpenAiEmbeddingModel> openAiEmbeddingModelProvider,
+                              ObjectProvider<OllamaEmbeddingModel> ollamaEmbeddingModelProvider,
+                              ObjectProvider<ZhiPuAiEmbeddingModel> zhipuAiEmbeddingModelProvider,
+                              ObjectProvider<MiniMaxEmbeddingModel> minimaxEmbeddingModelProvider,
+                              ObjectProvider<AzureOpenAiEmbeddingModel> azureOpenAiEmbeddingModelProvider,
                               ObjectProvider<ToolCallingManager> toolCallingManagerProvider,
                               ObjectProvider<ObservationRegistry> observationRegistryProvider,
                               ObjectProvider<RetryTemplate> retryTemplateProvider) {
@@ -118,9 +112,26 @@ public class AiModelFactoryImpl implements AiModelFactory {
         this.deepSeekChatModelProvider = deepSeekChatModelProvider;
         this.zhipuAiChatModelProvider = zhipuAiChatModelProvider;
         this.minimaxChatModelProvider = minimaxChatModelProvider;
-        this.toolCallingManager = toolCallingManagerProvider.getIfAvailable();
-        this.observationRegistry = observationRegistryProvider.getIfAvailable();
-        this.retryTemplate = retryTemplateProvider.getIfAvailable(() -> RetryUtils.DEFAULT_RETRY_TEMPLATE);
+        this.openAiEmbeddingModelProvider = openAiEmbeddingModelProvider;
+        this.ollamaEmbeddingModelProvider = ollamaEmbeddingModelProvider;
+        this.zhipuAiEmbeddingModelProvider = zhipuAiEmbeddingModelProvider;
+        this.minimaxEmbeddingModelProvider = minimaxEmbeddingModelProvider;
+        this.azureOpenAiEmbeddingModelProvider = azureOpenAiEmbeddingModelProvider;
+
+        ToolCallingManager toolCallingManager = toolCallingManagerProvider.getIfAvailable();
+        ObservationRegistry observationRegistry = observationRegistryProvider.getIfAvailable();
+        RetryTemplate retryTemplate = retryTemplateProvider.getIfAvailable(() -> RetryUtils.DEFAULT_RETRY_TEMPLATE);
+
+        // Initialize Creators
+        this.creators.put(AiPlatformEnum.OPENAI, new OpenAiModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
+        this.creators.put(AiPlatformEnum.OLLAMA, new OllamaModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
+        this.creators.put(AiPlatformEnum.ANTHROPIC, new AnthropicModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
+        this.creators.put(AiPlatformEnum.DEEPSEEK, new DeepSeekModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
+        this.creators.put(AiPlatformEnum.ZHIPU, new ZhipuAiModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
+        this.creators.put(AiPlatformEnum.MINIMAX, new MinimaxModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
+        this.creators.put(AiPlatformEnum.SILICONFLOW, new SiliconFlowModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
+        this.creators.put(AiPlatformEnum.DASHSCOPE, new DashScopeModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
+        this.creators.put(AiPlatformEnum.AZURE_OPENAI, new AzureOpenAiModelCreator(properties, toolCallingManager, observationRegistry, retryTemplate));
     }
 
     @Override
@@ -135,23 +146,52 @@ public class AiModelFactoryImpl implements AiModelFactory {
 
     @Override
     public ChatModel getOrCreateChatModel(AiPlatformEnum platform, String apiKey, String url, String model, Double temperature, Integer topK) {
+        return getOrCreateChatModel(platform, apiKey, url, model, temperature, topK, null);
+    }
+
+    @Override
+    public ChatModel getOrCreateChatModel(AiPlatformEnum platform, String apiKey, String url, String model, Double temperature, Integer topK, Double topP) {
         Objects.requireNonNull(platform, "platform must not be null");
 
-        if (StringUtils.isBlank(apiKey) && StringUtils.isBlank(url) && StringUtils.isBlank(model) && temperature == null && topK == null) {
+        if (StringUtils.isBlank(apiKey) && StringUtils.isBlank(url) && StringUtils.isBlank(model) && temperature == null && topK == null && topP == null) {
             return getDefaultChatModel(platform);
         }
 
         ChatModel defaultModel = tryGetDefaultChatModel(platform);
-        if (defaultModel != null && StringUtils.isBlank(apiKey) && StringUtils.isBlank(url) && StringUtils.isBlank(model) && temperature == null && topK == null) {
+        if (defaultModel != null && StringUtils.isBlank(apiKey) && StringUtils.isBlank(url) && StringUtils.isBlank(model) && temperature == null && topK == null && topP == null) {
             return defaultModel;
         }
 
         String resolvedModel = resolveDefaultModel(platform, model);
         Double resolvedTemperature = temperature != null ? temperature : AiModelConstants.Model.DEFAULT_TEMPERATURE;
         Integer resolvedTopK = topK;
+        Double resolvedTopP = topP;
 
-        ChatModel created = getOrCreateFromCache(platform, apiKey, url, resolvedModel, resolvedTemperature, resolvedTopK);
+        ChatModel created = getOrCreateFromCache(platform, apiKey, url, resolvedModel, resolvedTemperature, resolvedTopK, resolvedTopP);
         return wrapTokenCountingIfNecessary(platform.getCode(), resolvedModel, created);
+    }
+
+    @Override
+    public void removeChatModel(AiPlatformEnum platform, String apiKey, String url, String model, Double temperature, Integer topK, Double topP) {
+        Objects.requireNonNull(platform, "platform must not be null");
+
+        String resolvedModel = resolveDefaultModel(platform, model);
+        Double resolvedTemperature = temperature != null ? temperature : AiModelConstants.Model.DEFAULT_TEMPERATURE;
+        Integer resolvedTopK = topK;
+        Double resolvedTopP = topP;
+
+        CacheKey key = new CacheKey(
+                platform.getCode(),
+                StringUtils.blankToDefault(url, ""),
+                hashApiKey(apiKey),
+                resolvedModel,
+                resolvedTemperature,
+                resolvedTopK,
+                resolvedTopP
+        );
+
+        cache.remove(key);
+        log.info("Removed ChatModel from cache for platform: {}, model: {}", platform, resolvedModel);
     }
 
     @Override
@@ -184,7 +224,69 @@ public class AiModelFactoryImpl implements AiModelFactory {
                 config.getBaseUrl(),
                 config.getModel(),
                 config.getTemperature(),
-                config.getTopK()
+                config.getTopK(),
+                config.getTopP()
+        );
+    }
+
+    @Override
+    public EmbeddingModel getOrCreateEmbeddingModel(AiPlatformEnum platform, String apiKey, String url) {
+        return getOrCreateEmbeddingModel(platform, apiKey, url, null, null);
+    }
+
+    @Override
+    public EmbeddingModel getOrCreateEmbeddingModel(AiPlatformEnum platform, String apiKey, String url, String model) {
+        return getOrCreateEmbeddingModel(platform, apiKey, url, model, null);
+    }
+
+    @Override
+    public EmbeddingModel getOrCreateEmbeddingModel(AiPlatformEnum platform, String apiKey, String url, String model, Integer dimensions) {
+        Objects.requireNonNull(platform, "platform must not be null");
+
+        if (StringUtils.isBlank(apiKey) && StringUtils.isBlank(url) && StringUtils.isBlank(model) && dimensions == null) {
+            return getDefaultEmbeddingModel(platform);
+        }
+
+        EmbeddingModel defaultModel = tryGetDefaultEmbeddingModel(platform);
+        if (defaultModel != null && StringUtils.isBlank(apiKey) && StringUtils.isBlank(url) && StringUtils.isBlank(model) && dimensions == null) {
+            return defaultModel;
+        }
+
+        String resolvedModel = resolveDefaultModel(platform, model);
+
+        return getOrCreateEmbeddingFromCache(platform, apiKey, url, resolvedModel, dimensions);
+    }
+
+    @Override
+    public EmbeddingModel getDefaultEmbeddingModel(AiPlatformEnum platform) {
+        Objects.requireNonNull(platform, "platform must not be null");
+
+        EmbeddingModel model = tryGetDefaultEmbeddingModel(platform);
+
+        if (model == null) {
+            throw new IllegalStateException("No default EmbeddingModel found for platform: " + platform);
+        }
+
+        return model;
+    }
+
+    @Override
+    public EmbeddingModel getEmbeddingModel(String modelId) {
+        if (StringUtils.isEmpty(modelId)) {
+            throw new IllegalArgumentException("modelId must not be blank");
+        }
+
+        BubbleAiProperties.EmbeddingProviderConfig config = properties.getEmbeddingProviders().get(modelId);
+        if (config == null) {
+            throw new IllegalArgumentException("No embedding provider config found for id: " + modelId);
+        }
+
+        return getOrCreateEmbeddingModel(
+                config.getPlatform(),
+                config.getApiKey(),
+                config.getBaseUrl(),
+                config.getModel(),
+                config.getDimensions()
         );
     }
 
@@ -203,17 +305,47 @@ public class AiModelFactoryImpl implements AiModelFactory {
         };
     }
 
-    private ChatModel getOrCreateFromCache(AiPlatformEnum platform, String apiKey, String url, String resolvedModel, Double resolvedTemperature, Integer resolvedTopK) {
+    private EmbeddingModel tryGetDefaultEmbeddingModel(AiPlatformEnum platform) {
+        return switch (platform) {
+            case OPENAI -> openAiEmbeddingModelProvider.getIfAvailable();
+            case OLLAMA -> ollamaEmbeddingModelProvider.getIfAvailable();
+            case ANTHROPIC -> null;
+            case GEMINI -> null;
+            case DEEPSEEK -> null;
+            case ZHIPU -> zhipuAiEmbeddingModelProvider.getIfAvailable();
+            case MINIMAX -> minimaxEmbeddingModelProvider.getIfAvailable();
+            case SILICONFLOW -> null;
+            case DASHSCOPE -> null;
+            case AZURE_OPENAI -> azureOpenAiEmbeddingModelProvider.getIfAvailable();
+        };
+    }
+
+    private ChatModel getOrCreateFromCache(AiPlatformEnum platform, String apiKey, String url, String resolvedModel, Double resolvedTemperature, Integer resolvedTopK, Double resolvedTopP) {
         CacheKey key = new CacheKey(
                 platform.getCode(),
                 StringUtils.blankToDefault(url, ""),
                 hashApiKey(apiKey),
                 resolvedModel,
                 resolvedTemperature,
-                resolvedTopK
+                resolvedTopK,
+                resolvedTopP
         );
 
-        return cache.computeIfAbsent(key, ignored -> createChatModel(platform, apiKey, url, resolvedModel, resolvedTemperature, resolvedTopK));
+        return cache.computeIfAbsent(key, ignored -> createChatModel(platform, apiKey, url, resolvedModel, resolvedTemperature, resolvedTopK, resolvedTopP));
+    }
+
+    private EmbeddingModel getOrCreateEmbeddingFromCache(AiPlatformEnum platform, String apiKey, String url, String resolvedModel, Integer dimensions) {
+        CacheKey key = new CacheKey(
+                platform.getCode(),
+                StringUtils.blankToDefault(url, ""),
+                hashApiKey(apiKey),
+                resolvedModel,
+                null,
+                dimensions,
+                null
+        );
+
+        return embeddingCache.computeIfAbsent(key, ignored -> createEmbeddingModel(platform, apiKey, url, resolvedModel, dimensions));
     }
 
     private String resolveDefaultModel(AiPlatformEnum platform, String model) {
@@ -254,454 +386,125 @@ public class AiModelFactoryImpl implements AiModelFactory {
         });
     }
 
-    private ChatModel createChatModel(AiPlatformEnum platform, String apiKey, String url, String modelName, Double temperature, Integer topK) {
-        log.info("Creating ChatModel for platform: {}, API Key: {}, Base URL: {}, Model: {}", 
-                platform, 
+    private ChatModel createChatModel(AiPlatformEnum platform, String apiKey, String url, String modelName, Double temperature, Integer topK, Double topP) {
+        log.info("Creating ChatModel for platform: {}, API Key: {}, Base URL: {}, Model: {}",
+                platform,
                 SensitiveDataUtils.maskApiKey(apiKey),
                 SensitiveDataUtils.maskUrl(url),
                 modelName);
 
-        return switch (platform) {
-            case OPENAI -> buildOpenAiChatModel(apiKey, url, modelName, temperature, null);
-            case DEEPSEEK -> buildDeepSeekChatModel(apiKey, url, modelName, temperature, topK);
-            case OLLAMA -> buildOllamaChatModel(url, modelName, temperature, topK);
-            case ANTHROPIC -> buildAnthropicChatModel(apiKey, url, modelName, temperature, topK);
-            case ZHIPU -> buildZhipuAiChatModel(apiKey, url, modelName, temperature, topK);
-            case MINIMAX -> buildMinimaxChatModel(apiKey, url, modelName, temperature, topK);
-            case SILICONFLOW -> buildSiliconFlowChatModel(apiKey, url, modelName, temperature, topK);
-            case DASHSCOPE -> buildDashScopeChatModel(apiKey, url, modelName, temperature, topK);
-            case AZURE_OPENAI -> buildAzureOpenAiChatModel(apiKey, url, modelName, temperature, topK);
-            case GEMINI -> {
-                ChatModel injected = geminiChatModelProvider.getIfAvailable();
-                if (injected != null) {
-                    yield injected;
-                }
-                throw new IllegalStateException("GEMINI dynamic creation is not supported. Please configure a VertexAiGeminiChatModel bean.");
+        if (platform == AiPlatformEnum.GEMINI) {
+            ChatModel injected = geminiChatModelProvider.getIfAvailable();
+            if (injected != null) {
+                return injected;
             }
-        };
+            throw new IllegalStateException("GEMINI dynamic creation is not supported. Please configure a VertexAiGeminiChatModel bean.");
+        }
+
+        AiModelCreator creator = creators.get(platform);
+        if (creator != null) {
+            return creator.createChatModel(platform, apiKey, url, modelName, temperature, topK, topP);
+        }
+
+        throw new UnsupportedOperationException("No ChatModel creator found for platform: " + platform);
     }
 
-    /**
-     * 构建 OpenAI ChatModel
-     *
-     * @param apiKey      API Key
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topP        Top P
-     * @return {@link OpenAiChatModel}
-     */
-    private OpenAiChatModel buildOpenAiChatModel(String apiKey, String baseUrl, String model, Double temperature, Double topP) {
-        if (StringUtils.isBlank(apiKey)) {
-            throw new IllegalArgumentException("apiKey must not be blank");
+    private EmbeddingModel createEmbeddingModel(AiPlatformEnum platform, String apiKey, String url, String model, Integer dimensions) {
+        log.info("Creating EmbeddingModel for platform: {}, API Key: {}, Base URL: {}, Model: {}",
+                platform,
+                SensitiveDataUtils.maskApiKey(apiKey),
+                SensitiveDataUtils.maskUrl(url),
+                model);
+
+        AiModelCreator creator = creators.get(platform);
+        if (creator != null) {
+            return creator.createEmbeddingModel(platform, apiKey, url, model, dimensions);
         }
 
-        OpenAiApi.Builder apiBuilder = OpenAiApi.builder().apiKey(apiKey);
-        if (StringUtils.isNotBlank(baseUrl)) {
-            apiBuilder.baseUrl(baseUrl);
-        }
-        
-        RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
-        
-        OpenAiApi api = apiBuilder.build();
-        OpenAiChatOptions options = OpenAiChatOptions.builder().model(model).temperature(temperature).topP(topP).build();
-
-        OpenAiChatModel.Builder builder = OpenAiChatModel.builder()
-                .openAiApi(api)
-                .defaultOptions(options)
-                .retryTemplate(retryTemplate);
-        if (toolCallingManager != null) {
-            builder.toolCallingManager(toolCallingManager);
-        }
-        if (observationRegistry != null) {
-            builder.observationRegistry(observationRegistry);
-        }
-        return builder.build();
+        throw new UnsupportedOperationException("No EmbeddingModel creator found for platform: " + platform);
     }
 
-    /**
-     * 构建 DashScope ChatModel
-     *
-     * @param apiKey      API Key
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topK        Top K
-     * @return {@link DashScopeChatModel}
-     */
-    private DashScopeChatModel buildDashScopeChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
-        if (StringUtils.isBlank(apiKey)) {
-            throw new IllegalArgumentException("apiKey must not be blank");
-        }
-
-        DashScopeApi.Builder apiBuilder = DashScopeApi.builder().apiKey(apiKey);
-        if (StringUtils.isNotBlank(baseUrl)) {
-            apiBuilder.baseUrl(baseUrl);
-        }
-        
-        WebClient.Builder webClientBuilder = createWebClientBuilder();
-        applyMethodIfPresent(apiBuilder, "webClientBuilder", WebClient.Builder.class, webClientBuilder);
-        
-        DashScopeApi api = apiBuilder.build();
-        DashScopeChatOptions options = DashScopeChatOptions.builder().model(model).temperature(temperature).build();
-
-        DashScopeChatModel.Builder builder = DashScopeChatModel.builder()
-                .dashScopeApi(api)
-                .defaultOptions(options)
-                .retryTemplate(retryTemplate);
-        if (toolCallingManager != null) {
-            builder.toolCallingManager(toolCallingManager);
-        }
-        if (observationRegistry != null) {
-            builder.observationRegistry(observationRegistry);
-        }
-        return builder.build();
+    @Override
+    public io.agentscope.core.model.Model getOrCreateAgentScopeModel(AiPlatformEnum platform, String apiKey, String url) {
+        return getOrCreateAgentScopeModel(platform, apiKey, url, null, null);
     }
 
-    /**
-     * 构建 Azure OpenAI ChatModel
-     *
-     * @param apiKey      API Key
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topK        Top K
-     * @return {@link AzureOpenAiChatModel}
-     */
-    private AzureOpenAiChatModel buildAzureOpenAiChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
-        if (StringUtils.isBlank(apiKey)) {
-            throw new IllegalArgumentException("apiKey must not be blank");
-        }
-        if (StringUtils.isBlank(baseUrl)) {
-            throw new IllegalArgumentException("baseUrl must not be blank for Azure OpenAI");
-        }
-
-        BubbleAiProperties.HttpTimeout timeout = properties.getHttpTimeout();
-        
-        com.azure.core.http.HttpClient azureHttpClient = new com.azure.core.http.netty.NettyAsyncHttpClientBuilder()
-                .connectTimeout(java.time.Duration.ofMillis(timeout.getConnectTimeout()))
-                .responseTimeout(java.time.Duration.ofMillis(timeout.getReadTimeout()))
-                .build();
-
-        OpenAIClientBuilder clientBuilder = new OpenAIClientBuilder()
-                .credential(new KeyCredential(apiKey))
-                .endpoint(baseUrl)
-                .httpClient(azureHttpClient);
-
-        AzureOpenAiChatOptions.Builder optionsBuilder = AzureOpenAiChatOptions.builder().deploymentName(model).temperature(temperature);
-        applyTopKIfSupported(optionsBuilder, topK);
-        AzureOpenAiChatOptions options = optionsBuilder.build();
-
-        AzureOpenAiChatModel.Builder builder = AzureOpenAiChatModel.builder()
-                .openAIClientBuilder(clientBuilder)
-                .defaultOptions(options);
-        if (toolCallingManager != null) {
-            builder.toolCallingManager(toolCallingManager);
-        }
-        if (observationRegistry != null) {
-            builder.observationRegistry(observationRegistry);
-        }
-        return builder.build();
+    @Override
+    public io.agentscope.core.model.Model getOrCreateAgentScopeModel(AiPlatformEnum platform, String apiKey, String url, String model, Double temperature) {
+        return getOrCreateAgentScopeModel(platform, apiKey, url, model, temperature, null);
     }
 
-    /**
-     * 构建 Ollama ChatModel
-     *
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topK        Top K
-     * @return {@link OllamaChatModel}
-     */
-    private OllamaChatModel buildOllamaChatModel(String baseUrl, String model, Double temperature, Integer topK) {
-        if (StringUtils.isBlank(baseUrl)) {
-            baseUrl = AiModelConstants.Ollama.DEFAULT_BASE_URL;
-        }
-        OllamaApi.Builder apiBuilder = OllamaApi.builder().baseUrl(baseUrl);
-        
-        RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
-        
-        OllamaApi api = apiBuilder.build();
-        OllamaChatOptions.Builder optionsBuilder = OllamaChatOptions.builder().model(model).temperature(temperature);
-        applyTopKIfSupported(optionsBuilder, topK);
-        OllamaChatOptions options = optionsBuilder.build();
+    @Override
+    public io.agentscope.core.model.Model getOrCreateAgentScopeModel(AiPlatformEnum platform, String apiKey, String url, String model, Double temperature, Integer topK, Double topP) {
+        // 1. 解析模型名称
+        String resolvedModel = resolveDefaultModel(platform, model);
 
-        OllamaChatModel.Builder builder = OllamaChatModel.builder()
-                .ollamaApi(api)
-                .defaultOptions(options);
-        if (toolCallingManager != null) {
-            builder.toolCallingManager(toolCallingManager);
+        // 2. 构建通用配置
+        GenerateOptions.Builder optionsBuilder = GenerateOptions.builder();
+        if (StringUtils.isNotBlank(apiKey)) {
+            optionsBuilder.apiKey(apiKey);
         }
-        if (observationRegistry != null) {
-            builder.observationRegistry(observationRegistry);
+        if (StringUtils.isNotBlank(url)) {
+            optionsBuilder.baseUrl(url);
         }
-        return builder.build();
-    }
-
-    /**
-     * 构建 Anthropic ChatModel
-     *
-     * @param apiKey      API Key
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topK        Top K
-     * @return {@link AnthropicChatModel}
-     */
-    private AnthropicChatModel buildAnthropicChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
-        if (StringUtils.isBlank(apiKey)) {
-            throw new IllegalArgumentException("apiKey must not be blank");
+        if (StringUtils.isNotBlank(resolvedModel)) {
+            optionsBuilder.modelName(resolvedModel);
         }
-        if (StringUtils.isBlank(baseUrl)) {
-            baseUrl = "https://api.anthropic.com";
+        if (temperature != null) {
+            optionsBuilder.temperature(temperature);
+        }
+        if (topK != null) {
+            optionsBuilder.topK(topK);
+        }
+        if (topP != null) {
+            optionsBuilder.topP(topP);
         }
 
-        AnthropicApi.Builder apiBuilder = AnthropicApi.builder()
-                .apiKey(apiKey)
-                .baseUrl(baseUrl);
-        
-        RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
-        
-        AnthropicApi api = apiBuilder.build();
-        AnthropicChatOptions.Builder optionsBuilder = AnthropicChatOptions.builder().model(model).temperature(temperature);
-        applyTopKIfSupported(optionsBuilder, topK);
-        AnthropicChatOptions options = optionsBuilder.build();
+        GenerateOptions defaultOptions = optionsBuilder.build();
 
-        AnthropicChatModel.Builder builder = AnthropicChatModel.builder()
-                .anthropicApi(api)
-                .defaultOptions(options)
-                .retryTemplate(retryTemplate);
-        if (toolCallingManager != null) {
-            builder.toolCallingManager(toolCallingManager);
-        }
-        if (observationRegistry != null) {
-            builder.observationRegistry(observationRegistry);
-        }
-        return builder.build();
-    }
-
-    /**
-     * 构建 DeepSeek ChatModel
-     *
-     * @param apiKey      API Key
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topK        Top K
-     * @return {@link DeepSeekChatModel}
-     */
-    private DeepSeekChatModel buildDeepSeekChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
-        if (StringUtils.isBlank(apiKey)) {
-            throw new IllegalArgumentException("apiKey must not be blank");
-        }
-        if (StringUtils.isBlank(baseUrl)) {
-            baseUrl = "https://api.deepseek.com";
-        }
-
-        DeepSeekApi.Builder apiBuilder = DeepSeekApi.builder().apiKey(apiKey).baseUrl(baseUrl);
-        
-        RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
-        
-        DeepSeekApi api = apiBuilder.build();
-        DeepSeekChatOptions.Builder optionsBuilder = DeepSeekChatOptions.builder().model(model).temperature(temperature);
-        applyTopKIfSupported(optionsBuilder, topK);
-        DeepSeekChatOptions options = optionsBuilder.build();
-
-        DeepSeekChatModel.Builder builder = DeepSeekChatModel.builder()
-                .deepSeekApi(api)
-                .defaultOptions(options)
-                .retryTemplate(retryTemplate);
-        if (toolCallingManager != null) {
-            builder.toolCallingManager(toolCallingManager);
-        }
-        if (observationRegistry != null) {
-            builder.observationRegistry(observationRegistry);
-        }
-        return builder.build();
-    }
-
-    /**
-     * 构建 ZhipuAI ChatModel
-     *
-     * @param apiKey      API Key
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topK        Top K
-     * @return {@link ZhiPuAiChatModel}
-     */
-    private ZhiPuAiChatModel buildZhipuAiChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
-        if (StringUtils.isBlank(apiKey)) {
-            throw new IllegalArgumentException("apiKey must not be blank");
-        }
-
-        ZhiPuAiApi.Builder apiBuilder = ZhiPuAiApi.builder().apiKey(apiKey);
-        if (StringUtils.isNotBlank(baseUrl)) {
-            apiBuilder.baseUrl(baseUrl);
-        } else {
-
-            apiBuilder.baseUrl("https://open.bigmodel.cn/api/paas/");
-        }
-        
-        RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
-        
-        ZhiPuAiApi api = apiBuilder.build();
-        ZhiPuAiChatOptions.Builder optionsBuilder = ZhiPuAiChatOptions.builder().model(model).temperature(temperature);
-        applyTopKIfSupported(optionsBuilder, topK);
-        ZhiPuAiChatOptions options = optionsBuilder.build();
-
-        if (toolCallingManager != null && observationRegistry != null) {
-            return new ZhiPuAiChatModel(api, options, toolCallingManager, retryTemplate, observationRegistry);
-        } else if (observationRegistry != null) {
-            return new ZhiPuAiChatModel(api, options, retryTemplate, observationRegistry);
-        } else {
-            return new ZhiPuAiChatModel(api, options, retryTemplate);
-        }
-    }
-
-    /**
-     * 构建 Minimax ChatModel
-     *
-     * @param apiKey      API Key
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topK        Top K
-     * @return {@link MiniMaxChatModel}
-     */
-    private MiniMaxChatModel buildMinimaxChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
-        if (StringUtils.isBlank(apiKey)) {
-            throw new IllegalArgumentException("apiKey must not be blank");
-        }
-
-        MiniMaxApi api = StringUtils.isEmpty(baseUrl) ? new MiniMaxApi(apiKey) : new MiniMaxApi(baseUrl, apiKey);
-        MiniMaxChatOptions.Builder optionsBuilder = MiniMaxChatOptions.builder().model(model).temperature(temperature);
-        applyTopKIfSupported(optionsBuilder, topK);
-        MiniMaxChatOptions options = optionsBuilder.build();
-
-        if (toolCallingManager != null) {
-            return new MiniMaxChatModel(api, options, toolCallingManager, retryTemplate);
-        } else {
-            return new MiniMaxChatModel(api, options);
-        }
-    }
-
-    /**
-     * 构建 SiliconFlow ChatModel
-     *
-     * SiliconFlow API 兼容 OpenAI 接口，使用 OpenAiChatModel 实现
-     *
-     * @param apiKey      API Key
-     * @param baseUrl     Base URL
-     * @param model       模型名称
-     * @param temperature 温度
-     * @param topK        Top K
-     * @return {@link OpenAiChatModel}
-     */
-    private OpenAiChatModel buildSiliconFlowChatModel(String apiKey, String baseUrl, String model, Double temperature, Integer topK) {
-        if (StringUtils.isBlank(apiKey)) {
-            throw new IllegalArgumentException("apiKey must not be blank");
-        }
-        if (StringUtils.isBlank(baseUrl)) {
-            baseUrl = "https://api.siliconflow.cn";
-        }
-
-        OpenAiApi.Builder apiBuilder = OpenAiApi.builder().apiKey(apiKey).baseUrl(baseUrl);
-        
-        RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
-        
-        OpenAiApi api = apiBuilder.build();
-        OpenAiChatOptions.Builder optionsBuilder = OpenAiChatOptions.builder().model(model).temperature(temperature);
-        applyTopKIfSupported(optionsBuilder, topK);
-        OpenAiChatOptions options = optionsBuilder.build();
-
-        OpenAiChatModel.Builder builder = OpenAiChatModel.builder()
-                .openAiApi(api)
-                .defaultOptions(options)
-                .retryTemplate(retryTemplate);
-        if (toolCallingManager != null) {
-            builder.toolCallingManager(toolCallingManager);
-        }
-        if (observationRegistry != null) {
-            builder.observationRegistry(observationRegistry);
-        }
-        return builder.build();
-    }
-
-    private static void applyTopKIfSupported(Object builder, Integer topK) {
-        if (builder == null || topK == null) {
-            return;
-        }
-        applyMethodIfPresent(builder, "topK", Integer.class, topK);
-        applyMethodIfPresent(builder, "topK", int.class, topK);
-        applyMethodIfPresent(builder, "top_k", Integer.class, topK);
-        applyMethodIfPresent(builder, "top_k", int.class, topK);
-    }
-
-    /**
-     * 创建配置超时的 HttpClient (用于异步调用)
-     *
-     * @return {@link HttpClient}
-     */
-    private HttpClient createHttpClient() {
-        BubbleAiProperties.HttpTimeout timeout = properties.getHttpTimeout();
-        return HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeout.getConnectTimeout())
-                .doOnConnected(conn -> conn
-                        .addHandlerLast(new ReadTimeoutHandler(timeout.getReadTimeout() / 1000, TimeUnit.SECONDS))
-                        .addHandlerLast(new WriteTimeoutHandler(timeout.getWriteTimeout(), TimeUnit.SECONDS)))
-                .responseTimeout(Duration.ofMinutes(timeout.getResponseTimeout()));
-    }
-
-    /**
-     * 创建配置超时的 WebClient.Builder (用于异步调用)
-     *
-     * @return {@link WebClient.Builder}
-     */
-    private WebClient.Builder createWebClientBuilder() {
-        return WebClient.builder()
-                .clientConnector(new ReactorClientHttpConnector(createHttpClient()));
-    }
-
-    /**
-     * 创建配置超时的 RestClient.Builder (用于同步调用)
-     *
-     * @return {@link RestClient.Builder}
-     */
-    private RestClient.Builder createRestClientBuilder() {
-        BubbleAiProperties.HttpTimeout timeout = properties.getHttpTimeout();
-        
-        ConnectionConfig connectionConfig = ConnectionConfig.custom()
-                .setConnectTimeout(Timeout.ofMilliseconds(timeout.getConnectTimeout()))
-                .build();
-        
-        BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager();
-        connectionManager.setConnectionConfig(connectionConfig);
-
-        final CloseableHttpClient httpClient = HttpClientBuilder.create()
-                .setConnectionManager(connectionManager)
-                .build();
-
-        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
-        requestFactory.setConnectionRequestTimeout(timeout.getConnectionRequestTimeout());
-        requestFactory.setReadTimeout(timeout.getReadTimeout());
-
-        return RestClient.builder()
-                .requestFactory(requestFactory);
-    }
-
-    private static void applyMethodIfPresent(Object target, String methodName, Class<?> parameterType, Object value) {
+        // 3. 优先尝试原生 AgentScope 实现
         try {
-            target.getClass().getMethod(methodName, parameterType).invoke(target, value);
-        } catch (NoSuchMethodException ignored) {
+            switch (platform) {
+                case OPENAI:
+                    return io.agentscope.core.model.OpenAIChatModel.builder()
+                            .apiKey(apiKey)
+                            .baseUrl(url)
+                            .modelName(resolvedModel)
+                            .generateOptions(defaultOptions)
+                            .build();
+                case DASHSCOPE:
+                    return DashScopeChatModel.builder()
+                            .apiKey(apiKey)
+                            .baseUrl(url)
+                            .modelName(resolvedModel)
+                            .defaultOptions(defaultOptions)
+                            .build();
+                case GEMINI:
+                    return GeminiChatModel.builder()
+                            .apiKey(apiKey)
+                            .modelName(resolvedModel)
+                            .defaultOptions(defaultOptions)
+                            .build();
+                case OLLAMA:
+                    return io.agentscope.core.model.OllamaChatModel.builder()
+                            .baseUrl(url)
+                            .modelName(resolvedModel)
+                            .defaultOptions(io.agentscope.core.model.ollama.OllamaOptions.fromGenerateOptions(defaultOptions))
+                            .build();
+                case ANTHROPIC:
+                    return io.agentscope.core.model.AnthropicChatModel.builder()
+                            .apiKey(apiKey)
+                            .baseUrl(url)
+                            .modelName(resolvedModel)
+                            .defaultOptions(defaultOptions)
+                            .build();
+            }
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to apply option: " + methodName, e);
+            log.warn("Failed to create native AgentScope model for platform: {}, fallback to Spring AI adapter. Error: {}", platform, e.getMessage());
         }
+
+        // 4. 回退到 Spring AI 适配器
+        ChatModel springAiModel = getOrCreateChatModel(platform, apiKey, url, model, temperature, topK, topP);
+        return new SpringAiAgentScopeAdapter(springAiModel, resolvedModel);
     }
 }

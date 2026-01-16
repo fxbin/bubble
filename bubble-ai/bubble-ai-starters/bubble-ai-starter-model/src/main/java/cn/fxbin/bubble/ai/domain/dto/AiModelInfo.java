@@ -2,6 +2,7 @@ package cn.fxbin.bubble.ai.domain.dto;
 
 /**
  * AI 模型信息
+ * <p>用于展示和管理AI模型的基本信息</p>
  *
  * @param id          模型ID (唯一标识)
  * @param name        模型名称 (显示用)

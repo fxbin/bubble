@@ -2,6 +2,12 @@ package cn.fxbin.bubble.ai.util;
 
 import cn.hutool.core.util.StrUtil;
 
+/**
+ * 敏感数据工具类
+ * <p>用于脱敏处理API Key、URL等敏感信息</p>
+ *
+ * @author fxbin
+ */
 public class SensitiveDataUtils {
 
     private static final int MASK_LENGTH = 8;
@@ -10,6 +16,12 @@ public class SensitiveDataUtils {
     private static final int VISIBLE_SUFFIX_LENGTH = 4;
     private static final int SHORT_API_KEY_THRESHOLD = 12;
 
+    /**
+     * 脱敏 API Key
+     *
+     * @param apiKey API Key
+     * @return 脱敏后的 API Key
+     */
     public static String maskApiKey(String apiKey) {
         if (StrUtil.isBlank(apiKey)) {
             return MASK;
@@ -21,6 +33,12 @@ public class SensitiveDataUtils {
                apiKey.substring(apiKey.length() - VISIBLE_SUFFIX_LENGTH);
     }
 
+    /**
+     * 脱敏 URL
+     *
+     * @param url URL
+     * @return 脱敏后的 URL
+     */
     public static String maskUrl(String url) {
         if (StrUtil.isBlank(url)) {
             return "";

@@ -9,6 +9,7 @@ import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * AiModelManager 实现
+ * AI 模型管理器实现
+ * <p>统一管理来自配置文件和数据库的AI模型</p>
  *
  * @author fxbin
  */
@@ -115,5 +117,28 @@ public class AiModelManagerImpl implements AiModelManager {
 
         log.error("Model not found: {}", modelId);
         throw new IllegalArgumentException("Model not found: " + modelId);
+    }
+
+    @Override
+    public EmbeddingModel getEmbeddingModel(String modelId) {
+        if (StrUtil.isBlank(modelId)) {
+            throw new IllegalArgumentException("Model ID must not be blank");
+        }
+
+        log.debug("Attempting to get EmbeddingModel for modelId: {}", modelId);
+
+        if (properties.getEmbeddingProviders() != null && properties.getEmbeddingProviders().containsKey(modelId)) {
+            try {
+                EmbeddingModel model = aiModelFactory.getEmbeddingModel(modelId);
+                log.debug("Successfully loaded EmbeddingModel from config for modelId: {}", modelId);
+                return model;
+            } catch (Exception e) {
+                log.error("Failed to load EmbeddingModel from config for modelId: {}, error: {}", modelId, e.getMessage(), e);
+                throw new IllegalStateException("Failed to load model from config: " + modelId, e);
+            }
+        }
+
+        log.error("Embedding Model not found: {}", modelId);
+        throw new IllegalArgumentException("Embedding Model not found: " + modelId);
     }
 }

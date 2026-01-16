@@ -19,6 +19,8 @@
         <spring-ai.version>1.1.2</spring-ai.version>
         <spring-ai-alibaba-extensions.version>1.1.2.0</spring-ai-alibaba-extensions.version>
         <spring-ai-alibaba.version>1.1.0.0</spring-ai-alibaba.version>
+        <agentscope-ai.version>1.0.7</agentscope-ai.version>
+
 
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
@@ -220,6 +222,13 @@
                 <version>${spring-ai-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- Agentscope -->
+            <dependency>
+                <groupId>io.agentscope</groupId>
+                <artifactId>agentscope</artifactId>
+                <version>${agentscope-ai.version}</version>
             </dependency>
 
 

@@ -15,8 +15,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.model.ChatModel;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * AI 模型配置服务实现
+ * <p>提供AI模型配置的具体业务逻辑实现</p>
  *
  * @author fxbin
  */
@@ -27,6 +32,62 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
     private final AiModelFactory aiModelFactory;
 
     private final AiModelConfigMapper aiModelConfigMapper;
+
+    @Override
+    public boolean removeById(Serializable id) {
+        AiModelConfig config = getById(id);
+        boolean success = super.removeById(id);
+        if (success) {
+            clearCache(config);
+        }
+        return success;
+    }
+
+    @Override
+    public boolean removeByIds(Collection<?> list) {
+        if (list == null || list.isEmpty()) {
+            return false;
+        }
+        // Fetch before delete
+        List<AiModelConfig> configs = listByIds((Collection<? extends Serializable>) list);
+        boolean success = super.removeByIds(list);
+        if (success && configs != null) {
+            configs.forEach(this::clearCache);
+        }
+        return success;
+    }
+
+    @Override
+    public boolean updateById(AiModelConfig entity) {
+        AiModelConfig oldConfig = getById(entity.getId());
+        boolean success = super.updateById(entity);
+        if (success) {
+            clearCache(oldConfig);
+        }
+        return success;
+    }
+
+    private void clearCache(AiModelConfig config) {
+        if (config == null) {
+            return;
+        }
+        AiPlatformEnum platform = config.getPlatform();
+        if (platform == null) {
+            return;
+        }
+
+        String resolvedModelName = AiModelDefaults.resolveModelName(platform, config.getModel());
+
+        aiModelFactory.removeChatModel(
+                platform,
+                config.getApiKey(),
+                config.getBaseUrl(),
+                resolvedModelName,
+                config.getTemperature(),
+                config.getTopK(),
+                config.getTopP()
+        );
+    }
 
 
     @Override
@@ -61,7 +122,8 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
                 config.getBaseUrl(),
                 resolvedModelName,
                 config.getTemperature(),
-                config.getTopK()
+                config.getTopK(),
+                config.getTopP()
         );
     }
 
@@ -73,6 +135,23 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
         if (count > 0) {
             throw new ServiceException("配置名称 " + configName + " 已存在");
         }
+    }
+
+    @Override
+    public void createAiModel(AiModelConfig aiModelConfig) {
+        validateConfigNameUnique(aiModelConfig.getConfigName(), null);
+        save(aiModelConfig);
+    }
+
+    @Override
+    public void updateAiModel(AiModelConfig aiModelConfig) {
+        validateConfigNameUnique(aiModelConfig.getConfigName(), aiModelConfig.getId());
+        updateById(aiModelConfig);
+    }
+
+    @Override
+    public void removeAiModel(Long id) {
+        removeById(id);
     }
 
 }
