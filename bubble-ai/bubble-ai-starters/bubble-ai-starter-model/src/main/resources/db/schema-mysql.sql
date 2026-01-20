@@ -8,6 +8,7 @@ CREATE TABLE `ai_model_config` (
   `description` varchar(255) DEFAULT NULL COMMENT '模型描述',
   `temperature` double DEFAULT 0.7 COMMENT '温度',
   `top_k` int DEFAULT NULL COMMENT 'TopK',
+  `top_p` double DEFAULT NULL COMMENT 'TopP',
   `enabled` tinyint(1) DEFAULT 1 COMMENT '是否启用',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

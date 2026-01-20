@@ -1,0 +1,2 @@
+ALTER TABLE ai_model_config 
+ADD COLUMN top_p REAL DEFAULT NULL;

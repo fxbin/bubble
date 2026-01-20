@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
+import javax.sql.DataSource;
+
 /**
  * Bubble AI 的 MyBatis Mapper 自动扫描配置。
  *
@@ -77,12 +79,13 @@ public class BubbleAiMybatisAutoConfiguration {
     /**
      * DDL 自动维护
      *
+     * @param dataSource 数据源
      * @return {@link BubbleAiDdl}
      */
     @Bean
     @ConditionalOnClass(name = "com.baomidou.mybatisplus.extension.ddl.IDdl")
     @ConditionalOnMissingBean
-    public BubbleAiDdl bubbleAiDdl() {
-        return new BubbleAiDdl();
+    public BubbleAiDdl bubbleAiDdl(DataSource dataSource) {
+        return new BubbleAiDdl(dataSource);
     }
 }
