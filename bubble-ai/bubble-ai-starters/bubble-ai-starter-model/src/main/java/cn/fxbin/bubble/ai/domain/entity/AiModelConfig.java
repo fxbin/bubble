@@ -55,16 +55,28 @@ public class AiModelConfig implements Serializable {
 
     /**
      * 温度
+     * <p>控制随机性，数值越高输出越发散，数值越低输出越稳定</p>
+     * <p>常见范围：0.0 - 2.0，建议在 0.2 - 0.9 之间调优</p>
+     * <p>适用场景：创作发散可提高，事实问答与严谨写作可降低</p>
+     * <p>与 TopK/TopP 组合使用时，温度优先影响整体随机性</p>
      */
     private Double temperature;
 
     /**
      * Top K
+     * <p>限制候选词数量，仅在概率最高的 K 个词中采样</p>
+     * <p>常见范围：1 - 200，K 越小越保守，越大越多样</p>
+     * <p>适用场景：需要更强可控性与稳定性时使用较小 K</p>
+     * <p>与 TopP 二选一或联合使用，建议优先以 TopP 为主</p>
      */
     private Integer topK;
 
     /**
      * Top P
+     * <p>核采样阈值，保留累计概率不超过 P 的候选词集合</p>
+     * <p>常见范围：0.0 - 1.0，P 越小越集中，越大越多样</p>
+     * <p>适用场景：在保证多样性的同时控制输出质量</p>
+     * <p>与 Temperature 组合时，建议先确定 TopP，再微调温度</p>
      */
     private Double topP;
 

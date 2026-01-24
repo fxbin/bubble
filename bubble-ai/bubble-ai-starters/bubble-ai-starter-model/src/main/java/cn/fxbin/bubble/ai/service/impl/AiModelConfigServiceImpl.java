@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.ai.service.impl;
 
+import cn.fxbin.bubble.ai.domain.dto.AiModelTestResult;
 import cn.fxbin.bubble.ai.manager.AiModelDefaults;
 import cn.fxbin.bubble.ai.factory.AiModelFactory;
 import cn.fxbin.bubble.ai.domain.enums.AiPlatformEnum;
@@ -14,6 +15,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.messages.UserMessage;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -152,6 +155,50 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
     @Override
     public void removeAiModel(Long id) {
         removeById(id);
+    }
+
+    @Override
+    public AiModelTestResult testAiModel(AiModelConfig aiModelConfig) {
+        if (aiModelConfig == null) {
+            return new AiModelTestResult(false, "模型配置不能为空", null, null, null, null);
+        }
+        AiPlatformEnum platform = aiModelConfig.getPlatform();
+        if (platform == null) {
+            return new AiModelTestResult(false, "模型平台不能为空", null, null, null, aiModelConfig.getId());
+        }
+        String resolvedModelName = AiModelDefaults.resolveModelName(platform, aiModelConfig.getModel());
+        long startTime = System.currentTimeMillis();
+        try {
+            ChatModel chatModel = aiModelFactory.getOrCreateChatModel(
+                    platform,
+                    aiModelConfig.getApiKey(),
+                    aiModelConfig.getBaseUrl(),
+                    resolvedModelName,
+                    aiModelConfig.getTemperature(),
+                    aiModelConfig.getTopK(),
+                    aiModelConfig.getTopP()
+            );
+            chatModel.call(new Prompt(new UserMessage("ping")));
+            long latency = System.currentTimeMillis() - startTime;
+            return new AiModelTestResult(true, "ok", resolvedModelName, platform.name(), latency, aiModelConfig.getId());
+        } catch (Exception e) {
+            long latency = System.currentTimeMillis() - startTime;
+            log.warn("模型配置检测失败: configName={}, platform={}", aiModelConfig.getConfigName(), platform);
+            String message = StrUtil.blankToDefault(e.getMessage(), "模型检测失败");
+            return new AiModelTestResult(false, message, resolvedModelName, platform.name(), latency, aiModelConfig.getId());
+        }
+    }
+
+    @Override
+    public AiModelTestResult testAiModelById(Long id) {
+        if (id == null) {
+            return new AiModelTestResult(false, "模型配置ID不能为空", null, null, null, null);
+        }
+        AiModelConfig config = getById(id);
+        if (config == null) {
+            return new AiModelTestResult(false, "模型配置不存在", null, null, null, id);
+        }
+        return testAiModel(config);
     }
 
 }
