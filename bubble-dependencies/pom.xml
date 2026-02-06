@@ -17,9 +17,9 @@
         <!-- Spring Boot And Spring Cloud Dependency Versions -->
         <spring-boot.version>3.5.8</spring-boot.version>
         <spring-ai.version>1.1.2</spring-ai.version>
-        <spring-ai-alibaba-extensions.version>1.1.2.0</spring-ai-alibaba-extensions.version>
+        <spring-ai-alibaba-extensions.version>1.1.2.1</spring-ai-alibaba-extensions.version>
         <spring-ai-alibaba.version>1.1.2.0</spring-ai-alibaba.version>
-        <agentscope-ai.version>1.0.7</agentscope-ai.version>
+        <agentscope-ai.version>1.0.8</agentscope-ai.version>
 
 
         <spring-cloud.version>2025.0.0</spring-cloud.version>
