@@ -10,6 +10,7 @@ import cn.fxbin.bubble.ai.service.AiModelConfigService;
 import cn.fxbin.bubble.core.exception.ServiceException;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -99,11 +100,15 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
             throw new IllegalArgumentException("modelId must not be blank");
         }
 
-        AiModelConfig config = aiModelConfigMapper.selectOne(
-                Wrappers.lambdaQuery(AiModelConfig.class)
-                        .eq(AiModelConfig::getId, modelId)
-                        .eq(AiModelConfig::getEnabled, true)
-        );
+        Long resolvedId = parseLongOrNull(modelId);
+        LambdaQueryWrapper<AiModelConfig> queryWrapper = Wrappers.lambdaQuery(AiModelConfig.class)
+                .eq(AiModelConfig::getEnabled, true);
+        if (resolvedId != null) {
+            queryWrapper.and(w -> w.eq(AiModelConfig::getId, resolvedId).or().eq(AiModelConfig::getConfigName, modelId));
+        } else {
+            queryWrapper.eq(AiModelConfig::getConfigName, modelId);
+        }
+        AiModelConfig config = aiModelConfigMapper.selectOne(queryWrapper);
 
         Assert.notNull(config, "AI Model Config not found or disabled: {}", modelId);
 
@@ -186,6 +191,16 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
             log.warn("模型配置检测失败: configName={}, platform={}", aiModelConfig.getConfigName(), platform);
             String message = StrUtil.blankToDefault(e.getMessage(), "模型检测失败");
             return new AiModelTestResult(false, message, resolvedModelName, platform.name(), latency, aiModelConfig.getId());
+        } finally {
+            aiModelFactory.removeChatModel(
+                    platform,
+                    aiModelConfig.getApiKey(),
+                    aiModelConfig.getBaseUrl(),
+                    resolvedModelName,
+                    aiModelConfig.getTemperature(),
+                    aiModelConfig.getTopK(),
+                    aiModelConfig.getTopP()
+            );
         }
     }
 
@@ -199,6 +214,14 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
             return new AiModelTestResult(false, "模型配置不存在", null, null, null, id);
         }
         return testAiModel(config);
+    }
+
+    private Long parseLongOrNull(String value) {
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException ignored) {
+            return null;
+        }
     }
 
 }

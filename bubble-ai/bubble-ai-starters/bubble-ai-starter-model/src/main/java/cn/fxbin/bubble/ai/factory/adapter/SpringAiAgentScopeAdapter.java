@@ -1,5 +1,6 @@
 package cn.fxbin.bubble.ai.factory.adapter;
 
+import cn.fxbin.bubble.core.util.StringUtils;
 import io.agentscope.core.message.ContentBlock;
 import io.agentscope.core.message.ImageBlock;
 import io.agentscope.core.message.Msg;
@@ -390,8 +391,21 @@ public class SpringAiAgentScopeAdapter extends ChatModelBase {
      * @return AgentScope 响应
      */
     private ChatResponse toAgentScopeResponse(org.springframework.ai.chat.model.ChatResponse springResponse) {
+        if (springResponse == null) {
+            return new ChatResponse(
+                    StringUtils.getUUID(),
+                    Collections.singletonList(TextBlock.builder().text("").build()),
+                    new ChatUsage(0, 0, 0.0),
+                    Collections.emptyMap(),
+                    null
+            );
+        }
         // 获取响应文本
-        String contentText = springResponse.getResult().getOutput().getText();
+        String contentText = "";
+        if (springResponse.getResult() != null && springResponse.getResult().getOutput() != null) {
+            String text = springResponse.getResult().getOutput().getText();
+            contentText = text != null ? text : "";
+        }
 
         // 构建内容块
         List<ContentBlock> contentBlocks = Collections.singletonList(

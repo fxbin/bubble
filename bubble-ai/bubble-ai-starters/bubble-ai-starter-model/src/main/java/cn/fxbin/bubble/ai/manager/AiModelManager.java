@@ -24,7 +24,7 @@ public interface AiModelManager {
     /**
      * 根据 ID 获取 ChatModel
      *
-     * @param modelId 模型ID (对应配置文件Key或数据库配置名称)
+     * @param modelId 模型ID (对应配置文件Key，或数据库配置ID/配置名称)
      * @return ChatModel
      */
     ChatModel getChatModel(String modelId);

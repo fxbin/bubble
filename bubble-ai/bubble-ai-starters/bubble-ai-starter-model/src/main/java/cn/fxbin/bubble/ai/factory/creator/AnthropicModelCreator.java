@@ -11,6 +11,7 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * Anthropic 模型创建器
@@ -38,7 +39,9 @@ public class AnthropicModelCreator extends AbstractAiModelCreator {
                 .baseUrl(baseUrl);
         
         RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        WebClient.Builder webClientBuilder = createWebClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClientBuilder", RestClient.Builder.class, restClientBuilder);
+        applyMethodIfPresent(apiBuilder, "webClientBuilder", WebClient.Builder.class, webClientBuilder);
         
         AnthropicApi api = apiBuilder.build();
         AnthropicChatOptions.Builder optionsBuilder = AnthropicChatOptions.builder().model(model).temperature(temperature);

@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS ai_model_config (
     description TEXT DEFAULT NULL,
     temperature REAL DEFAULT 0.7,
     top_k INTEGER DEFAULT NULL,
-    top_p REAL DEFAULT NULL,
     enabled INTEGER DEFAULT 1,
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP

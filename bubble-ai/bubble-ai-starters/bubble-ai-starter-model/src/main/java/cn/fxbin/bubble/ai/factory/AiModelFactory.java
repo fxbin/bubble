@@ -204,7 +204,7 @@ public interface AiModelFactory {
     /**
      * 根据配置 ID 获取 ChatModel
      *
-     * @param modelId 模型ID (对应配置文件Key或数据库配置ID)
+     * @param modelId 模型ID (对应配置文件Key，或数据库配置ID/配置名称)
      * @return ChatModel 实例
      * @throws IllegalArgumentException 如果找不到对应的配置
      */

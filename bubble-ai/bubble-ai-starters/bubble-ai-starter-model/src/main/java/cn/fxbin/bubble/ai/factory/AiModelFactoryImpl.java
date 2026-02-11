@@ -80,7 +80,6 @@ public class AiModelFactoryImpl implements AiModelFactory {
 
     private final ConcurrentMap<CacheKey, ChatModel> cache = new ConcurrentHashMap<>();
     private final ConcurrentMap<CacheKey, EmbeddingModel> embeddingCache = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, String> CACHE_KEY_CACHE = new ConcurrentHashMap<>();
 
     private final Map<AiPlatformEnum, AiModelCreator> creators = new EnumMap<>(AiPlatformEnum.class);
 
@@ -321,6 +320,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     private ChatModel getOrCreateFromCache(AiPlatformEnum platform, String apiKey, String url, String resolvedModel, Double resolvedTemperature, Integer resolvedTopK, Double resolvedTopP) {
+        evictChatModelCacheIfNecessary();
         CacheKey key = new CacheKey(
                 platform.getCode(),
                 StringUtils.blankToDefault(url, ""),
@@ -335,6 +335,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     private EmbeddingModel getOrCreateEmbeddingFromCache(AiPlatformEnum platform, String apiKey, String url, String resolvedModel, Integer dimensions) {
+        evictEmbeddingModelCacheIfNecessary();
         CacheKey key = new CacheKey(
                 platform.getCode(),
                 StringUtils.blankToDefault(url, ""),
@@ -367,23 +368,31 @@ public class AiModelFactoryImpl implements AiModelFactory {
         if (StringUtils.isBlank(apiKey)) {
             return "";
         }
-        return CACHE_KEY_CACHE.computeIfAbsent(apiKey, key -> {
-            if (CACHE_KEY_CACHE.size() >= AiModelConstants.Cache.MAX_CACHE_KEY_CACHE_SIZE) {
-                CACHE_KEY_CACHE.clear();
-                log.debug("Cache key cache cleared due to size limit");
+        try {
+            MessageDigest digest = MessageDigest.getInstance(AiModelConstants.Hash.DEFAULT_ALGORITHM);
+            byte[] hashed = digest.digest(apiKey.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder(hashed.length * 2);
+            for (byte b : hashed) {
+                sb.append(String.format("%02x", b));
             }
-            try {
-                MessageDigest digest = MessageDigest.getInstance(AiModelConstants.Hash.DEFAULT_ALGORITHM);
-                byte[] hashed = digest.digest(key.getBytes(StandardCharsets.UTF_8));
-                StringBuilder sb = new StringBuilder(hashed.length * 2);
-                for (byte b : hashed) {
-                    sb.append(String.format("%02x", b));
-                }
-                return sb.toString();
-            } catch (Exception e) {
-                throw new IllegalStateException("Failed to hash apiKey", e);
-            }
-        });
+            return sb.toString();
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to hash apiKey", e);
+        }
+    }
+
+    private void evictChatModelCacheIfNecessary() {
+        if (cache.size() >= AiModelConstants.Cache.MAX_CHAT_MODEL_CACHE_SIZE) {
+            cache.clear();
+            log.warn("ChatModel cache cleared due to size limit: {}", AiModelConstants.Cache.MAX_CHAT_MODEL_CACHE_SIZE);
+        }
+    }
+
+    private void evictEmbeddingModelCacheIfNecessary() {
+        if (embeddingCache.size() >= AiModelConstants.Cache.MAX_EMBEDDING_MODEL_CACHE_SIZE) {
+            embeddingCache.clear();
+            log.warn("EmbeddingModel cache cleared due to size limit: {}", AiModelConstants.Cache.MAX_EMBEDDING_MODEL_CACHE_SIZE);
+        }
     }
 
     private ChatModel createChatModel(AiPlatformEnum platform, String apiKey, String url, String modelName, Double temperature, Integer topK, Double topP) {

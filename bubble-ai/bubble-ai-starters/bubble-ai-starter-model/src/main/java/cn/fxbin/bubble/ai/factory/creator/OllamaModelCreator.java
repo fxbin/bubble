@@ -15,6 +15,7 @@ import org.springframework.ai.ollama.api.OllamaChatOptions;
 import org.springframework.ai.ollama.api.OllamaEmbeddingOptions;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * Ollama 模型创建器
@@ -36,7 +37,9 @@ public class OllamaModelCreator extends AbstractAiModelCreator {
         OllamaApi.Builder apiBuilder = OllamaApi.builder().baseUrl(baseUrl);
         
         RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        WebClient.Builder webClientBuilder = createWebClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClientBuilder", RestClient.Builder.class, restClientBuilder);
+        applyMethodIfPresent(apiBuilder, "webClientBuilder", WebClient.Builder.class, webClientBuilder);
         
         OllamaApi api = apiBuilder.build();
         OllamaChatOptions.Builder optionsBuilder = OllamaChatOptions.builder().model(model).temperature(temperature);
@@ -64,7 +67,9 @@ public class OllamaModelCreator extends AbstractAiModelCreator {
         
         OllamaApi.Builder apiBuilder = OllamaApi.builder().baseUrl(baseUrl);
         RestClient.Builder restClientBuilder = createRestClientBuilder();
-        applyMethodIfPresent(apiBuilder, "restClient", RestClient.Builder.class, restClientBuilder);
+        WebClient.Builder webClientBuilder = createWebClientBuilder();
+        applyMethodIfPresent(apiBuilder, "restClientBuilder", RestClient.Builder.class, restClientBuilder);
+        applyMethodIfPresent(apiBuilder, "webClientBuilder", WebClient.Builder.class, webClientBuilder);
         OllamaApi api = apiBuilder.build();
         
         OllamaEmbeddingOptions options = OllamaEmbeddingOptions.builder().model(model).build();

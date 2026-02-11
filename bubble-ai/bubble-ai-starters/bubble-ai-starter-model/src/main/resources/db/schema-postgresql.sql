@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS ai_model_config (
     description VARCHAR(255) DEFAULT NULL,
     temperature DOUBLE PRECISION DEFAULT 0.7,
     top_k INTEGER DEFAULT NULL,
-    top_p DOUBLE PRECISION DEFAULT NULL,
     enabled BOOLEAN DEFAULT TRUE,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -26,7 +25,6 @@ COMMENT ON COLUMN ai_model_config.model IS '模型名称';
 COMMENT ON COLUMN ai_model_config.description IS '模型描述';
 COMMENT ON COLUMN ai_model_config.temperature IS '温度';
 COMMENT ON COLUMN ai_model_config.top_k IS 'TopK';
-COMMENT ON COLUMN ai_model_config.top_p IS 'TopP';
 COMMENT ON COLUMN ai_model_config.enabled IS '是否启用';
 COMMENT ON COLUMN ai_model_config.create_time IS '创建时间';
 COMMENT ON COLUMN ai_model_config.update_time IS '更新时间';

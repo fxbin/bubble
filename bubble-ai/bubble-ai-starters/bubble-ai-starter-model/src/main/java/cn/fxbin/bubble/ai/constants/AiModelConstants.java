@@ -17,6 +17,14 @@ public final class AiModelConstants {
          * 缓存键缓存最大数量
          */
         public static final int MAX_CACHE_KEY_CACHE_SIZE = 1000;
+        /**
+         * ChatModel 缓存最大数量
+         */
+        public static final int MAX_CHAT_MODEL_CACHE_SIZE = 512;
+        /**
+         * EmbeddingModel 缓存最大数量
+         */
+        public static final int MAX_EMBEDDING_MODEL_CACHE_SIZE = 256;
     }
 
     /**
