@@ -50,13 +50,15 @@ public class FlowContextHolder implements Serializable {
 
     static {
         L1_CACHE = new CaffeineFlowStateCache(DEFAULT_CACHE_EXPIRE_HOURS, DEFAULT_MAX_CACHE_SIZE);
+        FlowStateCache l2Cache;
         try {
-            L2_CACHE = new RedisFlowStateCache(DEFAULT_REDIS_EXPIRE_HOURS);
+            l2Cache = new RedisFlowStateCache(DEFAULT_REDIS_EXPIRE_HOURS);
         } catch (IllegalStateException e) {
             log.warn("Failed to initialize RedisFlowStateCache. L2 cache will be unavailable.", e);
             // 降级为仅使用 L1，避免因 Redis 初始化失败导致整个上下文能力不可用
-            L2_CACHE = null;
+            l2Cache = null;
         }
+        L2_CACHE = l2Cache;
         STATE_SERIALIZER = new JsonFlowStateSerializer();
     }
 
@@ -354,13 +356,16 @@ public class FlowContextHolder implements Serializable {
         try {
             log.info("Saving state for flow: {}, execution: {}", flowId, executionId);
 
-            Map<String, Object> contextData = Map.of(
-                    "variables", variables,
-                    "startTime", startTime,
-                    "version", VERSION,
-                    "userId", userId,
-                    "tenantId", tenantId
-            );
+            // Map.of 不允许 null 值，使用可变 Map 兼容 userId/tenantId 等可空字段
+            Map<String, Object> contextData = new HashMap<>();
+            contextData.put("variables", variables);
+            contextData.put("startTime", startTime);
+            contextData.put("version", VERSION);
+            contextData.put("userId", userId);
+            contextData.put("tenantId", tenantId);
+            contextData.put("flowVersion", flowVersion);
+            contextData.put("historicalExecution", isHistoricalExecution());
+            contextData.put("targetVersion", getTargetVersion());
 
             String serializedContext = STATE_SERIALIZER.serialize(contextData);
 
@@ -453,6 +458,17 @@ public class FlowContextHolder implements Serializable {
             // 设置用户ID和租户ID
             holder.userId = (String) contextData.get("userId");
             holder.tenantId = (String) contextData.get("tenantId");
+            Object flowVersionObj = contextData.get("flowVersion");
+            holder.flowVersion = flowVersionObj instanceof Number ? ((Number) flowVersionObj).intValue() : null;
+
+            Object targetVersionObj = contextData.get("targetVersion");
+            Integer targetVersion = targetVersionObj instanceof Number ? ((Number) targetVersionObj).intValue() : null;
+            boolean historicalExecution = Boolean.TRUE.equals(contextData.get("historicalExecution"));
+            if (historicalExecution || targetVersion != null) {
+                holder.versionContext = new VersionExecutionContext()
+                        .setHistoricalExecution(historicalExecution)
+                        .setTargetVersion(targetVersion);
+            }
 
             // 检查版本兼容性
             int version = ((Number) contextData.getOrDefault("version", 0)).intValue();
