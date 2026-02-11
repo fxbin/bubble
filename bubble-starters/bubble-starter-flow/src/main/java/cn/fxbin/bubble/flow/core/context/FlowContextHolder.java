@@ -54,9 +54,8 @@ public class FlowContextHolder implements Serializable {
             L2_CACHE = new RedisFlowStateCache(DEFAULT_REDIS_EXPIRE_HOURS);
         } catch (IllegalStateException e) {
             log.warn("Failed to initialize RedisFlowStateCache. L2 cache will be unavailable.", e);
-            // L2_CACHE = new NoOpFlowStateCache(); // Or some other fallback if needed
-            // Or handle as appropriate for your application
-            throw e;
+            // 降级为仅使用 L1，避免因 Redis 初始化失败导致整个上下文能力不可用
+            L2_CACHE = null;
         }
         STATE_SERIALIZER = new JsonFlowStateSerializer();
     }
@@ -321,11 +320,8 @@ public class FlowContextHolder implements Serializable {
      */
     private void findPreviousNodesRecursive(Long flowId, String currentNodeId, List<FlowEdge> allEdges, List<FlowNode> previousNodes, Set<String> visitedNodeIds, PluginType filterType) {
         if (!visitedNodeIds.add(currentNodeId)) {
-            // 如果已经访问过此节点（在当前递归路径上），则停止以防止循环
-            // 注意：对于查找所有前置节点，一个节点可能通过不同路径被多次访问作为"当前节点"，
-            // 但我们只关心它作为"前置节点"被添加一次。
-            // visitedNodeIds 在这里主要用于防止因环路导致的无限递归。
-            // 实际添加到 previousNodes 列表的控制在外部调用处或收集结果时处理重复。
+            // 当前递归路径已访问过该节点，直接返回以防止环路导致无限递归
+            return;
         }
 
         List<FlowEdge> directPreviousEdges = allEdges.stream()

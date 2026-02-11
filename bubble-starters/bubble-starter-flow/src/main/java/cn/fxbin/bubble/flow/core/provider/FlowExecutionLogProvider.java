@@ -186,7 +186,7 @@ public class FlowExecutionLogProvider {
 
         return FlowExecutionProgressDTO.builder()
                 .flowExecutionLogId(flowLog.getId())
-                .flowId(FlowUtils.getFlowIdExtractChainId(flowLog.getFlowInstanceId()))
+                .flowId(resolveFlowId(flowLog))
                 .flowName(flowLog.getFlowDefinitionId())
                 .status(flowLog.getStatus())
                 .startTime(flowLog.getStartTime())
@@ -195,6 +195,26 @@ public class FlowExecutionLogProvider {
                 .errorMessage(flowLog.getErrorMessage())
                 .nodeProgressList(nodeProgressList)
                 .build();
+    }
+
+    /**
+     * 解析流程ID。
+     * <p>优先使用执行日志中已存储的 {@code flowId}；仅在为空时回退解析 {@code flowInstanceId}。</p>
+     * <p>回退解析失败时返回 {@code null} 并记录告警，避免查询接口因历史脏数据直接失败。</p>
+     *
+     * @param flowLog 流程执行日志
+     * @return 流程ID，解析失败时返回 null
+     */
+    private Long resolveFlowId(FlowExecutionLog flowLog) {
+        if (flowLog.getFlowId() != null) {
+            return flowLog.getFlowId();
+        }
+        try {
+            return FlowUtils.getFlowIdExtractChainId(flowLog.getFlowInstanceId());
+        } catch (Exception e) {
+            log.warn("Failed to resolve flowId from flowInstanceId: {}", flowLog.getFlowInstanceId(), e);
+            return null;
+        }
     }
 
 

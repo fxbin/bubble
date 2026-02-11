@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,12 @@ import java.util.stream.Collectors;
  */
 
 public class FlowUtils {
+
+    /**
+     * 执行ID毫秒内序列号。
+     * <p>用于在同一毫秒内生成多个 executionId 时避免冲突。</p>
+     */
+    private static final AtomicInteger EXECUTION_SEQ = new AtomicInteger(0);
 
     /**
      * 从 chainId 中提取出 flowId
@@ -54,13 +61,18 @@ public class FlowUtils {
     }
 
     /**
-     * 生成 executionId
+     * 生成 executionId。
+     * <p>格式仍保持 {@code run_{flowId}_{ts}}，其中 {@code ts} 为“毫秒时间戳 * 1000 + 毫秒内序列”。</p>
+     * <p>这样既兼容原有规则，又能降低同毫秒并发下的ID碰撞概率。</p>
      *
      * @param flowId flowId
      * @return executionId
      */
     public static String generateExecutionId(Long flowId) {
-        return StringUtils.format(RuleFlowConst.RUN_CHAIN_ID, flowId, SystemClock.now());
+        long millis = SystemClock.now();
+        // 在毫秒时间戳后附加三位序列，规避同毫秒并发ID冲突
+        long ts = millis * 1000 + Math.floorMod(EXECUTION_SEQ.getAndIncrement(), 1000);
+        return StringUtils.format(RuleFlowConst.RUN_CHAIN_ID, flowId, ts);
     }
 
     /**

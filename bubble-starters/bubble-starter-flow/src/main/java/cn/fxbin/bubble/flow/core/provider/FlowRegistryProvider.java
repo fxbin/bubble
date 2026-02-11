@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * FlowRegistryProvider
@@ -55,17 +57,14 @@ public class FlowRegistryProvider {
             String expr = expressionBuilder.buildExpression(flowId);
             log.info("发布流程: {}, 表达式: {}", flowId, expr);
 
-            // 3. 动态注册
-            LiteFlowChainELBuilder.createChain()
-                    .setChainId(chainId)
-                    .setEL(expr)
-                    .build();
-
             // 4. 更新状态
             flow.setStatus(FlowPublishStatus.PUBLISHED);
             // 5. 更新表达式
             flow.setEl(expr);
             flowDefinitionMapper.saveOrUpdate(flow);
+
+            // 3. 动态注册（事务提交后执行，避免 DB 回滚但内存链已生效）
+            registerAfterCommit(chainId, expr);
 
             return chainId;
         } catch (FlowNotFoundException e) {
@@ -83,6 +82,39 @@ public class FlowRegistryProvider {
     public void unRegistry(String chainId) {
         FlowBus.removeChain(chainId);
         log.info("取消注册流程: {}", chainId);
+    }
+
+    /**
+     * 在事务提交后注册链。
+     * <p>若当前无事务，立即注册；若有事务，则在 {@code afterCommit} 阶段注册。</p>
+     *
+     * @param chainId 链ID
+     * @param expr LiteFlow EL 表达式
+     */
+    private void registerAfterCommit(String chainId, String expr) {
+        if (!TransactionSynchronizationManager.isActualTransactionActive()) {
+            doRegister(chainId, expr);
+            return;
+        }
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                doRegister(chainId, expr);
+            }
+        });
+    }
+
+    /**
+     * 实际执行 LiteFlow 链注册。
+     *
+     * @param chainId 链ID
+     * @param expr LiteFlow EL 表达式
+     */
+    private void doRegister(String chainId, String expr) {
+        LiteFlowChainELBuilder.createChain()
+                .setChainId(chainId)
+                .setEL(expr)
+                .build();
     }
 
 }
