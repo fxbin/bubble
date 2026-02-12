@@ -101,14 +101,15 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
         }
 
         Long resolvedId = parseLongOrNull(modelId);
-        LambdaQueryWrapper<AiModelConfig> queryWrapper = Wrappers.lambdaQuery(AiModelConfig.class)
-                .eq(AiModelConfig::getEnabled, true);
+        AiModelConfig config;
         if (resolvedId != null) {
-            queryWrapper.and(w -> w.eq(AiModelConfig::getId, resolvedId).or().eq(AiModelConfig::getConfigName, modelId));
+            config = queryEnabledById(resolvedId);
+            if (config == null) {
+                config = queryEnabledByConfigName(modelId);
+            }
         } else {
-            queryWrapper.eq(AiModelConfig::getConfigName, modelId);
+            config = queryEnabledByConfigName(modelId);
         }
-        AiModelConfig config = aiModelConfigMapper.selectOne(queryWrapper);
 
         Assert.notNull(config, "AI Model Config not found or disabled: {}", modelId);
 
@@ -222,6 +223,20 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
         } catch (NumberFormatException ignored) {
             return null;
         }
+    }
+
+    private AiModelConfig queryEnabledById(Long id) {
+        LambdaQueryWrapper<AiModelConfig> queryWrapper = Wrappers.lambdaQuery(AiModelConfig.class)
+                .eq(AiModelConfig::getEnabled, true)
+                .eq(AiModelConfig::getId, id);
+        return aiModelConfigMapper.selectOne(queryWrapper);
+    }
+
+    private AiModelConfig queryEnabledByConfigName(String configName) {
+        LambdaQueryWrapper<AiModelConfig> queryWrapper = Wrappers.lambdaQuery(AiModelConfig.class)
+                .eq(AiModelConfig::getEnabled, true)
+                .eq(AiModelConfig::getConfigName, configName);
+        return aiModelConfigMapper.selectOne(queryWrapper);
     }
 
 }

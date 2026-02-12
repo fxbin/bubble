@@ -79,7 +79,7 @@ public abstract class AbstractAiModelCreator implements AiModelCreator {
         return HttpClient.create(connectionProvider)
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeout.getConnectTimeout())
                 .doOnConnected(conn -> conn
-                        .addHandlerLast(new ReadTimeoutHandler(timeout.getReadTimeout() / 1000, TimeUnit.SECONDS))
+                        .addHandlerLast(new ReadTimeoutHandler(timeout.getReadTimeout(), TimeUnit.MILLISECONDS))
                         .addHandlerLast(new WriteTimeoutHandler(timeout.getWriteTimeout(), TimeUnit.SECONDS)))
                 .responseTimeout(Duration.ofMinutes(timeout.getResponseTimeout()));
     }

@@ -12,6 +12,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.io.BufferedReader;
@@ -259,9 +261,12 @@ public class BubbleAiDdl implements IDdl {
 
         try {
             String sqlContent = readScriptContent(script.getResource());
-            jdbcTemplate.execute(sqlContent);
-
-            recordMigration(script);
+            DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+            TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+            transactionTemplate.executeWithoutResult(status -> {
+                jdbcTemplate.execute(sqlContent);
+                recordMigration(script);
+            });
 
             log.info("迁移脚本执行成功: V{}__{}.sql", script.getVersion(), script.getName());
         } catch (Exception e) {

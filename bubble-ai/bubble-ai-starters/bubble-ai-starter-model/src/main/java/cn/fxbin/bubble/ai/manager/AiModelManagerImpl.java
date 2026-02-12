@@ -110,8 +110,11 @@ public class AiModelManagerImpl implements AiModelManager {
                 ChatModel model = service.getChatModel(modelId);
                 log.debug("Successfully loaded ChatModel from database for modelId: {}", modelId);
                 return model;
+            } catch (IllegalArgumentException e) {
+                log.debug("Model ID {} not found in database: {}", modelId, e.getMessage());
             } catch (Exception e) {
-                log.warn("Model ID {} lookup in database failed: {}", modelId, e.getMessage());
+                log.error("Model ID {} lookup in database failed", modelId, e);
+                throw new IllegalStateException("Failed to load model from database: " + modelId, e);
             }
         }
 
