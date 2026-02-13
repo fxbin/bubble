@@ -1,3 +1,0 @@
-forest:
-  variables:
-    lightragBaseUrl: ${dm.ai.lightrag.base-url}
