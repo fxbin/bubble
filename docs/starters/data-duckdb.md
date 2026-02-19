@@ -56,6 +56,28 @@ dm:
       # allow-unsigned-extensions: false
       # custom-extension-repository: https://your-mirror/
       # local-extension-directory: /path/to/extensions/
+
+      # 可选：连接初始化时自动 ATTACH 外部数据源（每个池连接都会执行）
+      # attachments:
+      #   - enabled: true
+      #     type: duckdb
+      #     connection: /path/to/target.duckdb
+      #     alias: target_db
+      #     read-only: true
+      #   - enabled: true
+      #     type: sqlite
+      #     connection: ./bubble-ai-station/db/station.db
+      #     alias: oltp
+      #     read-only: false
+      #     sqlite-all-varchar: false
+      #   - enabled: false
+      #     type: postgresql
+      #     connection: host=127.0.0.1 dbname=app user=app password=secret
+      #     alias: pg_app
+      #   - enabled: false
+      #     type: mysql
+      #     connection: host=127.0.0.1 user=root password=secret database=app
+      #     alias: mysql_app
 ```
 
 ### 3. 使用 DuckDbOperations
@@ -90,6 +112,11 @@ public class DataService {
         
         // 6. 导入 Parquet
         duckDbOperations.importParquet("users_new", "/tmp/users.parquet");
+
+        // 7. 手动附加目标 DuckDB（作用于当前连接）
+        duckDbOperations.attachDatabase("/path/to/target.duckdb", "target_db");
+        List<Map<String, Object>> attachedData = duckDbOperations.query("SELECT * FROM target_db.some_table");
+        log.info("Attached data: {}", attachedData);
     }
 }
 ```
@@ -114,6 +141,29 @@ duckDbOperations.close("/path/to/other.db");
 ```
 
 动态连接的缓存键包含读写模式（参考：`bubble-starters/bubble-starter-data-duckdb/src/main/java/cn/fxbin/bubble/data/duckdb/core/DuckDbManager.java:72`）。
+
+### ATTACH 外部数据源
+
+推荐使用配置化 `attachments`，由连接初始化 SQL 自动执行 `ATTACH`，可避免连接池下“不同连接 attach 状态不一致”的问题。
+
+`attachments` 支持以下类型：
+
+- `duckdb`：附加 DuckDB 文件。
+- `sqlite`：附加 SQLite 数据库（自动加载 `sqlite` 扩展）。
+- `mysql`：附加 MySQL 数据库（自动加载 `mysql` 扩展）。
+- `postgresql`：附加 PostgreSQL 数据库（自动加载 `postgres` 扩展）。
+
+字段说明：
+
+- `enabled`：是否启用该附加配置。
+- `type`：附加源类型。
+- `connection`：连接信息（文件路径或连接串）。
+- `alias`：附加后的库别名。
+- `read-only`：是否只读附加。
+- `sqlite-all-varchar`：仅 `sqlite` 类型有效。
+- `options`：透传附加选项（键值对）。
+
+若使用手动 API（`duckDbOperations.attachDatabase(...)` 或 `DuckDbTemplate.attachDatabase(...)`），建议将 `maximum-pool-size` 设为 `1`，以减少连接切换导致的附加状态丢失风险。
 
 ### 高性能数据摄入 (Ingestion)
 

@@ -154,6 +154,16 @@ public class DuckDbOperations {
         defaultTemplate.exportParquet(tableNameOrQuery, outputPath);
     }
 
+    /**
+     * 在默认连接上附加目标 DuckDB 数据库。
+     *
+     * @param dbPath 目标数据库文件路径。
+     * @param alias  附加后的数据库别名。
+     */
+    public void attachDatabase(String dbPath, String alias) {
+        defaultTemplate.attachDatabase(dbPath, alias);
+    }
+
     // =================================================================================================================
     // 动态实例操作 (Delegate to manager)
     // =================================================================================================================

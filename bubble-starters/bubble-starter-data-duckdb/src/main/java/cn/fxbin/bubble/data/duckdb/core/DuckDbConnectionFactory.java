@@ -11,6 +11,12 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * DuckDB 连接工厂
@@ -149,21 +155,31 @@ public class DuckDbConnectionFactory {
     }
 
     private String buildConnectionInitSql() {
-        if (defaultProperties.getExtensions() == null || defaultProperties.getExtensions().isEmpty()) {
+        Set<String> extensionsToLoad = resolveRequiredExtensions();
+        List<DuckDbProperties.Attachment> enabledAttachments = resolveEnabledAttachments();
+        boolean noExtensions = extensionsToLoad.isEmpty();
+        boolean noAttachments = enabledAttachments.isEmpty();
+        if (noExtensions && noAttachments) {
             return null;
         }
 
         StringBuilder sql = new StringBuilder();
-        for (String ext : defaultProperties.getExtensions()) {
-            String safeExt = validateExtensionName(ext);
-            sql.append("LOAD ").append(safeExt).append("; ");
+        if (!noExtensions) {
+            for (String ext : extensionsToLoad) {
+                sql.append("LOAD ").append(ext).append("; ");
+            }
+        }
+        if (!noAttachments) {
+            for (DuckDbProperties.Attachment attachment : enabledAttachments) {
+                sql.append(buildAttachSql(attachment)).append("; ");
+            }
         }
         return sql.toString().trim();
     }
 
     private void initializeExtensions(DataSource dataSource) {
-        // 扩展的安装只需执行一次 (全局)
-        if (defaultProperties.getExtensions() == null || defaultProperties.getExtensions().isEmpty()) {
+        Set<String> requiredExtensions = resolveRequiredExtensions();
+        if (requiredExtensions.isEmpty()) {
             return;
         }
 
@@ -171,8 +187,7 @@ public class DuckDbConnectionFactory {
              Statement stmt = conn.createStatement()) {
 
             // 安装并加载扩展
-            for (String ext: defaultProperties.getExtensions()) {
-                String safeExt = validateExtensionName(ext);
+            for (String safeExt: requiredExtensions) {
                 if (defaultProperties.isAutoInstallExtensions()) {
                     installExtension(stmt, safeExt);
                 }
@@ -184,6 +199,40 @@ public class DuckDbConnectionFactory {
             log.error("Failed to initialize DuckDB extensions", e);
             throw new RuntimeException("Failed to initialize DuckDB extensions", e);
         }
+    }
+
+    private Set<String> resolveRequiredExtensions() {
+        Set<String> requiredExtensions = new LinkedHashSet<>();
+        if (defaultProperties.getExtensions() != null) {
+            for (String ext : defaultProperties.getExtensions()) {
+                requiredExtensions.add(validateExtensionName(ext));
+            }
+        }
+        for (DuckDbProperties.Attachment attachment : resolveEnabledAttachments()) {
+            if (attachment.getType() == DuckDbProperties.AttachmentType.SQLITE) {
+                requiredExtensions.add("sqlite");
+            }
+            if (attachment.getType() == DuckDbProperties.AttachmentType.MYSQL) {
+                requiredExtensions.add("mysql");
+            }
+            if (attachment.getType() == DuckDbProperties.AttachmentType.POSTGRESQL) {
+                requiredExtensions.add("postgres");
+            }
+        }
+        return requiredExtensions;
+    }
+
+    private List<DuckDbProperties.Attachment> resolveEnabledAttachments() {
+        if (defaultProperties.getAttachments() == null || defaultProperties.getAttachments().isEmpty()) {
+            return List.of();
+        }
+        List<DuckDbProperties.Attachment> enabledAttachments = new ArrayList<>();
+        for (DuckDbProperties.Attachment attachment : defaultProperties.getAttachments()) {
+            if (attachment != null && attachment.isEnabled()) {
+                enabledAttachments.add(attachment);
+            }
+        }
+        return enabledAttachments;
     }
 
     private void installExtension(Statement stmt, String ext) {
@@ -219,6 +268,83 @@ public class DuckDbConnectionFactory {
         String trimmed = extensionName.trim();
         if (!trimmed.matches("^[a-zA-Z0-9_]+$")) {
             throw new IllegalArgumentException("无效的扩展名：" + extensionName);
+        }
+        return trimmed;
+    }
+
+    private static String buildAttachSql(DuckDbProperties.Attachment attachment) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("attachments 元素不能为空");
+        }
+        String connection = resolveAttachmentConnection(attachment);
+        String alias = validateIdentifier(attachment.getAlias(), "attachments.alias");
+        String escapedConnection = escapeSingleQuotes(connection);
+        DuckDbProperties.AttachmentType attachmentType =
+                attachment.getType() == null ? DuckDbProperties.AttachmentType.DUCKDB : attachment.getType();
+
+        List<String> options = new ArrayList<>();
+        if (attachmentType != DuckDbProperties.AttachmentType.DUCKDB) {
+            options.add("TYPE " + toAttachTypeName(attachmentType));
+        }
+        if (attachment.isReadOnly()) {
+            options.add("READ_ONLY");
+        }
+        if (attachmentType == DuckDbProperties.AttachmentType.SQLITE && attachment.isSqliteAllVarchar()) {
+            options.add("SQLITE_ALL_VARCHAR");
+        }
+        if (attachment.getOptions() != null) {
+            for (Map.Entry<String, String> entry : attachment.getOptions().entrySet()) {
+                if (!StringUtils.hasText(entry.getKey()) || !StringUtils.hasText(entry.getValue())) {
+                    continue;
+                }
+                String key = validateIdentifier(entry.getKey(), "attachments.options.key").toUpperCase(Locale.ROOT);
+                options.add(key + " " + formatAttachOptionValue(entry.getValue()));
+            }
+        }
+
+        if (options.isEmpty()) {
+            return "ATTACH '" + escapedConnection + "' AS " + alias;
+        }
+        return "ATTACH '" + escapedConnection + "' AS " + alias + " (" + String.join(", ", options) + ")";
+    }
+
+    private static String resolveAttachmentConnection(DuckDbProperties.Attachment attachment) {
+        if (StringUtils.hasText(attachment.getConnection())) {
+            return attachment.getConnection().trim();
+        }
+        if (StringUtils.hasText(attachment.getPath())) {
+            return attachment.getPath().trim();
+        }
+        throw new IllegalArgumentException("attachments.connection 不能为空");
+    }
+
+    private static String toAttachTypeName(DuckDbProperties.AttachmentType type) {
+        return switch (type) {
+            case SQLITE -> "SQLITE";
+            case MYSQL -> "MYSQL";
+            case POSTGRESQL -> "POSTGRES";
+            case DUCKDB -> "DUCKDB";
+        };
+    }
+
+    private static String formatAttachOptionValue(String value) {
+        String trimmed = value.trim();
+        if (trimmed.matches("^(?i:true|false)$")) {
+            return trimmed.toUpperCase(Locale.ROOT);
+        }
+        if (trimmed.matches("^-?\\d+(\\.\\d+)?$")) {
+            return trimmed;
+        }
+        return "'" + escapeSingleQuotes(trimmed) + "'";
+    }
+
+    private static String validateIdentifier(String identifier, String fieldName) {
+        if (!StringUtils.hasText(identifier)) {
+            throw new IllegalArgumentException(fieldName + " 不能为空");
+        }
+        String trimmed = identifier.trim();
+        if (!trimmed.matches("^[a-zA-Z0-9_]+$")) {
+            throw new IllegalArgumentException("无效的 " + fieldName + "：" + identifier);
         }
         return trimmed;
     }

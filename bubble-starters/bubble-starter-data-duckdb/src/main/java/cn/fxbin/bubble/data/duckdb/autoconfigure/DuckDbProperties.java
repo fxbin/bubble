@@ -65,6 +65,12 @@ public class DuckDbProperties {
     private List<String> extensions = new ArrayList<>();
 
     /**
+     * 启动时自动附加的数据库列表。
+     * 每个连接建立后都会执行 ATTACH，确保连接池中的连接状态一致。
+     */
+    private List<Attachment> attachments = new ArrayList<>();
+
+    /**
      * 是否自动安装扩展。
      * 如果为 true，将尝试运行 "INSTALL extension_name"。
      * 如果为 false，则仅运行 "LOAD extension_name"。
@@ -133,6 +139,76 @@ public class DuckDbProperties {
          * 基于文件的数据库。数据将被持久化。
          */
         FILE
+    }
+
+    /**
+     * 附加数据库配置项。
+     */
+    @Data
+    public static class Attachment {
+
+        /**
+         * 是否启用该附加配置。
+         */
+        private boolean enabled = true;
+
+        /**
+         * 附加源类型。
+         */
+        private AttachmentType type = AttachmentType.DUCKDB;
+
+        /**
+         * 连接信息（文件路径或连接串）。
+         */
+        private String connection;
+
+        /**
+         * 待附加数据库文件路径。
+         * 兼容旧配置，优先级低于 connection。
+         */
+        private String path;
+
+        /**
+         * 附加后的数据库别名。
+         */
+        private String alias;
+
+        /**
+         * 是否以只读方式附加。
+         */
+        private boolean readOnly = false;
+
+        /**
+         * SQLite 附加时是否将所有列按 VARCHAR 读取。
+         */
+        private boolean sqliteAllVarchar = false;
+
+        /**
+         * 附加参数（按需扩展）。
+         */
+        private Map<String, String> options = new HashMap<>();
+    }
+
+    /**
+     * 附加源类型。
+     */
+    public enum AttachmentType {
+        /**
+         * DuckDB 文件。
+         */
+        DUCKDB,
+        /**
+         * SQLite 数据库。
+         */
+        SQLITE,
+        /**
+         * MySQL 数据库。
+         */
+        MYSQL,
+        /**
+         * PostgreSQL 数据库。
+         */
+        POSTGRESQL
     }
 
 }
