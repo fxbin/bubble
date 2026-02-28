@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS ai_model_config (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     config_name VARCHAR(64) NOT NULL,
     platform VARCHAR(32) NOT NULL,
     api_key VARCHAR(256) DEFAULT NULL,
