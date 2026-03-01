@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -123,16 +124,18 @@ public class FlowDefinitionProvider {
             List<String> existingNodeIds = flowNodeMapper.selectList(
                 new LambdaQueryWrapper<FlowNode>()
                     .eq(FlowNode::getFlowId, flowDefinition.getId())
-            ).stream().map(FlowNode::getId).collect(Collectors.toList());
+            ).stream().map(FlowNode::getId).distinct().collect(Collectors.toList());
 
-            // 4.2 获取新节点ID列表
-            List<String> newNodeIds = dto.getSchema().getNodes().stream()
-                    .map(FlowNode::getId).toList();
+            // 4.2 获取新节点ID集合
+            Set<String> newNodeIdSet = dto.getSchema().getNodes().stream()
+                    .map(FlowNode::getId).collect(Collectors.toSet());
 
-            // 4.3 找出需要删除的节点
-            existingNodeIds.removeAll(newNodeIds);
-            if (!existingNodeIds.isEmpty()) {
-                flowNodeMapper.deleteByIds(existingNodeIds);
+            // 4.3 找出需要删除的节点（使用 Stream filter 避免副作用）
+            List<String> nodeIdsToDelete = existingNodeIds.stream()
+                    .filter(id -> !newNodeIdSet.contains(id))
+                    .toList();
+            if (!nodeIdsToDelete.isEmpty()) {
+                flowNodeMapper.deleteByIds(nodeIdsToDelete);
             }
 
             // 4.4 更新或插入节点
@@ -154,16 +157,18 @@ public class FlowDefinitionProvider {
             List<Long> existingEdgeIds = flowEdgeMapper.selectList(
                 new LambdaQueryWrapper<FlowEdge>()
                     .eq(FlowEdge::getFlowId, flowDefinition.getId())
-            ).stream().map(FlowEdge::getId).collect(Collectors.toList());
+            ).stream().map(FlowEdge::getId).distinct().collect(Collectors.toList());
 
-            // 5.2 获取新边ID列表
-            List<Long> newEdgeIds = dto.getSchema().getEdges().stream()
-                    .map(FlowEdge::getId).toList();
+            // 5.2 获取新边ID集合
+            Set<Long> newEdgeIdSet = dto.getSchema().getEdges().stream()
+                    .map(FlowEdge::getId).collect(Collectors.toSet());
 
-            // 5.3 找出需要删除的边
-            existingEdgeIds.removeAll(newEdgeIds);
-            if (!existingEdgeIds.isEmpty()) {
-                flowEdgeMapper.deleteByIds(existingEdgeIds);
+            // 5.3 找出需要删除的边（使用 Stream filter 避免副作用）
+            List<Long> edgeIdsToDelete = existingEdgeIds.stream()
+                    .filter(id -> !newEdgeIdSet.contains(id))
+                    .toList();
+            if (!edgeIdsToDelete.isEmpty()) {
+                flowEdgeMapper.deleteByIds(edgeIdsToDelete);
             }
 
             // 5.4 更新或插入边

@@ -47,6 +47,8 @@ public class FlowExecutionLogProvider {
 
     private final FlowDefinitionMapper flowDefinitionMapper;
 
+    private final FlowNodeCache flowNodeCache;
+
     private final List<String> sortedFields = Lists.newArrayList("create_time", "update_time");
 
     /**
@@ -162,7 +164,7 @@ public class FlowExecutionLogProvider {
 
         // 如果流程正在运行，则补充尚未执行的节点信息
         if (FlowExecStatus.RUNNING == flowLog.getStatus() && flowLog.getEndTime() == null) {
-            List<FlowNode> allNodes = FlowNodeCache.getAllNodes(flowLog.getFlowId());
+            List<FlowNode> allNodes = flowNodeCache.getAllNodes(flowLog.getFlowId());
             if (allNodes != null && !allNodes.isEmpty()) {
                 Set<String> executedNodeIds = executedNodeLogs.stream()
                         .map(FlowNodeExecutionLog::getNodeId)

@@ -2,6 +2,7 @@ package cn.fxbin.bubble.flow.core.context;
 
 import cn.hutool.core.date.SystemClock;
 import cn.fxbin.bubble.core.exception.ServiceException;
+import cn.fxbin.bubble.core.util.ApplicationContextHolder;
 import cn.fxbin.bubble.flow.core.cache.FlowNodeCache;
 import cn.fxbin.bubble.flow.core.enums.PluginType;
 import cn.fxbin.bubble.flow.core.model.entity.FlowEdge;
@@ -41,25 +42,57 @@ public class FlowContextHolder implements Serializable {
     private static final long DEFAULT_MAX_CACHE_SIZE = 1000;
     private static final long DEFAULT_REDIS_EXPIRE_HOURS = 2;
 
-    // L1 Cache (Caffeine)
-    private static final FlowStateCache L1_CACHE;
-    // L2 Cache (Redis)
-    private static final FlowStateCache L2_CACHE;
-    // Serializer
-    private static final FlowStateSerializer STATE_SERIALIZER;
+    private static FlowStateCache l1Cache;
+    private static FlowStateCache l2Cache;
+    private static FlowStateSerializer stateSerializer;
+    private static FlowNodeCache flowNodeCache;
 
-    static {
-        L1_CACHE = new CaffeineFlowStateCache(DEFAULT_CACHE_EXPIRE_HOURS, DEFAULT_MAX_CACHE_SIZE);
-        FlowStateCache l2Cache;
-        try {
-            l2Cache = new RedisFlowStateCache(DEFAULT_REDIS_EXPIRE_HOURS);
-        } catch (IllegalStateException e) {
-            log.warn("Failed to initialize RedisFlowStateCache. L2 cache will be unavailable.", e);
-            // 降级为仅使用 L1，避免因 Redis 初始化失败导致整个上下文能力不可用
-            l2Cache = null;
+    private static FlowStateCache getL1Cache() {
+        if (l1Cache == null) {
+            synchronized (FlowContextHolder.class) {
+                if (l1Cache == null) {
+                    l1Cache = new CaffeineFlowStateCache(DEFAULT_CACHE_EXPIRE_HOURS, DEFAULT_MAX_CACHE_SIZE);
+                }
+            }
         }
-        L2_CACHE = l2Cache;
-        STATE_SERIALIZER = new JsonFlowStateSerializer();
+        return l1Cache;
+    }
+
+    private static FlowStateCache getL2Cache() {
+        if (l2Cache == null) {
+            synchronized (FlowContextHolder.class) {
+                if (l2Cache == null) {
+                    try {
+                        l2Cache = new RedisFlowStateCache(DEFAULT_REDIS_EXPIRE_HOURS);
+                    } catch (IllegalStateException e) {
+                        log.warn("Failed to initialize RedisFlowStateCache. L2 cache will be unavailable.", e);
+                    }
+                }
+            }
+        }
+        return l2Cache;
+    }
+
+    private static FlowStateSerializer getStateSerializer() {
+        if (stateSerializer == null) {
+            synchronized (FlowContextHolder.class) {
+                if (stateSerializer == null) {
+                    stateSerializer = new JsonFlowStateSerializer();
+                }
+            }
+        }
+        return stateSerializer;
+    }
+
+    private static FlowNodeCache getFlowNodeCache() {
+        if (flowNodeCache == null) {
+            synchronized (FlowContextHolder.class) {
+                if (flowNodeCache == null) {
+                    flowNodeCache = ApplicationContextHolder.getBean(FlowNodeCache.class);
+                }
+            }
+        }
+        return flowNodeCache;
     }
 
     /**
@@ -184,7 +217,7 @@ public class FlowContextHolder implements Serializable {
      * @return 流程节点
      */
     public FlowNode getNode(Long flowId, String nodeId) {
-        return FlowNodeCache.getNode(flowId, nodeId);
+        return getFlowNodeCache().getNode(flowId, nodeId);
     }
 
     /**
@@ -196,7 +229,7 @@ public class FlowContextHolder implements Serializable {
      * @author fxbin
      */
     public List<FlowNode> getNodesByType(Long flowId, PluginType pluginType) {
-        Collection<FlowNode> allNodes = FlowNodeCache.getAllNodes(flowId);
+        Collection<FlowNode> allNodes = getFlowNodeCache().getAllNodes(flowId);
         if (allNodes == null || allNodes.isEmpty()) {
             return Collections.emptyList();
         }
@@ -284,7 +317,7 @@ public class FlowContextHolder implements Serializable {
      * @author fxbin
      */
     public List<FlowNode> getPreviousNodes(Long flowId, String currentNodeId, boolean recursive, PluginType filterType) {
-        List<FlowEdge> allEdges = FlowNodeCache.getAllEdges(flowId);
+        List<FlowEdge> allEdges = getFlowNodeCache().getAllEdges(flowId);
         if (allEdges == null || allEdges.isEmpty()) {
             return Collections.emptyList();
         }
@@ -297,7 +330,7 @@ public class FlowContextHolder implements Serializable {
         } else {
             for (FlowEdge edge : allEdges) {
                 if (edge.getTargetNodeId().equals(currentNodeId)) {
-                    FlowNode prevNode = FlowNodeCache.getNode(flowId, edge.getSourceNodeId());
+                    FlowNode prevNode = getFlowNodeCache().getNode(flowId, edge.getSourceNodeId());
                     if (prevNode != null && visitedNodeIds.add(prevNode.getId())) {
                         if (filterType == null || prevNode.getNodeType() == filterType) {
                             previousNodes.add(prevNode);
@@ -322,7 +355,6 @@ public class FlowContextHolder implements Serializable {
      */
     private void findPreviousNodesRecursive(Long flowId, String currentNodeId, List<FlowEdge> allEdges, List<FlowNode> previousNodes, Set<String> visitedNodeIds, PluginType filterType) {
         if (!visitedNodeIds.add(currentNodeId)) {
-            // 当前递归路径已访问过该节点，直接返回以防止环路导致无限递归
             return;
         }
 
@@ -332,15 +364,13 @@ public class FlowContextHolder implements Serializable {
 
         for (FlowEdge edge : directPreviousEdges) {
             String prevNodeId = edge.getSourceNodeId();
-            // 检查是否已经作为前置节点添加过，避免重复添加同一个前置节点
             boolean alreadyAdded = previousNodes.stream().anyMatch(node -> node.getId().equals(prevNodeId));
             if (!alreadyAdded) {
-                FlowNode prevNode = FlowNodeCache.getNode(flowId, prevNodeId);
+                FlowNode prevNode = getFlowNodeCache().getNode(flowId, prevNodeId);
                 if (prevNode != null) {
                     if (filterType == null || prevNode.getNodeType() == filterType) {
                         previousNodes.add(prevNode);
                     }
-                    // 继续递归查找这个前置节点的前置节点
                     findPreviousNodesRecursive(flowId, prevNodeId, allEdges, previousNodes, visitedNodeIds, filterType);
                 }
             }
@@ -356,7 +386,6 @@ public class FlowContextHolder implements Serializable {
         try {
             log.info("Saving state for flow: {}, execution: {}", flowId, executionId);
 
-            // Map.of 不允许 null 值，使用可变 Map 兼容 userId/tenantId 等可空字段
             Map<String, Object> contextData = new HashMap<>();
             contextData.put("variables", variables);
             contextData.put("startTime", startTime);
@@ -367,25 +396,20 @@ public class FlowContextHolder implements Serializable {
             contextData.put("historicalExecution", isHistoricalExecution());
             contextData.put("targetVersion", getTargetVersion());
 
-            String serializedContext = STATE_SERIALIZER.serialize(contextData);
+            String serializedContext = getStateSerializer().serialize(contextData);
 
-            // 1. 使用 L1 Cache (Caffeine)
-            String l1CacheKey = L1_CACHE.generateCacheKey(flowId, executionId);
-            L1_CACHE.put(l1CacheKey, serializedContext);
+            String l1CacheKey = getL1Cache().generateCacheKey(flowId, executionId);
+            getL1Cache().put(l1CacheKey, serializedContext);
             log.debug("State for flow: {}, execution: {} saved to L1 Cache (Caffeine).", flowId, executionId);
 
-            // 2. 将状态写入 L2 Cache (Redis)
-            // TODO: 考虑将 Redis 操作异步化以提高性能，例如使用 @Async 或消息队列
             try {
-                if (L2_CACHE != null) {
-                    String l2CacheKey = L2_CACHE.generateCacheKey(flowId, executionId);
-                    // L2_CACHE.put(l2CacheKey, serializedContext, DEFAULT_REDIS_EXPIRE_HOURS * 3600); // Assuming put supports TTL in seconds
-                    // Implementations handle their default TTL or specific TTL methods
-                    L2_CACHE.put(l2CacheKey, serializedContext);
+                FlowStateCache currentL2Cache = getL2Cache();
+                if (currentL2Cache != null) {
+                    String l2CacheKey = currentL2Cache.generateCacheKey(flowId, executionId);
+                    currentL2Cache.put(l2CacheKey, serializedContext);
                     log.info("State for flow: {}, execution: {} also saved to L2 Cache (Redis).", flowId, executionId);
                 }
             } catch (Exception redisEx) {
-                // Redis 写入失败通常不应阻塞主流程，记录错误即可
                 log.error("Failed to save flow state to L2 Cache (Redis) for flow: {}, execution: {}. Error: {}", flowId, executionId, redisEx.getMessage(), redisEx);
             }
         } catch (SerializationException se) {
@@ -410,30 +434,27 @@ public class FlowContextHolder implements Serializable {
         try {
             log.info("Loading state for flow: {}, execution: {}", flowId, executionId);
 
-            String l1CacheKey = L1_CACHE.generateCacheKey(flowId, executionId);
-            String serializedContext = L1_CACHE.get(l1CacheKey).orElse(null);
+            String l1CacheKey = getL1Cache().generateCacheKey(flowId, executionId);
+            String serializedContext = getL1Cache().get(l1CacheKey).orElse(null);
 
             if (serializedContext != null) {
                 log.info("Loaded state from L1 Cache (Caffeine) for flow: {}, execution: {}", flowId, executionId);
             } else {
                 log.info("State not found in L1 Cache (Caffeine) for flow: {}, execution: {}. Trying L2 Cache (Redis).", flowId, executionId);
-                if (L2_CACHE != null) {
+                FlowStateCache currentL2Cache = getL2Cache();
+                if (currentL2Cache != null) {
                     try {
-                        String l2CacheKey = L2_CACHE.generateCacheKey(flowId, executionId);
-                        serializedContext = L2_CACHE.get(l2CacheKey).orElse(null);
+                        String l2CacheKey = currentL2Cache.generateCacheKey(flowId, executionId);
+                        serializedContext = currentL2Cache.get(l2CacheKey).orElse(null);
 
                         if (serializedContext != null) {
                             log.info("Loaded state from L2 Cache (Redis) for flow: {}, execution: {}. Caching to L1 Cache (Caffeine).", flowId, executionId);
-                            // 回填到 L1 Cache
-                            L1_CACHE.put(l1CacheKey, serializedContext);
+                            getL1Cache().put(l1CacheKey, serializedContext);
                         } else {
                             log.warn("State not found in L2 Cache (Redis) for flow: {}, execution: {}", flowId, executionId);
-                            // Fall through to throw ServiceException if not found in any cache
                         }
                     } catch (Exception l2Ex) {
                         log.error("Failed to load flow state from L2 Cache (Redis) for flow: {}, execution: {}. Error: {}", flowId, executionId, l2Ex.getMessage(), l2Ex);
-                        // 根据策略决定是否抛出异常或尝试其他恢复机制
-                        // 此处不立即抛出，允许后续检查 serializedContext 是否为 null
                     }
                 }
             }
@@ -442,7 +463,7 @@ public class FlowContextHolder implements Serializable {
                 throw new ServiceException("No saved state found for flow: " + flowId + " and execution: " + executionId + " in any cache (L1/L2).");
             }
 
-            Map<String, Object> contextData = STATE_SERIALIZER.deserialize(serializedContext);
+            Map<String, Object> contextData = getStateSerializer().deserialize(serializedContext);
             if (contextData == null) {
                  throw new ServiceException("Deserialized context data is null for flow: " + flowId + " and execution: " + executionId + ". Serialized data might be corrupt or empty.");
             }
@@ -455,7 +476,6 @@ public class FlowContextHolder implements Serializable {
                 log.warn("Variables in deserialized context is not a Map for flow: {}, execution: {}. Variables: {}", flowId, executionId, variablesMap);
             }
 
-            // 设置用户ID和租户ID
             holder.userId = (String) contextData.get("userId");
             holder.tenantId = (String) contextData.get("tenantId");
             Object flowVersionObj = contextData.get("flowVersion");
@@ -470,7 +490,6 @@ public class FlowContextHolder implements Serializable {
                         .setTargetVersion(targetVersion);
             }
 
-            // 检查版本兼容性
             int version = ((Number) contextData.getOrDefault("version", 0)).intValue();
             if (version > VERSION) {
                 log.warn("Loading context with newer version: {} (current version: {}) for flow: {}, execution: {}", version, VERSION, flowId, executionId);
