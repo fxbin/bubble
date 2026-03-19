@@ -233,6 +233,54 @@ public void example() {
 }
 ```
 
+#### 模型分组与自动切换
+
+当同一个模型存在多个渠道时，可以把它们放进同一个组。业务侧既可以直接选择组，也可以先选某个具体渠道，再在该渠道失败时自动切到同组其他渠道。
+
+```yaml
+bubble:
+  ai:
+    providers:
+      deepseek-official:
+        platform: deepseek
+        model: deepseek-chat
+        api-key: ${DEEPSEEK_API_KEY}
+        base-url: https://api.deepseek.com
+        group-id: deepseek-chat-group
+        fallback-to-group-enabled: true
+
+      deepseek-siliconflow:
+        platform: siliconflow
+        model: deepseek-ai/DeepSeek-V3.2
+        api-key: ${SILICONFLOW_API_KEY}
+        base-url: https://api.siliconflow.cn
+        group-id: deepseek-chat-group
+        fallback-to-group-enabled: true
+
+    groups:
+      deepseek-chat-group:
+        name: DeepSeek Chat Group
+        description: DeepSeek 多渠道兜底组
+        members:
+          deepseek-official:
+            priority: 1
+          deepseek-siliconflow:
+            priority: 2
+```
+
+使用方式：
+
+```java
+// 直接选组，由组内优先级决定首选渠道
+ChatModel groupModel = aiModelFactory.getChatModel("deepseek-chat-group");
+
+// 选具体渠道，但该渠道失败时允许切到同组其他成员
+ChatModel preferredModel = aiModelFactory.getChatModel("deepseek-official");
+```
+
+当前自动切换主要用于可重试故障，例如网络超时、连接失败、429、5xx。参数错误、鉴权失败等非可重试问题不会自动切换。
+为避免每次都先命中已知异常渠道，系统会对发生可重试故障的成员做短暂冷却，当前默认冷却窗口为 30 秒。冷却期间会优先尝试组内其他成员，冷却结束后再恢复尝试该渠道。
+
 ### 高级特性
 
 #### 1. 流式响应内存优化
@@ -276,6 +324,8 @@ bubble:
 ```
 
 需要配置 MyBatis-Plus 和相应的数据库连接。
+
+推荐在数据库侧使用独立的 `ai_model_group` 表管理模型组元数据，例如组编码、组名称、描述、是否启用故障切换以及冷却时间；`ai_model_config.group_id` 用于关联该组编码。这样界面管理时可以按“组 -> 成员模型”方式展示，而不是直接围绕裸字符串 `groupId` 操作。
 
 ### 最佳实践
 
