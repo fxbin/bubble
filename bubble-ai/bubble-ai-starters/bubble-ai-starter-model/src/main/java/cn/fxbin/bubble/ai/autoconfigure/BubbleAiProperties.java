@@ -44,6 +44,12 @@ public class BubbleAiProperties {
     private Map<String, ProviderConfig> providers = new HashMap<>();
 
     /**
+     * 模型分组配置
+     * <p>Key: 分组ID (如: deepseek-chat-group)</p>
+     */
+    private Map<String, ModelGroupConfig> groups = new HashMap<>();
+
+    /**
      * Embedding 模型配置提供商
      * <p>Key: 自定义提供商ID (如: openai-embedding, ollama-embedding)</p>
      */
@@ -123,6 +129,62 @@ public class BubbleAiProperties {
          * Top P
          */
         private Double topP;
+
+        /**
+         * 所属模型组ID
+         */
+        private String groupId;
+
+        /**
+         * 选中当前模型时，是否允许自动切换到同组其他模型
+         */
+        private boolean fallbackToGroupEnabled = true;
+    }
+
+    @Data
+    public static class ModelGroupConfig {
+        /**
+         * 是否启用
+         */
+        private boolean enabled = true;
+
+        /**
+         * 是否启用组级故障切换
+         */
+        private boolean failoverEnabled = true;
+
+        /**
+         * 组级冷却窗口，单位秒
+         */
+        private int cooldownSeconds = 30;
+
+        /**
+         * 分组显示名
+         */
+        private String name;
+
+        /**
+         * 分组描述
+         */
+        private String description;
+
+        /**
+         * 分组成员，按优先级排序
+         */
+        private Map<String, GroupMemberConfig> members = new HashMap<>();
+    }
+
+    @Data
+    public static class GroupMemberConfig {
+        /**
+         * 是否启用
+         */
+        private boolean enabled = true;
+
+        /**
+         * 优先级，值越小优先级越高
+         */
+        private int priority = 100;
     }
 
     @Data

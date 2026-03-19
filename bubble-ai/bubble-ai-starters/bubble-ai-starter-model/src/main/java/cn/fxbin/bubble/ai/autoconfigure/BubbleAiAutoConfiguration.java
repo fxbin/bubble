@@ -5,8 +5,11 @@ import cn.fxbin.bubble.ai.factory.AiModelFactoryImpl;
 import cn.fxbin.bubble.ai.manager.AiModelManager;
 import cn.fxbin.bubble.ai.manager.AiModelManagerImpl;
 import cn.fxbin.bubble.ai.mapper.AiModelConfigMapper;
+import cn.fxbin.bubble.ai.mapper.AiModelGroupMapper;
 import cn.fxbin.bubble.ai.service.AiModelConfigService;
+import cn.fxbin.bubble.ai.service.AiModelGroupService;
 import cn.fxbin.bubble.ai.service.impl.AiModelConfigServiceImpl;
+import cn.fxbin.bubble.ai.service.impl.AiModelGroupServiceImpl;
 import cn.fxbin.bubble.ai.token.DefaultTokenUsageRecorder;
 import cn.fxbin.bubble.ai.token.TokenUsageRecorder;
 import io.micrometer.observation.ObservationRegistry;
@@ -133,8 +136,9 @@ public class BubbleAiAutoConfiguration {
     @ConditionalOnMissingBean
     public AiModelManager aiModelManager(BubbleAiProperties properties, 
                                          AiModelFactory aiModelFactory, 
-                                         ObjectProvider<AiModelConfigService> aiModelConfigServiceProvider) {
-        return new AiModelManagerImpl(properties, aiModelFactory, aiModelConfigServiceProvider);
+                                         ObjectProvider<AiModelConfigService> aiModelConfigServiceProvider,
+                                         ObjectProvider<AiModelGroupService> aiModelGroupServiceProvider) {
+        return new AiModelManagerImpl(properties, aiModelFactory, aiModelConfigServiceProvider, aiModelGroupServiceProvider);
     }
     
     /**
@@ -147,8 +151,17 @@ public class BubbleAiAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBooleanProperty(prefix = "bubble.ai.model-config", name = "enabled", havingValue = true)
-    public AiModelConfigService aiModelConfigService(AiModelFactory aiModelFactory, AiModelConfigMapper aiModelConfigMapper) {
-        return new AiModelConfigServiceImpl(aiModelFactory, aiModelConfigMapper);
+    public AiModelConfigService aiModelConfigService(AiModelFactory aiModelFactory,
+                                                     AiModelConfigMapper aiModelConfigMapper,
+                                                     AiModelGroupMapper aiModelGroupMapper) {
+        return new AiModelConfigServiceImpl(aiModelFactory, aiModelConfigMapper, aiModelGroupMapper);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnBooleanProperty(prefix = "bubble.ai.model-config", name = "enabled", havingValue = true)
+    public AiModelGroupService aiModelGroupService(AiModelGroupMapper aiModelGroupMapper) {
+        return new AiModelGroupServiceImpl(aiModelGroupMapper);
     }
 
     /**

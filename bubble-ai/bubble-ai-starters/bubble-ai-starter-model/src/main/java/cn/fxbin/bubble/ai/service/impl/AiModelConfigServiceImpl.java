@@ -1,11 +1,14 @@
 package cn.fxbin.bubble.ai.service.impl;
 
 import cn.fxbin.bubble.ai.domain.dto.AiModelTestResult;
-import cn.fxbin.bubble.ai.manager.AiModelDefaults;
-import cn.fxbin.bubble.ai.factory.AiModelFactory;
-import cn.fxbin.bubble.ai.domain.enums.AiPlatformEnum;
 import cn.fxbin.bubble.ai.domain.entity.AiModelConfig;
+import cn.fxbin.bubble.ai.domain.entity.AiModelGroup;
+import cn.fxbin.bubble.ai.domain.enums.AiPlatformEnum;
+import cn.fxbin.bubble.ai.factory.AiModelFactory;
+import cn.fxbin.bubble.ai.factory.FailoverChatModel;
+import cn.fxbin.bubble.ai.manager.AiModelDefaults;
 import cn.fxbin.bubble.ai.mapper.AiModelConfigMapper;
+import cn.fxbin.bubble.ai.mapper.AiModelGroupMapper;
 import cn.fxbin.bubble.ai.service.AiModelConfigService;
 import cn.fxbin.bubble.core.exception.ServiceException;
 import cn.hutool.core.lang.Assert;
@@ -15,17 +18,20 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.chat.messages.UserMessage;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
- * AI 模型配置服务实现
- * <p>提供AI模型配置的具体业务逻辑实现</p>
+ * AI model configuration service implementation.
  *
  * @author fxbin
  */
@@ -36,6 +42,8 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
     private final AiModelFactory aiModelFactory;
 
     private final AiModelConfigMapper aiModelConfigMapper;
+
+    private final AiModelGroupMapper aiModelGroupMapper;
 
     @Override
     public boolean removeById(Serializable id) {
@@ -52,7 +60,6 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
         if (list == null || list.isEmpty()) {
             return false;
         }
-        // Fetch before delete
         List<AiModelConfig> configs = listByIds((Collection<? extends Serializable>) list);
         boolean success = super.removeByIds(list);
         if (success && configs != null) {
@@ -81,7 +88,6 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
         }
 
         String resolvedModelName = AiModelDefaults.resolveModelName(platform, config.getModel());
-
         aiModelFactory.removeChatModel(
                 platform,
                 config.getApiKey(),
@@ -92,7 +98,6 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
                 config.getTopP()
         );
     }
-
 
     @Override
     public ChatModel getChatModel(String modelId) {
@@ -111,29 +116,28 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
             config = queryEnabledByConfigName(modelId);
         }
 
-        Assert.notNull(config, "AI Model Config not found or disabled: {}", modelId);
-
-        AiPlatformEnum platform = config.getPlatform();
-        Assert.notNull(platform, "Unsupported platform: {}", config.getPlatform());
-
-        String originalModelName = config.getModel();
-        String resolvedModelName = AiModelDefaults.resolveModelName(platform, originalModelName);
-
-        if (StrUtil.isBlank(originalModelName) || "-".equals(originalModelName)) {
-            log.info("AI Model Config [{}] 使用默认模型: platform={}, modelName={}", modelId, platform, resolvedModelName);
-        } else {
-            log.info("AI Model Config [{}] 使用配置模型: platform={}, modelName={}", modelId, platform, resolvedModelName);
+        if (config != null) {
+            if (StrUtil.isNotBlank(config.getGroupId()) && !Boolean.FALSE.equals(config.getFallbackToGroupEnabled())) {
+                AiModelGroup group = queryEnabledGroup(config.getGroupId());
+                if (group != null && !Boolean.FALSE.equals(group.getFailoverEnabled())) {
+                    return buildGroupFailoverChatModel(modelId, group, config);
+                }
+                return buildGroupFailoverChatModel(modelId, config.getGroupId(), config, null);
+            }
+            return buildChatModel(config, modelId);
         }
 
-        return aiModelFactory.getOrCreateChatModel(
-                platform,
-                config.getApiKey(),
-                config.getBaseUrl(),
-                resolvedModelName,
-                config.getTemperature(),
-                config.getTopK(),
-                config.getTopP()
-        );
+        AiModelGroup group = queryEnabledGroup(modelId);
+        if (group != null) {
+            return buildGroupFailoverChatModel(modelId, group, null);
+        }
+
+        List<AiModelConfig> legacyGroupConfigs = queryEnabledByGroupId(modelId);
+        if (!legacyGroupConfigs.isEmpty()) {
+            return buildGroupFailoverChatModel(modelId, modelId, null, null);
+        }
+
+        throw new IllegalArgumentException("AI Model Config not found or disabled: " + modelId);
     }
 
     @Override
@@ -189,7 +193,7 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
             return new AiModelTestResult(true, "ok", resolvedModelName, platform.name(), latency, aiModelConfig.getId());
         } catch (Exception e) {
             long latency = System.currentTimeMillis() - startTime;
-            log.warn("模型配置检测失败: configName={}, platform={}", aiModelConfig.getConfigName(), platform);
+            log.warn("模型配置检测失败: configName={}, platform={}", aiModelConfig.getConfigName(), platform, e);
             String message = StrUtil.blankToDefault(e.getMessage(), "模型检测失败");
             return new AiModelTestResult(false, message, resolvedModelName, platform.name(), latency, aiModelConfig.getId());
         } finally {
@@ -239,4 +243,111 @@ public class AiModelConfigServiceImpl extends ServiceImpl<AiModelConfigMapper, A
         return aiModelConfigMapper.selectOne(queryWrapper);
     }
 
+    private List<AiModelConfig> queryEnabledByGroupId(String groupId) {
+        LambdaQueryWrapper<AiModelConfig> queryWrapper = Wrappers.lambdaQuery(AiModelConfig.class)
+                .eq(AiModelConfig::getEnabled, true)
+                .eq(AiModelConfig::getGroupId, groupId)
+                .orderByAsc(AiModelConfig::getPriority)
+                .orderByAsc(AiModelConfig::getId);
+        List<AiModelConfig> configs = aiModelConfigMapper.selectList(queryWrapper);
+        return configs != null ? configs : List.of();
+    }
+
+    private AiModelGroup queryEnabledGroup(String identifier) {
+        if (StrUtil.isBlank(identifier)) {
+            return null;
+        }
+        Long resolvedId = parseLongOrNull(identifier);
+        if (resolvedId != null) {
+            AiModelGroup group = aiModelGroupMapper.selectOne(Wrappers.lambdaQuery(AiModelGroup.class)
+                    .eq(AiModelGroup::getEnabled, true)
+                    .eq(AiModelGroup::getId, resolvedId));
+            if (group != null) {
+                return group;
+            }
+        }
+        return aiModelGroupMapper.selectOne(Wrappers.lambdaQuery(AiModelGroup.class)
+                .eq(AiModelGroup::getEnabled, true)
+                .eq(AiModelGroup::getGroupCode, identifier));
+    }
+
+    private ChatModel buildGroupFailoverChatModel(String targetId, AiModelGroup group, AiModelConfig selectedConfig) {
+        return buildGroupFailoverChatModel(targetId, group.getGroupCode(), selectedConfig, group);
+    }
+
+    private ChatModel buildGroupFailoverChatModel(String targetId, String groupId, AiModelConfig selectedConfig, AiModelGroup group) {
+        List<AiModelConfig> groupConfigs = queryEnabledByGroupId(groupId);
+        Assert.notEmpty(groupConfigs, "AI Model Group not found or has no enabled members: {}", groupId);
+
+        Set<Long> orderedIds = new LinkedHashSet<>();
+        if (selectedConfig != null && selectedConfig.getId() != null) {
+            orderedIds.add(selectedConfig.getId());
+        }
+
+        groupConfigs.stream()
+                .sorted(Comparator
+                        .comparing((AiModelConfig config) -> config.getPriority() != null ? config.getPriority() : Integer.MAX_VALUE)
+                        .thenComparing(config -> config.getId() != null ? config.getId() : Long.MAX_VALUE))
+                .map(AiModelConfig::getId)
+                .forEach(orderedIds::add);
+
+        List<FailoverChatModel.Candidate> candidates = new ArrayList<>();
+        for (Long configId : orderedIds) {
+            AiModelConfig config = groupConfigs.stream()
+                    .filter(item -> configId.equals(item.getId()))
+                    .findFirst()
+                    .orElse(null);
+            if (config == null) {
+                continue;
+            }
+            candidates.add(new FailoverChatModel.Candidate(resolveCandidateId(config), buildChatModel(config, String.valueOf(configId))));
+        }
+
+        Assert.notEmpty(candidates, "AI Model Group not found or has no enabled members: {}", groupId);
+        if (candidates.size() == 1) {
+            return candidates.get(0).getModel();
+        }
+        long cooldownMillis = resolveCooldownMillis(group);
+        return new FailoverChatModel(targetId, candidates, cooldownMillis);
+    }
+
+    private ChatModel buildChatModel(AiModelConfig config, String modelId) {
+        Assert.notNull(config, "AI Model Config not found or disabled: {}", modelId);
+
+        AiPlatformEnum platform = config.getPlatform();
+        Assert.notNull(platform, "Unsupported platform: {}", config.getPlatform());
+
+        String originalModelName = config.getModel();
+        String resolvedModelName = AiModelDefaults.resolveModelName(platform, originalModelName);
+
+        if (StrUtil.isBlank(originalModelName) || "-".equals(originalModelName)) {
+            log.info("AI Model Config [{}] uses default model: platform={}, modelName={}", modelId, platform, resolvedModelName);
+        } else {
+            log.info("AI Model Config [{}] uses configured model: platform={}, modelName={}", modelId, platform, resolvedModelName);
+        }
+
+        return aiModelFactory.getOrCreateChatModel(
+                platform,
+                config.getApiKey(),
+                config.getBaseUrl(),
+                resolvedModelName,
+                config.getTemperature(),
+                config.getTopK(),
+                config.getTopP()
+        );
+    }
+
+    private String resolveCandidateId(AiModelConfig config) {
+        if (StrUtil.isNotBlank(config.getConfigName())) {
+            return config.getConfigName();
+        }
+        return String.valueOf(config.getId());
+    }
+
+    private long resolveCooldownMillis(AiModelGroup group) {
+        if (group == null || group.getCooldownSeconds() == null || group.getCooldownSeconds() <= 0) {
+            return 30_000L;
+        }
+        return group.getCooldownSeconds() * 1000L;
+    }
 }

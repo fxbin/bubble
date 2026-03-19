@@ -114,6 +114,66 @@ class AiModelFactoryTest {
     }
 
     @Test
+    void getChatModel_WithGroupId_ShouldReturnFailoverModel() {
+        BubbleAiProperties.ProviderConfig a = new BubbleAiProperties.ProviderConfig();
+        a.setPlatform(AiPlatformEnum.OPENAI);
+        a.setApiKey("key-a");
+        a.setModel("gpt-4");
+
+        BubbleAiProperties.ProviderConfig b = new BubbleAiProperties.ProviderConfig();
+        b.setPlatform(AiPlatformEnum.OPENAI);
+        b.setApiKey("key-b");
+        b.setModel("gpt-4");
+
+        BubbleAiProperties.ModelGroupConfig group = new BubbleAiProperties.ModelGroupConfig();
+        BubbleAiProperties.GroupMemberConfig memberA = new BubbleAiProperties.GroupMemberConfig();
+        memberA.setPriority(1);
+        BubbleAiProperties.GroupMemberConfig memberB = new BubbleAiProperties.GroupMemberConfig();
+        memberB.setPriority(2);
+        group.getMembers().put("provider-a", memberA);
+        group.getMembers().put("provider-b", memberB);
+
+        properties.getProviders().put("provider-a", a);
+        properties.getProviders().put("provider-b", b);
+        properties.getGroups().put("openai-group", group);
+
+        ChatModel result = factory.getChatModel("openai-group");
+
+        assertThat(result).isInstanceOf(FailoverChatModel.class);
+    }
+
+    @Test
+    void getChatModel_WithProviderGroupFallback_ShouldReturnFailoverModel() {
+        BubbleAiProperties.ProviderConfig a = new BubbleAiProperties.ProviderConfig();
+        a.setPlatform(AiPlatformEnum.OPENAI);
+        a.setApiKey("key-a");
+        a.setModel("gpt-4");
+        a.setGroupId("openai-group");
+
+        BubbleAiProperties.ProviderConfig b = new BubbleAiProperties.ProviderConfig();
+        b.setPlatform(AiPlatformEnum.OPENAI);
+        b.setApiKey("key-b");
+        b.setModel("gpt-4");
+        b.setGroupId("openai-group");
+
+        BubbleAiProperties.ModelGroupConfig group = new BubbleAiProperties.ModelGroupConfig();
+        BubbleAiProperties.GroupMemberConfig memberA = new BubbleAiProperties.GroupMemberConfig();
+        memberA.setPriority(1);
+        BubbleAiProperties.GroupMemberConfig memberB = new BubbleAiProperties.GroupMemberConfig();
+        memberB.setPriority(2);
+        group.getMembers().put("provider-a", memberA);
+        group.getMembers().put("provider-b", memberB);
+
+        properties.getProviders().put("provider-a", a);
+        properties.getProviders().put("provider-b", b);
+        properties.getGroups().put("openai-group", group);
+
+        ChatModel result = factory.getChatModel("provider-a");
+
+        assertThat(result).isInstanceOf(FailoverChatModel.class);
+    }
+
+    @Test
     void getChatModel_WithInvalidProviderId_ShouldThrowException() {
         org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
             factory.getChatModel("");

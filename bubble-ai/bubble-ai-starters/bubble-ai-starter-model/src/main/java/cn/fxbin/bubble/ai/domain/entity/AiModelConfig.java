@@ -81,6 +81,21 @@ public class AiModelConfig implements Serializable {
     private Double topP;
 
     /**
+     * 所属模型组编码
+     */
+    private String groupId;
+
+    /**
+     * 选中当前模型时，是否允许自动切换到同组其他模型
+     */
+    private Boolean fallbackToGroupEnabled;
+
+    /**
+     * 同组内优先级，值越小优先级越高
+     */
+    private Integer priority;
+
+    /**
      * 是否启用
      */
     private Boolean enabled;

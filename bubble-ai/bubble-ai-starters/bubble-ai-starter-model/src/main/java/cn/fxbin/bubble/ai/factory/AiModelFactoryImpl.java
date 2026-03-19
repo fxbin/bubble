@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.anthropic.AnthropicChatModel;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.azure.openai.AzureOpenAiEmbeddingModel;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.minimax.MiniMaxChatModel;
@@ -40,9 +39,14 @@ import org.springframework.retry.support.RetryTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -212,7 +216,76 @@ public class AiModelFactoryImpl implements AiModelFactory {
             throw new IllegalArgumentException("modelId must not be blank");
         }
 
+        BubbleAiProperties.ModelGroupConfig groupConfig = properties.getGroups().get(modelId);
+        if (groupConfig != null) {
+            return buildGroupChatModel(modelId, groupConfig);
+        }
+
         BubbleAiProperties.ProviderConfig config = properties.getProviders().get(modelId);
+        if (config == null) {
+            throw new IllegalArgumentException("No provider config found for id: " + modelId);
+        }
+
+        if (StringUtils.isNotBlank(config.getGroupId()) && config.isFallbackToGroupEnabled()) {
+            BubbleAiProperties.ModelGroupConfig providerGroup = properties.getGroups().get(config.getGroupId());
+            if (providerGroup != null) {
+                return buildFailoverChatModel(modelId, resolveCandidateIds(modelId, providerGroup));
+            }
+        }
+
+        return getConfiguredProviderChatModel(modelId, config);
+    }
+
+    private ChatModel buildGroupChatModel(String groupId, BubbleAiProperties.ModelGroupConfig groupConfig) {
+        Set<String> candidateIds = resolveCandidateIds(null, groupConfig);
+        if (candidateIds.isEmpty()) {
+            throw new IllegalArgumentException("No enabled provider members found for group: " + groupId);
+        }
+        return buildFailoverChatModel(groupId, candidateIds);
+    }
+
+    private Set<String> resolveCandidateIds(String selectedProviderId, BubbleAiProperties.ModelGroupConfig groupConfig) {
+        Set<String> orderedIds = new LinkedHashSet<>();
+        if (StringUtils.isNotBlank(selectedProviderId)) {
+            orderedIds.add(selectedProviderId);
+        }
+        if (groupConfig == null || groupConfig.getMembers() == null || groupConfig.getMembers().isEmpty()) {
+            return orderedIds;
+        }
+
+        List<Map.Entry<String, BubbleAiProperties.GroupMemberConfig>> members = new ArrayList<>(groupConfig.getMembers().entrySet());
+        members.sort(Comparator.comparingInt(entry -> entry.getValue() != null ? entry.getValue().getPriority() : Integer.MAX_VALUE));
+        for (Map.Entry<String, BubbleAiProperties.GroupMemberConfig> entry : members) {
+            BubbleAiProperties.GroupMemberConfig memberConfig = entry.getValue();
+            if (memberConfig != null && !memberConfig.isEnabled()) {
+                continue;
+            }
+            if (properties.getProviders().containsKey(entry.getKey())) {
+                orderedIds.add(entry.getKey());
+            }
+        }
+        return orderedIds;
+    }
+
+    private ChatModel buildFailoverChatModel(String targetId, Set<String> candidateIds) {
+        List<FailoverChatModel.Candidate> candidates = new ArrayList<>();
+        for (String candidateId : candidateIds) {
+            BubbleAiProperties.ProviderConfig providerConfig = properties.getProviders().get(candidateId);
+            if (providerConfig == null) {
+                continue;
+            }
+            candidates.add(new FailoverChatModel.Candidate(candidateId, getConfiguredProviderChatModel(candidateId, providerConfig)));
+        }
+        if (candidates.isEmpty()) {
+            throw new IllegalArgumentException("No available provider candidates found for target: " + targetId);
+        }
+        if (candidates.size() == 1) {
+            return candidates.get(0).getModel();
+        }
+        return new FailoverChatModel(targetId, candidates);
+    }
+
+    private ChatModel getConfiguredProviderChatModel(String modelId, BubbleAiProperties.ProviderConfig config) {
         if (config == null) {
             throw new IllegalArgumentException("No provider config found for id: " + modelId);
         }

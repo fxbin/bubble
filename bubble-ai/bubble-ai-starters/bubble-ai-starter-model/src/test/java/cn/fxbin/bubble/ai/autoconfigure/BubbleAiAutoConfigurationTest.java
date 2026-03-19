@@ -2,7 +2,9 @@ package cn.fxbin.bubble.ai.autoconfigure;
 
 import cn.fxbin.bubble.ai.factory.AiModelFactory;
 import cn.fxbin.bubble.ai.mapper.AiModelConfigMapper;
+import cn.fxbin.bubble.ai.mapper.AiModelGroupMapper;
 import cn.fxbin.bubble.ai.service.AiModelConfigService;
+import cn.fxbin.bubble.ai.service.AiModelGroupService;
 import cn.fxbin.bubble.ai.token.TokenUsageRecorder;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,7 +19,8 @@ class BubbleAiAutoConfigurationTest {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
             .withConfiguration(AutoConfigurations.of(BubbleAiAutoConfiguration.class))
-            .withBean(AiModelConfigMapper.class, () -> Mockito.mock(AiModelConfigMapper.class));
+            .withBean(AiModelConfigMapper.class, () -> Mockito.mock(AiModelConfigMapper.class))
+            .withBean(AiModelGroupMapper.class, () -> Mockito.mock(AiModelGroupMapper.class));
 
     @Test
     void shouldCreateCoreBeans() {
@@ -39,7 +42,10 @@ class BubbleAiAutoConfigurationTest {
     void shouldCreateAiModelConfigServiceWhenIServicePresent() {
         contextRunner
                 .withPropertyValues("bubble.ai.model-config.enabled=true")
-                .run(context -> assertThat(context).hasSingleBean(AiModelConfigService.class));
+                .run(context -> {
+                    assertThat(context).hasSingleBean(AiModelConfigService.class);
+                    assertThat(context).hasSingleBean(AiModelGroupService.class);
+                });
     }
 
 }

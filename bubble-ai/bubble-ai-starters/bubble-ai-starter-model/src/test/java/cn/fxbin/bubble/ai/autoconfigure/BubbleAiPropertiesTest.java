@@ -9,8 +9,10 @@ class BubbleAiPropertiesTest {
     @Test
     void defaultsShouldBeCorrect() {
         BubbleAiProperties properties = new BubbleAiProperties();
+        BubbleAiProperties.ProviderConfig providerConfig = new BubbleAiProperties.ProviderConfig();
 
         assertThat(properties.getTokenCounting().isEnabled()).isTrue();
+        assertThat(properties.getGroups()).isEmpty();
+        assertThat(providerConfig.isFallbackToGroupEnabled()).isTrue();
     }
 }
-

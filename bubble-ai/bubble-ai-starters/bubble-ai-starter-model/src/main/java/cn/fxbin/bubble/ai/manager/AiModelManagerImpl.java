@@ -2,9 +2,11 @@ package cn.fxbin.bubble.ai.manager;
 
 import cn.fxbin.bubble.ai.autoconfigure.BubbleAiProperties;
 import cn.fxbin.bubble.ai.domain.entity.AiModelConfig;
+import cn.fxbin.bubble.ai.domain.entity.AiModelGroup;
 import cn.fxbin.bubble.ai.service.AiModelConfigService;
 import cn.fxbin.bubble.ai.factory.AiModelFactory;
 import cn.fxbin.bubble.ai.domain.dto.AiModelInfo;
+import cn.fxbin.bubble.ai.service.AiModelGroupService;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class AiModelManagerImpl implements AiModelManager {
     private final BubbleAiProperties properties;
     private final AiModelFactory aiModelFactory;
     private final ObjectProvider<AiModelConfigService> aiModelConfigServiceProvider;
+    private final ObjectProvider<AiModelGroupService> aiModelGroupServiceProvider;
 
     @Override
     public List<AiModelInfo> listAvailableModels() {
@@ -53,7 +56,19 @@ public class AiModelManagerImpl implements AiModelManager {
             });
         }
 
+        if (properties.getGroups() != null) {
+            properties.getGroups().forEach((groupId, groupConfig) -> models.add(new AiModelInfo(
+                    groupId,
+                    StrUtil.blankToDefault(groupConfig.getName(), groupId),
+                    "GROUP",
+                    groupConfig.getDescription(),
+                    "GROUP",
+                    "CONFIG_GROUP"
+            )));
+        }
+
         AiModelConfigService service = aiModelConfigServiceProvider.getIfAvailable();
+        AiModelGroupService groupService = aiModelGroupServiceProvider.getIfAvailable();
         if (service != null) {
             try {
                 List<AiModelConfig> dbConfigs = service.list();
@@ -75,6 +90,32 @@ public class AiModelManagerImpl implements AiModelManager {
                                     log.warn("Failed to process database model config: {}, error: {}", c.getConfigName(), e.getMessage());
                                 }
                             });
+
+                    if (groupService != null) {
+                        List<AiModelGroup> groups = groupService.listEnabledGroups();
+                        groups.forEach(group -> models.add(new AiModelInfo(
+                                group.getGroupCode(),
+                                StrUtil.blankToDefault(group.getGroupName(), group.getGroupCode()),
+                                "GROUP",
+                                group.getDescription(),
+                                "GROUP",
+                                "DATABASE_GROUP"
+                        )));
+                    } else {
+                        dbConfigs.stream()
+                                .filter(c -> Boolean.TRUE.equals(c.getEnabled()))
+                                .map(AiModelConfig::getGroupId)
+                                .filter(StrUtil::isNotBlank)
+                                .distinct()
+                                .forEach(groupId -> models.add(new AiModelInfo(
+                                        groupId,
+                                        groupId,
+                                        "GROUP",
+                                        "Database model group",
+                                        "GROUP",
+                                        "DATABASE_GROUP"
+                                )));
+                    }
                 }
             } catch (Exception e) {
                 log.error("Failed to load models from database", e);
